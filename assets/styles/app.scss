@@ -1,0 +1,357 @@
+@import "~bootstrap/scss/bootstrap";
+
+/*
+ *  Theme
+ *  License - Thanh Nien Au Chau
+*/
+
+:root {
+    --cognac-color: #6B1D1C;
+    --amber-color: #EFBE4C;
+    --dark-blue-color: #0D1B2A;
+    --cream-color: #F2ECD2;
+    --rose-red-color: #EF233C;
+}
+
+/*		---- Fonts ---- 	*/
+
+@font-face {
+    font-family: "Hogback";
+    src: url("../../public/fonts/Hogback.otf");
+}
+
+@font-face {
+    font-family: "Gelion";
+    src: url("../../public/fonts/Gelion-Regular.ttf");
+}
+
+@font-face {
+    font-family: "Gelion";
+    src: url("../../public/fonts/Gelion-Light.ttf");
+}
+
+@font-face {
+    font-family: "Gelion";
+    src: url("../../public/fonts/Gelion-SemiBold.ttf");
+}
+
+@font-face {
+    font-family: "Gelion";
+    src: url("../../public/fonts/Gelion-Bold.ttf");
+}
+
+h1, p, span {
+    color: var(--cognac-color);
+}
+
+span {
+    font: 1.2em "Gelion-Light";
+    text-transform: uppercase;
+    letter-spacing: 0.3em;
+}
+
+h1 {
+    font: 5.5em "Hogback";
+    letter-spacing: 0.05em;
+    margin-top: 0.15em;
+}
+
+p {
+    font: 1em "Gelion-Light";
+    letter-spacing: 0.2em;
+    line-height: 1.8em;
+}
+
+i {
+    color: var(--cognac-color);
+}
+
+hr {
+    color: var(--cognac-color);
+    width: 4em;
+    opacity: 1 !important;
+    border: 4px solid;
+    border-top: 0 !important;
+    margin-bottom: 2em;
+}
+
+.divider-center {
+   margin-left: auto; 
+   margin-right: auto;
+}
+
+/*		---- General ---- 	*/
+
+.navbar {
+    z-index: 1;
+    width: 100%;
+    position: fixed;
+}
+
+.navbar a {
+    font: 1em "Gelion-Regular";
+    letter-spacing: 0.2em;
+    color: var(--cognac-color);
+}
+
+.nav-link.active {
+    color: var(--cream-color) !important;
+}
+
+.nav-item {
+    margin-left: 0.5em;
+    margin-right: 0.5em;
+}
+
+.navbar .btn {
+    margin: 0 !important;
+}
+
+body {
+    background-color: var(--amber-color);
+}
+
+section {
+    padding-top: 6vw;
+    padding-bottom: 6vw;
+}
+
+.wrapper-element {
+    padding-left: 10vw;
+    padding-right: 10vw;
+}
+
+.wrapper-card {
+    background-color: var(--cream-color);
+}
+
+.introduction {
+    background-image: url("../../public/images/h-ng-nguy-n-vi-t-5pYUt2gEZaA-unsplash.png");
+    background-size: cover;
+    background-position: center;
+}
+
+.introduction .wrapper-element{
+    padding-top: 10vw;
+    padding-bottom: 10vw;
+}
+
+.introduction .trong-dong {
+    background-image: url("../../public/images/trong-dong.png");
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: left;
+}
+
+.about-us .wrapper-card {
+    padding: 7em;
+    border-top-left-radius: 1em;
+    border-bottom-left-radius: 1em;
+    background-image: url("../../public/images/11807129_10205648593187495_7305343562553859964_o.png");
+    background-size: cover;
+    background-position: center;
+    box-shadow: rgba(0, 0, 0, 0.15) 0px 5px 15px 0px;
+}
+
+.about-us .col-4 {
+    background-image: url("../../public/images/OLEXS91 [Converti].png");
+    background-size: cover;
+    background-position: center;
+}
+
+.container-card {
+    padding-top: 5em;
+}
+
+.join-us .wrapper-card {
+    padding-top: 4em;
+    padding-bottom: 4em;
+    padding-left: 4em;
+    padding-right: 4em;
+    border-radius: 1em;
+    max-width: 20em;
+    box-shadow: rgba(0, 0, 0, 0.15) 0px 5px 15px 0px;
+    height: 100%;
+}
+
+.join-us img {
+    margin-bottom: 2em;
+}
+
+.adventure .wrapper-card {
+    padding: 7em;
+    border-top-right-radius: 1em;
+    border-bottom-right-radius: 1em;
+    background-image: url("../../public/images/1611012_10152967214700810_7849113355116230335_n.png");
+    background-size: cover;
+    background-position: center;
+    box-shadow: rgba(0, 0, 0, 0.15) 0px 5px 15px 0px;
+}
+
+.adventure .col-4 {
+    background-image: url("../../public/images/OI9USZ1 [Converti].png");
+    background-size: cover;
+    background-position: center;
+}
+
+.our-journey .card {
+    background-color: var(--cream-color);
+    border-radius: 1em;
+    // padding: 2em;
+    margin: 1em;
+    width: 100%;
+    box-shadow: rgba(0, 0, 0, 0.15) 0px 5px 15px 0px;
+}
+
+.our-journey .card  span{
+    margin: auto;
+    color: var(--cream-color);
+    font: 1.2em "Gelion-Regular" !important;
+}
+
+.our-journey .filter{
+    background-color: var(--dark-blue-color);
+    opacity: 0.75;
+    height: 100%;
+    width: 100%;
+    border-radius: 1em;
+    display: flex;
+    align-items: center;
+}
+
+.our-journey .filter:hover{
+    background-color: var(--dark-blue-color);
+    opacity: 0;
+    transition: 0.3s;
+}
+
+.our-journey .small-card {
+    height: 13em;
+}
+
+.our-journey .large-card {
+    height: 13em;
+}
+
+.our-journey .big-card {
+    height: 28em;
+}
+
+.our-journey .france {
+    background-image: url("../../public/images/ilnur-kalimullin-CB0Qrf8ib4I-unsplash.jpg");
+    background-size: cover;
+    background-position-y: 20%;
+}
+
+.our-journey .norway {
+    background-image: url("../../public/images/john-o-nolan-6f_ANCcbj3o-unsplash.jpg");
+    background-size: cover;
+    background-position: center;
+}
+
+.our-journey .denmark {
+    background-image: url("../../public/images/nick-karvounis-3_ZGrsirryY-unsplash.jpg");
+    background-size: cover;
+    background-position: center;
+}
+
+.our-journey .switzerland {
+    background-image: url("../../public/images/tim-trad-BYPMtjYMEyk-unsplash.jpg");
+    background-size: cover;
+    background-position: center;
+}
+
+.community .wrapper-element {
+    padding-left: 10vw;
+    padding-right: 10vw;
+    padding-top: 10vw;
+    padding-bottom: 10vw;
+    background-color: var(--cream-color);
+    background-image: url("../../public/images/11816341_10205648605067792_4665754934258472800_o.png");
+    background-attachment: fixed; /* Fixe l'image pendant le scroll */
+    background-size: cover; /* L'image prendra 100% de l'espace, quitte à la crop */
+    background-position: center; /* Centre la position de l'image */
+    background-repeat: no-repeat; /* Empêche l'image de se répéter en fonction de la taille d'écran */
+}
+
+.team .wrapper-card {
+    background-color: transparent !important;
+    // padding-top: 4em;
+    // padding-bottom: 4em;
+    // padding-left: 4em;
+    // padding-right: 4em;
+    border-radius: 1em;
+    max-width: 20em;
+}
+
+.team .name {
+    font: 1.2em "Gelion-Regular" !important;
+    // text-transform: uppercase;
+    // letter-spacing: 0.3em;
+}
+
+.frame {
+    height: 10em;
+    width: 10em;
+    background-color: #bbb;
+    border-radius: 50%;
+    display: inline-block;
+    margin-left: auto;
+    margin-right: auto;
+    margin-bottom: 2em;
+  }
+
+.contact .wrapper-element {
+    background-color: var(--cream-color);
+    padding-top: 10vw;
+    padding-bottom: 10vw;
+}
+
+.contact span {
+    font: 1em "Gelion-Light";
+    letter-spacing: 0.2em;
+    line-height: 1.8em;
+    margin-left: 1em;
+}
+
+footer {
+    background-color: var(--cream-color);
+    color: var(--cognac-color);
+    padding: 5em;
+}
+
+/*		---- Buttons ---- 	*/
+
+section .btn {
+    margin-top: 2em;
+}
+
+.btn {
+    font: 0.8em "Gelion-Regular";
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    padding-top: 1em;
+    padding-bottom: 1em;
+    padding-left: 2em;
+    padding-right: 2em;
+    border-radius: 20em;
+}
+
+.btn-cognac {
+    background-color: var(--cognac-color);
+    color: var(--cream-color);
+}
+
+.btn-dark-blue {
+    background-color: var(--dark-blue-color);
+    color: var(--amber-color);
+}
+
+.btn:hover {
+    background-color: var(--rose-red-color);
+    color: var(--cream-color);
+}
+
+.btn i {
+    color: var(--amber-color);
+}
