@@ -10,6 +10,8 @@ use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 // use Symfony\Component\Uid\Ulid;
 use Doctrine\Persistence\ManagerRegistry;
 use App\Entity\User;
+use App\Entity\Participant;
+use App\Service\StripePaymentService;
 
 class MainController extends AbstractController
 {
@@ -20,15 +22,38 @@ class MainController extends AbstractController
     }
 
     #[Route('/register_form', name: 'app_register')]
-    public function register(Request $request, ManagerRegistry $doctrine)
+    public function register(Request $request, ManagerRegistry $doctrine, StripePaymentService $stripe)
     {
-        return $this->render('register.html.twig');
-    }
+        $this->denyAccessUnlessGranted('ROLE_USER');
+        if ($request->isMethod('POST')) {
+            $participant = new Participant;
+            $participant
+            ->setFirstname($request->request->get("firstname"))
+            ->setLastname($request->request->get("lastname"))
+            ->setEmail($request->request->get("email"))
+            ->setPhone($request->request->get("phone"))
+            ->setAddress($request->request->get("address"))
+            ->setState($request->request->get("state"))
+            ->setGender($request->request->get("gender"))
+            ->setAge($request->request->get("age"))
+            ->setExpectations($request->request->get("expectations"))
+            ->setAware($request->request->get("aware"))
+            ->setHealthcare($request->request->get("healthcare"))
+            ->setWaiver($request->request->get("waiver"))
+            ->setGuardian($request->request->get("guardian"));
 
-    #[Route('/accident_waiver_and_release_of_liability_form', name: 'app_waiver')]
-    public function waiver(Request $request, ManagerRegistry $doctrine)
-    {
-        return $this->render('terms_and_conditions/waiver.html.twig');
+            $sessionCreated = $stripe->checkout();
+            if(filter_var($sessionCreated, FILTER_VALIDATE_URL) !== FALSE) {
+                $entityManager = $doctrine->getManager();
+                $entityManager->persist($participant);
+                $entityManager->flush();
+                return $this->redirect($sessionCreated);
+            } else {
+                $this->redirectToRoute('app_cancel');
+            }
+        }
+        
+        return $this->render('register.html.twig');
     }
 
     #[Route('/signin', name: 'app_signin')]
@@ -53,5 +78,17 @@ class MainController extends AbstractController
         }
 
         return $this->render('signin.html.twig');
+    }
+
+    #[Route('/success', name: 'app_success')]
+    public function success()
+    {
+        return $this->render('success.html.twig');
+    }
+
+    #[Route('/cancel', name: 'app_cancel')]
+    public function cancel()
+    {
+        return $this->render('cancel.html.twig');
     }
 }

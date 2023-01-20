@@ -4,6 +4,8 @@
 # Put parameters here that don't need to change on each machine where the app is deployed
 # https://symfony.com/doc/current/best_practices.html#use-parameters-for-application-configuration
 parameters:
+    app.stripe_apikey_secret: 'sk_test_51M4EE2LjRwcsxYA5ohogHcOGBXlqfUNoedIbhoVR3C0YIJDe5v4yyQWnQT2Gaqen2Bbz0zP97OL5ycaMVi2p6Fhy00OajO25ai'
+    app.stripe_apikey_public: 'pk_test_51M4EE2LjRwcsxYA56NIHkcYuyl9ycoKIT9HQS8SqK2yxZk16OobQNino5P1N9pEwmiwSztK2XJOMwvaHtb7Du8Qx00NZXOANlb'
 
 services:
     # default configuration for services in *this* file
@@ -19,7 +21,12 @@ services:
             - '../src/DependencyInjection/'
             - '../src/Entity/'
             - '../src/Kernel.php'
-
+        
     # add more service definitions when explicit configuration is needed
     # please note that last definitions always *replace* previous ones
+
+    App\Service\StripePaymentService:
+        arguments:
+            $stripe_apikey_secret: '%app.stripe_apikey_secret%'
+            $stripe_apikey_public: '%app.stripe_apikey_public%'
 

@@ -53,6 +53,15 @@ class Participant
     #[ORM\Column]
     private ?bool $guardian = null;
 
+    #[ORM\Column(type: Types::DATE_MUTABLE)]
+    private ?\DateTimeInterface $date = null;
+
+    #[ORM\Column(length: 255)]
+    private ?string $user = null;
+
+    #[ORM\Column(nullable: true)]
+    private ?bool $payment = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -210,6 +219,42 @@ class Participant
     public function setGuardian(bool $guardian): self
     {
         $this->guardian = $guardian;
+
+        return $this;
+    }
+
+    public function getDate(): ?\DateTimeInterface
+    {
+        return $this->date;
+    }
+
+    public function setDate(\DateTimeInterface $date): self
+    {
+        $this->date = $date;
+
+        return $this;
+    }
+
+    public function getUser(): ?string
+    {
+        return $this->user;
+    }
+
+    public function setUser(string $user): self
+    {
+        $this->user = $user;
+
+        return $this;
+    }
+
+    public function isPayment(): ?bool
+    {
+        return $this->payment;
+    }
+
+    public function setPayment(?bool $payment): self
+    {
+        $this->payment = $payment;
 
         return $this;
     }

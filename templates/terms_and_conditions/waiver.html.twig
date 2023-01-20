@@ -60,14 +60,14 @@
         <div class="row mt-5">
             <label for="inputAgreements" class="form-label p-0">Agreements</label>
             <div class="form-check">
-                <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
+                <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault" onchange="document.getElementById('submit').disabled = !this.checked;">
                 <label class="form-check-label" for="flexCheckDefault">
                     I CERTIFY THAT I HAVE READ THIS DOCUMENT, AND I FULLY UNDERSTAND ITS CONTENT. I AM AWARE THAT THIS
                     IS A RELEASE OF LIABILITY AND A CONTRACT AND I SIGN IT OF MY OWN FREE WILL.
                 </label>
             </div>
             <div class="d-grid gap-2 d-md-flex justify-content-md-end">
-                <button type="submit" name="register" class="btn btn-primary btn-lg">Register</button>
+                <button type="submit" name="register" id="submit" class="btn btn-primary btn-lg" disabled>Accept</button>
             </div>
         </div>
     </section>

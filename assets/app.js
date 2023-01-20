@@ -12,6 +12,20 @@ import './styles/theme.css';
 // start the Stimulus application
 import './bootstrap';
 
+const $ = require('jquery');
+// this "modifies" the jquery module: adding behavior to it
+// the bootstrap module doesn't export/return anything
+require('bootstrap');
+
+// or you can include specific pieces
+require('bootstrap/js/dist/tooltip');
+require('bootstrap/js/dist/popover');
+require('bootstrap/js/dist/modal');
+
+$(document).ready(function () {
+    $('[data-toggle="popover"]').popover();
+});
+
 $(document).ready(function () {
     $(window).scroll(function () {
         var scroll = $(window).scrollTop();
@@ -22,3 +36,21 @@ $(document).ready(function () {
         }
     })
 })
+
+//Check if both policy boxes are :checked before enable submit button
+$(".check-aggreement").on("change", function () {
+    checkedFunc("waiver", "guardian");
+});
+
+function checkedFunc(element1Id, element2Id) {
+    var mybutton = document.getElementById("register");
+    var element1 = document.getElementById(element1Id);
+    var element2 = document.getElementById(element2Id);
+    if (element1.checked == true && element2.checked == true) {
+        mybutton.class = "submit";
+        mybutton.removeAttribute("disabled");
+    } else {
+        mybutton.class = "button:disabled";
+        mybutton.setAttribute("disabled", "disabled");
+    }
+}
