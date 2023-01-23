@@ -1,0 +1,53 @@
+{% extends 'base.html.twig' %}
+{% block body %}
+
+<section class="checkout">
+    <div class="progresses py-4">
+        <ul class="d-flex align-items-center justify-content-between">
+            <li id="step-1" class="d-flex align-items-center justify-content-between"><i
+                    class="fa-regular fa-circle-check"></i> <a href="{{ url('app_register') }}">Register</a></li>
+            <li id="step-2" class="d-flex align-items-center justify-content-between"><i
+                    class="fa-regular fa-circle"></i> <a href="{{ url('app_checkout') }}">Checkout</a></li>
+            <li id="step-3" class="d-flex align-items-center justify-content-between"><i
+                    class="fa-regular fa-circle"></i> <a href="{{ url('app_main') }}">Confirmation</a></li>
+        </ul>
+    </div>
+    <div class="card">
+        <div class="row">
+            <div class="col-md-8 cart">
+                <div class="row">
+                    <div class="col"><h4>Shopping Cart</h4></div>
+                </div>
+                <div class="row border-top border-bottom">
+                    <div class="row main align-items-center">
+                        <div class="col-2"><i class="fa-sharp fa-solid fa-ticket"></i></div>
+                        <div class="col">
+                            <div class="row text-muted">Đồng Hành</div>
+                            <div class="row">Ticket - 2023</div>
+                        </div>
+                        <div class="col">
+                            <span>1</span>
+                        </div>
+                        <div class="col">&euro; 100.00</div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4 summary">
+                <h4>Summary</h4>
+                <hr>
+                <div class="row">
+                    <div class="col">Đồng Hành</div>
+                    <div class="col text-right">&euro; 100.00</div>
+                </div>
+                <div class="row" style="border-top: 1px solid rgba(0,0,0,.1); padding: 2vh 0;">
+                    <div class="col">TOTAL PRICE</div>
+                    <div class="col text-right">&euro; 100.00</div>
+                </div>
+
+                {{ paypalInterface | raw }}
+            </div>
+        </div>
+    </div>
+</section>
+
+{% endblock %}

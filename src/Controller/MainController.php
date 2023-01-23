@@ -12,6 +12,7 @@ use Doctrine\Persistence\ManagerRegistry;
 use App\Entity\User;
 use App\Entity\Participant;
 use App\Service\StripePaymentService;
+use App\Service\PaypalService;
 
 class MainController extends AbstractController
 {
@@ -24,7 +25,7 @@ class MainController extends AbstractController
     #[Route('/register_form', name: 'app_register')]
     public function register(Request $request, ManagerRegistry $doctrine, StripePaymentService $stripe)
     {
-        $this->denyAccessUnlessGranted('ROLE_USER');
+        // $this->denyAccessUnlessGranted('ROLE_USER');
         if ($request->isMethod('POST')) {
             $participant = new Participant;
             $participant
@@ -41,19 +42,19 @@ class MainController extends AbstractController
             ->setHealthcare($request->request->get("healthcare"))
             ->setWaiver($request->request->get("waiver"))
             ->setGuardian($request->request->get("guardian"));
-
-            $sessionCreated = $stripe->checkout();
-            if(filter_var($sessionCreated, FILTER_VALIDATE_URL) !== FALSE) {
-                $entityManager = $doctrine->getManager();
-                $entityManager->persist($participant);
-                $entityManager->flush();
-                return $this->redirect($sessionCreated);
-            } else {
-                $this->redirectToRoute('app_cancel');
-            }
         }
         
         return $this->render('register.html.twig');
+    }
+
+    #[Route('/checkout', name: 'app_checkout')]
+    public function checkout(PaypalService $paypalInterface)
+    {
+        // $paypalInterface = new PaypalService;
+
+        return $this->render('checkout.html.twig', [
+            'paypalInterface' => $paypalInterface->interface()
+        ]);
     }
 
     #[Route('/signin', name: 'app_signin')]

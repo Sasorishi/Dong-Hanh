@@ -83,7 +83,7 @@ hr {
 /*		---- General ---- 	*/
 
 .navbar {
-    z-index: 1;
+    z-index: 110;
     width: 100%;
     position: fixed;
 }
@@ -320,6 +320,17 @@ footer {
     padding: 5em;
 }
 
+.register-form,.checkout {
+    padding-left: 6vw;
+    padding-right: 6vw;
+}
+
+.register-form .wrapper-card {
+    padding: 3em;
+    border-radius: 1em;
+    box-shadow: rgba(0, 0, 0, 0.15) 0px 5px 15px 0px;
+}
+
 /*		---- Buttons ---- 	*/
 
 section .btn {
@@ -362,4 +373,74 @@ section .btn {
 
 .form-floating > .form-control, .form-floating > .form-control-plaintext {
     padding: 0.625rem !important;
+}
+
+/*		---- Checkout ---- 	    */
+
+.checkout h4 {
+    margin-bottom: 5vh;
+}
+
+.card {
+    margin: auto;
+    // max-width: 950px;
+    width: 100%;
+    box-shadow: 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    border-radius: 1rem;
+    border: transparent;
+}
+
+.cart {
+    background-color: #fff;
+    padding: 4vh 5vh;
+    border-bottom-left-radius: 1rem;
+    border-top-left-radius: 1rem;
+}
+
+.summary {
+    background-color: #ddd;
+    border-top-right-radius: 1rem;
+    border-bottom-right-radius: 1rem;
+    padding: 4vh;
+    color: rgb(65, 65, 65);
+}
+
+.summary .col-2 {
+    padding: 0;
+}
+
+.summary .col-10 {
+    padding: 0;
+}
+
+.main {
+    margin: 0;
+    padding: 2vh 0;
+    width: 100%;
+}
+
+.checkout hr {
+    margin-top: 1.25rem;
+}
+
+.progresses {
+    position: relative;
+    max-width: 70%;
+    margin: auto;
+}
+
+.progresses ul {
+    list-style: none;
+    /* border: 1px solid red; */
+    padding: 0;
+}
+
+.progresses .fa-circle-check {
+    margin-right: 0.5em;
+    font-size: 1.5em;
+}
+
+.progresses .fa-circle {
+    margin-right: 0.5em;
+    font-size: 1.5em;
 }
