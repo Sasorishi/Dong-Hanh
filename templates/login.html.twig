@@ -6,17 +6,41 @@
 {% endif %}
 
 <form method="POST" action="{{ path('app_login') }}">
-    <section class="container">
-        <div class="mb-3">
-            <label for="InputEmail" class="form-label">Email address</label>
-            <input type="email" name="_username" class="form-control" id="InputEmail">
+    <section class="container login">
+        <div class="row">
+            <div class="col-sm-6 col-md-7 login-section">
+                <div class="intro-content-wrapper">
+                    <h1 class="intro-title">Welcome to website !</h1>
+                    <p class="intro-text">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
+                        tempor
+                        incididunt ut labore et dolore magna</p>
+                </div>
+            </div>
+            <div class="col-sm-6 col-md-5 form-section">
+                <div class="login-wrapper">
+                    <h2 class="login-title">Connection</h2>
+                    <div class="form-group mb-3">
+                        <label for="email" class="sr-only">Email</label>
+                        <input type="email" name="_username" class="form-control" id="InputEmail" placeholder="Email">
+                    </div>
+                    <div class="form-group">
+                        <label for="password" class="sr-only">Password</label>
+                        <input type="password" name="_password" class="form-control" id="InputPassword"
+                            placeholder="Password">
+                    </div>
+                    <div class="row">
+                        <div class="d-md-flex align-items-center justify-content-md-center">
+                            <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
+                            <button type="submit" name="register" class="btn btn-primary btn-lg">Login</button>
+                        </div>
+                    </div>
+                    <p class="login-wrapper-footer-text">Need an account? <a href="#!" class="text-reset">Signup
+                            here</a></p>
+                    <p class="login-wrapper-footer-text">Need a password reset? <a href="#!" class="text-reset">Click
+                            here</a></p>
+                </div>
+            </div>
         </div>
-        <div class="mb-3">
-            <label for="InputPassword" class="form-label">Password</label>
-            <input type="password" name="_password" class="form-control" id="InputPassword">
-        </div>
-        <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
-        <button type="submit" value="signin" class="btn btn-primary">Submit</button>
     </section>
 </form>
 

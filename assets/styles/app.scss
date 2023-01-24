@@ -40,7 +40,9 @@
     src: url("../../public/fonts/Gelion-Bold.ttf");
 }
 
-h1, p, span {
+h1,
+p,
+span {
     color: var(--cognac-color);
 }
 
@@ -76,8 +78,8 @@ hr {
 }
 
 .divider-center {
-   margin-left: auto; 
-   margin-right: auto;
+    margin-left: auto;
+    margin-right: auto;
 }
 
 /*		---- General ---- 	*/
@@ -131,7 +133,7 @@ section {
     background-position: center;
 }
 
-.introduction .wrapper-element{
+.introduction .wrapper-element {
     padding-top: 10vw;
     padding-bottom: 10vw;
 }
@@ -203,13 +205,13 @@ section {
     box-shadow: rgba(0, 0, 0, 0.15) 0px 5px 15px 0px;
 }
 
-.our-journey .card  span{
+.our-journey .card span {
     margin: auto;
     color: var(--cream-color);
     font: 1.2em "Gelion-Regular" !important;
 }
 
-.our-journey .filter{
+.our-journey .filter {
     background-color: var(--dark-blue-color);
     opacity: 0.75;
     height: 100%;
@@ -219,7 +221,7 @@ section {
     align-items: center;
 }
 
-.our-journey .filter:hover{
+.our-journey .filter:hover {
     background-color: var(--dark-blue-color);
     opacity: 0;
     transition: 0.3s;
@@ -268,10 +270,14 @@ section {
     padding-bottom: 10vw;
     background-color: var(--cream-color);
     background-image: url("../../public/images/11816341_10205648605067792_4665754934258472800_o.png");
-    background-attachment: fixed; /* Fixe l'image pendant le scroll */
-    background-size: cover; /* L'image prendra 100% de l'espace, quitte à la crop */
-    background-position: center; /* Centre la position de l'image */
-    background-repeat: no-repeat; /* Empêche l'image de se répéter en fonction de la taille d'écran */
+    background-attachment: fixed;
+    /* Fixe l'image pendant le scroll */
+    background-size: cover;
+    /* L'image prendra 100% de l'espace, quitte à la crop */
+    background-position: center;
+    /* Centre la position de l'image */
+    background-repeat: no-repeat;
+    /* Empêche l'image de se répéter en fonction de la taille d'écran */
 }
 
 .team .wrapper-card {
@@ -299,7 +305,7 @@ section {
     margin-left: auto;
     margin-right: auto;
     margin-bottom: 2em;
-  }
+}
 
 .contact .wrapper-element {
     background-color: var(--cream-color);
@@ -320,7 +326,8 @@ footer {
     padding: 5em;
 }
 
-.register-form,.checkout {
+.register-form,
+.checkout {
     padding-left: 6vw;
     padding-right: 6vw;
 }
@@ -367,11 +374,15 @@ section .btn {
     color: var(--amber-color);
 }
 
-.form-floating > .form-control:focus, .form-floating > .form-control:not(:placeholder-shown), .form-floating > .form-control-plaintext:focus, .form-floating > .form-control-plaintext:not(:placeholder-shown) {
+.form-floating>.form-control:focus,
+.form-floating>.form-control:not(:placeholder-shown),
+.form-floating>.form-control-plaintext:focus,
+.form-floating>.form-control-plaintext:not(:placeholder-shown) {
     padding-top: 0.625rem !important;
 }
 
-.form-floating > .form-control, .form-floating > .form-control-plaintext {
+.form-floating>.form-control,
+.form-floating>.form-control-plaintext {
     padding: 0.625rem !important;
 }
 
@@ -443,4 +454,81 @@ section .btn {
 .progresses .fa-circle {
     margin-right: 0.5em;
     font-size: 1.5em;
+}
+
+/*		---- Login ---- 	    */
+
+.login {
+    padding-top: 12vw;
+}
+
+.login-section {
+    background-image: url('../../public/images/11802516_10205648612187970_7713516585965122401_o.jpg');
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+    padding: 75px 95px;
+    min-height: 100vh;
+    display: -webkit-box;
+    display: flex;
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+    flex-direction: column;
+    color: #ffffff;
+    border-top-left-radius: 1em;
+    border-bottom-left-radius: 1em;
+    box-shadow: rgba(0, 0, 0, 0.15) 0px 5px 15px 0px;
+}
+
+.intro-content-wrapper {
+    width: 410px;
+    max-width: 100%;
+    margin-top: auto;
+    margin-bottom: auto;
+}
+
+.intro-content-wrapper .intro-title {
+    font-size: 40px;
+    font-weight: bold;
+    margin-bottom: 17px;
+}
+
+.intro-content-wrapper .intro-text {
+    font-size: 19px;
+    line-height: 1.37;
+}
+
+.form-section {
+    display: -webkit-box;
+    display: flex;
+    -webkit-box-align: center;
+    align-items: center;
+    -webkit-box-pack: center;
+    justify-content: center;
+    background-color: var(--cream-color);
+    border-top-right-radius: 1em;
+    border-bottom-right-radius: 1em;
+    box-shadow: rgba(0, 0, 0, 0.15) 0px 5px 15px 0px;
+}
+
+.login-wrapper {
+    width: 300px;
+    max-width: 100%;
+}
+
+.login-title {
+    font-size: 30px;
+    font-weight: bold;
+    margin-bottom: 30px;
+}
+
+.forgot-password-link {
+    font-size: 14px;
+    color: #080808;
+    text-decoration: underline;
+}
+
+.login-wrapper-footer-text {
+    font-size: 14px;
+    text-align: center;
 }
