@@ -59,7 +59,7 @@ h1 {
 }
 
 p {
-    font: 1em "Gelion-Light";
+    font: 1.2em "Gelion-Light";
     letter-spacing: 0.2em;
     line-height: 1.8em;
 }
@@ -194,6 +194,17 @@ section {
 }
 
 .event-main {
+    border-radius: 1em;
+    box-shadow: rgba(0, 0, 0, 0.15) 0px 5px 15px 0px;
+}
+
+.event-information {
+    margin-top: 0.5em;
+    padding-top: 1em;
+    padding-bottom: 1em;
+    padding-left: 1em;
+    padding-right: 1em;
+    background-color: var(--cream-color);
     border-radius: 1em;
     box-shadow: rgba(0, 0, 0, 0.15) 0px 5px 15px 0px;
 }
