@@ -307,6 +307,24 @@ section {
     margin-bottom: 2em;
 }
 
+.tri {
+    background-image: url("../../public/images/tri.jpg");
+    background-size: cover;
+    background-position: center;
+}
+
+.lan {
+    background-image: url("../../public/images/lan.jpg");
+    background-size: cover;
+    background-position: center;
+}
+
+.duyen {
+    background-image: url("../../public/images/duyen.png");
+    background-size: cover;
+    background-position: center;
+}
+
 .contact .wrapper-element {
     background-color: var(--cream-color);
     padding-top: 10vw;
