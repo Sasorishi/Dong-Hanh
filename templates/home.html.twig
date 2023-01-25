@@ -1,5 +1,8 @@
 {% extends 'base.html.twig' %}
 {% block body %}
+<script>
+    AOS.init();
+</script>
 
 <section class="introduction" id="introduction">
     <div class="container-fluid wrapper-element trong-dong">
@@ -16,8 +19,9 @@
                     <button type="button" class="btn btn-dark-blue ms-2">Learn more</button>
                 </div>
             </div>
-            <div class="col-12 col-sm-12 col-lg-5">
-                <img class="img-fluid event-main" src="images/53053566_10218200259101070_7120640346056294400_n-PhotoRoom2.png" alt="current_event">
+            <div class="col-12 col-sm-12 col-lg-5" data-aos="fade-left" data-aos-offset="300" data-aos-easing="ease-in-sine">
+                <img class="img-fluid event-main"
+                    src="images/53053566_10218200259101070_7120640346056294400_n-PhotoRoom2.png" alt="current_event">
             </div>
         </div>
     </div>
@@ -25,8 +29,8 @@
 <section class="about-us" id="about-us">
     <div class="container-fluid">
         <div class="row">
-            <div class="col-4 col-sm-4 col-lg-4"></div>
-            <div class="col-12 col-md-8 col-sm-8 col-lg-8 wrapper-card text-center">
+            <div class="col-4 col-sm-4 col-lg-4" data-aos="fade-right" data-aos-offset="300" data-aos-easing="ease-in-sine"></div>
+            <div class="col-12 col-md-8 col-sm-8 col-lg-8 wrapper-card text-center"  data-aos="fade-left" data-aos-offset="300" data-aos-easing="ease-in-sine">
                 <span>About us</span>
                 <h1>Dồng Hành</h1>
                 <hr class="solid divider-center">
@@ -48,19 +52,19 @@
         </div>
         <div class="d-flex justify-content-center container-card">
             <div class="row">
-                <div class="col-12 col-sm-12 col-md-12 col-lg-4 mb-3">
+                <div class="col-12 col-sm-12 col-md-12 col-lg-4 mb-3" data-aos="zoom-in-left" data-aos-duration="1500">
                     <div class="wrapper-card text-center d-flex flex-column mx-auto align-bottom">
                         <img class="img-fluid" src="images/7490.png" alt="about_us_people_worldwide">
                         <p>Meet vietnamese people worldwide</p>
                     </div>
                 </div>
-                <div class="col-12 col-sm-12 col-md-12 col-lg-4 mb-3">
+                <div class="col-12 col-sm-12 col-md-12 col-lg-4 mb-3" data-aos="zoom-out" data-aos-duration="1500">
                     <div class="wrapper-card text-center d-flex flex-column mx-auto">
                         <img class="img-fluid" src="images/5236.png" alt="about_us_teambuilding">
                         <p>Learn about movement building and international advocacy</p>
                     </div>
                 </div>
-                <div class="col-12 col-sm-12 col-md-12 col-lg-4 mb-3">
+                <div class="col-12 col-sm-12 col-md-12 col-lg-4 mb-3" data-aos="zoom-in-right" data-aos-duration="1500">
                     <div class="wrapper-card text-center d-flex flex-column mx-auto">
                         <img class="img-fluid"
                             src="images/vecteezy_two-boys-high-fived-each-other-the-concept-of-friendship_12763712.png"
@@ -83,7 +87,7 @@
             </div>
         </div>
         <div class="row mt-5">
-            <div class="col-12 col-sm-12 col-md-12 col-lg-3">
+            <div class="col-12 col-sm-12 col-md-12 col-lg-3" data-aos="zoom-in-up" data-aos-offset="50" data-aos-easing="ease-in-sine">
                 <div class="d-flex flex-column">
                     <div class="card small-card germany">
                         <div class="filter">
@@ -97,7 +101,7 @@
                     </div>
                 </div>
             </div>
-            <div class="col-12 col-sm-12 col-md-12 col-lg-4">
+            <div class="col-12 col-sm-12 col-md-12 col-lg-4" data-aos="zoom-in-up" data-aos-offset="150" data-aos-easing="ease-in-sine">
                 <div class="d-flex flex-column">
                     <div class="card big-card france">
                         <div class="filter">
@@ -106,7 +110,7 @@
                     </div>
                 </div>
             </div>
-            <div class="col-12 col-sm-12 col-md-12 col-lg-5">
+            <div class="col-12 col-sm-12 col-md-12 col-lg-5" data-aos="zoom-in-up" data-aos-offset="250" data-aos-easing="ease-in-sine">
                 <div class="d-flex flex-column">
                     <div class="d-flex flex-row">
                         <div class="card large-card switzerland">
@@ -148,7 +152,7 @@
 <section class="community">
     <div class="container-fluid wrapper-element">
         <div class="row">
-            <div class="col-12 text-center">
+            <div class="col-12 text-center" data-aos="zoom-in-up" data-aos-offset="50" data-aos-easing="ease-in-sine">
                 <span>Dồng Hành</span>
                 <h1>Be part of our community</h1>
                 {#<hr class="solid divider-center">
@@ -168,21 +172,21 @@
         </div>
         <div class="container-card">
             <div class="row">
-                <div class="d-flex justify-content-center col-12 col-md-12 col-sm-12 col-lg-4 mb-5">
+                <div class="d-flex justify-content-center col-12 col-md-12 col-sm-12 col-lg-4 mb-5" data-aos="fade-up" data-aos-offset="100" data-aos-easing="ease-in-sine">
                     <div class="wrapper-card text-center d-flex flex-column">
                         <span class="frame duyen"></span>
                         <span class="name">Duyen</span>
                         <span>Ambassador NA</span>
                     </div>
                 </div>
-                <div class="d-flex justify-content-center col-12 col-md-12 col-sm-12 col-lg-4 mb-5">
+                <div class="d-flex justify-content-center col-12 col-md-12 col-sm-12 col-lg-4 mb-5" data-aos="fade-up" data-aos-offset="200" data-aos-easing="ease-in-sine">
                     <div class="wrapper-card text-center d-flex flex-column">
                         <span class="frame tri"></span>
                         <span class="name">Tri</span>
                         <span>Ambassador EU</span>
                     </div>
                 </div>
-                <div class="d-flex justify-content-center col-12 col-md-12 col-sm-12 col-lg-4 mb-5">
+                <div class="d-flex justify-content-center col-12 col-md-12 col-sm-12 col-lg-4 mb-5" data-aos="fade-up" data-aos-offset="300" data-aos-easing="ease-in-sine">
                     <div class="wrapper-card text-center d-flex flex-column">
                         <span class="frame lan"></span>
                         <span class="name">Lan</span>
@@ -220,7 +224,7 @@
             </div>
             <div class="row mt-5">
                 <div class="d-grid gap-2 d-md-flex justify-content-md-end">
-                    <button type="submit" name="submit" class="btn btn-dark-blue btn-lg">Send</button>
+                    <button type="submit" name="submit" class="btn btn-dark-blue btn-lg">Send<i class="fa-regular fa-envelope ms-2"></i></button>
                 </div>
             </div>
             {# <div class="row">
