@@ -53,7 +53,7 @@ span {
 }
 
 h1 {
-    font: 5.5em "Hogback";
+    font: 4.5em "Hogback";
     letter-spacing: 0.05em;
     margin-top: 0.15em;
 }
@@ -83,6 +83,54 @@ hr {
 }
 
 /*		---- General ---- 	*/
+
+@media screen and (max-width: 900px) {
+    .introduction .wrapper-element {
+        padding-top: 20vw !important;
+    }
+
+    .wrapper-element {
+        padding-left: 5vw;
+        padding-right: 5vw;
+    }
+
+    .about-us .wrapper-card {
+        padding: 4em !important;
+    }
+
+    .community .wrapper-element {
+        padding-left: 5vw !important;
+        padding-right: 5vw !important;
+    }
+
+    .contact .wrapper-element {
+        width: 90% !important;
+    }
+}
+
+@media screen and (max-width: 750px) {
+    .introduction .wrapper-element {
+        padding-top: 20vw !important;
+    }
+
+    .wrapper-element {
+        padding-left: 5vw !important;
+        padding-right: 5vw !important;
+    }
+
+    .about-us .wrapper-card {
+        padding: 4em !important;
+    }
+
+    .community .wrapper-element {
+        padding-left: 5vw !important;
+        padding-right: 5vw !important;
+    }
+
+    .contact .wrapper-element {
+        width: 90% !important;
+    }
+}
 
 .navbar {
     z-index: 110;
@@ -229,14 +277,17 @@ section {
 
 .our-journey .small-card {
     height: 13em;
+    width: -webkit-fill-available;
 }
 
 .our-journey .large-card {
     height: 13em;
+    width: -webkit-fill-available;
 }
 
 .our-journey .big-card {
     height: 28em;
+    width: -webkit-fill-available;
 }
 
 .our-journey .france {
