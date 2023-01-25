@@ -85,9 +85,9 @@
         <div class="row mt-5">
             <div class="col-3">
                 <div class="d-flex flex-column">
-                    <div class="card small-card">
+                    <div class="card small-card germany">
                         <div class="filter">
-                            <span>Denmark</span>
+                            <span>Germany</span>
                         </div>
                     </div>
                     <div class="card small-card norway">
@@ -116,9 +116,9 @@
                         </div>
                     </div>
                     <div class="d-flex flex-row">
-                        <div class="card small-card">
+                        <div class="card small-card london">
                             <div class="filter">
-                                <span>France</span>
+                                <span>London</span>
                             </div>
                         </div>
                         <div class="card small-card denmark">
@@ -194,7 +194,7 @@
     </div>
 </section>
 <section class="contact" id="contact" style="padding-bottom: 0 !important;">
-    <form action="POST">
+    <form method="POST">
         <div class="container wrapper-element">
             <div class="row">
                 <div class="col-12">
@@ -203,17 +203,18 @@
                     <hr class="solid">
                     <div class="form-group mb-3">
                         <label for="exampleFormControlInput1">Full name</label>
-                        <input type="email" class="form-control" id="exampleFormControlInput1"
+                        <input type="text" name="fullname" class="form-control" id="exampleFormControlInput1"
                             placeholder="name@example.com">
                     </div>
                     <div class="form-group mb-3">
                         <label for="exampleFormControlInput1">Email address</label>
-                        <input type="email" class="form-control" id="exampleFormControlInput1"
+                        <input type="email" name="email" class="form-control" id="exampleFormControlInput1"
                             placeholder="name@example.com">
                     </div>
                     <div class="form-group">
                         <label for="exampleFormControlTextarea1">Message</label>
-                        <textarea class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
+                        <textarea class="form-control" name="message" id="exampleFormControlTextarea1"
+                            rows="3"></textarea>
                     </div>
                 </div>
             </div>
@@ -245,5 +246,19 @@
         </div>
     </form>
 </section>
+
+{% if response == TRUE %}
+<div class="toast" role="alert" aria-live="assertive" aria-atomic="true">
+    <div class="toast-header">
+        <img src="..." class="rounded me-2" alt="...">
+        <strong class="me-auto">Mail sended</strong>
+        {# <small>11 mins ago</small> #}
+        <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+    </div>
+    <div class="toast-body">
+        Thank you for your message.
+    </div>
+</div>
+{% endif %}
 
 {% endblock %}

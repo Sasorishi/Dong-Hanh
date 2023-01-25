@@ -13,23 +13,22 @@ use App\Entity\User;
 use App\Entity\Participant;
 use App\Service\StripePaymentService;
 use App\Service\PaypalService;
-use Symfony\Component\Mailer\MailerInterface;
+use App\Service\MailerService;
 
 class MainController extends AbstractController
 {
     #[Route('/', name: 'app_main')]
-    public function index(MailerInterface $mailer, Request $request)
+    public function index(MailerService $mailer, Request $request)
     {
+        $response = NULL;
+        
         if ($request->isMethod('POST')) {
-            $email = (new Email())
-            ->from($request->request->get('email'))
-            ->to('contact@dong-hanh.org')
-            ->subject('Contact Form : Dong Hanh Website')
-            ->text($request->request->get('message'));
+            $response = $mailer->sendMail($request);
         }
 
-
-        return $this->render('home.html.twig');
+        return $this->render('home.html.twig', [
+            'response' => $response
+        ]);
     }
 
     #[Route('/register_form', name: 'app_register')]
