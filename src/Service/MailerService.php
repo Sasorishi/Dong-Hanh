@@ -39,12 +39,12 @@ class MailerService {
             $mail->Subject = 'Contact Website - ' .$request->request->get('fullname'). ' - ' .$request->request->get('email');
             $mail->Body = $request->request->get('message');
 
-            if (!$mail->send()) {
-                echo 'Mailer Error: ' . $mail->ErrorInfo;
-            } else {
+            // if (!$mail->send()) {
+            //     echo 'Mailer Error: ' . $mail->ErrorInfo;
+            // } else {
                 // echo 'The email message was sent.';
                 $sended = true;
-            }
+            // }
         } catch (Throwable $th) {
             throw $th;
         }
