@@ -1,12 +1,21 @@
 {% extends 'base.html.twig' %}
 {% block body %}
 
-<form>
-    <section class="container">
-        <p>
-            Forgot to add something to your cart? Shop around then come back to pay!
-        </p>
-    </section>
-</form>
+<section>
+    <div class="container">
+        <div class="row text-center">
+            <div class="col-12 mt-5 mb-5">
+                <img src="images/vector-free-rice-field-background [Converti].png" width="350" alt="image-filler">
+            </div>
+            <div class="col-12">
+                <p>
+                    Oops ! Your message can't be send, please try again.
+                    <a href="mailto:contact@dong-hanh.com">contact@dong-hanh.com</a>.
+                </p>
+                <p>Return to <a href="{{ path('app_main') }}">homepage</a>.</p>
+            </div>
+        </div>
+    </div>
+</section>
 
 {% endblock %}

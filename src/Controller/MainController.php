@@ -24,6 +24,13 @@ class MainController extends AbstractController
         
         if ($request->isMethod('POST')) {
             $response = $mailer->sendMail($request);
+            dump($response);
+
+            if ($response == TRUE) {
+                return $this->redirectToRoute('app_success');
+            } else {
+                return $this->redirectToRoute('app_cancel');
+            }
         }
 
         return $this->render('home.html.twig', [
