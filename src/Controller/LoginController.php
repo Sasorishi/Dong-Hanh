@@ -24,7 +24,7 @@ class LoginController extends AbstractController
         $email = $authenticationUtils->getLastUsername();
         dump($error);
         
-        return $this->render('login.html.twig', [
+        return $this->render('account/login.html.twig', [
             'controller_name' => 'LoginController',
             'last_username' => $email,
             'error'         => $error
@@ -32,7 +32,19 @@ class LoginController extends AbstractController
     }
 
     #[Route('/account', name: 'app_account')]
-    public function account(AuthenticationUtils $authenticationUtils, Request $request, ManagerRegistry $doctrine, UserPasswordHasherInterface $passwordHasher)
+    public function account(Request $request, ManagerRegistry $doctrine)
+    {
+        $this->denyAccessUnlessGranted('ROLE_USER');
+        $email = $this->getUser()->getEmail();
+        
+        return $this->render('account/tickets.html.twig', [
+            'controller_name' => 'LoginController',
+            'currentuser' => $email
+        ]);
+    }
+
+    #[Route('/account_reset_password', name: 'app_reset_password')]
+    public function resetPassword(AuthenticationUtils $authenticationUtils, Request $request, ManagerRegistry $doctrine, UserPasswordHasherInterface $passwordHasher)
     {
         $this->denyAccessUnlessGranted('ROLE_USER');
         $email = $this->getUser()->getEmail();
@@ -54,8 +66,7 @@ class LoginController extends AbstractController
             $entityManager->flush();
         }
         
-        return $this->render('account.html.twig', [
-            'controller_name' => 'LoginController',
+        return $this->render('account/password.html.twig', [
             'currentuser' => $email
         ]);
     }

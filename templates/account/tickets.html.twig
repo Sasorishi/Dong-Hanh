@@ -1,0 +1,29 @@
+{% extends 'base.html.twig' %}
+{% block body %}
+
+<form method="POST">
+    <section class="account">
+        <div class="progresses py-4">
+            <ul class="d-flex align-items-center justify-content-between">
+                <li class="d-flex align-items-center justify-content-between"><a href="{{ url('app_account') }}">Tickets</a></li>
+                <li class="d-flex align-items-center justify-content-between"><a href="{{ url('app_account') }}">Change email</a></li>
+                <li class="d-flex align-items-center justify-content-between"><a href="{{ url('app_reset_password') }}">Reset password</a></li>
+            </ul>
+        </div>
+        <div class="container">
+            <div class="wrapper-card">
+                <span>Your tickets</span>
+                <div class="row">
+                    <div class="d-flex flex-row align-items-center text-center col-12">
+                        <div style="margin: auto;">
+                            <p>Dong Hanh - Summer camp, Trai He 2023</p>
+                            <button type="submit" name="submit" class="btn download btn-dark-blue btn-lg">download<i class="fa-solid fa-file-arrow-down ms-2"></i></button>
+                            </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</form>
+
+{% endblock %}

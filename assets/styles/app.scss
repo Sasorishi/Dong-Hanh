@@ -465,6 +465,15 @@ footer {
     box-shadow: rgba(0, 0, 0, 0.15) 0px 5px 15px 0px;
 }
 
+.account .wrapper-card {
+    padding: 7em;
+    border-radius: 1em;
+    // background-image: url("../../public/images/1611012_10152967214700810_7849113355116230335_n.png");
+    // background-size: cover;
+    // background-position: center;
+    box-shadow: rgba(0, 0, 0, 0.15) 0px 5px 15px 0px;
+}
+
 /*		---- Buttons ---- 	*/
 
 section .btn {
@@ -499,6 +508,10 @@ section .btn {
 
 .btn i {
     color: var(--amber-color);
+}
+
+.btn .download {
+    margin: 0 !important;
 }
 
 .form-floating>.form-control:focus,
