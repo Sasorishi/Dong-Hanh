@@ -12,6 +12,7 @@
         "doctrine/orm": "^2.13",
         "friendsofphp/proxy-manager-lts": "^1.0",
         "laminas/laminas-code": "^4.8",
+        "paypal/paypal-checkout-sdk": "^1.0",
         "phpmailer/phpmailer": "^6.7",
         "stripe/stripe-php": "^9.9",
         "symfony/asset": "6.1.*",

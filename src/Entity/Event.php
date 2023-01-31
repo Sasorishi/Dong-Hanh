@@ -30,6 +30,9 @@ class Event
     #[ORM\OneToMany(mappedBy: 'idEvent', targetEntity: Ticket::class)]
     private Collection $tickets;
 
+    #[ORM\Column]
+    private ?bool $register = null;
+
     public function __construct()
     {
         $this->tickets = new ArrayCollection();
@@ -114,6 +117,18 @@ class Event
                 $ticket->setIdEvent(null);
             }
         }
+
+        return $this;
+    }
+
+    public function isRegister(): ?bool
+    {
+        return $this->register;
+    }
+
+    public function setRegister(bool $register): self
+    {
+        $this->register = $register;
 
         return $this;
     }

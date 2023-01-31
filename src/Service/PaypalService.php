@@ -2,20 +2,63 @@
 
 namespace App\Service;
 use Throwable;
+use PayPalCheckoutSdk\Core\PayPalHttpClient;
+use PayPalCheckoutSdk\Core\SandboxEnvironment;
+use PayPalCheckoutSdk\Orders\OrdersCreateRequest;
+use PayPalCheckoutSdk\Orders\OrdersCaptureRequest;
+use PayPalCheckoutSdk\Orders\OrdersGetRequest;
 
 class PaypalService
 {
     private $client_id;
+    private $client_secret;
     private $price;
 
-    public function __construct($client_id) {
+    public function __construct($client_id, $client_secret) {
         $this->client_id = $client_id;
+        $this->client_secret = $client_secret;
         $this->price = '100.00';
+    }
+
+    public function setting() {
+        $clientId = $this->client_id ;
+        $clientSecret = $this->client_secret;
+
+        $environment = new SandboxEnvironment($clientId, $clientSecret);
+        $client = new PayPalHttpClient($environment);
+
+        return $client;
+    }
+
+    public function getOrder() {
+        // Here, OrdersCaptureRequest() creates a POST request to /v2/checkout/orders
+        // $response->result->id gives the orderId of the order created above
+        $request = new OrdersGetRequest("736840450A637153C");
+        $client = $this->setting();
+        try {
+            // Call API with your client and get a response for your call
+            $response = $client->execute($request);
+            
+            // If call returns body in response, you can get the deserialized version from the result attribute of the response
+            // print_r($response);
+
+            return json_encode($response);
+        }catch (HttpException $ex) {
+            echo $ex->statusCode;
+            print_r($ex->getMessage());
+        }
     }
 
     public function interface(): string {
         $client_id = $this->client_id;
         $price = $this->price;
+        
+        // alert(
+        //     `Transaction \${transaction.status}: \${transaction.id}\n\nSee console for all available details`);
+        // When ready to go live, remove the alert and show a success message within this page. For example:
+        // const element = document.getElementById('paypal-button-container');
+        // element.innerHTML = '<h3>Thank you for your payment!</h3>';
+        // Or go to another URL:  actions.redirect('thank_you.html');
 
         return <<<HTML
         <script src="https://www.paypal.com/sdk/js?client-id={$client_id}&currency=EUR"></script>
@@ -38,13 +81,15 @@ class PaypalService
                         // Successful capture! For dev/demo purposes:
                         console.log('Capture result', orderData, JSON.stringify(orderData, null, 2));
                         const transaction = orderData.purchase_units[0].payments.captures[0];
-                        alert(
-                            `Transaction \${transaction.status}: \${transaction.id}\n\nSee console for all available details`);
-                        // When ready to go live, remove the alert and show a success message within this page. For example:
-                        // const element = document.getElementById('paypal-button-container');
-                        // element.innerHTML = '<h3>Thank you for your payment!</h3>';
-                        // Or go to another URL:  actions.redirect('thank_you.html');
+                        const transactionId = orderData.id;
+                        // actions.redirect('/success');
+                        window.location.replace('/success?form=checkout&transaction_id=' + transactionId);
                     });
+                }, 
+                // handle unrecoverable errors
+                onError: (err) => {
+                    console.error('An error prevented the buyer from checking out with PayPal');
+                    window.location.replace('/cancel?form=checkout&transaction_id=' + transactionId);
                 }
             }).render('#paypal-button-container');
         </script>

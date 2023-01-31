@@ -7,6 +7,7 @@ parameters:
     app.stripe_apikey_secret: 'sk_test_51M4EE2LjRwcsxYA5ohogHcOGBXlqfUNoedIbhoVR3C0YIJDe5v4yyQWnQT2Gaqen2Bbz0zP97OL5ycaMVi2p6Fhy00OajO25ai'
     app.stripe_apikey_public: 'pk_test_51M4EE2LjRwcsxYA56NIHkcYuyl9ycoKIT9HQS8SqK2yxZk16OobQNino5P1N9pEwmiwSztK2XJOMwvaHtb7Du8Qx00NZXOANlb'
     app.paypal_client_id: 'AcvDKnhfJbKNj_PlwlpboHyLYgUHEP6N6ebEHO4N38ZVPJ_UhwKRW9B0B-wLEiDoUsbeu2cI4zNtmMtO'
+    app.paypal_client_secret: 'ECf73RsuFoVeEtqjdq-KphVXSetSmI7dGAcXpqJhnxfZ8MC6aa_b6bLcfXqG0LNHfxR9IiLShmeoyZx5'
     app.mailer_provider: 'smtp.titan.email'
     app.mailer_username: 'contact@dong-hanh.org'
     app.mailer_password: 'FLkK.fDVSgi*_x6'
@@ -38,6 +39,7 @@ services:
     App\Service\PaypalService:
         arguments:
             $client_id: '%app.paypal_client_id%'
+            $client_secret: '%app.paypal_client_secret%'
     
     App\Service\MailerService:
         arguments:

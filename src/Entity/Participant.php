@@ -62,6 +62,9 @@ class Participant
     #[ORM\Column(nullable: true)]
     private ?bool $payment = null;
 
+    #[ORM\Column(length: 255)]
+    private ?string $city = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -255,6 +258,18 @@ class Participant
     public function setPayment(?bool $payment): self
     {
         $this->payment = $payment;
+
+        return $this;
+    }
+
+    public function getCity(): ?string
+    {
+        return $this->city;
+    }
+
+    public function setCity(string $city): self
+    {
+        $this->city = $city;
 
         return $this;
     }
