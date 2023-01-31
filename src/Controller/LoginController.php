@@ -50,7 +50,8 @@ class LoginController extends AbstractController
         return $this->render('account/tickets.html.twig', [
             'controller_name' => 'LoginController',
             'currentuser' => $email,
-            'ticket' => (new QRCode)->render($data)
+            'ticket' => $ticket,
+            'ticket_qrcode' => (new QRCode)->render($data)
         ]);
     }
 
