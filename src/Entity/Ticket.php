@@ -39,6 +39,9 @@ class Ticket
     #[ORM\Column(length: 255)]
     private ?string $captureId = null;
 
+    #[ORM\Column(length: 255)]
+    private ?string $participant = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -136,6 +139,18 @@ class Ticket
     public function setCaptureId(string $captureId): self
     {
         $this->captureId = $captureId;
+
+        return $this;
+    }
+
+    public function getParticipant(): ?string
+    {
+        return $this->participant;
+    }
+
+    public function setParticipant(string $participant): self
+    {
+        $this->participant = $participant;
 
         return $this;
     }

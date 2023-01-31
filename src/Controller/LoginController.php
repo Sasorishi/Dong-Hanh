@@ -13,7 +13,11 @@ use Symfony\Component\Security\Core\Exception\AuthenticationException;
 use Symfony\Component\Security\Http\EntryPoint\AuthenticationEntryPointInterface;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Doctrine\Persistence\ManagerRegistry;
+use chillerlan\QRCode\QRCode;
 use App\Entity\User;
+use App\Entity\Participant;
+use App\Entity\Ticket;
+
 
 class LoginController extends AbstractController
 {
@@ -36,10 +40,17 @@ class LoginController extends AbstractController
     {
         $this->denyAccessUnlessGranted('ROLE_USER');
         $email = $this->getUser()->getEmail();
+        $participantRepository = $doctrine->getRepository(Participant::class);
+        $ticketRepository = $doctrine->getRepository(Ticket::class);
+        $participant = $participantRepository->findOneBy(['user' => $this->getUser()->getId()]);
+        $ticket = $ticketRepository->findOneBy(['participant' => $participant->getId()]);
+        $domain = 'dong-hanh.org';
+        $data = $domain.'?order='.$ticket->getOrderId();
         
         return $this->render('account/tickets.html.twig', [
             'controller_name' => 'LoginController',
-            'currentuser' => $email
+            'currentuser' => $email,
+            'ticket' => (new QRCode)->render($data)
         ]);
     }
 
@@ -68,6 +79,21 @@ class LoginController extends AbstractController
         
         return $this->render('account/password.html.twig', [
             'currentuser' => $email
+        ]);
+    }
+
+    #[Route('/ticket_check', name: 'app_ticket_check')]
+    public function ticketCheck(Request $request, ManagerRegistry $doctrine)
+    {
+        if ($request->isMethod('GET')) {
+            $request->request->get("ticket_id");
+            $repository = $doctrine->getRepository(Ticket::class);
+            $ticket = $repository->findOneBy(['participant' => $request->query->get('order')]);
+            // dump($ticket);
+        }
+
+        return $this->render('account/check.html.twig', [
+            'ticket' => $ticket
         ]);
     }
 

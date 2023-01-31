@@ -188,7 +188,8 @@ class MainController extends AbstractController
                         ->setCurrency($orderDetail['result']['purchase_units'][0]['amount']['currency_code'])
                         ->setOrderId($orderDetail['result']['id'])
                         ->setCaptureId($orderDetail['result']['purchase_units'][0]['payments']['captures'][0]['id'])
-                        ->setIdEvent($event);
+                        ->setIdEvent($event)
+                        ->setParticipant($participant->getId());
                         dump($ticket);
 
                         $entityManager = $doctrine->getManager();
