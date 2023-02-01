@@ -7,6 +7,7 @@ use PayPalCheckoutSdk\Core\SandboxEnvironment;
 use PayPalCheckoutSdk\Orders\OrdersCreateRequest;
 use PayPalCheckoutSdk\Orders\OrdersCaptureRequest;
 use PayPalCheckoutSdk\Orders\OrdersGetRequest;
+use PayPalCheckoutSdk\Payments\CapturesRefundRequest;
 
 class PaypalService
 {
@@ -30,10 +31,10 @@ class PaypalService
         return $client;
     }
 
-    public function getOrder() {
+    public function getOrder($id) {
         // Here, OrdersCaptureRequest() creates a POST request to /v2/checkout/orders
         // $response->result->id gives the orderId of the order created above
-        $request = new OrdersGetRequest("736840450A637153C");
+        $request = new OrdersGetRequest($id);
         $client = $this->setting();
         try {
             // Call API with your client and get a response for your call
@@ -94,5 +95,28 @@ class PaypalService
             }).render('#paypal-button-container');
         </script>
         HTML;
+    }
+
+    public static function refundOrder($captureId, $debug=false)
+    {
+        $request = new CapturesRefundRequest($captureId);
+        $request->body = self::buildRequestBody();
+        $client = PayPalClient::client();
+        $response = $client->execute($request);
+
+        if ($debug)
+        {
+            print "Status Code: {$response->statusCode}\n";
+            print "Status: {$response->result->status}\n";
+            print "Order ID: {$response->result->id}\n";
+            print "Links:\n";
+            foreach($response->result->links as $link)
+            {
+                print "\t{$link->rel}: {$link->href}\tCall Type: {$link->method}\n";
+            }
+            // To toggle printing the whole response body comment/uncomment below line
+            echo json_encode($response->result, JSON_PRETTY_PRINT), "\n";
+        }
+        return $response;
     }
 }

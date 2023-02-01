@@ -43,15 +43,24 @@ class LoginController extends AbstractController
         $participantRepository = $doctrine->getRepository(Participant::class);
         $ticketRepository = $doctrine->getRepository(Ticket::class);
         $participant = $participantRepository->findOneBy(['user' => $this->getUser()->getId()]);
-        $ticket = $ticketRepository->findOneBy(['participant' => $participant->getId()]);
-        $domain = 'dong-hanh.org';
-        $data = $domain.'?order='.$ticket->getOrderId();
+        $ticket = NULL;
+        $qrcode = NULL;
+
+        if ($participant) {
+            $ticket = $ticketRepository->findOneBy(['participant' => $participant->getId()]);
+
+            if ($ticket) {
+                $domain = 'dong-hanh.org';
+                $data = $domain.'?order='.$ticket->getOrderId();
+                $qrcode = (new QRCode)->render($data);
+            }
+        }
         
         return $this->render('account/tickets.html.twig', [
             'controller_name' => 'LoginController',
             'currentuser' => $email,
             'ticket' => $ticket,
-            'ticket_qrcode' => (new QRCode)->render($data)
+            'ticket_qrcode' => $qrcode
         ]);
     }
 

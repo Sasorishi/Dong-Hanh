@@ -77,7 +77,7 @@ class MainController extends AbstractController
                 return $this->redirectToRoute('app_checkout');
             }
         } else {
-            dump("data found");
+            // dump("data found");
             if ($request->isMethod('POST')) {
                 // dump($request);
                 $participant
@@ -111,10 +111,21 @@ class MainController extends AbstractController
     }
 
     #[Route('/checkout', name: 'app_checkout')]
-    public function checkout(PaypalService $paypal)
+    public function checkout(PaypalService $paypal, ManagerRegistry $doctrine)
     {
         // $paypal->getOrder();
         // return $this->redirectToRoute('app_success', array('form' => 'contact'));
+
+        $ticketRepository = $doctrine->getRepository(Ticket::class);
+        $participantRepository = $doctrine->getRepository(Participant::class);
+        $participant = $participantRepository->findOneBy(['user' => $this->getUser()->getId()]);
+        $ticket = $ticketRepository->findOneBy(['participant' => $participant->getId()]);
+
+        if ($ticket) {
+            if ($ticket->getStatus() == "COMPLETED") {
+                return $this->redirectToRoute('app_account');
+            }
+        }
 
         return $this->render('checkout.html.twig', [
             'paypalInterface' => $paypal->interface()
@@ -124,16 +135,16 @@ class MainController extends AbstractController
     #[Route('/signin', name: 'app_signin')]
     public function signin(Request $request, UserPasswordHasherInterface $passwordHasher, ManagerRegistry $doctrine, MailerService $mailer)
     {
-        $response = NULL;
+        $error = NULL;
         if ($request->isMethod('POST')) {
             $repository = $doctrine->getRepository(User::class);
-            $user = $repository->findOneBy(['user' => $this->getUser()->getEmail()]);
+            $user = $repository->findOneBy(['email' => $request->request->get("_username")]);
 
             if (!$user) {
                 // $ulid = new Ulid();
                 $user = new User;
-                $user->setEmail($request->request->get("email"));
-                $plaintextPassword = $request->request->get("password");
+                $user->setEmail($request->request->get("_username"));
+                $plaintextPassword = $request->request->get("_password");
                 // hash the password (based on the security.yaml config for the $user class)
                 $hashedPassword = $passwordHasher->hashPassword(
                     $user,
@@ -146,15 +157,15 @@ class MainController extends AbstractController
                 $entityManager->persist($user);
                 $entityManager->flush();
     
-                $mailer->sendSignin($this->getUser()->getEmail(), $this->getUser()->getEmail());
+                $mailer->sendSignin($request->request->get("_username"), $request->request->get("_username"));
             } else {
-                $response = false;
+                $error = true;
             }
 
         }
 
         return $this->render('account/signin.html.twig', [
-            'response' => $response
+            'error' => $error
         ]);
     }
 
@@ -164,7 +175,6 @@ class MainController extends AbstractController
         $response = NULL;
         $repository = $doctrine->getRepository(Event::class);
         $event = $repository->find('1');
-        dump($event);
 
         if ($request->isMethod('GET')) {
             $form = $request->query->get('form');
@@ -187,8 +197,7 @@ class MainController extends AbstractController
                         );
                     } else {
                         $participant->setPayment($transactionId);
-                        $orderDetail = json_decode($paypal->getOrder(), true);
-                        // dump($orderDetail['result']);
+                        $orderDetail = json_decode($paypal->getOrder($transactionId), true);
                         $createTime = strtotime($orderDetail['result']['purchase_units'][0]['payments']['captures'][0]['create_time']);
                         $updateTime = strtotime($orderDetail['result']['purchase_units'][0]['payments']['captures'][0]['update_time']);
 
@@ -207,10 +216,29 @@ class MainController extends AbstractController
 
                         $entityManager = $doctrine->getManager();
                         $entityManager->persist($participant);
-                        $entityManager->persist($ticket);
-                        $entityManager->flush();
 
-                        $mailer->sendCheckout($this->getUser()->getEmail(), $participant->getFirstName());
+                        if ($orderDetail['result']['status'] == "COMPLETED") {
+                            $ticketRepository = $doctrine->getRepository(Ticket::class);
+                            $ticket = $ticketRepository->findOneBy(['orderId' => $orderDetail['result']['id']]);
+                            if (!$ticket) {
+                                $entityManager->persist($ticket);
+                                $entityManager->flush();
+                                $mailer->sendCheckout($this->getUser()->getEmail(), $participant->getFirstName());
+                            } else {
+                                $ticket
+                                ->setPrice($orderDetail['result']['purchase_units'][0]['amount']['value'])
+                                ->setUpdateTime(new \DateTime(date('Y-m-d H:i:s', $updateTime)))
+                                ->setStatus($orderDetail['result']['status'])
+                                ->setCurrency($orderDetail['result']['purchase_units'][0]['amount']['currency_code'])
+                                ->setOrderId($orderDetail['result']['id'])
+                                ->setCaptureId($orderDetail['result']['purchase_units'][0]['payments']['captures'][0]['id']);
+                                $entityManager->persist($ticket);
+                                $entityManager->flush();
+                            }
+                        } else {
+                            $entityManager->persist($ticket);
+                            $entityManager->flush();
+                        }
                     }
 
                     break;
