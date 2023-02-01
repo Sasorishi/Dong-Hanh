@@ -12,6 +12,7 @@ parameters:
     app.mailer_username: 'contact@dong-hanh.org'
     app.mailer_password: 'FLkK.fDVSgi*_x6'
     app.mailer_port: '587'
+    app.dir.templates: '%kernel.project_dir%/templates/'
 
 services:
     # default configuration for services in *this* file
@@ -47,3 +48,4 @@ services:
             $mailer_username: '%app.mailer_username%'
             $mailer_password: '%app.mailer_password%'
             $mailer_port: '%app.mailer_port%'
+            $dir_templates: '%app.dir.templates%'

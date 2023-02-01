@@ -2,17 +2,17 @@
 {% block body %}
 
 <form method="POST">
-    <section class="container login">
+    <section class="container signin">
         <div class="row">
-            <div class="col-sm-6 col-md-7 login-section">
-                <div class="intro-content-wrapper">
+            <div class="col-sm-6 col-md-7 signin-section">
+                {# <div class="intro-content-wrapper">
                     <h1 class="intro-title">Welcome to website !</h1>
                     <p class="intro-text">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
                         tempor
                         incididunt ut labore et dolore magna</p>
-                </div>
+                </div> #}
             </div>
-            <div class="col-sm-6 col-md-5 form-section">
+            <div class="col-sm-6 col-md-5 form-section d-flex flex-column">
                 <div class="login-wrapper">
                     <h2 class="login-title">Signup</h2>
                     <div class="form-group mb-3">
@@ -30,8 +30,10 @@
                             <button type="submit" name="register" class="btn btn-dark-blue btn-lg">Register</button>
                         </div>
                     </div>
-                    <p class="login-wrapper-footer-text">Already have an account ? <a href="#!" class="text-reset">Click 
-                            here</a></p>
+                </div>
+                <div class="footer-wrapper">
+                    <p class="login-wrapper-footer-text">Already have an account ? <a href="{{ path('app_login') }}" class="text-reset">Click 
+                        here</a></p>
                 </div>
             </div>
         </div>

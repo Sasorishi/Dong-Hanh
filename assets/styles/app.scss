@@ -603,7 +603,29 @@ section .btn {
 }
 
 .login-section {
-    background-image: url('../../public/images/11802516_10205648612187970_7713516585965122401_o.jpg');
+    background-image: url('../../public/images/asian-woman-wearing-vietnam-culture-traditional-strawberry-garden-doi-ang-khang-chiang-mai-thailand.jpg');
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+    padding: 75px 95px;
+    min-height: 100vh;
+    display: -webkit-box;
+    display: flex;
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+    flex-direction: column;
+    color: #ffffff;
+    border-top-left-radius: 1em;
+    border-bottom-left-radius: 1em;
+    box-shadow: rgba(0, 0, 0, 0.15) 0px 5px 15px 0px;
+}
+
+.signin {
+    padding-top: 12vw;
+}
+
+.signin-section {
+    background-image: url('../../public/images/asian-woman-wearing-vietnam-culture-traditional-strawberry-garden-doi-ang-khang-chiang-mai-thailand2.jpg');
     background-size: cover;
     background-repeat: no-repeat;
     background-position: center;
@@ -654,6 +676,8 @@ section .btn {
 .login-wrapper {
     width: 300px;
     max-width: 100%;
+    padding-top: 10vw;
+    margin: auto;
 }
 
 .login-title {
@@ -666,6 +690,14 @@ section .btn {
     font-size: 14px;
     color: #080808;
     text-decoration: underline;
+}
+
+.signin .footer-wrapper {
+    padding-bottom: 2vw;
+}
+
+.login .footer-wrapper {
+    padding-bottom: 2vw;
 }
 
 .login-wrapper-footer-text {

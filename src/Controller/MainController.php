@@ -12,7 +12,7 @@ use App\Entity\User;
 use App\Entity\Participant;
 use App\Entity\Ticket;
 use App\Entity\Event;
-use App\Service\StripePaymentService;
+// use App\Service\StripePaymentService;
 use App\Service\PaypalService;
 use App\Service\MailerService;
 
@@ -40,7 +40,7 @@ class MainController extends AbstractController
     }
 
     #[Route('/register_form', name: 'app_register')]
-    public function register(Request $request, ManagerRegistry $doctrine, StripePaymentService $stripe)
+    public function register(Request $request, ManagerRegistry $doctrine)
     {
         $this->denyAccessUnlessGranted('ROLE_USER');
         $repository = $doctrine->getRepository(Participant::class);
@@ -50,7 +50,7 @@ class MainController extends AbstractController
             $participant = NULL;
             
             if ($request->isMethod('POST')) {
-                dump($request);
+                // dump($request);
                 $participant = new Participant;
                 $participant
                 ->setFirstname($request->request->get("firstname"))
@@ -79,7 +79,7 @@ class MainController extends AbstractController
         } else {
             dump("data found");
             if ($request->isMethod('POST')) {
-                dump($request);
+                // dump($request);
                 $participant
                 ->setFirstname($request->request->get("firstname"))
                 ->setLastname($request->request->get("lastname"))
@@ -122,31 +122,44 @@ class MainController extends AbstractController
     }
 
     #[Route('/signin', name: 'app_signin')]
-    public function signin(Request $request, UserPasswordHasherInterface $passwordHasher, ManagerRegistry $doctrine)
+    public function signin(Request $request, UserPasswordHasherInterface $passwordHasher, ManagerRegistry $doctrine, MailerService $mailer)
     {
+        $response = NULL;
         if ($request->isMethod('POST')) {
-            // $ulid = new Ulid();
-            $user = new User;
-            $user->setEmail($request->request->get("email"));
-            $plaintextPassword = $request->request->get("password");
-            // hash the password (based on the security.yaml config for the $user class)
-            $hashedPassword = $passwordHasher->hashPassword(
-                $user,
-                $plaintextPassword
-            );
-            $user->setPassword($hashedPassword);
-            $user->setRoles(['user']);
+            $repository = $doctrine->getRepository(User::class);
+            $user = $repository->findOneBy(['user' => $this->getUser()->getEmail()]);
 
-            $entityManager = $doctrine->getManager();
-            $entityManager->persist($user);
-            $entityManager->flush();
+            if (!$user) {
+                // $ulid = new Ulid();
+                $user = new User;
+                $user->setEmail($request->request->get("email"));
+                $plaintextPassword = $request->request->get("password");
+                // hash the password (based on the security.yaml config for the $user class)
+                $hashedPassword = $passwordHasher->hashPassword(
+                    $user,
+                    $plaintextPassword
+                );
+                $user->setPassword($hashedPassword);
+                $user->setRoles(['user']);
+    
+                $entityManager = $doctrine->getManager();
+                $entityManager->persist($user);
+                $entityManager->flush();
+    
+                $mailer->sendSignin($this->getUser()->getEmail(), $this->getUser()->getEmail());
+            } else {
+                $response = false;
+            }
+
         }
 
-        return $this->render('signin.html.twig');
+        return $this->render('account/signin.html.twig', [
+            'response' => $response
+        ]);
     }
 
     #[Route('/success', name: 'app_success')]
-    public function success(Request $request, ManagerRegistry $doctrine, PaypalService $paypal)
+    public function success(Request $request, ManagerRegistry $doctrine, PaypalService $paypal, MailerService $mailer)
     {
         $response = NULL;
         $repository = $doctrine->getRepository(Event::class);
@@ -196,6 +209,8 @@ class MainController extends AbstractController
                         $entityManager->persist($participant);
                         $entityManager->persist($ticket);
                         $entityManager->flush();
+
+                        $mailer->sendCheckout($this->getUser()->getEmail(), $participant->getFirstName());
                     }
 
                     break;
