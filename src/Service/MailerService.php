@@ -54,7 +54,7 @@ class MailerService {
         return $sended;
     }
 
-    public function sendSignin($email, $name, $request) {
+    public function sendSignin($email, $name) {
         $mailer_username = $this->mailer_username;
         $mailer_password = $this->mailer_password;
         $mailer_provider = $this->mailer_provider;
@@ -76,7 +76,7 @@ class MailerService {
             $mail->addReplyTo($email, $name);
             $mail->addAddress($email, $name);
             $mail->isHTML(true);
-            $mail->Subject = 'Confirmation signin - ' .$request->request->get('fullname'). ' - ' .$request->request->get('email');
+            $mail->Subject = 'Confirmation signin - ' .$name. ' - ' .$email;
             $mail->Body = $template;
             $mail->send();
 
