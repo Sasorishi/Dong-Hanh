@@ -15,6 +15,7 @@ use App\Entity\Event;
 // use App\Service\StripePaymentService;
 use App\Service\PaypalService;
 use App\Service\MailerService;
+use App\Service\QrcodeService;
 
 class MainController extends AbstractController
 {
@@ -170,7 +171,7 @@ class MainController extends AbstractController
     }
 
     #[Route('/success', name: 'app_success')]
-    public function success(Request $request, ManagerRegistry $doctrine, PaypalService $paypal, MailerService $mailer)
+    public function success(Request $request, ManagerRegistry $doctrine, PaypalService $paypal, MailerService $mailer, QrcodeService $qrcode)
     {
         $response = NULL;
         $repository = $doctrine->getRepository(Event::class);
@@ -201,41 +202,38 @@ class MainController extends AbstractController
                         $createTime = strtotime($orderDetail['result']['purchase_units'][0]['payments']['captures'][0]['create_time']);
                         $updateTime = strtotime($orderDetail['result']['purchase_units'][0]['payments']['captures'][0]['update_time']);
 
-                        $ticket = new Ticket;
-                        $ticket
-                        ->setPrice($orderDetail['result']['purchase_units'][0]['amount']['value'])
-                        ->setCreateTime(new \DateTime(date('Y-m-d H:i:s', $createTime)))
-                        ->setUpdateTime(new \DateTime(date('Y-m-d H:i:s', $updateTime)))
-                        ->setStatus($orderDetail['result']['status'])
-                        ->setCurrency($orderDetail['result']['purchase_units'][0]['amount']['currency_code'])
-                        ->setOrderId($orderDetail['result']['id'])
-                        ->setCaptureId($orderDetail['result']['purchase_units'][0]['payments']['captures'][0]['id'])
-                        ->setIdEvent($event)
-                        ->setParticipant($participant->getId());
-                        dump($ticket);
-
+                        $ticketRepository = $doctrine->getRepository(Ticket::class);
+                        $ticket = $ticketRepository->findOneBy(['orderId' => $orderDetail['result']['id']]);
                         $entityManager = $doctrine->getManager();
-                        $entityManager->persist($participant);
 
-                        if ($orderDetail['result']['status'] == "COMPLETED") {
-                            $ticketRepository = $doctrine->getRepository(Ticket::class);
-                            $ticket = $ticketRepository->findOneBy(['orderId' => $orderDetail['result']['id']]);
-                            if (!$ticket) {
-                                $entityManager->persist($ticket);
-                                $entityManager->flush();
-                                $mailer->sendCheckout($this->getUser()->getEmail(), $participant->getFirstName());
-                            } else {
-                                $ticket
-                                ->setPrice($orderDetail['result']['purchase_units'][0]['amount']['value'])
-                                ->setUpdateTime(new \DateTime(date('Y-m-d H:i:s', $updateTime)))
-                                ->setStatus($orderDetail['result']['status'])
-                                ->setCurrency($orderDetail['result']['purchase_units'][0]['amount']['currency_code'])
-                                ->setOrderId($orderDetail['result']['id'])
-                                ->setCaptureId($orderDetail['result']['purchase_units'][0]['payments']['captures'][0]['id']);
-                                $entityManager->persist($ticket);
-                                $entityManager->flush();
-                            }
+                        if (!$ticket) {
+                            $ticket = new Ticket;
+                            $ticket
+                            ->setPrice($orderDetail['result']['purchase_units'][0]['amount']['value'])
+                            ->setCreateTime(new \DateTime(date('Y-m-d H:i:s', $createTime)))
+                            ->setUpdateTime(new \DateTime(date('Y-m-d H:i:s', $updateTime)))
+                            ->setStatus($orderDetail['result']['status'])
+                            ->setCurrency($orderDetail['result']['purchase_units'][0]['amount']['currency_code'])
+                            ->setOrderId($orderDetail['result']['id'])
+                            ->setCaptureId($orderDetail['result']['purchase_units'][0]['payments']['captures'][0]['id'])
+                            ->setIdEvent($event)
+                            ->setParticipant($participant->getId());
+                            dump($ticket);
+
+                            $entityManager->persist($participant);
+                            $entityManager->persist($ticket);
+                            $entityManager->flush();
+
+                            $qrcodeTicket = $qrcode->generate($orderDetail['result']['id']);
+                            $mailer->sendCheckout($this->getUser()->getEmail(), $participant, $qrcodeTicket) ;
                         } else {
+                            $ticket
+                            ->setPrice($orderDetail['result']['purchase_units'][0]['amount']['value'])
+                            ->setUpdateTime(new \DateTime(date('Y-m-d H:i:s', $updateTime)))
+                            ->setStatus($orderDetail['result']['status'])
+                            ->setCurrency($orderDetail['result']['purchase_units'][0]['amount']['currency_code'])
+                            ->setOrderId($orderDetail['result']['id'])
+                            ->setCaptureId($orderDetail['result']['purchase_units'][0]['payments']['captures'][0]['id']);
                             $entityManager->persist($ticket);
                             $entityManager->flush();
                         }

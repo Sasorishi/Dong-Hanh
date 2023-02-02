@@ -13,11 +13,11 @@ use Symfony\Component\Security\Core\Exception\AuthenticationException;
 use Symfony\Component\Security\Http\EntryPoint\AuthenticationEntryPointInterface;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Doctrine\Persistence\ManagerRegistry;
-use chillerlan\QRCode\QRCode;
 use App\Entity\User;
 use App\Entity\Participant;
 use App\Entity\Ticket;
-
+use App\Service\MailerService;
+use App\Service\QrcodeService;
 
 class LoginController extends AbstractController
 {
@@ -36,7 +36,7 @@ class LoginController extends AbstractController
     }
 
     #[Route('/account', name: 'app_account')]
-    public function account(Request $request, ManagerRegistry $doctrine)
+    public function account(Request $request, ManagerRegistry $doctrine, QrcodeService $qrcode)
     {
         $this->denyAccessUnlessGranted('ROLE_USER');
         $email = $this->getUser()->getEmail();
@@ -44,15 +44,13 @@ class LoginController extends AbstractController
         $ticketRepository = $doctrine->getRepository(Ticket::class);
         $participant = $participantRepository->findOneBy(['user' => $this->getUser()->getId()]);
         $ticket = NULL;
-        $qrcode = NULL;
+        $qrcodeTicket = NULL;
 
         if ($participant) {
             $ticket = $ticketRepository->findOneBy(['participant' => $participant->getId()]);
 
             if ($ticket) {
-                $domain = 'dong-hanh.org';
-                $data = $domain.'?order='.$ticket->getOrderId();
-                $qrcode = (new QRCode)->render($data);
+                $qrcodeTicket = $qrcode->generate($ticket->getOrderId());
             }
         }
         
@@ -60,7 +58,7 @@ class LoginController extends AbstractController
             'controller_name' => 'LoginController',
             'currentuser' => $email,
             'ticket' => $ticket,
-            'ticket_qrcode' => $qrcode
+            'ticket_qrcode' => $qrcodeTicket
         ]);
     }
 

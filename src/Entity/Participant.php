@@ -5,14 +5,16 @@ namespace App\Entity;
 use App\Repository\ParticipantRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Uid\Uuid;
 
 #[ORM\Entity(repositoryClass: ParticipantRepository::class)]
 class Participant
 {
     #[ORM\Id]
-    #[ORM\GeneratedValue]
-    #[ORM\Column]
-    private ?int $id = null;
+    #[ORM\Column(type: 'uuid', unique: true)]
+    #[ORM\GeneratedValue(strategy: 'CUSTOM')]
+    #[ORM\CustomIdGenerator(class: 'doctrine.uuid_generator')]
+    private $id;
 
     #[ORM\Column(length: 255)]
     private ?string $Firstname = null;
@@ -65,7 +67,7 @@ class Participant
     #[ORM\Column(length: 255)]
     private ?string $city = null;
 
-    public function getId(): ?int
+    public function getId(): ?Uuid
     {
         return $this->id;
     }
