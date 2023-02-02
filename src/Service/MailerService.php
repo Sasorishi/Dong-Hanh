@@ -54,7 +54,7 @@ class MailerService {
         return $sended;
     }
 
-    public function sendSignin($email, $name) {
+    public function sendSignin($email, $name, $request) {
         $mailer_username = $this->mailer_username;
         $mailer_password = $this->mailer_password;
         $mailer_provider = $this->mailer_provider;
