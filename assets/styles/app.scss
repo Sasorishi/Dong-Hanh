@@ -134,6 +134,27 @@ a {
     .contact .wrapper-element {
         width: 90% !important;
     }
+
+    .signin-section {
+        padding-top: 20vw !important;
+        padding: 0 !important;
+        min-height: 15vh !important;
+        border-radius: 0 !important;
+        box-shadow: rgba(0, 0, 0, 0.15) 0px 5px 15px 0px;
+    }
+
+    .login-section {
+        padding-top: 20vw !important;
+        padding: 0 !important;
+        min-height: 15vh !important;
+        border-radius: 0 !important;
+        box-shadow: rgba(0, 0, 0, 0.15) 0px 5px 15px 0px;
+    }
+
+    .form-section {
+        border-radius: 0 !important;
+        box-shadow: rgba(0, 0, 0, 0.15) 0px 5px 15px 0px;
+    }
 }
 
 @media screen and (max-width: 750px) {
@@ -693,10 +714,12 @@ section .btn {
 }
 
 .signin .footer-wrapper {
+    padding-top: 2vw;
     padding-bottom: 2vw;
 }
 
 .login .footer-wrapper {
+    padding-top: 2vw;
     padding-bottom: 2vw;
 }
 

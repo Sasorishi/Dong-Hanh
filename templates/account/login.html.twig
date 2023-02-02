@@ -11,7 +11,7 @@
         </div>
         {% endif %}
         <div class="row">
-            <div class="col-sm-6 col-md-7 login-section">
+            <div class="col-12 col-sm-6 col-md-7 login-section">
                 {# <div class="intro-content-wrapper">
                     <h1 class="intro-title">Welcome to website !</h1>
                     <p class="intro-text">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
@@ -19,7 +19,7 @@
                         incididunt ut labore et dolore magna</p>
                 </div> #}
             </div>
-            <div class="col-sm-6 col-md-5 form-section d-flex flex-column">
+            <div class="col-12 col-sm-6 col-md-5 form-section d-flex flex-column">
                 <div class="login-wrapper">
                     <h2 class="login-title">Connection</h2>
                     <div class="form-group mb-3">
@@ -32,7 +32,7 @@
                             placeholder="Password">
                     </div>
                     <div class="row">
-                        <div class="d-md-flex align-items-center justify-content-md-center">
+                        <div class="d-md-flex text-center align-items-center justify-content-md-center">
                             <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
                             <button type="submit" name="register" class="btn btn-dark-blue btn-lg">Login</button>
                         </div>
