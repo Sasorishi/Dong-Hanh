@@ -25,8 +25,9 @@ class MainController extends AbstractController
         $response = NULL;
         
         if ($request->isMethod('POST')) {
+            dump("ok?");
             $response = $mailer->sendMail($request);
-            // dump($response);
+            dump($response);
 
             if ($response == TRUE) {
                 return $this->redirectToRoute('app_success', array('form' => 'contact'));

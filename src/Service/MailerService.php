@@ -40,6 +40,7 @@ class MailerService {
             $mail->addAddress($mailer_username, 'Contact');
             $mail->Subject = 'Contact Website - ' .$request->request->get('fullname'). ' - ' .$request->request->get('email');
             $mail->Body = $request->request->get('message');
+            $mail->send();
 
             // if (!$mail->send()) {
             //     echo 'Mailer Error: ' . $mail->ErrorInfo;

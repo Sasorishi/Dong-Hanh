@@ -67,26 +67,63 @@ class LoginController extends AbstractController
     {
         $this->denyAccessUnlessGranted('ROLE_USER');
         $email = $this->getUser()->getEmail();
+        $response = NULL;
 
         if ($request->isMethod('POST')) {
-            $repository = $doctrine->getRepository(User::class);
-            $user = $repository->findOneBy(['email' => $email]);
+            if ($request->request->get("password") == $request->request->get("passwordVerified")) {
+                $repository = $doctrine->getRepository(User::class);
+                $user = $repository->findOneBy(['email' => $email]);
+    
+                $plaintextPassword = $request->request->get("password");
+                // hash the password (based on the security.yaml config for the $user class)
+                $hashedPassword = $passwordHasher->hashPassword(
+                    $user,
+                    $plaintextPassword
+                );
+                $user->setPassword($hashedPassword);
+    
+                $entityManager = $doctrine->getManager();
+                $entityManager->persist($user);
+                $entityManager->flush();
 
-            $plaintextPassword = $request->request->get("password");
-            // hash the password (based on the security.yaml config for the $user class)
-            $hashedPassword = $passwordHasher->hashPassword(
-                $user,
-                $plaintextPassword
-            );
-            $user->setPassword($hashedPassword);
-
-            $entityManager = $doctrine->getManager();
-            $entityManager->persist($user);
-            $entityManager->flush();
+                $response = true;
+            } else {
+                $response = false;
+            }
         }
         
         return $this->render('account/password.html.twig', [
-            'currentuser' => $email
+            'currentuser' => $email,
+            'response' => $response
+        ]);
+    }
+
+    #[Route('/account_email', name: 'app_email')]
+    public function changeEmail(Request $request, ManagerRegistry $doctrine)
+    {
+        $this->denyAccessUnlessGranted('ROLE_USER');
+        $email = $this->getUser()->getEmail();
+        $response = NULL;
+
+        if ($request->isMethod('POST')) {
+            if ($email != $request->request->get("email")) {
+                $repository = $doctrine->getRepository(User::class);
+                $user = $repository->findOneBy(['email' => $email]);
+                $user->setEmail($request->request->get("email"));
+    
+                $entityManager = $doctrine->getManager();
+                $entityManager->persist($user);
+                $entityManager->flush();
+
+                $response = true;
+            } else {
+                $response = false;
+            }
+        }
+        
+        return $this->render('account/email.html.twig', [
+            'currentuser' => $email,
+            'response' => $response
         ]);
     }
 
