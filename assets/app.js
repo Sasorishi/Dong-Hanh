@@ -26,16 +26,31 @@ $(document).ready(function () {
     $('[data-toggle="popover"]').popover();
 });
 
+window.addEventListener("scroll", function () {
+    if (window.scrollY > 10) {
+        document.querySelector(".navbar").style.background = "#F2ECD2";
+    } else {
+        document.querySelector(".navbar").style.background = "transparent";
+    }
+});
+
+// Scroll and keep the background navbar color after reload
 $(document).ready(function () {
+    checkHeaderStatus();
     $(window).scroll(function () {
-        var scroll = $(window).scrollTop();
-        if (scroll > 10) {
-            $(".navbar").css("background", "#F2ECD2");
-        } else {
-            $(".navbar").css("background", "transparent");
-        }
-    })
-})
+        checkHeaderStatus();
+    });
+});
+
+function checkHeaderStatus() {
+    var navbar = $(".navbar");
+    var scrollPosition = $(window).scrollTop();
+    if (scrollPosition < 10) {
+        navbar.css("background-color", "transparent");
+    } else {
+        navbar.css("background-color", "#F2ECD2");
+    }
+}
 
 //Check if both policy boxes are :checked before enable submit button
 $(".check-aggreement").on("change", function () {
