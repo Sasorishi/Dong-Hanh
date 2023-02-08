@@ -107,7 +107,7 @@ class MainController extends AbstractController
                     $entityManager->persist($participant);
                     $entityManager->flush();
                     
-                    if ($ticket->getStatus() == "COMPLETED") {
+                    if ($ticket && $ticket->getStatus() == "COMPLETED") {
                         return $this->redirectToRoute('app_account');
                     } else {
                         return $this->redirectToRoute('app_checkout');
