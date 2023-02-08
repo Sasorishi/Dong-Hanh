@@ -25,9 +25,7 @@ class MainController extends AbstractController
         $response = NULL;
         
         if ($request->isMethod('POST')) {
-            dump("ok?");
             $response = $mailer->sendMail($request);
-            dump($response);
 
             if ($response == TRUE) {
                 return $this->redirectToRoute('app_success', array('form' => 'contact'));
@@ -57,7 +55,6 @@ class MainController extends AbstractController
                 $participant = NULL;
                 
                 if ($request->isMethod('POST')) {
-                    // dump($request);
                     $participant = new Participant;
                     $participant
                     ->setFirstname($request->request->get("firstname"))
@@ -84,9 +81,7 @@ class MainController extends AbstractController
                     return $this->redirectToRoute('app_checkout');
                 }
             } else {
-                // dump("data found");
                 if ($request->isMethod('POST')) {
-                    // dump($request);
                     $participant
                     ->setFirstname($request->request->get("firstname"))
                     ->setLastname($request->request->get("lastname"))
@@ -234,7 +229,6 @@ class MainController extends AbstractController
                             ->setCaptureId($orderDetail['result']['purchase_units'][0]['payments']['captures'][0]['id'])
                             ->setIdEvent($event)
                             ->setParticipant($participant->getId());
-                            dump($ticket);
 
                             $entityManager->persist($participant);
                             $entityManager->persist($ticket);

@@ -27,7 +27,6 @@ class LoginController extends AbstractController
     {        
         $error = $authenticationUtils->getLastAuthenticationError();
         $email = $authenticationUtils->getLastUsername();
-        // dump($error);
         
         return $this->render('account/login.html.twig', [
             'controller_name' => 'LoginController',
@@ -154,7 +153,6 @@ class LoginController extends AbstractController
             $entityManager = $doctrine->getManager();
             $entityManager->persist($ticket);
             $entityManager->flush();
-            // dump($ticket);
         }
 
         return $this->render('account/check.html.twig', [
