@@ -145,18 +145,24 @@ class LoginController extends AbstractController
     public function ticketCheck(Request $request, ManagerRegistry $doctrine)
     {
         if ($request->isMethod('GET')) {
-            $request->request->get("ticket_id");
+            $orderId = $request->query->get('order');
             $repository = $doctrine->getRepository(Ticket::class);
-            $ticket = $repository->findOneBy(['participant' => $request->query->get('order')]);
-            $ticket->setScan(TRUE);
+            $ticket = $repository->findOneBy(['orderId' => $orderId]);
+            $error = null;
 
-            $entityManager = $doctrine->getManager();
-            $entityManager->persist($ticket);
-            $entityManager->flush();
+            if ($ticket->isScan() == True) {
+                $error = true;
+            } else {
+                $ticket->setScan(True);
+                $entityManager = $doctrine->getManager();
+                $entityManager->persist($ticket);
+                $entityManager->flush();
+            }
         }
 
         return $this->render('account/check.html.twig', [
-            'ticket' => $ticket
+            'ticket' => $ticket,
+            'error' => $error
         ]);
     }
 

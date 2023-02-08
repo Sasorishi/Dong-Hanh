@@ -1,3 +1,8 @@
+{% if error == true %}
+<p>Already scan</p>
+<br>
+{% endif %}
+
 <p>id : {{ ticket.id }}</p>
 <p>price : {{ ticket.price }}</p>
 <p>status : {{ ticket.status }}</p>
@@ -8,3 +13,4 @@
 <p>create : {{ ticket.createTime | date("m/d/Y h:m:s") }}</p>
 <p>update : {{ ticket.updateTime | date("m/d/Y h:m:s") }}</p>
 <p>event : {{ ticket.idEvent.id }}</p>
+<p>Scan : {{ ticket.scan }}</p>
