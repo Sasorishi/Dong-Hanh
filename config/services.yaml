@@ -6,8 +6,10 @@
 parameters:
     app.stripe_apikey_secret: '%env(STRIPE_APIKEY_SECRET)%'
     app.stripe_apikey_public: '%env(STRIPE_APIKEY_PUBLIC)%'
-    app.paypal_client_id: '%env(PAYPAL_CLIENT_ID)%'
-    app.paypal_client_secret: '%env(PAYPAL_CLIENT_SECRET)%'
+    app.dev.paypal_client_id: '%env(DEV_PAYPAL_CLIENT_ID)%'
+    app.dev.paypal_client_secret: '%env(DEV_PAYPAL_CLIENT_SECRET)%'
+    app.prod.paypal_client_id: '%env(PROD_PAYPAL_CLIENT_ID)%'
+    app.prod.paypal_client_secret: '%env(PROD_PAYPAL_CLIENT_SECRET)%'
     app.mailer_provider: '%env(MAILER_PROVIDER)%'
     app.mailer_username: '%env(MAILER_USERNAME)%'
     app.mailer_password: '%env(MAILER_PASSWORD)%'
@@ -39,8 +41,10 @@ services:
 
     App\Service\PaypalService:
         arguments:
-            $client_id: '%app.paypal_client_id%'
-            $client_secret: '%app.paypal_client_secret%'
+            $dev_client_id: '%app.dev.paypal_client_id%'
+            $dev_client_secret: '%app.dev.paypal_client_secret%'
+            $prod_client_id: '%app.prod.paypal_client_id%'
+            $prod_client_secret: '%app.prod.paypal_client_secret%'
     
     App\Service\MailerService:
         arguments:

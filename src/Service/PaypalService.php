@@ -4,6 +4,7 @@ namespace App\Service;
 use Throwable;
 use PayPalCheckoutSdk\Core\PayPalHttpClient;
 use PayPalCheckoutSdk\Core\SandboxEnvironment;
+use PayPalCheckoutSdk\Core\ProductionEnvironment;
 use PayPalCheckoutSdk\Orders\OrdersCreateRequest;
 use PayPalCheckoutSdk\Orders\OrdersCaptureRequest;
 use PayPalCheckoutSdk\Orders\OrdersGetRequest;
@@ -14,19 +15,29 @@ class PaypalService
 {
     private $client_id;
     private $client_secret;
-    // private $price;
+    private $sandbox;
 
-    public function __construct($client_id, $client_secret) {
-        $this->client_id = $client_id;
-        $this->client_secret = $client_secret;
-        // $this->price = '100.00';
+    public function __construct(private $dev_client_id, private $dev_client_secret, private $prod_client_id, private $prod_client_secret, $sandbox=false) {
+        $this->sandbox = $sandbox;
+        if ($sandbox) {
+            $this->client_id = $dev_client_id;
+            $this->client_secret = $dev_client_secret;
+        } else {
+            $this->client_id = $prod_client_id;
+            $this->client_secret = $prod_client_secret;
+        }
     }
 
     public function client() {
         $clientId = $this->client_id ;
         $clientSecret = $this->client_secret;
 
-        $environment = new SandboxEnvironment($clientId, $clientSecret);
+        if ($this->sandbox) {
+            $environment = new SandboxEnvironment($clientId, $clientSecret);
+        } else {
+            $environment = new ProductionEnvironment($clientId, $clientSecret);
+        }
+
         $client = new PayPalHttpClient($environment);
 
         return $client;
@@ -89,13 +100,11 @@ class PaypalService
                         const transaction = orderData.purchase_units[0].payments.captures[0];
                         const transactionId = orderData.id;
                         // actions.redirect('/success');
-                        window.location.replace('/success?form=checkout&transaction_id=' + transactionId);
                     });
                 }, 
                 // handle unrecoverable errors
                 onError: (err) => {
                     console.error('An error prevented the buyer from checking out with PayPal');
-                    window.location.replace('/cancel?form=checkout&transaction_id=' + transactionId);
                 }
             }).render('#paypal-button-container');
         </script>
