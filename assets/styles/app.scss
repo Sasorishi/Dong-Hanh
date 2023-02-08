@@ -548,6 +548,16 @@ section .btn {
     padding: 0.625rem !important;
 }
 
+.refundOrder a {
+    text-decoration: none;
+    color: var(--cognac-color);
+}
+
+.refundOrder a:hover {
+    text-decoration: none;
+    color: var(--dark-blue-color);
+}
+
 /*		---- Checkout ---- 	    */
 
 .checkout h4 {
@@ -606,6 +616,20 @@ section .btn {
     list-style: none;
     /* border: 1px solid red; */
     padding: 0;
+}
+
+.progresses a {
+    list-style: none;
+    padding: 0;
+    text-decoration: none;
+    color: var(--cognac-color);
+}
+
+.progresses a:hover {
+    list-style: none;
+    padding: 0;
+    text-decoration: none;
+    color: var(--cream-color);
 }
 
 .progresses .fa-circle-check {

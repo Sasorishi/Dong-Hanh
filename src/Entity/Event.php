@@ -33,6 +33,12 @@ class Event
     #[ORM\Column]
     private ?bool $register = null;
 
+    #[ORM\Column]
+    private ?int $price = null;
+
+    #[ORM\Column(length: 12)]
+    private ?string $currency = null;
+
     public function __construct()
     {
         $this->tickets = new ArrayCollection();
@@ -129,6 +135,30 @@ class Event
     public function setRegister(bool $register): self
     {
         $this->register = $register;
+
+        return $this;
+    }
+
+    public function getPrice(): ?int
+    {
+        return $this->price;
+    }
+
+    public function setPrice(int $price): self
+    {
+        $this->price = $price;
+
+        return $this;
+    }
+
+    public function getCurrency(): ?string
+    {
+        return $this->currency;
+    }
+
+    public function setCurrency(string $currency): self
+    {
+        $this->currency = $currency;
 
         return $this;
     }

@@ -8,20 +8,21 @@ use PayPalCheckoutSdk\Orders\OrdersCreateRequest;
 use PayPalCheckoutSdk\Orders\OrdersCaptureRequest;
 use PayPalCheckoutSdk\Orders\OrdersGetRequest;
 use PayPalCheckoutSdk\Payments\CapturesRefundRequest;
+use Sample\PayPalClient;
 
 class PaypalService
 {
     private $client_id;
     private $client_secret;
-    private $price;
+    // private $price;
 
     public function __construct($client_id, $client_secret) {
         $this->client_id = $client_id;
         $this->client_secret = $client_secret;
-        $this->price = '100.00';
+        // $this->price = '100.00';
     }
 
-    public function setting() {
+    public function client() {
         $clientId = $this->client_id ;
         $clientSecret = $this->client_secret;
 
@@ -35,7 +36,7 @@ class PaypalService
         // Here, OrdersCaptureRequest() creates a POST request to /v2/checkout/orders
         // $response->result->id gives the orderId of the order created above
         $request = new OrdersGetRequest($id);
-        $client = $this->setting();
+        $client = $this->client();
         try {
             // Call API with your client and get a response for your call
             $response = $client->execute($request);
@@ -50,9 +51,12 @@ class PaypalService
         }
     }
 
-    public function interface(): string {
+    public function interface($event): string {
         $client_id = $this->client_id;
-        $price = $this->price;
+        $label = $event->getLabel();
+        $year = $event->getYear();
+        $price = $event->getPrice();
+        $currency = $event->getCurrency();
         
         // alert(
         //     `Transaction \${transaction.status}: \${transaction.id}\n\nSee console for all available details`);
@@ -62,7 +66,7 @@ class PaypalService
         // Or go to another URL:  actions.redirect('thank_you.html');
 
         return <<<HTML
-        <script src="https://www.paypal.com/sdk/js?client-id={$client_id}&currency=EUR"></script>
+        <script src="https://www.paypal.com/sdk/js?client-id={$client_id}&currency={$currency}"></script>
         <div id="paypal-button-container"></div>
         <script>
             paypal.Buttons({
@@ -70,6 +74,7 @@ class PaypalService
                 createOrder: (data, actions) => {
                     return actions.order.create({
                         purchase_units: [{
+                            description: '{$label} - Ticket {$year}',
                             amount: {
                                 value: {$price} // Can also reference a variable or function
                             }
@@ -97,11 +102,17 @@ class PaypalService
         HTML;
     }
 
-    public static function refundOrder($captureId, $debug=false)
+    public function refundOrder($ticket, $debug=false)
     {
-        $request = new CapturesRefundRequest($captureId);
-        $request->body = self::buildRequestBody();
-        $client = PayPalClient::client();
+        $request = new CapturesRefundRequest($ticket->getCaptureId());
+        $request->body = array(
+            'amount' =>
+                array(
+                    'value' => $ticket->getPrice(),
+                    'currency_code' => $ticket->getCurrency()
+                )
+        );
+        $client =  $this->client();
         $response = $client->execute($request);
 
         if ($debug)

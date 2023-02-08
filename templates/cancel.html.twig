@@ -8,11 +8,19 @@
                 <img src="images/vector-free-rice-field-background [Converti].png" width="350" alt="image-filler">
             </div>
             <div class="col-12">
+                {% if response == 'contact' %}
                 <p>
                     Oops ! Your message can't be send, please try again.
                     <a href="mailto:contact@dong-hanh.com">contact@dong-hanh.com</a>.
                 </p>
                 <p>Return to <a href="{{ path('app_main') }}">homepage</a>.</p>
+                {% elseif response == 'register' %}
+                <p>
+                    Oops ! The register form is close. If you have any questions, please email
+                    <a href="mailto:contact@dong-hanh.com">contact@dong-hanh.com</a>.
+                </p>
+                <p>Return to <a href="{{ path('app_main') }}">homepage</a>.</p>
+                {% endif %}
             </div>
         </div>
     </div>

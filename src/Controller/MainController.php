@@ -32,7 +32,7 @@ class MainController extends AbstractController
             if ($response == TRUE) {
                 return $this->redirectToRoute('app_success', array('form' => 'contact'));
             } else {
-                return $this->redirectToRoute('app_cancel');
+                return $this->redirectToRoute('app_cancel', array('error' => 'contact'));
             }
         }
 
@@ -45,65 +45,77 @@ class MainController extends AbstractController
     public function register(Request $request, ManagerRegistry $doctrine)
     {
         $this->denyAccessUnlessGranted('ROLE_USER');
-        $repository = $doctrine->getRepository(Participant::class);
-        $participant = $repository->findOneBy(['user' => $this->getUser()->getId()]);
+        $participantRepository = $doctrine->getRepository(Participant::class);
+        $participant = $participantRepository->findOneBy(['user' => $this->getUser()->getId()]);
+        $eventRepository = $doctrine->getRepository(Event::class);
+        $event = $eventRepository->findOneBy(['id' => "1"]);
+        $ticketRepository = $doctrine->getRepository(Ticket::class);
+        $ticket = $ticketRepository->findOneBy(['participant' => $participant->getId()]);
 
-        if (!$participant) {
-            $participant = NULL;
-            
-            if ($request->isMethod('POST')) {
-                // dump($request);
-                $participant = new Participant;
-                $participant
-                ->setFirstname($request->request->get("firstname"))
-                ->setLastname($request->request->get("lastname"))
-                ->setEmail($request->request->get("email"))
-                ->setPhone($request->request->get("phone"))
-                ->setAddress($request->request->get("address"))
-                ->setCity($request->request->get("city"))
-                ->setState($request->request->get("state"))
-                ->setGender($request->request->get("gender"))
-                ->setAge($request->request->get("age"))
-                ->setExpectations($request->request->get("expectations"))
-                ->setAware($request->request->get("aware"))
-                ->setHealthcare($request->request->get("healthcare"))
-                ->setWaiver($request->request->get("waiver"))
-                ->setGuardian($request->request->get("guardian"))
-                ->setUser($this->getUser()->getId())
-                ->setDate(new \DateTime());
-
-                $entityManager = $doctrine->getManager();
-                $entityManager->persist($participant);
-                $entityManager->flush();
+        if ($event->isRegister()) {
+            if (!$participant) {
+                $participant = NULL;
                 
-                return $this->redirectToRoute('app_checkout');
+                if ($request->isMethod('POST')) {
+                    // dump($request);
+                    $participant = new Participant;
+                    $participant
+                    ->setFirstname($request->request->get("firstname"))
+                    ->setLastname($request->request->get("lastname"))
+                    ->setEmail($request->request->get("email"))
+                    ->setPhone($request->request->get("phone"))
+                    ->setAddress($request->request->get("address"))
+                    ->setCity($request->request->get("city"))
+                    ->setState($request->request->get("state"))
+                    ->setGender($request->request->get("gender"))
+                    ->setAge($request->request->get("age"))
+                    ->setExpectations($request->request->get("expectations"))
+                    ->setAware($request->request->get("aware"))
+                    ->setHealthcare($request->request->get("healthcare"))
+                    ->setWaiver($request->request->get("waiver"))
+                    ->setGuardian($request->request->get("guardian"))
+                    ->setUser($this->getUser()->getId())
+                    ->setDate(new \DateTime());
+    
+                    $entityManager = $doctrine->getManager();
+                    $entityManager->persist($participant);
+                    $entityManager->flush();
+                    
+                    return $this->redirectToRoute('app_checkout');
+                }
+            } else {
+                // dump("data found");
+                if ($request->isMethod('POST')) {
+                    // dump($request);
+                    $participant
+                    ->setFirstname($request->request->get("firstname"))
+                    ->setLastname($request->request->get("lastname"))
+                    ->setEmail($request->request->get("email"))
+                    ->setPhone($request->request->get("phone"))
+                    ->setAddress($request->request->get("address"))
+                    ->setCity($request->request->get("city"))
+                    ->setState($request->request->get("state"))
+                    ->setGender($request->request->get("gender"))
+                    ->setAge($request->request->get("age"))
+                    ->setExpectations($request->request->get("expectations"))
+                    ->setAware($request->request->get("aware"))
+                    ->setHealthcare($request->request->get("healthcare"))
+                    ->setWaiver($request->request->get("waiver"))
+                    ->setGuardian($request->request->get("guardian"));
+    
+                    $entityManager = $doctrine->getManager();
+                    $entityManager->persist($participant);
+                    $entityManager->flush();
+                    
+                    if ($ticket->getStatus() == "COMPLETED") {
+                        return $this->redirectToRoute('app_account');
+                    } else {
+                        return $this->redirectToRoute('app_checkout');
+                    }
+                }
             }
         } else {
-            // dump("data found");
-            if ($request->isMethod('POST')) {
-                // dump($request);
-                $participant
-                ->setFirstname($request->request->get("firstname"))
-                ->setLastname($request->request->get("lastname"))
-                ->setEmail($request->request->get("email"))
-                ->setPhone($request->request->get("phone"))
-                ->setAddress($request->request->get("address"))
-                ->setCity($request->request->get("city"))
-                ->setState($request->request->get("state"))
-                ->setGender($request->request->get("gender"))
-                ->setAge($request->request->get("age"))
-                ->setExpectations($request->request->get("expectations"))
-                ->setAware($request->request->get("aware"))
-                ->setHealthcare($request->request->get("healthcare"))
-                ->setWaiver($request->request->get("waiver"))
-                ->setGuardian($request->request->get("guardian"));
-
-                $entityManager = $doctrine->getManager();
-                $entityManager->persist($participant);
-                $entityManager->flush();
-                
-                return $this->redirectToRoute('app_checkout');
-            }
+            return $this->redirectToRoute('app_cancel', array('error' => 'register'));
         }
 
         
@@ -120,8 +132,10 @@ class MainController extends AbstractController
 
         $ticketRepository = $doctrine->getRepository(Ticket::class);
         $participantRepository = $doctrine->getRepository(Participant::class);
+        $eventRepository = $doctrine->getRepository(Event::class);
         $participant = $participantRepository->findOneBy(['user' => $this->getUser()->getId()]);
         $ticket = $ticketRepository->findOneBy(['participant' => $participant->getId()]);
+        $event = $eventRepository->findOneBy(['id' => '1']);
 
         if ($ticket) {
             if ($ticket->getStatus() == "COMPLETED") {
@@ -130,7 +144,8 @@ class MainController extends AbstractController
         }
 
         return $this->render('checkout.html.twig', [
-            'paypalInterface' => $paypal->interface()
+            'paypalInterface' => $paypal->interface($event),
+            'event' => $event
         ]);
     }
 
@@ -241,6 +256,24 @@ class MainController extends AbstractController
                     }
 
                     break;
+
+                case 'refund':
+                    $this->denyAccessUnlessGranted('ROLE_USER');
+
+                    $response = "refund";
+                    $ticketRepository = $doctrine->getRepository(Ticket::class);
+                    $ticket = $ticketRepository->findOneBy(['orderId' => $request->query->get('orderId')]);
+                    $participantRepository = $doctrine->getRepository(Participant::class);
+                    $participant = $participantRepository->findOneBy(['user' => $this->getUser()->getId()]);
+                    if ($ticket->getStatus() == "COMPLETED") {
+                        $ticket->setStatus("REFUND");
+    
+                        $entityManager = $doctrine->getManager();
+                        $entityManager->persist($ticket);
+                        $entityManager->flush();
+                        $mailer->sendRefund($this->getUser()->getEmail(), $participant);
+                    }
+                    break;
             }
         }
 
@@ -250,8 +283,28 @@ class MainController extends AbstractController
     }
 
     #[Route('/cancel', name: 'app_cancel')]
-    public function cancel()
+    public function cancel(Request $request)
     {
-        return $this->render('cancel.html.twig');
+        if ($request->isMethod('GET')) {
+            $error = $request->query->get('error');
+
+            switch ($error) {
+                case 'register':
+                    $response = "register";
+                    break;
+
+                case 'contact':
+                    $response = "contact";
+                    break;
+
+                default:
+                    $response = "default";
+                    break;
+            }
+        }
+
+        return $this->render('cancel.html.twig', [
+            'response' => $response
+        ]);
     }
 }

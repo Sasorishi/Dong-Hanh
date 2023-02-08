@@ -18,6 +18,7 @@ use App\Entity\Participant;
 use App\Entity\Ticket;
 use App\Service\MailerService;
 use App\Service\QrcodeService;
+use App\Service\PaypalService;
 
 class LoginController extends AbstractController
 {
@@ -36,7 +37,7 @@ class LoginController extends AbstractController
     }
 
     #[Route('/account', name: 'app_account')]
-    public function account(Request $request, ManagerRegistry $doctrine, QrcodeService $qrcode)
+    public function account(Request $request, ManagerRegistry $doctrine, QrcodeService $qrcode, PaypalService $paypal, MailerService $mailer)
     {
         $this->denyAccessUnlessGranted('ROLE_USER');
         $email = $this->getUser()->getEmail();
@@ -47,10 +48,24 @@ class LoginController extends AbstractController
         $qrcodeTicket = NULL;
 
         if ($participant) {
-            $ticket = $ticketRepository->findOneBy(['participant' => $participant->getId()]);
+            $ticket = $ticketRepository->findOneBy(['participant' => $participant->getId(), 'status' => 'COMPLETED']);
 
             if ($ticket) {
                 $qrcodeTicket = $qrcode->generate($ticket->getOrderId());
+            }
+
+            if ($request->isMethod("POST")) {
+                $response = $paypal->refundOrder($ticket);
+    
+                // if ($response['RESULT']['STATUS'] == "COMPLETE") {
+                    // $ticket->setStatus("REFUND");
+    
+                    // $entityManager = $doctrine->getManager();
+                    // $entityManager->persist($ticket);
+                    // $entityManager->flush();
+    
+                    return $this->redirectToRoute('app_success', array('form' => 'refund', 'orderId' => $ticket->getOrderId()));
+                // }
             }
         }
         
@@ -134,6 +149,11 @@ class LoginController extends AbstractController
             $request->request->get("ticket_id");
             $repository = $doctrine->getRepository(Ticket::class);
             $ticket = $repository->findOneBy(['participant' => $request->query->get('order')]);
+            $ticket->setScan(TRUE);
+
+            $entityManager = $doctrine->getManager();
+            $entityManager->persist($ticket);
+            $entityManager->flush();
             // dump($ticket);
         }
 

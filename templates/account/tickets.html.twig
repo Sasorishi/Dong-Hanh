@@ -1,62 +1,68 @@
 {% extends 'base.html.twig' %}
 {% block body %}
 
-<form method="POST">
-    <section class="account">
-        <div class="progresses py-4">
-            <ul class="d-flex align-items-center justify-content-between">
-                <li class="d-flex align-items-center justify-content-between"><a
-                        href="{{ url('app_account') }}">Tickets</a></li>
-                <li class="d-flex align-items-center justify-content-between"><a href="{{ url('app_email') }}">Change
-                        email</a></li>
-                <li class="d-flex align-items-center justify-content-between"><a
-                        href="{{ url('app_email') }}">Reset password</a></li>
-            </ul>
-        </div>
-        <div class="container">
-            <div class="wrapper-card">
-                <span>Your tickets</span>
-                <div class="row">
-                    <div class="text-center col-12 mt-5">
-                        <div style="margin: auto;">
-                            {% if ticket is not null %}
-                            <p>Dong Hanh - Summer camp, Trai He 2023</p>
-                            <hr class="solid divider-center">
-                            <img src="{{ ticket_qrcode }}" alt="qrcode">
-                            <a class="btn download btn-dark-blue btn-lg" download="{{ ticket_qrcode }}" href="{{ ticket_qrcode }}"
-                                title="ticket">
-                                download<i class="fa-solid fa-file-arrow-down ms-2"></i>
-                            </a>
-                            <a class="btn download btn-dark-blue btn-lg" data-bs-toggle="modal"
-                            data-bs-target="#modalRefund">refund<i class="fa-solid fa-xmark ms-2"></i></a>
-                            {% else %}
-                            <p>You don't have ticket yet. You can buy one <a href="{{ path('app_register') }}">here</a></p>
-                            {% endif %}
-                        </div>
+<section class="account">
+    <div class="progresses py-4">
+        <ul class="d-flex align-items-center justify-content-between">
+            <li class="d-flex align-items-center justify-content-between"><a
+                    href="{{ url('app_account') }}">Tickets</a></li>
+            <li class="d-flex align-items-center justify-content-between"><a href="{{ url('app_email') }}">Change
+                    email</a></li>
+            <li class="d-flex align-items-center justify-content-between"><a
+                    href="{{ url('app_email') }}">Reset password</a></li>
+        </ul>
+    </div>
+    <div class="container">
+        <div class="wrapper-card">
+            <span>Your tickets</span>
+            <div class="row">
+                <div class="text-center col-12 mt-5">
+                    <div style="margin: auto;">
+                        {% if ticket is not null and ticket.status == "COMPLETED" %}
+                        <p>Dong Hanh - Summer camp, Trai He 2023</p>
+                        <hr class="solid divider-center">
+                        <img src="{{ ticket_qrcode }}" alt="qrcode">
+                        <a class="btn download btn-dark-blue btn-lg" download="{{ ticket_qrcode }}" href="{{ ticket_qrcode }}"
+                            title="ticket">
+                            download<i class="fa-solid fa-file-arrow-down ms-2"></i>
+                        </a>
+                        {# <a class="btn download btn-dark-blue btn-lg" data-bs-toggle="modal"
+                        data-bs-target="#modalRefund">refund<i class="fa-solid fa-xmark ms-2"></i></a> #}
+                        {% else %}
+                        <p>You don't have ticket yet. You can buy one <a href="{{ path('app_register') }}">here</a>.</p>
+                        {% endif %}
                     </div>
-
+                    {% if ticket is not null and ticket.status == "COMPLETED" %}
+                    <div class="refundOrder mt-5">
+                        <a class="download" data-bs-toggle="modal"
+                            data-bs-target="#modalRefund">refund the ticket<i class="fa-solid fa-xmark ms-2"></i></a>
+                    </div>
+                    {% endif %}
                 </div>
-            </div>
-    </section>
-</form>
 
-<div class="modal fade modal-lg" id="modalRefund" tabindex="-1" aria-labelledby="exampleModalLabel"
-    aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Refund Ticket</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
-            <div class="modal-body">
-                <p>Do you want to refund the ticket ?</p>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-cognac" data-bs-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-dark-blue">Valide</button>
+        </div>
+</section>
+
+<form method="POST">
+    <div class="modal fade modal-lg" id="modalRefund" tabindex="-1" aria-labelledby="exampleModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Refund Ticket</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <p>Do you want to refund the ticket ?</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-cognac" data-bs-dismiss="modal">Close</button>
+                    <button type="submit" name="refund" class="btn btn-dark-blue">Valide</button>
+                </div>
             </div>
         </div>
     </div>
-</div>
+</form>
 
 {% endblock %}
