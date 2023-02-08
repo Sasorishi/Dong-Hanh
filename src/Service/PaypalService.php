@@ -17,7 +17,7 @@ class PaypalService
     private $client_secret;
     private $sandbox;
 
-    public function __construct(private $dev_client_id, private $dev_client_secret, private $prod_client_id, private $prod_client_secret, $sandbox=false) {
+    public function __construct(private $dev_client_id, private $dev_client_secret, private $prod_client_id, private $prod_client_secret, $sandbox=true) {
         $this->sandbox = $sandbox;
         if ($sandbox) {
             $this->client_id = $dev_client_id;
@@ -100,11 +100,13 @@ class PaypalService
                         const transaction = orderData.purchase_units[0].payments.captures[0];
                         const transactionId = orderData.id;
                         // actions.redirect('/success');
+                        window.location.replace('/success?form=checkout&transaction_id=' + transactionId);
                     });
                 }, 
                 // handle unrecoverable errors
                 onError: (err) => {
                     console.error('An error prevented the buyer from checking out with PayPal');
+                    window.location.replace('/cancel?form=checkout&transaction_id=' + transactionId);
                 }
             }).render('#paypal-button-container');
         </script>
