@@ -270,7 +270,8 @@ class MainController extends AbstractController
                     break;
                 
                 case 'signin':
-                    $mailer->sendSignin($request->query->get("_username"), $request->query->get("_username"));
+                    $response = "signin";
+                    $mailer->sendSignin($request->query->get("user"), $request->query->get("user"));
                     break;
             }
         }
