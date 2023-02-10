@@ -47,9 +47,7 @@ class MainController extends AbstractController
         $participant = $participantRepository->findOneBy(['user' => $this->getUser()->getId()]);
         $eventRepository = $doctrine->getRepository(Event::class);
         $event = $eventRepository->findOneBy(['id' => "1"]);
-        $ticketRepository = $doctrine->getRepository(Ticket::class);
-        $ticket = $ticketRepository->findOneBy(['participant' => $participant->getId()]);
-
+        
         if ($event->isRegister()) {
             if (!$participant) {
                 $participant = NULL;
@@ -81,6 +79,9 @@ class MainController extends AbstractController
                     return $this->redirectToRoute('app_checkout');
                 }
             } else {
+                $ticketRepository = $doctrine->getRepository(Ticket::class);
+                $ticket = $ticketRepository->findOneBy(['participant' => $participant->getId()]);
+
                 if ($request->isMethod('POST')) {
                     $participant
                     ->setFirstname($request->request->get("firstname"))
