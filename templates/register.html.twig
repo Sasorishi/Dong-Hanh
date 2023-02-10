@@ -340,7 +340,8 @@
                     <div class="form-floating">
                         {% if participant.expectations is not null %}
                         <textarea class="form-control" name="expectations" placeholder="Leave a comment here"
-                            id="floatingTextarea" rows="5" style="height:100%;">{{ participant.expectations }}</textarea>
+                            id="floatingTextarea" rows="5"
+                            style="height:100%;">{{ participant.expectations }}</textarea>
                         {% else %}
                         <textarea class="form-control" name="expectations" placeholder="Leave a comment here"
                             id="floatingTextarea" rows="5" style="height:100%;"></textarea>
@@ -378,8 +379,9 @@
                 <div class="col g-3">
                     <label for="inputAgreements" class="form-label">Terms and conditions</label>
                     <div class="form-check">
-                        <input class="form-check-input check-aggreement" type="checkbox" value="" id="waiver"
-                            name="waiver" value="checked">
+                        <input class="form-check-input check-aggreement" type="checkbox" id="waiver"
+                            onchange="document.getElementById('register').disabled = !this.checked;" name="waiver"
+                            value="checked">
                         <label class="form-check-label" for="flexCheckDefault">
                             I have read and agree to <a href="#" data-bs-toggle="modal"
                                 data-bs-target="#modalAccident">the
@@ -750,8 +752,9 @@
                 <div class="col g-3">
                     <label for="inputAgreements" class="form-label">Terms and conditions</label>
                     <div class="form-check">
-                        <input class="form-check-input check-aggreement" type="checkbox" value="" id="waiver"
-                            name="waiver" value="checked">
+                        <input class="form-check-input check-aggreement" type="checkbox" id="waiver"
+                            onchange="document.getElementById('register').disabled = !this.checked;" name="waiver"
+                            value="checked">
                         <label class="form-check-label" for="flexCheckDefault">
                             I have read and agree to <a href="#" data-bs-toggle="modal"
                                 data-bs-target="#modalAccident">the
@@ -818,7 +821,8 @@
                 <p>(B) I INDEMNIFY, HOLD HARMLESS, AND PROMISE NOT TO SUE the entities or persons mentioned in this
                     paragraph from any and all liabilities or claims made as a result of participation in this activity
                     or event, whether caused by the negligence of release or otherwise.</p>
-                <p>I acknowledge that the DONG HANH and their directors, officers, volunteers, representatives, and agents
+                <p>I acknowledge that the DONG HANH and their directors, officers, volunteers, representatives, and
+                    agents
                     are NOT responsible for the errors, omissions, acts, or failures to act of any party or entity
                     conducting a specific event or activity on behalf of the DONG HANH.</p>
                 <p>I acknowledge that this activity or event may involve a test of a person’s physical and mental limits
