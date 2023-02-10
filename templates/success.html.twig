@@ -25,6 +25,11 @@
                     Your refund is complete. If you have any questions, please email
                     <a href="mailto:contact@dong-hanh.com">contact@dong-hanh.com</a>.
                 </p>
+                {% elseif response == 'signin' %}
+                <p>
+                    Your inscription is complete. You can log in with your account now ! If you have any questions, please email
+                    <a href="mailto:contact@dong-hanh.com">contact@dong-hanh.com</a>.
+                </p>
                 <p>Return to <a href="{{ path('app_main') }}">homepage</a>.</p>
                 {% endif %}
             </div>

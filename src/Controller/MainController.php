@@ -168,8 +168,8 @@ class MainController extends AbstractController
                 $entityManager = $doctrine->getManager();
                 $entityManager->persist($user);
                 $entityManager->flush();
-    
-                $mailer->sendSignin($request->request->get("_username"), $request->request->get("_username"));
+
+                return $this->redirectToRoute('app_success', array('form' => 'signin', 'user' => $request->request->get("_username")));
             } else {
                 $error = true;
             }
@@ -267,6 +267,10 @@ class MainController extends AbstractController
                         $entityManager->flush();
                         $mailer->sendRefund($this->getUser()->getEmail(), $participant);
                     }
+                    break;
+                
+                case 'signin':
+                    $mailer->sendSignin($request->query->get("_username"), $request->query->get("_username"));
                     break;
             }
         }
