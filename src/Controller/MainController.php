@@ -297,6 +297,10 @@ class MainController extends AbstractController
                     $response = "contact";
                     break;
 
+                case 'forgottenPassword':
+                    $response = "forgottenPassword";
+                    break;
+
                 default:
                     $response = "default";
                     break;

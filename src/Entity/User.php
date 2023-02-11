@@ -2,6 +2,7 @@
 namespace App\Entity;
 
 use App\Repository\UserRepository;
+use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
@@ -24,6 +25,12 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     #[ORM\Column(type: 'string')]
     private $password;
+
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $tokenPassword = null;
+
+    #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true)]
+    private ?\DateTimeInterface $passwordRequestAt = null;
 
     public function getId(): ?Uuid
     {
@@ -104,5 +111,29 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     {
         // If you store any temporary, sensitive data on the user, clear it here
         // $this->plainPassword = null;
+    }
+
+    public function getTokenPassword(): ?string
+    {
+        return $this->tokenPassword;
+    }
+
+    public function setTokenPassword(?string $tokenPassword): self
+    {
+        $this->tokenPassword = $tokenPassword;
+
+        return $this;
+    }
+
+    public function getPasswordRequestAt(): ?\DateTimeInterface
+    {
+        return $this->passwordRequestAt;
+    }
+
+    public function setPasswordRequestAt(?\DateTimeInterface $passwordRequestAt): self
+    {
+        $this->passwordRequestAt = $passwordRequestAt;
+
+        return $this;
     }
 }
