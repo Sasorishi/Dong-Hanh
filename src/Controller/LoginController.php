@@ -39,62 +39,65 @@ class LoginController extends AbstractController
     #[Route('/account_forgotten_password', name: 'app_forgotten_password')]
     public function forgottenPassword(Request $request, ManagerRegistry $doctrine, UserPasswordHasherInterface $passwordHasher, MailerService $mailer, TokenGeneratorInterface $tokenGenerator)
     {
-        $sendMail = false;
+        $tokenAccess = false;
         $response = null;
 
-        if ($request->isMethod('POST')) {
-            $userRepository = $doctrine->getRepository(User::class);
-            $user = $userRepository->findOneBy(['email' => $request->request->get("email")]);
-
-            if ($user) {
-                $token = $tokenGenerator->generateToken();
-                $user->setTokenPassword($token);
-                $user->setPasswordRequestAt(new \DateTime());
-                $entityManager = $doctrine->getManager();
-                $entityManager->persist($user);
-                $entityManager->flush();
-                $mailer->sendPassword($user->getEmail(), $token);
-                $response = true;
-            } else {
-                $response = false;
-            }
-        }
-
-        if ($request->isMethod('GET') && $request->query->get('token')) {
-            $sendMail = true;
-            $repository = $doctrine->getRepository(User::class);
-            $user = $repository->findOneBy(['tokenPassword' => $request->query->get('token')]);
-
-            if ($user) {
-                if ($user->getPasswordRequestAt()) {
-                    $tokenLife = $user->getPasswordRequestAt()->modify('+1 hour');
-                    if ($user->getPasswordRequestAt() < $tokenLife) {
-                        if ($request->isMethod('POST') && $request->request->get("password") == $request->request->get("passwordVerified")) {
-                            $plaintextPassword = $request->request->get("password");
-                            // hash the password (based on the security.yaml config for the $user class)
-                            $hashedPassword = $passwordHasher->hashPassword(
-                                $user,
-                                $plaintextPassword
-                            );
-                            $user->setPassword($hashedPassword);
-                
-                            $entityManager = $doctrine->getManager();
-                            $entityManager->persist($user);
-                            $entityManager->flush();
-        
-                            return $this->redirectToRoute('app_success', array('form' => 'forgottenPassword'));
-                        } else {
-                            $response = false;
+        if ($request->isMethod('GET') ) {
+            if ($request->query->get('token')) {
+                $tokenAccess = true;
+                $repository = $doctrine->getRepository(User::class);
+                $user = $repository->findOneBy(['tokenPassword' => $request->query->get('token')]);
+    
+                if ($user) {
+                    if ($user->getPasswordRequestAt()) {
+                        $tokenLife = $user->getPasswordRequestAt()->modify('+1 hour');
+                        if ($user->getPasswordRequestAt() < $tokenLife) {
+                            if ($request->isMethod('POST') && $request->request->get("password") == $request->request->get("passwordVerified")) {
+                                $plaintextPassword = $request->request->get("password");
+                                // hash the password (based on the security.yaml config for the $user class)
+                                $hashedPassword = $passwordHasher->hashPassword(
+                                    $user,
+                                    $plaintextPassword
+                                );
+                                $user->setPassword($hashedPassword);
+                    
+                                $entityManager = $doctrine->getManager();
+                                $entityManager->persist($user);
+                                $entityManager->flush();
+            
+                                return $this->redirectToRoute('app_success', array('form' => 'forgottenPassword'));
+                            } else {
+                                $response = false;
+                            }
                         }
                     }
+                } else {
+                    return $this->redirectToRoute('app_cancel', array('error' => 'forgottenPassword'));
                 }
-            } else {
-                return $this->redirectToRoute('app_cancel', array('error' => 'forgottenPassword'));
+            }
+        } else {
+            $tokenAccess = false;
+            if ($request->isMethod('POST')) {
+                $userRepository = $doctrine->getRepository(User::class);
+                $user = $userRepository->findOneBy(['email' => $request->request->get("email")]);
+    
+                if ($user) {
+                    $token = $tokenGenerator->generateToken();
+                    $user->setTokenPassword($token);
+                    $user->setPasswordRequestAt(new \DateTime());
+                    $entityManager = $doctrine->getManager();
+                    $entityManager->persist($user);
+                    $entityManager->flush();
+                    $mailer->sendPassword($user->getEmail(), $token);
+                    $response = true;
+                } else {
+                    $response = false;
+                }
             }
         }
         
         return $this->render('account/forgottenPassword.html.twig', [
-            'sendMail' => $sendMail,
+            'tokenAccess' => $tokenAccess,
             'response' => $response
         ]);
     }
