@@ -54,7 +54,6 @@ class LoginController extends AbstractController
 
                     if ($requestAt->modify('+1 hour') > new \Datetime()) {
                         if ($request->isMethod('POST')) {
-                            dump($request);
                             if ($request->request->get("password") == $request->request->get("passwordVerified")) {
                                 $plaintextPassword = $request->request->get("password");
                                 // hash the password (based on the security.yaml config for the $user class)
