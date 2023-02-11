@@ -274,6 +274,10 @@ class MainController extends AbstractController
                     $response = "signin";
                     $mailer->sendSignin($request->query->get("user"), $request->query->get("user"));
                     break;
+
+                case 'forgottenPassword':
+                    $response = "forgottenPassword";
+                    break;
             }
         }
 

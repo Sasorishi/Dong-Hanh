@@ -39,20 +39,23 @@ class LoginController extends AbstractController
     #[Route('/account_forgotten_password', name: 'app_forgotten_password')]
     public function forgottenPassword(Request $request, ManagerRegistry $doctrine, UserPasswordHasherInterface $passwordHasher, MailerService $mailer, TokenGeneratorInterface $tokenGenerator)
     {
-        $tokenAccess = false;
+        $tokenAccess = null;
         $response = null;
+        if ($request->query->get('token')) {
+            $tokenAccess = true;
+            $repository = $doctrine->getRepository(User::class);
+            $user = $repository->findOneBy(['tokenPassword' => $request->query->get('token')]);
 
-        if ($request->isMethod('GET') ) {
-            if ($request->query->get('token')) {
-                $tokenAccess = true;
-                $repository = $doctrine->getRepository(User::class);
-                $user = $repository->findOneBy(['tokenPassword' => $request->query->get('token')]);
-    
-                if ($user) {
-                    if ($user->getPasswordRequestAt()) {
-                        $tokenLife = $user->getPasswordRequestAt()->modify('+1 hour');
-                        if ($user->getPasswordRequestAt() < $tokenLife) {
-                            if ($request->isMethod('POST') && $request->request->get("password") == $request->request->get("passwordVerified")) {
+            if ($user) {
+                if ($user->getPasswordRequestAt()) {
+                    $requestAt = $user->getPasswordRequestAt();
+                    // dump($user->getPasswordRequestAt());
+                    // dump($requestAt->modify('+1 minutes'));
+
+                    if ($requestAt->modify('+1 hour') > new \Datetime()) {
+                        if ($request->isMethod('POST')) {
+                            dump($request);
+                            if ($request->request->get("password") == $request->request->get("passwordVerified")) {
                                 $plaintextPassword = $request->request->get("password");
                                 // hash the password (based on the security.yaml config for the $user class)
                                 $hashedPassword = $passwordHasher->hashPassword(
@@ -70,10 +73,12 @@ class LoginController extends AbstractController
                                 $response = false;
                             }
                         }
+                    } else {
+                        return $this->redirectToRoute('app_cancel', array('error' => 'forgottenPassword'));
                     }
-                } else {
-                    return $this->redirectToRoute('app_cancel', array('error' => 'forgottenPassword'));
                 }
+            } else {
+                return $this->redirectToRoute('app_cancel', array('error' => 'forgottenPassword'));
             }
         } else {
             $tokenAccess = false;
@@ -95,7 +100,7 @@ class LoginController extends AbstractController
                 }
             }
         }
-        
+
         return $this->render('account/forgottenPassword.html.twig', [
             'tokenAccess' => $tokenAccess,
             'response' => $response
