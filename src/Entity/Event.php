@@ -5,6 +5,7 @@ namespace App\Entity;
 use App\Repository\EventRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
+use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: EventRepository::class)]
@@ -33,11 +34,11 @@ class Event
     #[ORM\Column]
     private ?bool $register = null;
 
-    #[ORM\Column]
-    private ?int $price = null;
-
     #[ORM\Column(length: 12)]
     private ?string $currency = null;
+
+    #[ORM\Column(nullable: true)]
+    private array $price = [];
 
     public function __construct()
     {
@@ -139,18 +140,6 @@ class Event
         return $this;
     }
 
-    public function getPrice(): ?int
-    {
-        return $this->price;
-    }
-
-    public function setPrice(int $price): self
-    {
-        $this->price = $price;
-
-        return $this;
-    }
-
     public function getCurrency(): ?string
     {
         return $this->currency;
@@ -159,6 +148,18 @@ class Event
     public function setCurrency(string $currency): self
     {
         $this->currency = $currency;
+
+        return $this;
+    }
+
+    public function getPrice(): array
+    {
+        return $this->price;
+    }
+
+    public function setPrice(?array $price): self
+    {
+        $this->price = $price;
 
         return $this;
     }

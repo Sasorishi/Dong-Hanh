@@ -106,7 +106,7 @@ class MainController extends AbstractController
                     if ($ticket && $ticket->getStatus() == "COMPLETED") {
                         return $this->redirectToRoute('app_account');
                     } else {
-                        return $this->redirectToRoute('app_checkout');
+                        return $this->redirectToRoute('app_order');
                     }
                 }
             }
@@ -115,33 +115,76 @@ class MainController extends AbstractController
         }
 
         
-        return $this->render('register.html.twig', [
+        return $this->render('payment/register.html.twig', [
             'participant' => $participant
         ]);
     }
 
-    #[Route('/checkout', name: 'app_checkout')]
-    public function checkout(PaypalService $paypal, ManagerRegistry $doctrine)
+    #[Route('/order', name: 'app_order')]
+    public function order(PaypalService $paypal, ManagerRegistry $doctrine, Request $request)
     {
-        // $paypal->getOrder();
-        // return $this->redirectToRoute('app_success', array('form' => 'contact'));
-
-        $ticketRepository = $doctrine->getRepository(Ticket::class);
-        $participantRepository = $doctrine->getRepository(Participant::class);
+        $this->denyAccessUnlessGranted('ROLE_USER');
         $eventRepository = $doctrine->getRepository(Event::class);
+        $event = $eventRepository->findOneBy(['register' => True]);
+        $participantRepository = $doctrine->getRepository(Participant::class);
         $participant = $participantRepository->findOneBy(['user' => $this->getUser()->getId()]);
+        $ticketRepository = $doctrine->getRepository(Ticket::class);
         $ticket = $ticketRepository->findOneBy(['participant' => $participant->getId()]);
-        $event = $eventRepository->findOneBy(['id' => '1']);
-
-        if ($ticket) {
-            if ($ticket->getStatus() == "COMPLETED") {
-                return $this->redirectToRoute('app_account');
+        
+        if ($event->isRegister()) {
+            if ($ticket) {
+                if ($ticket->getStatus() == "COMPLETED") {
+                    return $this->redirectToRoute('app_account'); //If the use already bought it
+                }
             }
+            
+            if ($request->isMethod("POST")) {
+                return $this->redirectToRoute('app_checkout', array('event' => $event->getId(), 'option' => $request->request->get("option")));
+            }
+        } else {
+            return $this->redirectToRoute('app_cancel', array('error' => 'register'));
         }
 
-        return $this->render('checkout.html.twig', [
-            'paypalInterface' => $paypal->interface($event),
+        return $this->render('payment/order.html.twig', [
             'event' => $event
+        ]);
+    }
+
+    #[Route('/checkout', name: 'app_checkout')]
+    public function checkout(PaypalService $paypal, ManagerRegistry $doctrine, Request $request)
+    {
+        $this->denyAccessUnlessGranted('ROLE_USER');
+        if ($request->isMethod("GET")) {
+            $ticketRepository = $doctrine->getRepository(Ticket::class);
+            $participantRepository = $doctrine->getRepository(Participant::class);
+            $eventRepository = $doctrine->getRepository(Event::class);
+            $participant = $participantRepository->findOneBy(['user' => $this->getUser()->getId()]);
+            $ticket = $ticketRepository->findOneBy(['participant' => $participant->getId()]);
+            $event = $eventRepository->findOneBy(['id' => $request->query->get('event')]);
+            $price = $event->getPrice()[$request->query->get('option')];
+
+            if ($event) {
+                if ($ticket) {
+                    if ($ticket->getStatus() == "COMPLETED") {
+                        return $this->redirectToRoute('app_account'); //If the use already bought it
+                    }
+                }
+            }
+
+            if ($price == 72) {
+                $option = "Without transportation";
+            } else {
+                $option = "With transportation included";
+            }
+        } else {
+            return $this->redirectToRoute('app_cancel', array('error' => 'register'));
+        }
+
+        return $this->render('payment/checkout.html.twig', [
+            'paypalInterface' => $paypal->interface($event, $request->query->get('option')),
+            'event' => $event,
+            'price' => $price,
+            'option' => $option
         ]);
     }
 

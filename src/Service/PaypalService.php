@@ -62,11 +62,11 @@ class PaypalService
         }
     }
 
-    public function interface($event): string {
+    public function interface($event, $option): string {
         $client_id = $this->client_id;
         $label = $event->getLabel();
         $year = $event->getYear();
-        $price = $event->getPrice();
+        $price = $event->getPrice()[$option];
         $currency = $event->getCurrency();
         
         // alert(

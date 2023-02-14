@@ -7,7 +7,9 @@
             <li id="step-1" class="d-flex align-items-center justify-content-between"><i
                     class="fa-regular fa-circle-check"></i> <a>Register</a></li>
             <li id="step-2" class="d-flex align-items-center justify-content-between"><i
-                    class="fa-regular fa-circle"></i> <a>Checkout</a></li>
+                    class="fa-regular fa-circle-check"></i> <a>Order</a></li>
+            <li id="step-3" class="d-flex align-items-center justify-content-between"><i
+                class="fa-regular fa-circle"></i> <a>Checkout</a></li>
             {# <li id="step-3" class="d-flex align-items-center justify-content-between"><i
                     class="fa-regular fa-circle"></i> <a href="{{ url('app_main') }}">Confirmation</a></li> #}
         </ul>
@@ -23,12 +25,13 @@
                         <div class="col-2"><i class="fa-sharp fa-solid fa-ticket"></i></div>
                         <div class="col">
                             <div class="row text-muted">{{ event.label }} - {{ event.year }}</div>
+                            <div class="row text-muted">{{ option }}</div>
                             <div class="row">1 Ticket</div>
                         </div>
                         <div class="col">
                             <span></span>
                         </div>
-                        <div class="col">&euro; {{ event.price }}</div>
+                        <div class="col">&euro; {{ price }}</div>
                     </div>
                 </div>
             </div>
@@ -37,11 +40,11 @@
                 <hr>
                 <div class="row">
                     <div class="col">{{ event.label }} - {{ event.year }}</div>
-                    <div class="col text-right">&euro; {{ event.price }}</div>
+                    <div class="col text-right">&euro; {{ price }}</div>
                 </div>
                 <div class="row" style="border-top: 1px solid rgba(0,0,0,.1); padding: 2vh 0;">
                     <div class="col">TOTAL PRICE</div>
-                    <div class="col text-right">&euro; {{ event.price }}</div>
+                    <div class="col text-right">&euro; {{ price }}</div>
                 </div>
 
                 {{ paypalInterface | raw }}
