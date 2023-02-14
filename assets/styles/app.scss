@@ -566,6 +566,7 @@ footer {
     background-color: var(--cream-color);
     color: var(--cognac-color);
     padding: 5em;
+    margin-top: 10%;
 }
 
 .register-form,
@@ -723,6 +724,12 @@ section .btn {
     padding: 0;
     text-decoration: none;
     color: var(--cream-color);
+}
+
+.progresses .active {
+    text-decoration: underline !important;
+    text-underline-offset: 0.5rem;
+    text-decoration-thickness: 0.2rem !important;
 }
 
 .progresses .fa-circle-check {
@@ -897,6 +904,8 @@ section .btn {
         transform: rotate(45deg) translate(20px, 20px);
     }
 }
+
+/*		---- Plan animation ---- 	    */
 
 .radio-tile-group {
     display: flex;
