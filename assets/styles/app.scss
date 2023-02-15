@@ -131,6 +131,14 @@ a {
         padding: 4vh;
         color: rgb(65, 65, 65);
     }
+
+    .login {
+        padding-top: 40vw !important;
+    }
+
+    .signin {
+        padding-top: 40vw !important;
+    }
 }
 
 @media screen and (max-width: 900px) {
@@ -205,6 +213,26 @@ a {
         padding: 4vh;
         color: rgb(65, 65, 65);
     }
+
+    .login {
+        padding-top: 40vw !important;
+    }
+
+    .signin {
+        padding-top: 40vw !important;
+    }
+
+    .account {
+        padding-top: 20vh !important;
+    }
+
+    .account .wrapper-card {
+        padding: 2em !important;
+    }
+
+    .progresses {
+        max-width: 90% !important;
+    }
 }
 
 @media screen and (max-width: 750px) {
@@ -265,6 +293,26 @@ a {
         min-height: 15vh !important;
         border-radius: 0 !important;
         box-shadow: rgba(0, 0, 0, 0.15) 0px 5px 15px 0px;
+    }
+
+    .login {
+        padding-top: 40vw !important;
+    }
+
+    .signin {
+        padding-top: 40vw !important;
+    }
+
+    .account {
+        padding-top: 20vh !important;
+    }
+
+    .account .wrapper-card {
+        padding: 2em !important;
+    }
+
+    .progresses {
+        max-width: 90% !important;
     }
 }
 

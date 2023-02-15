@@ -49,4 +49,23 @@
             {% endif %}
         </ul>
     </div>
+    <div class="d-sm d-md d-lg-none" id="navbarNav">
+        <ul class="navbar-nav flex-row ms-auto">
+            {% if is_granted('IS_AUTHENTICATED_FULLY') %}
+            <li class="nav-item">
+                <a class="nav-link" href="{{ url('app_account') }}" tabindex="-1"><button type="button" class="btn btn-dark-blue"><i class="fa-solid fa-user"></i></button></a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="{{ url('app_logout') }}" tabindex="-1"><button type="button" class="btn btn-dark-blue"><i class="fa-solid fa-right-to-bracket"></i></button></a>
+            </li>
+            {% else %}
+            <li class="nav-item">
+                <a class="nav-link" href="{{ url('app_login') }}"><button type="button" class="btn btn-dark-blue"><i class="fa-solid fa-user"></i></button></a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="{{ url('app_signin') }}"><button type="button" class="btn btn-dark-blue"><i class="fa-solid fa-right-to-bracket"></i></button></a>
+            </li>
+            {% endif %}
+        </ul>
+    </div>
 </nav>

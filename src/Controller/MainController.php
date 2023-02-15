@@ -76,7 +76,7 @@ class MainController extends AbstractController
                     $entityManager->persist($participant);
                     $entityManager->flush();
 
-                    return $this->redirectToRoute('app_checkout');
+                    return $this->redirectToRoute('app_order');
                 }
             } else {
                 $ticketRepository = $doctrine->getRepository(Ticket::class);
