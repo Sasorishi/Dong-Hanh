@@ -40,6 +40,9 @@ class Event
     #[ORM\Column(nullable: true)]
     private array $price = [];
 
+    #[ORM\Column(type: Types::DATE_MUTABLE, nullable: true)]
+    private ?\DateTimeInterface $refundExpireAt = null;
+
     public function __construct()
     {
         $this->tickets = new ArrayCollection();
@@ -160,6 +163,18 @@ class Event
     public function setPrice(?array $price): self
     {
         $this->price = $price;
+
+        return $this;
+    }
+
+    public function getRefundExpireAt(): ?\DateTimeInterface
+    {
+        return $this->refundExpireAt;
+    }
+
+    public function setRefundExpireAt(?\DateTimeInterface $refundExpireAt): self
+    {
+        $this->refundExpireAt = $refundExpireAt;
 
         return $this;
     }

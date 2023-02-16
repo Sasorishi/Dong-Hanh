@@ -162,6 +162,7 @@ class MainController extends AbstractController
             $ticket = $ticketRepository->findOneBy(['participant' => $participant->getId()]);
             $event = $eventRepository->findOneBy(['id' => $request->query->get('event')]);
             $price = $event->getPrice()[$request->query->get('option')];
+            $expireAt = $event->getRefundExpireAt();
 
             if ($event) {
                 if ($ticket) {
@@ -184,7 +185,8 @@ class MainController extends AbstractController
             'paypalInterface' => $paypal->interface($event, $request->query->get('option')),
             'event' => $event,
             'price' => $price,
-            'option' => $option
+            'option' => $option,
+            'expireAt' => $expireAt
         ]);
     }
 

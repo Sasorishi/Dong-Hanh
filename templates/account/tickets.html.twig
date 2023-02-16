@@ -33,10 +33,12 @@
                         {% endif %}
                     </div>
                     {% if ticket is not null and ticket.status == "COMPLETED" %}
-                    <div class="refundOrder mt-5">
-                        <a class="download" data-bs-toggle="modal"
-                            data-bs-target="#modalRefund">refund the ticket<i class="fa-solid fa-xmark ms-2"></i></a>
-                    </div>
+                        {% if expire == false %}
+                        <div class="refundOrder mt-5">
+                            <a class="download" data-bs-toggle="modal"
+                                data-bs-target="#modalRefund">refund the ticket<i class="fa-solid fa-xmark ms-2"></i></a>
+                        </div>
+                        {% endif %}
                     {% endif %}
                 </div>
 

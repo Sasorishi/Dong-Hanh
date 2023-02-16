@@ -17,6 +17,7 @@ use Doctrine\Persistence\ManagerRegistry;
 use App\Entity\User;
 use App\Entity\Participant;
 use App\Entity\Ticket;
+use App\Entity\Event;
 use App\Service\MailerService;
 use App\Service\QrcodeService;
 use App\Service\PaypalService;
@@ -116,12 +117,22 @@ class LoginController extends AbstractController
         $participant = $participantRepository->findOneBy(['user' => $this->getUser()->getId()]);
         $ticket = NULL;
         $qrcodeTicket = NULL;
+        $expire = false;
 
         if ($participant) {
             $ticket = $ticketRepository->findOneBy(['participant' => $participant->getId(), 'status' => 'COMPLETED']);
 
             if ($ticket) {
-                $qrcodeTicket = $qrcode->generate($ticket->getOrderId());
+                $eventRepository = $doctrine->getRepository(Event::class);
+                $event = $eventRepository->findOneBy(['id' => $ticket->getIdEvent()]);
+                if ($event) {
+                    $qrcodeTicket = $qrcode->generate($ticket->getOrderId());
+                    $expireAt = $event->getRefundExpireAt();
+
+                    if (new \Datetime() > $expireAt) {
+                        $expire = true;
+                    }
+                }
             }
 
             if ($request->isMethod("POST")) {
@@ -143,7 +154,8 @@ class LoginController extends AbstractController
             'controller_name' => 'LoginController',
             'currentuser' => $email,
             'ticket' => $ticket,
-            'ticket_qrcode' => $qrcodeTicket
+            'ticket_qrcode' => $qrcodeTicket,
+            'expire' => $expire
         ]);
     }
 

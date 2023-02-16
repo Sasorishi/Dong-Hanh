@@ -46,6 +46,13 @@
                     <div class="col">TOTAL PRICE</div>
                     <div class="col text-right">&euro; {{ price }}</div>
                 </div>
+                <div class="row">
+                    <div class="col-12 g-3">
+                        <div class="information">
+                            <p>*Dong Hanh provide a refund before {{ expireAt | date("d/m/Y") }}.</p>
+                        </div>
+                    </div>
+                </div>
 
                 {{ paypalInterface | raw }}
             </div>
