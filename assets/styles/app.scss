@@ -46,7 +46,7 @@
 }
 
 body {
-    padding-top: 10vh;
+    padding-top: 7vh;
     height: 100%;
 }
 
@@ -309,7 +309,7 @@ a {
     body .login, .signin {
         padding-top: 7vh;
     }
-    
+
     .account .wrapper-card {
         padding: 2em !important;
     }
@@ -631,6 +631,7 @@ footer {
     background-color: var(--cream-color);
     color: var(--cognac-color);
     padding: 5em;
+    margin-top: 5%;
 }
 
 .register-form,
