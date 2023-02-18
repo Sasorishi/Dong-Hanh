@@ -21,6 +21,11 @@
 }
 
 @font-face {
+    font-family: "Intan";
+    src: url("../../public/fonts/intanEdit.ttf");
+}
+
+@font-face {
     font-family: "Gelion-Regular";
     src: url("../../public/fonts/Gelion-Regular.ttf");
 }
@@ -52,10 +57,18 @@ span {
     letter-spacing: 0.3em;
 }
 
+label {
+    font: 1em "Gelion-Light";
+    text-transform: uppercase;
+    letter-spacing: 0.2em;
+    line-height: 1.8em;
+    color: var(--cognac-color);
+}
+
 h1 {
-    font: 4.5em "Hogback";
+    font: 3.2em "Intan";
     letter-spacing: 0.05em;
-    margin-top: 0.15em;
+    margin-top: 0.5em;
 }
 
 p {
@@ -420,18 +433,18 @@ section {
     padding-top: 5em;
 }
 
-.join-us .wrapper-card {
+.activities .wrapper-card {
     padding-top: 4em;
     padding-bottom: 4em;
-    padding-left: 4em;
-    padding-right: 4em;
+    padding-left: 2em;
+    padding-right: 2em;
     border-radius: 1em;
     // max-width: 20em;
     box-shadow: rgba(0, 0, 0, 0.15) 0px 5px 15px 0px;
     height: 100%;
 }
 
-.join-us img {
+.activities img {
     margin-bottom: 2em;
 }
 
@@ -533,6 +546,24 @@ section {
     background-position: center;
 }
 
+.our-journey .usa {
+    background-image: url("../../public/images/usa.jpg");
+    background-size: cover;
+    background-position: center;
+}
+
+.our-journey .australia {
+    background-image: url("../../public/images/australia.jpg");
+    background-size: cover;
+    background-position: center;
+}
+
+.our-journey .canada {
+    background-image: url("../../public/images/canada.jpg");
+    background-size: cover;
+    background-position: center;
+}
+
 .community .wrapper-element {
     padding-left: 10vw;
     padding-right: 10vw;
@@ -590,7 +621,7 @@ section {
 }
 
 .duyen {
-    background-image: url("../../public/images/duyen.png");
+    background-image: url("../../public/images/duyen.jpg");
     background-size: cover;
     background-position: center;
 }
@@ -765,6 +796,9 @@ section .btn {
     padding: 0;
     text-decoration: none;
     color: var(--cognac-color);
+    font: 1em "Gelion-Light";
+    text-transform: uppercase;
+    letter-spacing: 0.3em;
 }
 
 .progresses a:hover {
@@ -772,6 +806,9 @@ section .btn {
     padding: 0;
     text-decoration: none;
     color: var(--cream-color);
+    font: 1em "Gelion-Light";
+    text-transform: uppercase;
+    letter-spacing: 0.3em;
 }
 
 .progresses .active {

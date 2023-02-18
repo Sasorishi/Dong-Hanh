@@ -24,7 +24,7 @@
                     <div class="row main align-items-center">
                         <div class="col-2"><i class="fa-sharp fa-solid fa-ticket"></i></div>
                         <div class="col">
-                            <div class="row text-muted">{{ event.label }} - {{ event.year }}</div>
+                            <div class="row text-muted">{{ event.label }} - Summer Camp {{ event.year }}</div>
                             <div class="row text-muted">{{ option }}</div>
                             <div class="row">1 Ticket</div>
                         </div>
@@ -39,7 +39,7 @@
                 <h4>Summary</h4>
                 <hr>
                 <div class="row">
-                    <div class="col">{{ event.label }} - {{ event.year }}</div>
+                    <div class="col">{{ event.label }} - Summer Camp {{ event.year }}</div>
                     <div class="col text-right">&euro; {{ price }}</div>
                 </div>
                 <div class="row" style="border-top: 1px solid rgba(0,0,0,.1); padding: 2vh 0;">
@@ -49,7 +49,7 @@
                 <div class="row">
                     <div class="col-12 g-3">
                         <div class="information">
-                            <p>*Dong Hanh provide a refund before {{ expireAt | date("d/m/Y") }}.</p>
+                            <p>*Đồng Hành provides a refund before {{ expireAt | date("l jS F Y") }}.</p>
                         </div>
                     </div>
                 </div>
