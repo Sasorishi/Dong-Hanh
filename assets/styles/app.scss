@@ -2,7 +2,7 @@
 
 /*
  *  Theme
- *  License - Thanh Nien Au Chau
+ *  License - Donh Hanh
 */
 
 :root {
@@ -43,6 +43,11 @@
 @font-face {
     font-family: "Gelion-Bold";
     src: url("../../public/fonts/Gelion-Bold.ttf");
+}
+
+body {
+    padding-top: 10vh;
+    height: 100%;
 }
 
 h1,
@@ -125,6 +130,7 @@ a {
         width: 90% !important;
     }
 
+    .account,
     .checkout,
     .register-form {
         padding-top: 10vh;
@@ -144,17 +150,13 @@ a {
         padding: 4vh;
         color: rgb(65, 65, 65);
     }
-
-    .login {
-        padding-top: 40vw !important;
-    }
-
-    .signin {
-        padding-top: 40vw !important;
-    }
 }
 
 @media screen and (max-width: 900px) {
+    .progresses a {
+        font-size: 0.7em !important;
+    }
+
     .introduction .wrapper-element {
         padding-top: 20vw !important;
     }
@@ -187,7 +189,7 @@ a {
     }
 
     .login-section {
-        padding-top: 20vw !important;
+        // padding-top: 20vw !important;
         padding: 0 !important;
         min-height: 15vh !important;
         border-radius: 0 !important;
@@ -207,6 +209,7 @@ a {
         box-shadow: rgba(0, 0, 0, 0.15) 0px 5px 15px 0px;
     }
 
+    .account,
     .checkout,
     .register-form {
         padding-top: 10vh;
@@ -227,16 +230,12 @@ a {
         color: rgb(65, 65, 65);
     }
 
-    .login {
-        padding-top: 40vw !important;
+    body {
+        padding-top: 0 !important;
     }
 
-    .signin {
-        padding-top: 40vw !important;
-    }
-
-    .account {
-        padding-top: 20vh !important;
+    body .login, .signin, .account, .register-form, .checkout {
+        padding-top: 7vh;
     }
 
     .account .wrapper-card {
@@ -272,11 +271,6 @@ a {
         width: 90% !important;
     }
 
-    .checkout,
-    .register-form {
-        padding-top: 10vh;
-    }
-
     .cart {
         padding: 4vh 5vh;
         border-bottom-left-radius: 0 !important;
@@ -293,7 +287,7 @@ a {
     }
 
     .login-section {
-        padding-top: 20vw !important;
+        // padding-top: 20vw !important;
         padding: 0 !important;
         min-height: 15vh !important;
         border-radius: 0 !important;
@@ -308,31 +302,22 @@ a {
         box-shadow: rgba(0, 0, 0, 0.15) 0px 5px 15px 0px;
     }
 
-    .login {
-        padding-top: 40vw !important;
+    body {
+        padding-top: 0 !important;
     }
 
-    .signin {
-        padding-top: 40vw !important;
+    body .login, .signin {
+        padding-top: 7vh;
     }
-
-    .account {
-        padding-top: 20vh !important;
-    }
-
+    
     .account .wrapper-card {
         padding: 2em !important;
-    }
-
-    .progresses {
-        max-width: 90% !important;
     }
 }
 
 .navbar {
     z-index: 110;
     width: 100%;
-    position: fixed;
 }
 
 .navbar a {
@@ -646,7 +631,6 @@ footer {
     background-color: var(--cream-color);
     color: var(--cognac-color);
     padding: 5em;
-    margin-top: 10%;
 }
 
 .register-form,
@@ -668,6 +652,16 @@ footer {
     // background-size: cover;
     // background-position: center;
     box-shadow: rgba(0, 0, 0, 0.15) 0px 5px 15px 0px;
+}
+
+.information p {
+    text-align: center;
+    font: 1.2em "Gelion-Light";
+    letter-spacing: 0.2em;
+    line-height: 1.8em;
+    font-size: 0.65rem;
+    // font-weight: 600;
+    text-transform: uppercase;
 }
 
 /*		---- Buttons ---- 	*/
@@ -820,18 +814,33 @@ section .btn {
 
 .progresses .fa-circle-check {
     margin-right: 0.5em;
-    font-size: 1.5em;
+    font-size: 1em;
 }
 
 .progresses .fa-circle {
     margin-right: 0.5em;
-    font-size: 1.5em;
+    font-size: 1em;
 }
 
 /*		---- Login ---- 	    */
 
+// .login {
+//     padding-top: 12vw;
+// }
+.login::before {
+    content: "";
+    display: block;
+    flex-grow: 1;
+}
+
 .login {
-    padding-top: 12vw;
+    flex-grow: 0;
+}
+
+.login::after {
+    content: "";
+    display: block;
+    flex-grow: 2;
 }
 
 .login-section {
@@ -1001,7 +1010,7 @@ section .btn {
     //set dimensions for invisible container
     .input-container {
         position: relative;
-        height: 7rem;
+        height: 7.5rem;
         // width: 7rem;
         margin: 0.5rem;
 
@@ -1067,14 +1076,4 @@ section .btn {
             }
         }
     }
-}
-
-.information p {
-    text-align: center;
-    font: 1.2em "Gelion-Light";
-    letter-spacing: 0.2em;
-    line-height: 1.8em;
-    font-size: 0.65rem;
-    // font-weight: 600;
-    text-transform: uppercase;
 }

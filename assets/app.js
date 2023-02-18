@@ -46,7 +46,7 @@ function checkHeaderStatus() {
     var navbar = $(".navbar");
     var scrollPosition = $(window).scrollTop();
     if (scrollPosition < 10) {
-        navbar.css("background-color", "transparent");
+        navbar.css("background-color", "#EFBE4C");
     } else {
         navbar.css("background-color", "#F2ECD2");
     }

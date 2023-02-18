@@ -1,0 +1,17 @@
+{% if path(app.request.attributes.get('_route')) == "/login" or path(app.request.attributes.get('_route')) == "/signin" %}
+<footer style="background-color: transparent !important;">
+    <!-- Copyright -->
+    <div class="text-center">
+        © Copyright 2022 | <a class="text-reset fw-bold" href="">Đồng Hành</a> | VIET TAN | All Rights Reserved by Toan
+    </div>
+    <!-- Copyright -->
+</footer>
+{% else %}
+<footer>
+    <!-- Copyright -->
+    <div class="text-center">
+        © Copyright 2022 | <a class="text-reset fw-bold" href="">Đồng Hành</a> | VIET TAN | All Rights Reserved by Toan
+    </div>
+    <!-- Copyright -->
+</footer>
+{% endif %}
