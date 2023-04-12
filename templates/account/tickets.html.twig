@@ -21,7 +21,17 @@
                         {% if ticket is not null and ticket.status == "COMPLETED" %}
                         <p>Dong Hanh - Summer camp, Trai He 2023</p>
                         <hr class="solid divider-center">
-                        <img src="{{ ticket_qrcode }}" alt="qrcode">
+                        <div class="row align-items-center">
+                            <div class="col-12 col-sm-12 col-md-6 col-lg-6 text-start">
+                                <p style="font-size: 1em !important">Attendee ID : {{ ticket.participant }}</p>
+                                <p style="font-size: 1em !important">Location : Egerupvej 49, 4230 Sk&aelig;lsk&oslash;r, Denmark</p>
+                                <p style="font-size: 1em !important">Start Date / Time : 06 July, 2023</p>
+                                <p style="font-size: 1em !important">Price : {{ ticket.price }} {{ ticket.currency }}</p>
+                            </div>
+                            <div class="col-12 col-sm-12 col-md-6 col-lg-6">
+                                <img src="{{ ticket_qrcode }}" alt="qrcode">
+                            </div>
+                        </div>
                         <a class="btn download btn-dark-blue btn-lg" download="{{ ticket_qrcode }}" href="{{ ticket_qrcode }}"
                             title="ticket">
                             download<i class="fa-solid fa-file-arrow-down ms-2"></i>
