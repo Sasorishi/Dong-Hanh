@@ -307,10 +307,14 @@ class MainController extends AbstractController
                     $participant = $participantRepository->findOneBy(['user' => $this->getUser()->getId()]);
                     if ($ticket->getStatus() == "COMPLETED") {
                         $ticket->setStatus("REFUND");
+                        $participant->setPayment(false);
     
                         $entityManager = $doctrine->getManager();
                         $entityManager->persist($ticket);
                         $entityManager->flush();
+                        $entityManager->persist($participant);
+                        $entityManager->flush();
+
                         $mailer->sendRefund($this->getUser()->getEmail(), $participant);
                     }
                     break;
