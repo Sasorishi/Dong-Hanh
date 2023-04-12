@@ -81,11 +81,18 @@ class PaypalService
         <div id="paypal-button-container"></div>
         <script>
             paypal.Buttons({
+                style: {
+                    layout:  'vertical',
+                    color:   'gold',
+                    shape:   'rect',
+                    label:   'checkout'
+                },
                 // Sets up the transaction when a payment button is clicked
                 createOrder: (data, actions) => {
                     return actions.order.create({
                         purchase_units: [{
                             description: '{$label} - Ticket {$year}',
+                            currency_code: '{$currency}',
                             amount: {
                                 value: {$price} // Can also reference a variable or function
                             }
@@ -96,17 +103,21 @@ class PaypalService
                 onApprove: (data, actions) => {
                     return actions.order.capture().then(function (orderData) {
                         // Successful capture! For dev/demo purposes:
-                        console.log('Capture result', orderData, JSON.stringify(orderData, null, 2));
+                        // console.log('Capture result', orderData, JSON.stringify(orderData, null, 2));
                         const transaction = orderData.purchase_units[0].payments.captures[0];
                         const transactionId = orderData.id;
-                        // actions.redirect('/success');
                         window.location.replace('/success?form=checkout&transaction_id=' + transactionId);
                     });
-                }, 
+                },
+                onCancel(data) {
+                    // Show a cancel page, or return to cart
+                    // console.log('Cancel transaction', data)
+                    window.location.replace('/cancel?error=checkout');
+                },
                 // handle unrecoverable errors
                 onError: (err) => {
-                    console.error('An error prevented the buyer from checking out with PayPal');
-                    window.location.replace('/cancel?form=checkout&transaction_id=' + transactionId);
+                    // console.error('An error prevented the buyer from checking out with PayPal', err);
+                    window.location.replace('/cancel?error=checkout');
                 }
             }).render('#paypal-button-container');
         </script>

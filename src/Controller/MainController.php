@@ -193,7 +193,6 @@ class MainController extends AbstractController
     #[Route('/signin', name: 'app_signin')]
     public function signin(Request $request, UserPasswordHasherInterface $passwordHasher, ManagerRegistry $doctrine, MailerService $mailer)
     {
-        $error = NULL;
         if ($request->isMethod('POST')) {
             $repository = $doctrine->getRepository(User::class);
             $user = $repository->findOneBy(['email' => $request->request->get("_username")]);
@@ -356,6 +355,10 @@ class MainController extends AbstractController
 
                 case 'forgottenPassword':
                     $response = "forgottenPassword";
+                    break;
+
+                case 'checkout':
+                    $response = "checkout";
                     break;
 
                 default:
