@@ -200,30 +200,34 @@ class MainController extends AbstractController
 
             if (!$user) {
                 // $ulid = new Ulid();
-                $user = new User;
-                $user->setEmail($request->request->get("_username"));
-                $plaintextPassword = $request->request->get("_password");
-                // hash the password (based on the security.yaml config for the $user class)
-                $hashedPassword = $passwordHasher->hashPassword(
-                    $user,
-                    $plaintextPassword
-                );
-                $user->setPassword($hashedPassword);
-                $user->setRoles(['user']);
+                if ($request->request->get("_password") == ($request->request->get("_confirmPassword"))) {
+                    $user = new User;
+                    $user->setEmail($request->request->get("_username"));
+                    $plaintextPassword = $request->request->get("_password");
+                    // hash the password (based on the security.yaml config for the $user class)
+                    $hashedPassword = $passwordHasher->hashPassword(
+                        $user,
+                        $plaintextPassword
+                    );
+                    $user->setPassword($hashedPassword);
+                    $user->setRoles(['user']);
+        
+                    $entityManager = $doctrine->getManager();
+                    $entityManager->persist($user);
+                    $entityManager->flush();
     
-                $entityManager = $doctrine->getManager();
-                $entityManager->persist($user);
-                $entityManager->flush();
-
-                return $this->redirectToRoute('app_success', array('form' => 'signin', 'user' => $request->request->get("_username")));
+                    return $this->redirectToRoute('app_success', array('form' => 'signin', 'user' => $request->request->get("_username")));
+                } else {
+                    $this->addFlash('error', 'Password isn\'t the same.');
+                }
             } else {
-                $error = true;
+                $this->addFlash('error', 'Email already used.');
             }
 
         }
 
         return $this->render('account/signin.html.twig', [
-            'error' => $error
+            // 'error' => $error
         ]);
     }
 
