@@ -8,6 +8,7 @@
     <meta property="og:image:type" content="image/jpg">
     <meta property="og:image:width" content="1024">
     <meta property="og:image:height" content="1024">
+    <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
     <title>{% block title %}Đồng Hành - Summer Camp{% endblock %}</title>
     <link rel="icon" type="image/png" href="images/vietnam.png">
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
@@ -25,6 +26,7 @@
     <script src="https://kit.fontawesome.com/56694ff80d.js" crossorigin="anonymous"></script>
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
     <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+    <script src="https://www.google.com/recaptcha/api.js?hl=en" async defer></script>
     {% endblock %}
 </head>
 {% include 'navbar.html.twig' %}

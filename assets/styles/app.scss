@@ -71,7 +71,7 @@ label {
 }
 
 h1 {
-    font: 3.2em "Intan";
+    font: 3em "Intan";
     letter-spacing: 0.05em;
     margin-top: 0.5em;
 }
@@ -312,6 +312,10 @@ a {
 
     .account .wrapper-card {
         padding: 2em !important;
+    }
+
+    .progresses a {
+        font-size: 0.6em !important;
     }
 }
 
@@ -814,12 +818,12 @@ section .btn {
 }
 
 .progresses .fa-circle-check {
-    margin-right: 0.5em;
+    margin-right: 0.2em;
     font-size: 1em;
 }
 
 .progresses .fa-circle {
-    margin-right: 0.5em;
+    margin-right: 0.2em;
     font-size: 1em;
 }
 
@@ -1011,7 +1015,7 @@ section .btn {
     //set dimensions for invisible container
     .input-container {
         position: relative;
-        height: 7.5rem;
+        height: 10.5rem;
         // width: 7rem;
         margin: 0.5rem;
 
