@@ -2,40 +2,47 @@
 
 namespace App\Controller;
 
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use App\Entity\User;
+use App\Entity\Event;
+use App\Entity\Ticket;
+use App\Entity\Participant;
+use App\Service\MailerService;
+use App\Service\PaypalService;
+use App\Service\QrcodeService;
+use App\Service\RecaptchaService;
+use Doctrine\Persistence\ManagerRegistry;
+use Symfony\Component\HttpFoundation\Request;
+// use App\Service\StripePaymentService;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\HttpFoundation\Request;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
-use Doctrine\Persistence\ManagerRegistry;
-use App\Entity\User;
-use App\Entity\Participant;
-use App\Entity\Ticket;
-use App\Entity\Event;
-// use App\Service\StripePaymentService;
-use App\Service\PaypalService;
-use App\Service\MailerService;
-use App\Service\QrcodeService;
 
 class MainController extends AbstractController
 {
     #[Route('/', name: 'app_main')]
-    public function index(MailerService $mailer, Request $request)
+    public function index(MailerService $mailer, RecaptchaService $recaptcha, Request $request)
     {
         $response = NULL;
-        
-        if ($request->isMethod('POST')) {
-            $response = $mailer->sendMail($request);
 
-            if ($response == TRUE) {
-                return $this->redirectToRoute('app_success', array('form' => 'contact'));
+        if ($request->isMethod('POST')) {
+            $validator = $recaptcha->requestApi($request->request->get("g-recaptcha-response"));
+            if ($validator["success"] == true) {
+                $response = $mailer->sendMail($request);
+    
+                if ($response == TRUE) {
+                    return $this->redirectToRoute('app_success', array('form' => 'contact'));
+                } else {
+                    return $this->redirectToRoute('app_cancel', array('error' => 'contact'));
+                }
             } else {
                 return $this->redirectToRoute('app_cancel', array('error' => 'contact'));
             }
         }
 
         return $this->render('home.html.twig', [
-            'response' => $response
+            'response' => $response,
+            'recaptcha_key' => $recaptcha->getKey()
         ]);
     }
 

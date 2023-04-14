@@ -15,6 +15,8 @@ parameters:
     app.mailer_password: '%env(MAILER_PASSWORD)%'
     app.mailer_port: '%env(MAILER_PORT)%'
     app.dir.templates: '%kernel.project_dir%/templates/'
+    app.recaptcha_key: '%env(RECAPTCHA_KEY)%'
+    app.recaptcha_secret: '%env(RECAPTCHA_SECRET)%'
 
 services:
     # default configuration for services in *this* file
@@ -53,3 +55,8 @@ services:
             $mailer_password: '%app.mailer_password%'
             $mailer_port: '%app.mailer_port%'
             $dir_templates: '%app.dir.templates%'
+
+    App\Service\RecaptchaService:
+        arguments:
+            $recaptcha_key: '%app.recaptcha_key%'
+            $recaptcha_secret: '%app.recaptcha_secret%'
