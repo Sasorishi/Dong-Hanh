@@ -179,7 +179,7 @@ class MainController extends AbstractController
                 }
             }
 
-            if ($price == 72) {
+            if ($price == 75) {
                 $option = "Without transportation";
             } else {
                 $option = "With transportation included";
