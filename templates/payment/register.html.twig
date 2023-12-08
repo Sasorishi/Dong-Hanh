@@ -46,10 +46,16 @@
                     <select id="inputGender" name="gender" class="form-select">
                         {% if participant.gender == 'male' %}
                         <option value="{{ participant.gender }}" selected="{{ participant.gender }}">Male</option>
+                        <option value="female">Female</option>
+                        <option value="nonBinary">Non binary</option>
                         {% elseif participant.gender == 'female' %}
                         <option value="{{ participant.gender }}" selected="{{ participant.gender }}">Female</option>
+                        <option value="male">Male</option>
+                        <option value="nonBinary">Non binary</option>
                         {% elseif participant.gender == 'nonBinary' %}
                         <option value="{{ participant.gender }}" selected="{{ participant.gender }}">Non binary</option>
+                        <option value="male">Male</option>
+                        <option value="female">Female</option>
                         {% else %}
                         <option value="male">Male</option>
                         <option value="female">Female</option>

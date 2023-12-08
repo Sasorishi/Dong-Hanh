@@ -25,10 +25,26 @@ use App\Service\PaypalService;
 class LoginController extends AbstractController
 {
     #[Route('/login', name: 'app_login')]
-    public function login(AuthenticationUtils $authenticationUtils): Response
+    public function login(AuthenticationUtils $authenticationUtils, ManagerRegistry $doctrine, TokenGeneratorInterface $tokenGenerator): Response
     {        
         $error = $authenticationUtils->getLastAuthenticationError();
         $email = $authenticationUtils->getLastUsername();
+
+        // if ($error != null) {
+        //     dump("wait");
+        //     $repository = $doctrine->getRepository(User::class);
+        //     $user = $repository->findOneBy(['email' => $email]);
+
+            // if (!$user->isVerified()) {
+            //     $token = $tokenGenerator->generateToken();
+            //     $user->setTokenVerified($token);
+            //     $entityManager = $doctrine->getManager();
+            //     $entityManager->persist($user);
+            //     $entityManager->flush();
+
+            //     $this->addFlash('error', 'You will receive a confirmation email. You have to valide your account.');
+            // }
+        // }
         
         return $this->render('account/login.html.twig', [
             'controller_name' => 'LoginController',
@@ -117,6 +133,7 @@ class LoginController extends AbstractController
         $participant = $participantRepository->findOneBy(['user' => $this->getUser()->getId()]);
         $ticket = NULL;
         $qrcodeTicket = NULL;
+
         $expire = false;
 
         if ($participant) {

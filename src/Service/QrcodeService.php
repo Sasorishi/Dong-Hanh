@@ -13,4 +13,11 @@ class QrcodeService
 
         return $qrcode;
     }
+
+    public function generateMainLink() {
+        $domain = 'dong-hanh.org';
+        $qrcode = (new QRCode)->render($domain);
+        dump($qrcode);
+        return $qrcode;
+    }
 }
