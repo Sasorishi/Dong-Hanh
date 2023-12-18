@@ -46,7 +46,7 @@ class LoginController extends AbstractController
             // }
         // }
         
-        return $this->render('account/login.html.twig', [
+        return $this->render('index.html.twig', [
             'controller_name' => 'LoginController',
             'last_username' => $email,
             'error'         => $error
@@ -66,8 +66,6 @@ class LoginController extends AbstractController
             if ($user) {
                 if ($user->getPasswordRequestAt()) {
                     $requestAt = $user->getPasswordRequestAt();
-                    // dump($user->getPasswordRequestAt());
-                    // dump($requestAt->modify('+1 minutes'));
 
                     if ($requestAt->modify('+1 hour') > new \Datetime()) {
                         if ($request->isMethod('POST')) {

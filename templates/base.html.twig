@@ -1,42 +1,41 @@
 <!DOCTYPE html>
 <html>
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta property="og:image" content="images/Banner - 2023.jpg">
-    <meta property="og:image:type" content="image/jpg">
-    <meta property="og:image:width" content="1024">
-    <meta property="og:image:height" content="1024">
-    <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
-    <title>{% block title %}Đồng Hành - Summer Camp{% endblock %}</title>
-    <link rel="icon" type="image/png" href="images/vietnam.png">
-    {# Run `composer require symfony/webpack-encore-bundle` to start using Symfony UX #}
-    {% block stylesheets %}
-    {{ encore_entry_link_tags('app') }}
-    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/css/intlTelInput.css" />
-    {% endblock %}
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<meta property="og:image" content="images/Banner - 2023.jpg">
+		<meta property="og:image:type" content="image/jpg">
+		<meta property="og:image:width" content="1024">
+		<meta property="og:image:height" content="1024">
+		<meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
+		<title>
+			{% block title %}
+				Đồng Hành Network
+			{% endblock %}
+		</title>
+		<link rel="icon" type="image/png" href="images/vietnam.png">
+		{% block stylesheets %}
+			{# <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous"> #}
+			{{ encore_entry_link_tags('styles') }}
+			{{ encore_entry_link_tags('external_assets_css') }}
+		{% endblock %}
 
-    {% block javascripts %}
-    {{ encore_entry_script_tags('app') }}
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.1/jquery.js"
-        integrity="sha512-CX7sDOp7UTAq+i1FYIlf9Uo27x4os+kGeoT7rgwvY+4dmjqV0IuE/Bl5hVsjnQPQiTOhAX1O2r2j5bjsFBvv/A=="
-        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-    <script src="https://kit.fontawesome.com/56694ff80d.js" crossorigin="anonymous"></script>
-    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
-    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
-    <script src="https://www.google.com/recaptcha/api.js?hl=en" async defer></script>
-    {% endblock %}
-</head>
-{% include 'navbar.html.twig' %}
+		{% block javascripts %}
+			{#  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script> #}
+			{{ encore_entry_script_tags('app') }}
+			<script src="https://kit.fontawesome.com/56694ff80d.js" crossorigin="anonymous"></script>
+			<script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+			<script src="https://www.google.com/recaptcha/api.js?hl=en" async defer></script>
+		{% endblock %}
+	</head>
+	{# {% include 'navbar.html.twig' %} #}
 
+	<body>
+		{% block body %}{% endblock %}
+	</body>
 
-<body>
-    {% block body %}{% endblock %}
-</body>
-
-{% include 'footer.html.twig' %}
+	{# {% include 'footer.html.twig' %} #}
 
 
 </html>
