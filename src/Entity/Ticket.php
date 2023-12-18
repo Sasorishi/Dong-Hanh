@@ -43,7 +43,7 @@ class Ticket
     private ?string $participant = null;
 
     #[ORM\Column(nullable: true)]
-    private ?bool $Scan = null;
+    private ?bool $scan = null;
 
     public function getId(): ?int
     {
@@ -160,12 +160,12 @@ class Ticket
 
     public function isScan(): ?bool
     {
-        return $this->Scan;
+        return $this->scan;
     }
 
-    public function setScan(?bool $Scan): self
+    public function setScan(?bool $scan): self
     {
-        $this->Scan = $Scan;
+        $this->scan = $scan;
 
         return $this;
     }
