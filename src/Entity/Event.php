@@ -43,6 +43,9 @@ class Event
     #[ORM\Column(type: Types::DATE_MUTABLE, nullable: true)]
     private ?\DateTimeInterface $refundExpireAt = null;
 
+    #[ORM\Column(type: Types::TEXT, nullable: true)]
+    private ?string $description = null;
+
     public function __construct()
     {
         $this->tickets = new ArrayCollection();
@@ -175,6 +178,18 @@ class Event
     public function setRefundExpireAt(?\DateTimeInterface $refundExpireAt): self
     {
         $this->refundExpireAt = $refundExpireAt;
+
+        return $this;
+    }
+
+    public function getDescription(): ?string
+    {
+        return $this->description;
+    }
+
+    public function setDescription(?string $description): static
+    {
+        $this->description = $description;
 
         return $this;
     }
