@@ -21,7 +21,7 @@ use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 class MainController extends AbstractController
 {
     #[Route('/', name: 'app_main')]
-    public function index(MailerService $mailer, RecaptchaService $recaptcha, Request $request)
+    public function index(MailerService $mailer, RecaptchaService $recaptcha, Request $request): Response
     {
         $response = NULL;
 
@@ -40,7 +40,7 @@ class MainController extends AbstractController
             }
         }
 
-        return $this->render('home.html.twig', [
+        return $this->render('index.html.twig', [
             'response' => $response,
             'recaptcha_key' => $recaptcha->getKey()
         ]);
