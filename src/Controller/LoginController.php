@@ -3,14 +3,11 @@
 namespace App\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
-use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
-use Symfony\Component\Security\Core\Exception\AuthenticationException;
-use Symfony\Component\Security\Http\EntryPoint\AuthenticationEntryPointInterface;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Security\Csrf\TokenGenerator\TokenGeneratorInterface;
 use Doctrine\Persistence\ManagerRegistry;
@@ -21,36 +18,39 @@ use App\Entity\Event;
 use App\Service\MailerService;
 use App\Service\QrcodeService;
 use App\Service\PaypalService;
+use Symfony\Bundle\SecurityBundle\Security;
 
 class LoginController extends AbstractController
 {
     #[Route('/login', name: 'app_login')]
-    public function login(AuthenticationUtils $authenticationUtils, ManagerRegistry $doctrine, TokenGeneratorInterface $tokenGenerator): Response
-    {        
+    public function index(AuthenticationUtils $authenticationUtils, Security $security)
+    {
+        if ($security->isGranted('IS_AUTHENTICATED_FULLY')) {
+            return $this->redirectToRoute('app_main');
+        }
+
         $error = $authenticationUtils->getLastAuthenticationError();
         $email = $authenticationUtils->getLastUsername();
 
-        // if ($error != null) {
-        //     dump("wait");
-        //     $repository = $doctrine->getRepository(User::class);
-        //     $user = $repository->findOneBy(['email' => $email]);
+        if ($error !== null) {
+            new JsonResponse(['success' => false, 'message' => 'Authentication failed'], 401);
+            return $this->render('index.html.twig', [
+                'controller_name' => 'LoginController',
+                'error' => 'Authentication failed',
+            ]);
+        }
 
-            // if (!$user->isVerified()) {
-            //     $token = $tokenGenerator->generateToken();
-            //     $user->setTokenVerified($token);
-            //     $entityManager = $doctrine->getManager();
-            //     $entityManager->persist($user);
-            //     $entityManager->flush();
-
-            //     $this->addFlash('error', 'You will receive a confirmation email. You have to valide your account.');
-            // }
-        // }
-        
         return $this->render('index.html.twig', [
             'controller_name' => 'LoginController',
-            'last_username' => $email,
-            'error'         => $error
         ]);
+    }
+
+    #[Route('/api/is-authenticated', name: 'api_is_authenticated')]
+    public function isAuthenticated(Security $security): JsonResponse
+    {
+        $isAuthenticated = $security->isGranted('IS_AUTHENTICATED_FULLY');
+
+        return new JsonResponse(['isAuthenticated' => $isAuthenticated]);
     }
 
     #[Route('/account_forgotten_password', name: 'app_forgotten_password')]
