@@ -47,6 +47,12 @@
   src: url("../../public/fonts/Gelion-Bold.ttf");
 }
 
+@layer components {
+  .animation-hover {
+    @apply transition ease-in-out delay-150 duration-300;
+  }
+}
+
 body {
   margin: 0;
   min-height: 100vh;

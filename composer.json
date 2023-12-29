@@ -15,6 +15,7 @@
     "doctrine/orm": "^2.13",
     "friendsofphp/proxy-manager-lts": "^1.0",
     "laminas/laminas-code": "^4.8",
+    "nelmio/cors-bundle": "^2.4",
     "paypal/paypal-checkout-sdk": "^1.0",
     "phpmailer/phpmailer": "^6.7",
     "stripe/stripe-php": "^9.9",

@@ -1,8 +1,65 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
+import axios from "../../../api";
+import { useNavigate } from "react-router-dom";
 
 function Navbar() {
+  const navigate = useNavigate();
+  const [error, setError] = useState(null);
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+
+  const checkAuthentication = async () => {
+    try {
+      const response = await axios.get("/api/is-authenticated");
+
+      if (response.status === 200) {
+        const data = response.data;
+        return data.isAuthenticated;
+      } else {
+        console.error("Erreur lors de la vérification de l'authentification");
+        setError("Erreur lors de la vérification de l'authentification");
+        return false;
+      }
+    } catch (error) {
+      console.error(
+        "Erreur lors de la vérification de l'authentification",
+        error
+      );
+      return false;
+    }
+  };
+
+  const handleNavigation = (path) => {
+    switch (path) {
+      case "login":
+        navigate("/login");
+        break;
+
+      case "logout":
+        window.location.href = "/logout";
+        break;
+
+      case "account":
+        window.location.href = "/account";
+        break;
+
+      default:
+        window.location.href = "/";
+        break;
+    }
+  };
+
+  useEffect(() => {
+    const fetchData = async () => {
+      const isAuthenticated = await checkAuthentication();
+      setIsAuthenticated(isAuthenticated);
+      console.log("L'utilisateur est connecté :", isAuthenticated);
+    };
+
+    fetchData();
+  }, []);
+
   return (
-    <nav className="relative w-full z-20 top-0 start-0 border-b border-gray-200 dark:border-gray-600">
+    <nav className="relative w-full z-20 top-0 start-0 shadow-md">
       <div className="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
         <a href="/" className="flex items-center space-x-3 rtl:space-x-reverse">
           <img
@@ -15,13 +72,35 @@ function Navbar() {
           </span>
         </a>
         <div className="flex md:order-2 space-x-3 md:space-x-0 rtl:space-x-reverse">
-          <button
-            type="button"
-            className="text-white uppercase bg-darkblue hover:bg-rosered font-medium rounded-full text-sm px-4 py-2 text-center"
-          >
-            Login
-            <i className="ml-3 text-amber fa-solid fa-user" />
-          </button>
+          {isAuthenticated ? (
+            <div className="flex gap-2">
+              <button
+                type="button"
+                onClick={() => handleNavigation("account")}
+                className="animation-hover text-white uppercase bg-darkblue hover:bg-rosered font-medium rounded-full text-sm px-4 py-2 text-center"
+              >
+                Account
+                <i className="ml-3 text-amber fa-solid fa-user" />
+              </button>
+              <button
+                type="button"
+                onClick={() => handleNavigation("logout")}
+                className="animation-hover text-white uppercase bg-darkblue hover:bg-rosered font-medium rounded-full text-sm px-4 py-2 text-center"
+              >
+                Logout
+                <i className="ml-3 text-amber fa-solid fa-user" />
+              </button>
+            </div>
+          ) : (
+            <button
+              type="button"
+              onClick={() => handleNavigation("login")}
+              className="animation-hover text-white uppercase bg-darkblue hover:bg-rosered font-medium rounded-full text-sm px-4 py-2 text-center"
+            >
+              Login
+              <i className="ml-3 text-amber fa-solid fa-user" />
+            </button>
+          )}
           <button
             data-collapse-toggle="navbar-sticky"
             type="button"
