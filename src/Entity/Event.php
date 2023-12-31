@@ -38,13 +38,22 @@ class Event
     private ?string $currency = null;
 
     #[ORM\Column(nullable: true)]
-    private array $price = [];
+    private ?array $price = null;
 
     #[ORM\Column(type: Types::DATE_MUTABLE, nullable: true)]
     private ?\DateTimeInterface $refundExpireAt = null;
 
     #[ORM\Column(type: Types::TEXT, nullable: true)]
     private ?string $description = null;
+
+    #[ORM\Column(type: Types::DATE_MUTABLE, nullable: true)]
+    private ?\DateTimeInterface $dateStart = null;
+
+    #[ORM\Column(type: Types::DATE_MUTABLE, nullable: true)]
+    private ?\DateTimeInterface $dateEnd = null;
+
+    #[ORM\Column(nullable: true)]
+    private ?array $features = null;
 
     public function __construct()
     {
@@ -190,6 +199,42 @@ class Event
     public function setDescription(?string $description): static
     {
         $this->description = $description;
+
+        return $this;
+    }
+
+    public function getDateStart(): ?\DateTimeInterface
+    {
+        return $this->dateStart;
+    }
+
+    public function setDateStart(\DateTimeInterface $dateStart): static
+    {
+        $this->dateStart = $dateStart;
+
+        return $this;
+    }
+
+    public function getDateEnd(): ?\DateTimeInterface
+    {
+        return $this->dateEnd;
+    }
+
+    public function setDateEnd(?\DateTimeInterface $dateEnd): static
+    {
+        $this->dateEnd = $dateEnd;
+
+        return $this;
+    }
+
+    public function getFeatures(): ?array
+    {
+        return $this->features;
+    }
+
+    public function setFeatures(?array $features): static
+    {
+        $this->features = $features;
 
         return $this;
     }

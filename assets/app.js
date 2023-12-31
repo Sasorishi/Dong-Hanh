@@ -7,21 +7,63 @@
 
 // any CSS you import will output into a single css file (app.css in this case)
 import $ from "jquery";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { createRoot } from "react-dom/client";
-import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
-import App from "./js/pages/homepage/App";
-import Login from "./js/pages/Login";
+import {
+  BrowserRouter as Router,
+  Route,
+  Routes,
+  Navigate,
+} from "react-router-dom";
+import axios from "./api";
+
 import Navbar from "./js/components/layout/NavbarLayout";
 import Footer from "./js/components/layout/FooterLayout";
 
+import App from "./js/pages/homepage/App";
+import Login from "./js/pages/Login";
+import Account from "./js/pages/account/Account";
+import Events from "./js/pages/events/Events";
+
 const Main = () => {
+  AOS.init();
+
+  const [isAuthenticated, setIsAuthenticated] = useState(null);
+  useEffect(() => {
+    const checkAuthentication = async () => {
+      try {
+        const response = await axios.get("/api/is-authenticated");
+
+        if (response.status === 200) {
+          const data = response.data;
+          setIsAuthenticated(data.isAuthenticated);
+        } else {
+          console.error("Erreur lors de la vérification de l'authentification");
+          setIsAuthenticated(false);
+        }
+      } catch (error) {
+        console.error(
+          "Erreur lors de la vérification de l'authentification",
+          error
+        );
+        setIsAuthenticated(false);
+      }
+    };
+
+    checkAuthentication();
+  }, []);
+
   return (
     <Router>
-      <Navbar />
+      <Navbar isAuthenticated={isAuthenticated} />
       <Routes>
-        <Route path="/login" element={<Login />} />
         <Route path="/" element={<App />} />
+        <Route path="/login" element={isAuthenticated ? <App /> : <Login />} />
+        <Route
+          path="/account"
+          element={!isAuthenticated ? <App /> : <Account />}
+        />
+        <Route path="/events" element={<Events />} />
       </Routes>
       <Footer />
     </Router>
@@ -33,7 +75,6 @@ const root = createRoot(container); // createRoot(container!) if you use TypeScr
 root.render(<Main />);
 
 $(document).ready(function () {
-  AOS.init();
   // checkbox();
   // navbar();
   // $(window).scroll(function () {
