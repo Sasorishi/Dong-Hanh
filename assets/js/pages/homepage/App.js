@@ -1,13 +1,13 @@
 // assets/js/components/App.js
 import React from "react";
-import IntroductionSection from "./IntroductionComponent";
-import SeparatorSection from "./SeparatorComponent";
-import AboutUsSection from "./AboutUsComponent";
-import ActivitiesSection from "./ActivitiesComponent";
-import JourneySection from "./JourneyComponent";
-import CommunitySection from "./CommunityComponent";
-import TeamSection from "./TeamComponent";
-import ContactSection from "./ContactComponent";
+import IntroductionSection from "../../components/homepage/IntroductionComponent";
+import SeparatorSection from "../../components/homepage/SeparatorComponent";
+import AboutUsSection from "../../components/homepage/AboutUsComponent";
+import ActivitiesSection from "../../components/homepage/ActivitiesComponent";
+import JourneySection from "../../components/homepage/JourneyComponent";
+import CommunitySection from "../../components/homepage/CommunityComponent";
+import TeamSection from "../../components/homepage/TeamComponent";
+import ContactSection from "../../components/homepage/ContactComponent";
 
 const App = () => {
   return (

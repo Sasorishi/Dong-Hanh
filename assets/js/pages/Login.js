@@ -1,30 +1,8 @@
 import React, { useState, useEffect } from "react";
-import axios from "../../api";
 import Toast from "../components/ToastComponent";
 
 const Login = () => {
   const [error, setError] = useState(null);
-
-  const checkAuthentication = async () => {
-    try {
-      const response = await axios.get("/api/is-authenticated");
-
-      if (response.status === 200) {
-        const data = response.data;
-        return data.isAuthenticated;
-      } else {
-        console.error("Erreur lors de la vérification de l'authentification");
-        setError("Erreur lors de la vérification de l'authentification");
-        return false;
-      }
-    } catch (error) {
-      console.error(
-        "Erreur lors de la vérification de l'authentification",
-        error
-      );
-      return false;
-    }
-  };
 
   const closeToast = () => {
     setError(null);
@@ -35,13 +13,6 @@ const Login = () => {
       if (window.errorFromSymfony) {
         console.log("Error from Symfony:", window.errorFromSymfony);
         setError(window.errorFromSymfony);
-      }
-
-      const isAuthenticated = await checkAuthentication();
-      console.log("L'utilisateur est connecté :", isAuthenticated);
-
-      if (isAuthenticated) {
-        window.location.href = "/";
       }
     };
 

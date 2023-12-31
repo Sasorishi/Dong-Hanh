@@ -2,31 +2,10 @@ import React, { useEffect, useState } from "react";
 import axios from "../../../api";
 import { useNavigate } from "react-router-dom";
 
-function Navbar() {
+function Navbar({ isAuthenticated }) {
   const navigate = useNavigate();
   const [error, setError] = useState(null);
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
-
-  const checkAuthentication = async () => {
-    try {
-      const response = await axios.get("/api/is-authenticated");
-
-      if (response.status === 200) {
-        const data = response.data;
-        return data.isAuthenticated;
-      } else {
-        console.error("Erreur lors de la vérification de l'authentification");
-        setError("Erreur lors de la vérification de l'authentification");
-        return false;
-      }
-    } catch (error) {
-      console.error(
-        "Erreur lors de la vérification de l'authentification",
-        error
-      );
-      return false;
-    }
-  };
+  const [isOpen, setIsOpen] = useState(false);
 
   const handleNavigation = (path) => {
     switch (path) {
@@ -48,15 +27,9 @@ function Navbar() {
     }
   };
 
-  useEffect(() => {
-    const fetchData = async () => {
-      const isAuthenticated = await checkAuthentication();
-      setIsAuthenticated(isAuthenticated);
-      console.log("L'utilisateur est connecté :", isAuthenticated);
-    };
-
-    fetchData();
-  }, []);
+  const toggleMenu = () => {
+    setIsOpen(!isOpen);
+  };
 
   return (
     <nav className="relative w-full z-20 top-0 start-0 shadow-md">
@@ -104,6 +77,7 @@ function Navbar() {
           <button
             data-collapse-toggle="navbar-sticky"
             type="button"
+            onClick={toggleMenu}
             className="inline-flex items-center p-2 w-10 h-10 justify-center text-sm text-gray-500 rounded-lg md:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600"
             aria-controls="navbar-sticky"
             aria-expanded="false"
@@ -126,6 +100,27 @@ function Navbar() {
             </svg>
           </button>
         </div>
+      </div>
+      <div
+        className={`${isOpen ? "block" : "hidden"} md:hidden w-full md:w-auto`}
+      >
+        <ul className="flex flex-col md:flex-row md:space-x-4">
+          <li>
+            <a href="/" className="text-white py-2 md:py-0">
+              Home
+            </a>
+          </li>
+          <li>
+            <a href="/about" className="text-white py-2 md:py-0">
+              About
+            </a>
+          </li>
+          <li>
+            <a href="/contact" className="text-white py-2 md:py-0">
+              Contact
+            </a>
+          </li>
+        </ul>
       </div>
     </nav>
   );

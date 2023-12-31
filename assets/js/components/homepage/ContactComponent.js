@@ -11,7 +11,7 @@ const ContactSection = () => {
   return (
     <section className="contact" id="contact">
       <form method="POST" className="needs-validation">
-        <div className="container wrapper-element m-auto">
+        <div className="container wrapper-element m-auto bg-cream p-12 rounded-xl">
           <div className="w-full">
             <span>Any questions ?</span>
             <h1>Contact</h1>
@@ -143,11 +143,11 @@ const ContactSection = () => {
               </div>
             </div>
           </div>
-          <div
+          {/* <div
             id="recaptcha"
             className="g-recaptcha mt-3"
             data-sitekey="{{ recaptcha_key }}"
-          />
+          /> */}
           <div className="mt-5">
             <div className="grid gap-2 justify-content-end">
               <button

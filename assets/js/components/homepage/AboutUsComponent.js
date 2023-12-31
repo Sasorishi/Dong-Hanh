@@ -6,7 +6,7 @@ const AboutUsSection = () => {
       <div className="container-fluid">
         <div className="flex flex-col lg:flex-row">
           <div className="lg:w-4/12 md:w-full sm:w-full" />
-          <div className="lg:w-8/12 md:w-full sm:w-full wrapper-card text-center">
+          <div className="lg:w-8/12 md:w-full sm:w-full wrapper-card text-center p-8 lg:rounded-l-xl">
             <span
               data-aos="fade-up"
               data-aos-offset="50"

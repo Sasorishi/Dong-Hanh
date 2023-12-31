@@ -131,102 +131,6 @@ button {
 
 /*		---- General ---- 	*/
 
-@media screen and (max-width: 1200px) {
-  .account,
-  .checkout,
-  .register-form {
-    padding-top: 10vh;
-  }
-
-  .cart {
-    padding: 4vh 5vh;
-    border-bottom-left-radius: 0 !important;
-    border-top-left-radius: 1rem;
-    border-top-right-radius: 1rem;
-  }
-
-  .summary {
-    border-top-right-radius: 0 !important;
-    border-bottom-right-radius: 1rem;
-    border-bottom-left-radius: 1rem;
-    padding: 4vh;
-    color: rgb(65, 65, 65);
-  }
-}
-
-@media screen and (max-width: 900px) {
-  .progresses a {
-    font-size: 0.7em !important;
-  }
-
-  .form-section {
-    border-radius: 0 !important;
-    box-shadow: rgba(0, 0, 0, 0.15) 0px 5px 15px 0px;
-  }
-
-  .account,
-  .checkout,
-  .register-form {
-    padding-top: 10vh;
-  }
-
-  .cart {
-    padding: 4vh 5vh;
-    border-bottom-left-radius: 0 !important;
-    border-top-left-radius: 1rem;
-    border-top-right-radius: 1rem;
-  }
-
-  .summary {
-    border-top-right-radius: 0 !important;
-    border-bottom-right-radius: 1rem;
-    border-bottom-left-radius: 1rem;
-    padding: 4vh;
-    color: rgb(65, 65, 65);
-  }
-
-  body {
-    padding-top: 0 !important;
-  }
-
-  .account .wrapper-card {
-    padding: 2em !important;
-  }
-
-  .progresses {
-    max-width: 90% !important;
-  }
-}
-
-@media screen and (max-width: 750px) {
-  .cart {
-    padding: 4vh 5vh;
-    border-bottom-left-radius: 0 !important;
-    border-top-left-radius: 1rem;
-    border-top-right-radius: 1rem;
-  }
-
-  .summary {
-    border-top-right-radius: 0 !important;
-    border-bottom-right-radius: 1rem;
-    border-bottom-left-radius: 1rem;
-    padding: 4vh;
-    color: rgb(65, 65, 65);
-  }
-
-  body {
-    padding-top: 0 !important;
-  }
-
-  .account .wrapper-card {
-    padding: 2em !important;
-  }
-
-  .progresses a {
-    font-size: 0.6em !important;
-  }
-}
-
 .navbar {
   z-index: 110;
   width: 100%;
@@ -244,6 +148,13 @@ body {
 
 section {
   padding: 6vw 14vh;
+}
+
+/* Media query pour les écrans mobiles */
+@media screen and (max-width: 768px) {
+  section {
+    padding: 8vw 3vh;
+  }
 }
 
 .separator {
@@ -283,9 +194,6 @@ section {
 }
 
 .about-us .wrapper-card {
-  padding: 7em;
-  border-top-left-radius: 1em;
-  border-bottom-left-radius: 1em;
   background-image: url("../../public/images/11807129_10205648593187495_7305343562553859964_o.png");
   background-size: cover;
   background-position: center;
@@ -303,10 +211,6 @@ section {
   border-radius: 1em;
   box-shadow: rgba(0, 0, 0, 0.15) 0px 5px 15px 0px;
   height: 100%;
-}
-
-.activities img {
-  margin-bottom: 2em;
 }
 
 .adventure .wrapper-card {
@@ -459,23 +363,10 @@ section {
   background-position: center;
 }
 
-.contact .wrapper-element {
-  background-color: var(--cream-color);
-  padding: 10vw 8vw;
-  border-radius: 1em;
-  width: 72%;
-}
-
 .contact span {
   font: 1em "Gelion-Light";
   letter-spacing: 0.2em;
   line-height: 1.8em;
-}
-
-footer {
-  background-color: var(--cream-color);
-  color: var(--cognac-color);
-  padding: 5em;
 }
 
 .register-form,
@@ -486,12 +377,6 @@ footer {
 
 .register-form .wrapper-card {
   padding: 3em;
-  border-radius: 1em;
-  box-shadow: rgba(0, 0, 0, 0.15) 0px 5px 15px 0px;
-}
-
-.account .wrapper-card {
-  padding: 7em;
   border-radius: 1em;
   box-shadow: rgba(0, 0, 0, 0.15) 0px 5px 15px 0px;
 }
@@ -585,18 +470,6 @@ footer {
 
 .checkout hr {
   margin-top: 1.25rem;
-}
-
-.progresses {
-  position: relative;
-  max-width: 70%;
-  margin: auto;
-}
-
-.progresses ul {
-  list-style: none;
-  /* border: 1px solid red; */
-  padding: 0;
 }
 
 .progresses a {

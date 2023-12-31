@@ -5,7 +5,7 @@ const Footer = () => {
   const currentYear = date.getFullYear();
 
   return (
-    <footer>
+    <footer className="bg-amber text-cognac p-20">
       <div className="text-center">
         © Copyright 2022 - {currentYear} |{" "}
         <a className="text-reset fw-bold" href="">
