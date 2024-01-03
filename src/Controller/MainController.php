@@ -23,26 +23,32 @@ class MainController extends AbstractController
     #[Route('/', name: 'app_main')]
     public function index(MailerService $mailer, RecaptchaService $recaptcha, Request $request): Response
     {
-        $response = NULL;
-
-        if ($request->isMethod('POST')) {
-            $validator = $recaptcha->requestApi($request->request->get("g-recaptcha-response"));
-            if ($validator["success"] == true) {
-                $response = $mailer->sendMail($request);
-    
-                if ($response == TRUE) {
-                    return $this->redirectToRoute('app_success', array('form' => 'contact'));
-                } else {
-                    return $this->redirectToRoute('app_cancel', array('error' => 'contact'));
-                }
-            } else {
-                return $this->redirectToRoute('app_cancel', array('error' => 'contact'));
-            }
+        if ($request->isMethod('GET') && $request->query->get('response') !== null) {
+            $response = $request->query->get('response');
+            dump($response);
+            return $this->render('index.html.twig', [
+                'recaptcha_key' => $recaptcha->getKey(),
+                'error' => $response
+            ]);
         }
+        
+        // if ($request->isMethod('POST')) {
+        //     $validator = $recaptcha->requestApi($request->request->get("g-recaptcha-response"));
+        //     if ($validator["success"] == true) {
+        //         $response = $mailer->sendMail($request);
+    
+        //         if ($response == TRUE) {
+        //             return $this->redirectToRoute('app_success', array('form' => 'contact'));
+        //         } else {
+        //             return $this->redirectToRoute('app_cancel', array('error' => 'contact'));
+        //         }
+        //     } else {
+        //         return $this->redirectToRoute('app_cancel', array('error' => 'contact'));
+        //     }
+        // }
 
         return $this->render('index.html.twig', [
-            'response' => $response,
-            'recaptcha_key' => $recaptcha->getKey()
+            'recaptcha_key' => $recaptcha->getKey(),
         ]);
     }
 
@@ -194,46 +200,6 @@ class MainController extends AbstractController
             'price' => $price,
             'option' => $option,
             'expireAt' => $expireAt
-        ]);
-    }
-
-    #[Route('/signin', name: 'app_signin')]
-    public function signin(Request $request, UserPasswordHasherInterface $passwordHasher, ManagerRegistry $doctrine, MailerService $mailer)
-    {
-        if ($request->isMethod('POST')) {
-            $repository = $doctrine->getRepository(User::class);
-            $user = $repository->findOneBy(['email' => $request->request->get("_username")]);
-
-            if (!$user) {
-                // $ulid = new Ulid();
-                if ($request->request->get("_password") == ($request->request->get("_confirmPassword"))) {
-                    $user = new User;
-                    $user->setEmail($request->request->get("_username"));
-                    $plaintextPassword = $request->request->get("_password");
-                    // hash the password (based on the security.yaml config for the $user class)
-                    $hashedPassword = $passwordHasher->hashPassword(
-                        $user,
-                        $plaintextPassword
-                    );
-                    $user->setPassword($hashedPassword);
-                    $user->setRoles(['user']);
-        
-                    $entityManager = $doctrine->getManager();
-                    $entityManager->persist($user);
-                    $entityManager->flush();
-    
-                    return $this->redirectToRoute('app_success', array('form' => 'signin', 'user' => $request->request->get("_username")));
-                } else {
-                    $this->addFlash('error', 'Password isn\'t the same.');
-                }
-            } else {
-                $this->addFlash('error', 'Email already used.');
-            }
-
-        }
-
-        return $this->render('account/signin.html.twig', [
-            // 'error' => $error
         ]);
     }
 

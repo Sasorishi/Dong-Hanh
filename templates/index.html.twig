@@ -4,7 +4,7 @@
 	<div id="root"></div>
 	{% if error is defined %}
     <script>
-        window.errorFromSymfony = {{ error|json_encode|raw }};
+        window.errorFromSymfony = {{ error|raw }};
     </script>
 	{% endif %}
 

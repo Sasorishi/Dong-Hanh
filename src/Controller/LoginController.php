@@ -12,12 +12,8 @@ use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Security\Csrf\TokenGenerator\TokenGeneratorInterface;
 use Doctrine\Persistence\ManagerRegistry;
 use App\Entity\User;
-use App\Entity\Participant;
 use App\Entity\Ticket;
-use App\Entity\Event;
 use App\Service\MailerService;
-use App\Service\QrcodeService;
-use App\Service\PaypalService;
 use Symfony\Bundle\SecurityBundle\Security;
 
 class LoginController extends AbstractController
@@ -33,10 +29,10 @@ class LoginController extends AbstractController
         $email = $authenticationUtils->getLastUsername();
 
         if ($error !== null) {
-            new JsonResponse(['success' => false, 'message' => 'Authentication failed'], 401);
+            $jsonResponse = new JsonResponse(['success' => false, 'message' => 'Authentication failed.'], 401);
             return $this->render('index.html.twig', [
                 'controller_name' => 'LoginController',
-                'error' => 'Authentication failed',
+                'error' => $jsonResponse->getContent(),
             ]);
         }
 
@@ -45,7 +41,7 @@ class LoginController extends AbstractController
         ]);
     }
 
-    #[Route('/api/is-authenticated', name: 'api_is_authenticated')]
+    #[Route('/api/auth/is-authenticated', name: 'api_is_authenticated')]
     public function isAuthenticated(Security $security): JsonResponse
     {
         $isAuthenticated = $security->isGranted('IS_AUTHENTICATED_FULLY');

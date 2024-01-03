@@ -21,7 +21,8 @@ import Navbar from "./js/components/layout/NavbarLayout";
 import Footer from "./js/components/layout/FooterLayout";
 
 import App from "./js/pages/homepage/App";
-import Login from "./js/pages/Login";
+import Login from "./js/pages/auth/Login";
+import Signin from "./js/pages/auth/Signin";
 import Account from "./js/pages/account/Account";
 import Events from "./js/pages/events/Events";
 
@@ -32,7 +33,7 @@ const Main = () => {
   useEffect(() => {
     const checkAuthentication = async () => {
       try {
-        const response = await axios.get("/api/is-authenticated");
+        const response = await axios.get("/api/auth/is-authenticated");
 
         if (response.status === 200) {
           const data = response.data;
@@ -59,6 +60,10 @@ const Main = () => {
       <Routes>
         <Route path="/" element={<App />} />
         <Route path="/login" element={isAuthenticated ? <App /> : <Login />} />
+        <Route
+          path="/signin"
+          element={isAuthenticated ? <App /> : <Signin />}
+        />
         <Route
           path="/account"
           element={!isAuthenticated ? <App /> : <Account />}

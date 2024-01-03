@@ -1,8 +1,10 @@
 import React, { useState, useEffect } from "react";
-import Toast from "../components/ToastComponent";
+import Toast from "../../components/ToastComponent";
 
 const Login = () => {
   const [error, setError] = useState(null);
+  const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
 
   const closeToast = () => {
     setError(null);
@@ -10,61 +12,94 @@ const Login = () => {
 
   useEffect(() => {
     const fetchData = async () => {
-      if (window.errorFromSymfony) {
-        console.log("Error from Symfony:", window.errorFromSymfony);
-        setError(window.errorFromSymfony);
+      const errorFromSymfony = window.errorFromSymfony;
+
+      if (errorFromSymfony) {
+        if (errorFromSymfony.message) {
+          console.log("Error from Symfony:", errorFromSymfony.message);
+          setError(errorFromSymfony.message);
+
+          setTimeout(() => {
+            closeToast();
+          }, 5000);
+        }
       }
     };
 
     fetchData();
   }, []);
 
+  const handleSubmit = (event) => {
+    event.preventDefault();
+
+    if (password !== confirmPassword) {
+      setError("Les mots de passe ne correspondent pas.");
+      setTimeout(() => {
+        closeToast();
+      }, 5000);
+      return;
+    }
+  };
+
   return (
     <section className="relative mx-auto">
       <div className="w-full max-w-sm p-6 m-auto mx-auto bg-white rounded-lg shadow-md">
-        {error && <Toast message={error} onClose={closeToast} error={true} />}
-        <div className="flex justify-center mx-auto">
+        {error && (
+          <Toast
+            message={error}
+            onClose={closeToast}
+            error={errorFromSymfony.success}
+          />
+        )}
+        <div className="flex flex-col text-center justify-center mx-auto">
           <img
             className="w-auto h-7 sm:h-8"
             src="https://merakiui.com/images/logo.svg"
             alt=""
           />
+          <span className="mt-3">Signin</span>
         </div>
 
         <form method="POST" className="mt-6">
           <div>
-            <label
-              htmlFor="email"
-              className="block text-sm text-gray-800 dark:text-gray-200"
-            >
+            <label htmlFor="email" className="block text-sm text-darkblue">
               Email
             </label>
             <input
               type="text"
               name="_username"
+              placeholder="jean-dupont@gmail.com"
               className="block w-full px-4 py-2 mt-2 text-gray-700 bg-white border rounded-lg dark:bg-gray-800 dark:text-gray-300 dark:border-gray-600 focus:border-blue-400 dark:focus:border-blue-300 focus:ring-blue-300 focus:outline-none focus:ring focus:ring-opacity-40"
             />
           </div>
 
           <div className="mt-4">
             <div className="flex items-center justify-between">
-              <label
-                htmlFor="password"
-                className="block text-sm text-gray-800 dark:text-gray-200"
-              >
+              <label htmlFor="password" className="block text-sm text-darkblue">
                 Password
               </label>
-              <a
-                href="#"
-                className="text-xs text-gray-600 dark:text-gray-400 hover:underline"
-              >
-                Forget Password?
-              </a>
             </div>
-
             <input
               type="password"
               name="_password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              placeholder="********"
+              className="block w-full px-4 py-2 mt-2 text-gray-700 bg-white border rounded-lg dark:bg-gray-800 dark:text-gray-300 dark:border-gray-600 focus:border-blue-400 dark:focus:border-blue-300 focus:ring-blue-300 focus:outline-none focus:ring focus:ring-opacity-40"
+            />
+          </div>
+
+          <div className="mt-4">
+            <div className="flex items-center justify-between">
+              <label htmlFor="password" className="block text-sm text-darkblue">
+                Confirm password
+              </label>
+            </div>
+            <input
+              type="password"
+              name="_confirmPassword"
+              value={confirmPassword}
+              onChange={(e) => setConfirmPassword(e.target.value)}
               className="block w-full px-4 py-2 mt-2 text-gray-700 bg-white border rounded-lg dark:bg-gray-800 dark:text-gray-300 dark:border-gray-600 focus:border-blue-400 dark:focus:border-blue-300 focus:ring-blue-300 focus:outline-none focus:ring focus:ring-opacity-40"
             />
           </div>
@@ -81,12 +116,12 @@ const Login = () => {
 
         <p className="mt-8 text-xs font-light text-center text-gray-400">
           {" "}
-          Don't have an account?{" "}
+          Already have an account?{" "}
           <a
-            href="#"
+            href="/login"
             className="font-medium text-gray-700 dark:text-gray-200 hover:underline"
           >
-            Create One
+            Login
           </a>
         </p>
       </div>
