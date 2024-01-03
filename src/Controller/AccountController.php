@@ -132,32 +132,32 @@ class AccountController extends AbstractController
     //     ]);
     // }
 
-    #[Route('/account_email', name: 'app_email')]
-    public function changeEmail(Request $request, ManagerRegistry $doctrine)
-    {
-        $this->denyAccessUnlessGranted('ROLE_USER');
-        $email = $this->getUser()->getEmail();
-        $response = NULL;
+    // #[Route('/account_email', name: 'app_email')]
+    // public function changeEmail(Request $request, ManagerRegistry $doctrine)
+    // {
+    //     $this->denyAccessUnlessGranted('ROLE_USER');
+    //     $email = $this->getUser()->getEmail();
+    //     $response = NULL;
 
-        if ($request->isMethod('POST')) {
-            if ($email != $request->request->get("email")) {
-                $repository = $doctrine->getRepository(User::class);
-                $user = $repository->findOneBy(['email' => $email]);
-                $user->setEmail($request->request->get("email"));
+    //     if ($request->isMethod('POST')) {
+    //         if ($email != $request->request->get("email")) {
+    //             $repository = $doctrine->getRepository(User::class);
+    //             $user = $repository->findOneBy(['email' => $email]);
+    //             $user->setEmail($request->request->get("email"));
     
-                $entityManager = $doctrine->getManager();
-                $entityManager->persist($user);
-                $entityManager->flush();
+    //             $entityManager = $doctrine->getManager();
+    //             $entityManager->persist($user);
+    //             $entityManager->flush();
 
-                $response = true;
-            } else {
-                $response = false;
-            }
-        }
+    //             $response = true;
+    //         } else {
+    //             $response = false;
+    //         }
+    //     }
         
-        return $this->render('account/email.html.twig', [
-            'currentuser' => $email,
-            'response' => $response
-        ]);
-    }
+    //     return $this->render('account/email.html.twig', [
+    //         'currentuser' => $email,
+    //         'response' => $response
+    //     ]);
+    // }
 }
