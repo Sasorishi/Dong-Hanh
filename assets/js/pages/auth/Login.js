@@ -87,7 +87,7 @@ const Login = () => {
           {" "}
           Don't have an account?{" "}
           <a
-            href="/signin"
+            href="/signup"
             className="font-medium text-gray-700 dark:text-gray-200 hover:underline"
           >
             Create One

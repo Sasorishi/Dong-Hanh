@@ -14,9 +14,9 @@ use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
-class SigninController extends AbstractController
+class SignupController extends AbstractController
 {
-    #[Route('/signin', name: 'app_signin')]
+    #[Route('/signup', name: 'app_signup')]
     public function index(Request $request, UserPasswordHasherInterface $passwordHasher, ManagerRegistry $doctrine): Response
     {
         if ($request->isMethod('POST')) {
@@ -33,10 +33,7 @@ class SigninController extends AbstractController
                     ]);
                 }
 
-                // $url = $this->generateUrl('app_main', ['response' => $responseContent], UrlGeneratorInterface::ABSOLUTE_URL);
-                // $redirectResponse = new RedirectResponse($url);
-                // return $redirectResponse;
-                return $this->redirectToRoute('app_success', array('form' => 'signin'));
+                return $this->redirectToRoute('/response/signup');
             }
         }
 
@@ -45,7 +42,7 @@ class SigninController extends AbstractController
         ]);
     }
 
-    #[Route('/api/auth/signin')]
+    #[Route('/api/auth/signup')]
     public function signin($request, $passwordHasher, $doctrine): JsonResponse
     {
         $userRepository = $doctrine->getRepository(User::class);

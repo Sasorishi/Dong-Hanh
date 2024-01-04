@@ -22,9 +22,10 @@ import Footer from "./js/components/layout/FooterLayout";
 
 import App from "./js/pages/homepage/App";
 import Login from "./js/pages/auth/Login";
-import Signin from "./js/pages/auth/Signin";
+import Signup from "./js/pages/auth/Signup";
 import Account from "./js/pages/account/Account";
 import Events from "./js/pages/events/Events";
+import Response from "./js/pages/responses/response";
 
 const Main = () => {
   AOS.init();
@@ -61,14 +62,15 @@ const Main = () => {
         <Route path="/" element={<App />} />
         <Route path="/login" element={isAuthenticated ? <App /> : <Login />} />
         <Route
-          path="/signin"
-          element={isAuthenticated ? <App /> : <Signin />}
+          path="/signup"
+          element={isAuthenticated ? <App /> : <Signup />}
         />
         <Route
           path="/account"
           element={!isAuthenticated ? <App /> : <Account />}
         />
         <Route path="/events" element={<Events />} />
+        <Route path="/response/:type" element={<Response />} />
       </Routes>
       <Footer />
     </Router>

@@ -58,6 +58,7 @@ body {
   min-height: 100vh;
   display: flex;
   flex-direction: column;
+  background-color: var(--amber-color);
 }
 
 #root {
@@ -129,25 +130,19 @@ button {
   padding: 2em 1em;
 }
 
-/*		---- General ---- 	*/
-
-.navbar {
-  z-index: 110;
-  width: 100%;
-}
-
 .navbar a {
   font: 1em "Gelion-Regular";
   letter-spacing: 0.2em;
   color: var(--cognac-color);
 }
 
-body {
-  background-color: var(--amber-color);
-}
-
 section {
   padding: 6vw 14vh;
+}
+
+footer p {
+  font: 0.9em "Gelion-Light";
+  letter-spacing: 0.1em;
 }
 
 /* Media query pour les écrans mobiles */
