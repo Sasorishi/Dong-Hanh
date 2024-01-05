@@ -41,6 +41,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true)]
     private ?\DateTimeInterface $verified_request_at = null;
 
+    #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true)]
+    private ?\DateTimeInterface $create_at = null;
+
     public function getId(): ?Uuid
     {
         return $this->id;
@@ -178,6 +181,18 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setVerifiedRequestAt(?\DateTimeInterface $verified_request_at): self
     {
         $this->verified_request_at = $verified_request_at;
+
+        return $this;
+    }
+
+    public function getCreateAt(): ?\DateTimeInterface
+    {
+        return $this->create_at;
+    }
+
+    public function setCreateAt(?\DateTimeInterface $create_at): static
+    {
+        $this->create_at = $create_at;
 
         return $this;
     }

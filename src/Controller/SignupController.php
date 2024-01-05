@@ -4,15 +4,14 @@ namespace App\Controller;
 
 use App\Entity\User;
 use App\Service\MailerService;
+use DateTime;
 use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
-use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 class SignupController extends AbstractController
 {
@@ -33,7 +32,7 @@ class SignupController extends AbstractController
                     ]);
                 }
 
-                return $this->redirectToRoute('/response/signup');
+                return $this->redirectToRoute('app_response_signup');
             }
         }
 
@@ -61,6 +60,7 @@ class SignupController extends AbstractController
                 $hashedPassword = $passwordHasher->hashPassword($user, $plaintextPassword);
                 $user->setPassword($hashedPassword);
                 $user->setRoles(['user']);
+                $user->setCreateAt(new DateTime());
 
                 $entityManager = $doctrine->getManager();
                 $entityManager->persist($user);
