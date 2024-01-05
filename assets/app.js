@@ -25,6 +25,7 @@ import Login from "./js/pages/auth/Login";
 import Signup from "./js/pages/auth/Signup";
 import Account from "./js/pages/account/Account";
 import Events from "./js/pages/events/Events";
+import EventDetail from "./js/pages/events/EventDetail";
 import Response from "./js/pages/responses/response";
 
 const Main = () => {
@@ -70,6 +71,7 @@ const Main = () => {
           element={!isAuthenticated ? <App /> : <Account />}
         />
         <Route path="/events" element={<Events />} />
+        <Route path="/events/:id" element={<EventDetail />} />
         <Route path="/response/:type" element={<Response />} />
       </Routes>
       <Footer />
