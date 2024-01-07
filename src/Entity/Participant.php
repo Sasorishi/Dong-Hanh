@@ -32,7 +32,7 @@ class Participant
     private ?string $address = null;
 
     #[ORM\Column(length: 255)]
-    private ?string $state = null;
+    private ?string $country = null;
 
     #[ORM\Column(length: 255)]
     private ?string $gender = null;
@@ -55,8 +55,8 @@ class Participant
     #[ORM\Column]
     private ?bool $guardian = null;
 
-    #[ORM\Column(type: Types::DATE_MUTABLE)]
-    private ?\DateTimeInterface $date = null;
+    #[ORM\Column(type: Types::DATE_MUTABLE, nullable: true)]
+    private ?\DateTimeInterface $created_at = null;
 
     #[ORM\Column(length: 255)]
     private ?string $user = null;
@@ -132,14 +132,14 @@ class Participant
         return $this;
     }
 
-    public function getState(): ?string
+    public function getCountry(): ?string
     {
-        return $this->state;
+        return $this->country;
     }
 
-    public function setState(string $state): self
+    public function setCountry(string $country): self
     {
-        $this->state = $state;
+        $this->country = $country;
 
         return $this;
     }
@@ -228,14 +228,14 @@ class Participant
         return $this;
     }
 
-    public function getDate(): ?\DateTimeInterface
+    public function getCreatedAt(): ?\DateTimeInterface
     {
-        return $this->date;
+        return $this->created_at;
     }
 
-    public function setDate(\DateTimeInterface $date): self
+    public function setCreatedAt(\DateTimeInterface $created_at): self
     {
-        $this->date = $date;
+        $this->created_at = $created_at;
 
         return $this;
     }

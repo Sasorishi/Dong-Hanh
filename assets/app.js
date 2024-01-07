@@ -26,7 +26,7 @@ import Signup from "./js/pages/auth/Signup";
 import Account from "./js/pages/account/Account";
 import Events from "./js/pages/events/Events";
 import EventDetail from "./js/pages/events/EventDetail";
-import Response from "./js/pages/responses/Response";
+import Response from "./js/pages/responses/response";
 import Register from "./js/pages/register/Register";
 
 const Main = () => {
@@ -74,7 +74,7 @@ const Main = () => {
         <Route path="/events" element={<Events />} />
         <Route path="/events/:id" element={<EventDetail />} />
         <Route path="/response/:type" element={<Response />} />
-        <Route path="/register" element={<Register />} />
+        <Route path="/register/:eventId/:numTickets" element={<Register />} />
       </Routes>
       <Footer />
     </Router>

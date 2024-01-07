@@ -1,6 +1,26 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 
-const TicketInforamtionComponent = ({ ticketKey }) => {
+const TicketInforamtionComponent = ({ ticketKey, onTicketDataChange }) => {
+  const [formData, setFormData] = useState({
+    firstName: "",
+    lastName: "",
+    age: "",
+    country: "",
+    healthcare: "",
+    expectation: "",
+  });
+
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setFormData((prevFormData) => ({
+      ...prevFormData,
+      [name]: value,
+    }));
+
+    // Appeler la fonction de rappel pour remonter les données
+    onTicketDataChange(ticketKey, formData);
+  };
+
   return (
     <div className="mt-6 space-y-12">
       <div className="border-b border-gray-900/10 pb-12">
@@ -12,7 +32,7 @@ const TicketInforamtionComponent = ({ ticketKey }) => {
         </p>
 
         <div className="mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
-          <div className="col-span-12 sm:col-span-3">
+          <div className="col-span-12 sm:col-span-5 md:col-span-5 lg:col-span-5">
             <label
               htmlFor="first-name"
               className="block text-sm font-medium leading-6 text-gray-900"
@@ -22,16 +42,18 @@ const TicketInforamtionComponent = ({ ticketKey }) => {
             <div className="mt-2">
               <input
                 type="text"
-                name="first-name"
-                id="first-name"
+                name="firstName"
+                id="firstName"
                 autoComplete="given-name"
+                value={formData.firstName}
+                onChange={handleInputChange}
                 className="bg-gray-50 block w-full rounded-md border-0 p-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                 required
               />
             </div>
           </div>
 
-          <div className="col-span-12 sm:col-span-3">
+          <div className="col-span-12 sm:col-span-5 md:col-span-5 lg:col-span-5">
             <label
               htmlFor="last-name"
               className="block text-sm font-medium leading-6 text-gray-900"
@@ -41,16 +63,18 @@ const TicketInforamtionComponent = ({ ticketKey }) => {
             <div className="mt-2">
               <input
                 type="text"
-                name="last-name"
-                id="last-name"
+                name="lastName"
+                id="lastName"
                 autoComplete="family-name"
+                value={formData.lastName}
+                onChange={handleInputChange}
                 className="bg-gray-50 block w-full rounded-md border-0 p-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                 required
               />
             </div>
           </div>
 
-          <div className="col-span-12 sm:col-span-3">
+          <div className="col-span-12 sm:col-span-2 md:col-span-2 lg:col-span-2">
             <label
               htmlFor="number-age"
               className="block text-sm font-medium leading-6 text-gray-900"
@@ -60,15 +84,20 @@ const TicketInforamtionComponent = ({ ticketKey }) => {
             <div className="mt-2">
               <input
                 type="number"
+                min="1"
+                max="100"
                 id="number-age"
                 aria-describedby="helper-text-explanation"
-                className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
+                name="age"
+                value={formData.age}
+                onChange={handleInputChange}
+                className="bg-gray-50 block w-full rounded-md border-0 p-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                 required
               />
             </div>
           </div>
 
-          <div className="col-span-12 sm:col-span-3">
+          <div className="col-span-12 sm:col-span-12 md:col-span-12 lg:col-span-12">
             <label
               htmlFor="country"
               className="block text-sm font-medium leading-6 text-gray-900"
@@ -80,6 +109,8 @@ const TicketInforamtionComponent = ({ ticketKey }) => {
                 id="country"
                 name="country"
                 autoComplete="country-name"
+                value={formData.country}
+                onChange={handleInputChange}
                 className="bg-gray-50 block w-full rounded-md border-0 p-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:leading-6"
                 required
               >
@@ -395,7 +426,27 @@ const TicketInforamtionComponent = ({ ticketKey }) => {
             </div>
           </div>
 
-          <div className="col-span-12 sm:col-span-3">
+          <div className="col-span-12 sm:col-span-12">
+            <label
+              htmlFor="message"
+              className="block mb-2 text-sm font-medium text-gray-900"
+            >
+              Healthcare
+            </label>
+            <div className="mt-2">
+              <textarea
+                id="message"
+                rows="4"
+                name="expectation"
+                value={formData.healthcare}
+                onChange={handleInputChange}
+                className="bg-gray-50 block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500"
+                placeholder="Write if you have any heath issues."
+              />
+            </div>
+          </div>
+
+          <div className="col-span-12 sm:col-span-12">
             <label
               htmlFor="message"
               className="block mb-2 text-sm font-medium text-gray-900"
@@ -406,9 +457,12 @@ const TicketInforamtionComponent = ({ ticketKey }) => {
               <textarea
                 id="message"
                 rows="4"
+                name="expectation"
+                value={formData.expectation}
+                onChange={handleInputChange}
                 className="bg-gray-50 block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500"
                 placeholder="Write your thoughts here..."
-              ></textarea>
+              />
             </div>
           </div>
         </div>
