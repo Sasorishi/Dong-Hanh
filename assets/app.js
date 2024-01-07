@@ -27,6 +27,7 @@ import Account from "./js/pages/account/Account";
 import Events from "./js/pages/events/Events";
 import EventDetail from "./js/pages/events/EventDetail";
 import Response from "./js/pages/responses/response";
+import Register from "./js/pages/register/Register";
 
 const Main = () => {
   AOS.init();
@@ -73,6 +74,7 @@ const Main = () => {
         <Route path="/events" element={<Events />} />
         <Route path="/events/:id" element={<EventDetail />} />
         <Route path="/response/:type" element={<Response />} />
+        <Route path="/register/:eventId/:numTickets" element={<Register />} />
       </Routes>
       <Footer />
     </Router>
@@ -82,15 +84,3 @@ const Main = () => {
 const container = document.getElementById("root");
 const root = createRoot(container); // createRoot(container!) if you use TypeScript
 root.render(<Main />);
-
-$(document).ready(function () {
-  // checkbox();
-  // navbar();
-  // $(window).scroll(function () {
-  //   navbar();
-  // });
-
-  $(".check-agreement").on("change", function () {
-    checkedFunc("waiver", "guardian");
-  });
-});
