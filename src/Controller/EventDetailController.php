@@ -7,6 +7,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Serializer\Normalizer\AbstractNormalizer;
 use Symfony\Component\Serializer\SerializerInterface;
 
 class EventDetailController extends AbstractController
@@ -23,7 +24,27 @@ class EventDetailController extends AbstractController
     public function getEventData(EventRepository $eventRepository, SerializerInterface $serializer, int $id): JsonResponse
     {
         $event = $eventRepository->find($id);
-        $data = $serializer->serialize($event, 'json');
+
+        if (!$event) {
+            return new JsonResponse(['error' => 'Event not found'], 404);
+        }
+
+        // Use serialization groups or MaxDepth to handle circular references
+        $data = $serializer->serialize(
+            $event,
+            'json',
+            [
+                AbstractNormalizer::CIRCULAR_REFERENCE_HANDLER => function ($object) {
+                    return $object->getId();
+                },
+                // You can also use serialization groups:
+                // 'groups' => ['your_serialization_group']
+            ]
+        );
+
+        // You can also decode the JSON string to ensure it's valid
+        // $decodedData = json_decode($data, true);
+
         return new JsonResponse(['event' => $data]);
     }
 }

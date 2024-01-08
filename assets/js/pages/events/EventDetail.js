@@ -12,7 +12,9 @@ const EventDetail = () => {
   const navigate = useNavigate();
 
   const handleIncrement = () => {
-    setTickets(tickets + 1);
+    if (tickets < 15) {
+      setTickets(tickets + 1);
+    }
   };
 
   const handleDecrement = () => {
@@ -26,7 +28,7 @@ const EventDetail = () => {
   };
 
   const handleRegister = () => {
-    navigate(`/register/${id}`);
+    navigate(`/register/${id}/${tickets}`);
   };
 
   useEffect(() => {
@@ -38,6 +40,7 @@ const EventDetail = () => {
         if (response.status === 200) {
           const data = response.data;
           setEvent(JSON.parse(data.event));
+          console.log(JSON.parse(data.event));
         } else {
           console.error("Erreur lors de requête api");
           setEvent([]);
@@ -91,6 +94,12 @@ const EventDetail = () => {
 
           <div className="mx-auto max-w-2xl px-4 pb-16 pt-10 sm:px-6 lg:grid lg:max-w-7xl lg:grid-cols-3 lg:grid-rows-[auto,auto,1fr] lg:gap-x-8 lg:px-8 lg:pb-24 lg:pt-16">
             <div className="lg:col-span-2 lg:border-r lg:border-gray-200 lg:pr-8">
+              {/* <p
+                id="helper-text-explanation"
+                className="mt-2 text-sm text-gray-500"
+              >
+                dalkdzalkdj
+              </p> */}
               <h1 className="text-2xl font-bold tracking-tight text-darkblue sm:text-3xl">
                 {event["label"]}
               </h1>
@@ -202,15 +211,23 @@ const EventDetail = () => {
 
                 <div className="mt-4">
                   <div className="grid grid-cols-2 gap-4">
-                    {event.features
-                      .slice(0, Math.ceil(event.features.length / 2) * 2) // Assurez-vous d'avoir un nombre pair d'éléments
-                      .map((feature, index) => (
-                        <div key={index} className="text-gray-400">
-                          <span className="text-sm text-gray-600 lowercase">
-                            • {feature}
-                          </span>
-                        </div>
-                      ))}
+                    {event && event.features ? (
+                      event.features
+                        .slice(0, Math.ceil(event.features.length / 2) * 2) // Ensure you have an even number of elements
+                        .map((feature, index) => (
+                          <div key={index} className="text-gray-400">
+                            <span className="text-sm text-gray-600 lowercase">
+                              • {feature}
+                            </span>
+                          </div>
+                        ))
+                    ) : (
+                      <div className="text-gray-400">
+                        <span className="text-sm text-gray-600 lowercase">
+                          No feature
+                        </span>
+                      </div>
+                    )}
                   </div>
                 </div>
               </div>
