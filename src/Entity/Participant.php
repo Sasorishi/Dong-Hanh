@@ -28,7 +28,7 @@ class Participant
     #[ORM\Column(length: 255)]
     private ?string $phone = null;
 
-    #[ORM\Column(length: 255)]
+    #[ORM\Column(length: 255, nullable: true)]
     private ?string $address = null;
 
     #[ORM\Column(length: 255)]
@@ -64,8 +64,11 @@ class Participant
     #[ORM\Column(nullable: true)]
     private ?bool $payment = null;
 
-    #[ORM\Column(length: 255)]
+    #[ORM\Column(length: 255, nullable: true)]
     private ?string $city = null;
+
+    #[ORM\ManyToOne(inversedBy: 'participants')]
+    private ?Event $event = null;
 
     public function getId(): ?Uuid
     {
@@ -272,6 +275,18 @@ class Participant
     public function setCity(string $city): self
     {
         $this->city = $city;
+
+        return $this;
+    }
+
+    public function getEvent(): ?Event
+    {
+        return $this->event;
+    }
+
+    public function setEvent(?Event $event): static
+    {
+        $this->event = $event;
 
         return $this;
     }
