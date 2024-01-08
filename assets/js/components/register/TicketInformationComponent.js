@@ -524,7 +524,7 @@ const TicketInforamtionComponent = ({ ticketKey, onTicketDataChange }) => {
                 value={formData.healthcare}
                 onChange={handleInputChange}
                 className="bg-gray-50 block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500"
-                placeholder="Write if you have any heath issues."
+                placeholder="Write if you have any heath issues (exemple: diet / allergies)."
               />
             </div>
           </div>
