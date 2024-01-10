@@ -28,6 +28,7 @@ import Events from "./js/pages/events/Events";
 import EventDetail from "./js/pages/events/EventDetail";
 import Response from "./js/pages/responses/response";
 import Register from "./js/pages/register/Register";
+import Checkout from "./js/pages/checkout/Checkout";
 
 const Main = () => {
   AOS.init();
@@ -75,6 +76,7 @@ const Main = () => {
         <Route path="/events/:id" element={<EventDetail />} />
         <Route path="/response/:type" element={<Response />} />
         <Route path="/register/:eventId/:numTickets" element={<Register />} />
+        <Route path="/checkout" element={<Checkout />} />
       </Routes>
       <Footer />
     </Router>
