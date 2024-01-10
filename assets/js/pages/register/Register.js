@@ -19,28 +19,35 @@ const Register = () => {
 
   const [isDefaultModalVisible, setIsDefaultModalVisible] = useState(false);
   const [isSecondModalVisible, setIsSecondModalVisible] = useState(false);
-  const [modalId, setModalId] = useState(null);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    try {
-      const combinedData = {
-        eventId: eventId,
-        numTickets: numTickets,
-        ...ticketData,
-      };
+    const combinedData = {
+      eventId: eventId,
+      numTickets: numTickets,
+      ...ticketData,
+    };
 
-      const response = await axios.post("/api/register", combinedData);
+    navigate("/checkout", { state: combinedData });
 
-      if (response.status === 200) {
-        console.log("Enregistrement réussi !");
-      } else {
-        console.error("Erreur lors de la requête API");
-      }
-    } catch (error) {
-      console.error("Erreur lors de la requête API", error);
-    }
+    // try {
+    //   const combinedData = {
+    //     eventId: eventId,
+    //     numTickets: numTickets,
+    //     ...ticketData,
+    //   };
+
+    //   const response = await axios.post("/api/register", combinedData);
+
+    //   if (response.status === 200) {
+    //     console.log("Enregistrement réussi !");
+    //   } else {
+    //     console.error("Erreur lors de la requête API");
+    //   }
+    // } catch (error) {
+    //   console.error("Erreur lors de la requête API", error);
+    // }
   };
 
   const handleCheckbox1Change = (e) => {
@@ -55,16 +62,8 @@ const Register = () => {
     setIsDefaultModalVisible(true);
   };
 
-  const handleCloseDefaultModal = () => {
-    setIsDefaultModalVisible(false);
-  };
-
   const handleOpenSecondModal = () => {
     setIsSecondModalVisible(true);
-  };
-
-  const handleCloseSecondModal = () => {
-    setIsSecondModalVisible(false);
   };
 
   useEffect(() => {
