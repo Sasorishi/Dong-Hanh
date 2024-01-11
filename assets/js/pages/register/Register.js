@@ -8,7 +8,7 @@ import Modal from "../../components/ModalComponent";
 
 const Register = () => {
   const [tickets, setTickets] = useState(null);
-  const [ticketData, setTicketData] = useState({});
+  const [ticketsData, setTicketsData] = useState({});
 
   const { eventId, numTickets } = useParams();
   const navigate = useNavigate();
@@ -23,31 +23,14 @@ const Register = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    const combinedData = {
-      eventId: eventId,
-      numTickets: numTickets,
-      ...ticketData,
-    };
-
-    navigate("/checkout", { state: combinedData });
-
-    // try {
-    //   const combinedData = {
-    //     eventId: eventId,
-    //     numTickets: numTickets,
-    //     ...ticketData,
-    //   };
-
-    //   const response = await axios.post("/api/register", combinedData);
-
-    //   if (response.status === 200) {
-    //     console.log("Enregistrement réussi !");
-    //   } else {
-    //     console.error("Erreur lors de la requête API");
-    //   }
-    // } catch (error) {
-    //   console.error("Erreur lors de la requête API", error);
-    // }
+    navigate("/checkout", {
+      state: {
+        eventId: eventId,
+        numTickets: numTickets,
+        ticketsData: ticketsData,
+      },
+    });
+    window.scrollTo(0, 0);
   };
 
   const handleCheckbox1Change = (e) => {
@@ -71,8 +54,8 @@ const Register = () => {
       <TicketInformation
         key={index}
         ticketKey={index + 1}
-        onTicketDataChange={(key, data) =>
-          setTicketData((prevData) => ({ ...prevData, [key]: data }))
+        onTicketsDataChange={(key, data) =>
+          setTicketsData((prevData) => ({ ...prevData, [key]: data }))
         }
       />
     ));

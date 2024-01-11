@@ -28,7 +28,7 @@ class Event
     #[ORM\Column]
     private ?int $year = null;
 
-    #[ORM\OneToMany(mappedBy: 'idEvent', targetEntity: Ticket::class)]
+    #[ORM\OneToMany(mappedBy: 'event', targetEntity: Ticket::class)]
     private Collection $tickets;
 
     #[ORM\Column]
@@ -132,7 +132,7 @@ class Event
     {
         if (!$this->tickets->contains($ticket)) {
             $this->tickets->add($ticket);
-            $ticket->setIdEvent($this);
+            $ticket->setEvent($this);
         }
 
         return $this;
@@ -142,8 +142,8 @@ class Event
     {
         if ($this->tickets->removeElement($ticket)) {
             // set the owning side to null (unless already changed)
-            if ($ticket->getIdEvent() === $this) {
-                $ticket->setIdEvent(null);
+            if ($ticket->getEvent() === $this) {
+                $ticket->setEvent(null);
             }
         }
 

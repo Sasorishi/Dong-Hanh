@@ -14,7 +14,6 @@ const Events = () => {
         if (response.status === 200) {
           const data = response.data;
           setEvents(data.events);
-          console.log(data.events);
         } else {
           console.error("Erreur lors de requête api");
           setEvents([]);
@@ -31,13 +30,17 @@ const Events = () => {
   return (
     <div className="bg-white py-24 sm:py-32">
       <div className="mx-auto max-w-7xl px-6 lg:px-8">
-        <div className="mx-auto max-w-2xl sm:text-center">
+        <div className="mx-auto max-w-1xl sm:text-center">
           <h2 className="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">
-            Simple no-tricks pricing
+            Explore Diverse Community, Social, and Educational Events
           </h2>
           <p className="mt-6 text-lg leading-8 text-gray-600">
-            Distinctio et nulla eum soluta et neque labore quibusdam. Saepe et
-            quasi iusto modi velit ut non voluptas in. Explicabo id ut laborum.
+            Immerse yourself in a vibrant community that celebrates diversity
+            through a rich tapestry of events. Our platform is a hub of
+            meaningful experiences. Join us for engaging sessions where you can
+            connect with others, expand your knowledge, and contribute to the
+            collective growth. Every event is an opportunity to participate in
+            something extraordinary.
           </p>
         </div>
         {events ? (
