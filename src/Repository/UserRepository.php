@@ -3,8 +3,10 @@
 namespace App\Repository;
 
 use App\Entity\User;
+use DateTime;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
+use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
 /**
  * @extends ServiceEntityRepository<User>
@@ -63,4 +65,18 @@ class UserRepository extends ServiceEntityRepository
 //            ->getOneOrNullResult()
 //        ;
 //    }
+
+    public function createUser(string $email, string $password, UserPasswordHasherInterface $passwordHasher): void {
+        $user = new User;
+        $user->setEmail($email);
+        
+        $hashedPassword = $passwordHasher->hashPassword($user, $password);
+        $user->setPassword($hashedPassword);
+        $user->setRoles(['user']);
+        $user->setCreateAt(new DateTime());
+
+        $entityManager = $this->getEntityManager();
+        $entityManager->persist($user);
+        $entityManager->flush();
+    }
 }

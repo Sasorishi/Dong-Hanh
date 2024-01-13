@@ -26,8 +26,6 @@ class RegisterController extends AbstractController
     public function setRegister(Request $request, EventRepository $eventRepository, ParticipantRepository $participantRepository, TicketRepository $ticketRepository): JsonResponse
     {
         $data = json_decode($request->getContent(), true);
-        dump($data);
-
         $participants = $data['participants'];
         $details = $data['details'];
         $captureId = $data['captureId'];

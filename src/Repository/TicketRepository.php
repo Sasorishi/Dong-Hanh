@@ -67,7 +67,7 @@ class TicketRepository extends ServiceEntityRepository
 //        ;
 //    }
 
-    public function createTicket(Event $eventData, array $details, string $captureId, Participant $participant) {
+    public function createTicket(Event $eventData, array $details, string $captureId, Participant $participant): void {
         $ticket = new Ticket;
         $ticket->setPrice($eventData->getPrice()[0]);
         $ticket->setStatus($details['status']);

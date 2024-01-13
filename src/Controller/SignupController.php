@@ -2,10 +2,7 @@
 
 namespace App\Controller;
 
-use App\Entity\User;
-use App\Service\MailerService;
-use DateTime;
-use Doctrine\Persistence\ManagerRegistry;
+use App\Repository\UserRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -15,63 +12,38 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class SignupController extends AbstractController
 {
-    #[Route('/signup', name: 'app_signup')]
-    public function index(Request $request, UserPasswordHasherInterface $passwordHasher, ManagerRegistry $doctrine): Response
+    private $passwordHasher;
+    private $userRepository;
+
+    public function __construct(UserPasswordHasherInterface $passwordHasher, UserRepository $userRepository)
     {
-        if ($request->isMethod('POST')) {
-            $response = $this->signin($request, $passwordHasher, $doctrine);
+        $this->passwordHasher = $passwordHasher;
+        $this->userRepository = $userRepository;
+    }
 
-            if ($response !== null) {
-                $responseContent = $response->getContent();
-                $messages = json_decode($responseContent, true);
-
-                if (isset($messages['SUCCESS']) && $messages['SUCCESS'] === false) {
-                    return $this->render('index.html.twig', [
-                        'controller_name' => 'SigninController',
-                        'error' => $response->getContent(),
-                    ]);
-                }
-
-                return $this->redirectToRoute('app_response_signup');
-            }
-        }
-
+    #[Route('/signup', name: 'app_signup')]
+    public function index(): Response
+    {
         return $this->render('index.html.twig', [
-            'controller_name' => 'SigninController',
+            'controller_name' => 'SignupController',
         ]);
     }
 
-    #[Route('/api/auth/signup')]
-    public function signin($request, $passwordHasher, $doctrine): JsonResponse
+    #[Route('/api/auth/signup', name: 'api_auth_signup', methods: ['POST'])]
+    public function signup(Request $request): JsonResponse
     {
-        $userRepository = $doctrine->getRepository(User::class);
-        $email = $request->get("_username");
-        $existingUser = $userRepository->findOneBy(['email' => $email]);
+        $data = json_decode($request->getContent(), true);
+        $existingUser = $this->userRepository->findOneBy(['email' => $data['email']]);
 
-        if (!$existingUser) {
-            $password = $request->get("_password");
-            $confirmPassword = $request->get("_confirmPassword");
-
-            if ($password === $confirmPassword) {
-                $user = new User;
-                $user->setEmail($email);
-                $plaintextPassword = $password;
-                
-                $hashedPassword = $passwordHasher->hashPassword($user, $plaintextPassword);
-                $user->setPassword($hashedPassword);
-                $user->setRoles(['user']);
-                $user->setCreateAt(new DateTime());
-
-                $entityManager = $doctrine->getManager();
-                $entityManager->persist($user);
-                $entityManager->flush();
-
-                return new JsonResponse(['success' => true, 'message' => 'Signin successful']);
-            } else {
-                return new JsonResponse(['success' => false, 'message' => 'Password confirmation does not match.'], JsonResponse::HTTP_BAD_REQUEST);
-            }
+        if ($existingUser) {
+            return new JsonResponse(['success' => false, 'message' => 'Email is already in use']);
         } else {
-            return new JsonResponse(['success' => false, 'message' => 'Email is already in use.'], JsonResponse::HTTP_BAD_REQUEST);
+            if ($data['password'] !== $data['confirmPassword']) {
+                return new JsonResponse(['success' => false, 'message' => 'Password confirmation does not match']);
+            }
         }
+        
+        $this->userRepository->createUser($data['email'], $data['password'], $this->passwordHasher);
+        return new JsonResponse(['success' => true, 'message' => 'Signin successful']);
     }
 }
