@@ -29,6 +29,7 @@ const EventDetail = () => {
 
   const handleRegister = () => {
     navigate(`/register/${id}/${tickets}`);
+    window.scrollTo(0, 0);
   };
 
   useEffect(() => {
@@ -40,7 +41,6 @@ const EventDetail = () => {
         if (response.status === 200) {
           const data = response.data;
           setEvent(JSON.parse(data.event));
-          console.log(JSON.parse(data.event));
         } else {
           console.error("Erreur lors de requête api");
           setEvent([]);
@@ -107,7 +107,9 @@ const EventDetail = () => {
 
             <div className="mt-4 lg:row-span-3 lg:mt-0">
               <h2 className="sr-only">Product information</h2>
-              <p className="text-3xl tracking-tight text-darkblue">222 €</p>
+              <p className="text-3xl tracking-tight text-darkblue">
+                {event["price"][0]} €
+              </p>
               <p
                 id="helper-text-explanation"
                 className="mt-2 text-sm text-gray-500"

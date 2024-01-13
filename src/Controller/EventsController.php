@@ -38,6 +38,7 @@ class EventsController extends AbstractController
                 'place' => $event->getPlace(),
                 'location' => $event->getLocation(),
                 'features' => $event->getFeatures(),
+                'eventCategory' => $event->getEventCategory()->getLabel(),
             ];
         }
 

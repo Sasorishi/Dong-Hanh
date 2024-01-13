@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 
-const TicketInforamtionComponent = ({ ticketKey, onTicketDataChange }) => {
+const TicketInforamtionComponent = ({ ticketKey, onTicketsDataChange }) => {
   const [formData, setFormData] = useState({
     firstName: "",
     lastName: "",
@@ -20,7 +20,7 @@ const TicketInforamtionComponent = ({ ticketKey, onTicketDataChange }) => {
       [name]: value,
     }));
 
-    onTicketDataChange(ticketKey, formData);
+    onTicketsDataChange(ticketKey, formData);
   };
 
   return (
@@ -113,6 +113,7 @@ const TicketInforamtionComponent = ({ ticketKey, onTicketDataChange }) => {
                 value={formData.gender}
                 onChange={handleInputChange}
                 className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-1.5"
+                required
               >
                 <option disabled value="">
                   Choose a gender

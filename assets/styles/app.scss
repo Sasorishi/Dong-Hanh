@@ -364,18 +364,6 @@ footer p {
   line-height: 1.8em;
 }
 
-.register-form,
-.checkout {
-  padding-left: 6vw;
-  padding-right: 6vw;
-}
-
-.register-form .wrapper-card {
-  padding: 3em;
-  border-radius: 1em;
-  box-shadow: rgba(0, 0, 0, 0.15) 0px 5px 15px 0px;
-}
-
 .information p {
   text-align: center;
   font: 1.2em "Gelion-Light";
@@ -418,89 +406,6 @@ footer p {
 .refundOrder a:hover {
   text-decoration: none;
   color: var(--dark-blue-color);
-}
-
-/*		---- Checkout ---- 	    */
-
-.checkout h4 {
-  margin-bottom: 5vh;
-}
-
-.card {
-  margin: auto;
-  width: 100%;
-  box-shadow: 0 6px 20px 0 rgba(0, 0, 0, 0.19);
-  border-radius: 1rem;
-  border: transparent;
-}
-
-.cart {
-  background-color: #fff;
-  padding: 4vh 5vh;
-  border-bottom-left-radius: 1rem;
-  border-top-left-radius: 1rem;
-}
-
-.summary {
-  background-color: #ddd;
-  border-top-right-radius: 1rem;
-  border-bottom-right-radius: 1rem;
-  padding: 4vh;
-  color: rgb(65, 65, 65);
-}
-
-.summary .col-2 {
-  padding: 0;
-}
-
-.summary .col-10 {
-  padding: 0;
-}
-
-.main {
-  margin: 0;
-  padding: 2vh 0;
-  width: 100%;
-}
-
-.checkout hr {
-  margin-top: 1.25rem;
-}
-
-.progresses a {
-  list-style: none;
-  padding: 0;
-  text-decoration: none;
-  color: var(--cognac-color);
-  font: 1em "Gelion-Light";
-  text-transform: uppercase;
-  letter-spacing: 0.3em;
-}
-
-.progresses a:hover {
-  list-style: none;
-  padding: 0;
-  text-decoration: none;
-  color: var(--cream-color);
-  font: 1em "Gelion-Light";
-  text-transform: uppercase;
-  letter-spacing: 0.3em;
-}
-
-.progresses .active {
-  text-decoration: underline !important;
-  text-underline-offset: 0.5rem;
-  text-decoration-thickness: 0.2rem !important;
-}
-
-.progresses .fa-circle-check {
-  margin-right: 0.2em;
-  font-size: 1em;
-}
-
-.progresses .fa-circle {
-  margin-right: 0.2em;
-  font-size: 1em;
 }
 
 /*		---- Arrow animation ---- 	    */
@@ -550,82 +455,6 @@ footer p {
   }
 }
 
-/*		---- Plan animation ---- 	    */
-
-.radio-tile-group {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-
-  //set dimensions for invisible container
-  .input-container {
-    position: relative;
-    height: 10.5rem;
-    margin: 0.5rem;
-
-    //make actual radio input invisible
-    // + stretch to fill container
-    .radio-button {
-      opacity: 0;
-      position: absolute;
-      top: 0;
-      left: 0;
-      height: 100%;
-      width: 100%;
-      margin: 0;
-      cursor: pointer;
-    }
-
-    //default tile styles
-    .radio-tile {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      width: 100%;
-      height: 100%;
-      border: 2px solid var(--dark-blue-color);
-      border-radius: 5px;
-      padding: 1rem;
-      transition: transform 300ms ease;
-    }
-
-    .icon svg {
-      fill: var(--dark-blue-color);
-      width: 3rem;
-      height: 3rem;
-    }
-
-    .radio-tile-label {
-      text-align: center;
-      font: 1.2em "Gelion-Light";
-      letter-spacing: 0.2em;
-      line-height: 1.8em;
-      font-size: 0.75rem;
-      text-transform: uppercase;
-      color: var(--dark-blue-color);
-    }
-
-    //active tile styles
-    .radio-button:checked + .radio-tile {
-      background-color: var(--dark-blue-color);
-      border: 2px solid var(--dark-blue-color);
-      color: white;
-      transform: scale(1.1, 1.1);
-
-      .icon svg {
-        fill: var(--amber-color);
-        background-color: var(--dark-blue-color);
-      }
-
-      .radio-tile-label {
-        color: var(--amber-color);
-        background-color: var(--dark-blue-color);
-      }
-    }
-  }
-}
-
 // Navbar
 
 nav {
@@ -635,4 +464,8 @@ nav {
     text-decoration: none;
     white-space: nowrap;
   }
+}
+
+.paypal-button-container {
+  margin: auto !important;
 }

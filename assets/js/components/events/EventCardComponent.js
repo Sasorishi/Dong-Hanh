@@ -7,7 +7,19 @@ const EventCardComponent = ({ event }) => {
         <h3 className="text-2xl font-bold tracking-tight text-gray-900">
           {event.name}
         </h3>
-        <p className="mt-6 text-base leading-7 text-gray-600">
+        <p className="text-base font-semibold text-gray-600">
+          {event.eventCategory}
+        </p>
+        <p
+          className="mt-6 text-base leading-7 text-gray-600 max-h-28 overflow-hidden overflow-ellipsis"
+          style={{
+            display: "-webkit-box",
+            WebkitBoxOrient: "vertical",
+            whiteSpace: "pre-line",
+            WebkitLineClamp: 5,
+            lineHeight: "1.4em",
+          }}
+        >
           {event.description}
         </p>
 

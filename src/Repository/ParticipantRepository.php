@@ -2,7 +2,9 @@
 
 namespace App\Repository;
 
+use App\Entity\Event;
 use App\Entity\Participant;
+use DateTime;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
@@ -63,4 +65,30 @@ class ParticipantRepository extends ServiceEntityRepository
 //            ->getOneOrNullResult()
 //        ;
 //    }
+
+    public function createParticipant(Array $data, Event $event, string $userId): Participant {
+        $participant = new Participant();
+        
+        $participant->setFirstname($data['firstName']);
+        $participant->setLastname($data['lastName']);
+        $participant->setGender($data['gender']);
+        $participant->setAge($data['age']);
+        $participant->setEmail($data['email']);
+        $participant->setPhone($data['phone']);
+        $participant->setCountry($data['country']);
+        $participant->setHealthcare($data['healthcare']);
+        $participant->setExpectations($data['expectation']);
+        $participant->setWaiver(true);
+        $participant->setGuardian(true);
+        $participant->setAware(true);
+        $participant->setUser($userId);
+        $participant->setEvent($event);
+        $participant->setCreatedAt(new DateTime());
+
+        $entityManager = $this->getEntityManager();
+        $entityManager->persist($participant);
+        $entityManager->flush();
+
+        return $participant;
+    }
 }
