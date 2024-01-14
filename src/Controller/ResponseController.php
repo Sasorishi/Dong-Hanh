@@ -9,7 +9,7 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class ResponseController extends AbstractController
 {
-    #[Route('/response/{type}', name: 'app_response')]
+    #[Route('/response/{redirection}/{type}', name: 'app_response')]
     public function index(): Response
     {
         return $this->render('index.html.twig', [
@@ -121,40 +121,6 @@ class ResponseController extends AbstractController
     //     }
 
     //     return $this->render('success.html.twig', [
-    //         'response' => $response
-    //     ]);
-    // }
-
-    // #[Route('/cancel', name: 'app_cancel')]
-    // public function cancel(Request $request)
-    // {
-    //     if ($request->isMethod('GET')) {
-    //         $error = $request->query->get('error');
-
-    //         switch ($error) {
-    //             case 'register':
-    //                 $response = "register";
-    //                 break;
-
-    //             case 'contact':
-    //                 $response = "contact";
-    //                 break;
-
-    //             case 'forgottenPassword':
-    //                 $response = "forgottenPassword";
-    //                 break;
-
-    //             case 'checkout':
-    //                 $response = "checkout";
-    //                 break;
-
-    //             default:
-    //                 $response = "default";
-    //                 break;
-    //         }
-    //     }
-
-    //     return $this->render('cancel.html.twig', [
     //         'response' => $response
     //     ]);
     // }

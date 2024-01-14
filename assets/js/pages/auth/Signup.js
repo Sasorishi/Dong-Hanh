@@ -1,56 +1,59 @@
 import React, { useState, useEffect } from "react";
 import Toast from "../../components/ToastComponent";
+import axios from "axios";
 
 const Login = () => {
   const [error, setError] = useState(null);
+  const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
+  const [isRegistered, setIsRegistered] = useState(false);
 
   const closeToast = () => {
     setError(null);
   };
 
-  useEffect(() => {
-    const fetchData = async () => {
-      const errorFromSymfony = window.errorFromSymfony;
+  const handleSignup = async (e) => {
+    e.preventDefault();
 
-      if (errorFromSymfony) {
-        if (errorFromSymfony.message) {
-          console.log("Error from Symfony:", errorFromSymfony.message);
-          setError(errorFromSymfony.message);
+    try {
+      const combinedData = {
+        email: email,
+        password: password,
+        confirmPassword: confirmPassword,
+      };
 
-          setTimeout(() => {
-            closeToast();
-          }, 5000);
-        }
+      const response = await axios.post("/api/auth/signup", combinedData);
+
+      if (response.data.success !== false) {
+        setIsRegistered(true);
+      } else {
+        setError(`Error : ${response.data.message}.`);
+
+        setTimeout(() => {
+          closeToast();
+        }, 5000);
       }
-    };
+    } catch (error) {
+      // console.error("Server request fail.", error);
+      setError("Error signup");
 
-    fetchData();
-  }, []);
-
-  const handleSubmit = (event) => {
-    event.preventDefault();
-
-    if (password !== confirmPassword) {
-      setError("Les mots de passe ne correspondent pas.");
       setTimeout(() => {
         closeToast();
       }, 5000);
-      return;
     }
   };
+
+  useEffect(() => {
+    if (isRegistered) {
+      window.location.href = "/response/success/signup";
+    }
+  }, [isRegistered]);
 
   return (
     <section className="relative mx-auto">
       <div className="w-full max-w-sm p-6 m-auto mx-auto bg-white rounded-lg shadow-md">
-        {error && (
-          <Toast
-            message={error}
-            onClose={closeToast}
-            error={errorFromSymfony.success}
-          />
-        )}
+        {error && <Toast message={error} onClose={closeToast} error={true} />}
         <div className="flex flex-col text-center justify-center mx-auto">
           <img
             className="w-auto h-7 sm:h-8"
@@ -60,7 +63,7 @@ const Login = () => {
           <span className="mt-3">Signin</span>
         </div>
 
-        <form method="POST" className="mt-6">
+        <form className="mt-6" onSubmit={handleSignup}>
           <div>
             <label htmlFor="email" className="block text-sm text-darkblue">
               Email
@@ -68,8 +71,11 @@ const Login = () => {
             <input
               type="text"
               name="_username"
-              placeholder="jean-dupont@gmail.com"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              placeholder="your.email@gmail.com"
               className="block w-full px-4 py-2 mt-2 text-gray-700 bg-white border rounded-lg dark:bg-gray-800 dark:text-gray-300 dark:border-gray-600 focus:border-blue-400 dark:focus:border-blue-300 focus:ring-blue-300 focus:outline-none focus:ring focus:ring-opacity-40"
+              required
             />
           </div>
 
@@ -86,6 +92,7 @@ const Login = () => {
               onChange={(e) => setPassword(e.target.value)}
               placeholder="********"
               className="block w-full px-4 py-2 mt-2 text-gray-700 bg-white border rounded-lg dark:bg-gray-800 dark:text-gray-300 dark:border-gray-600 focus:border-blue-400 dark:focus:border-blue-300 focus:ring-blue-300 focus:outline-none focus:ring focus:ring-opacity-40"
+              required
             />
           </div>
 
@@ -101,6 +108,7 @@ const Login = () => {
               value={confirmPassword}
               onChange={(e) => setConfirmPassword(e.target.value)}
               className="block w-full px-4 py-2 mt-2 text-gray-700 bg-white border rounded-lg dark:bg-gray-800 dark:text-gray-300 dark:border-gray-600 focus:border-blue-400 dark:focus:border-blue-300 focus:ring-blue-300 focus:outline-none focus:ring focus:ring-opacity-40"
+              required
             />
           </div>
 
@@ -109,7 +117,7 @@ const Login = () => {
               type="submit"
               className="w-full px-6 py-2.5 text-sm font-medium tracking-wide text-white capitalize transition-colors duration-300 transform bg-gray-800 rounded-lg hover:bg-gray-700 focus:outline-none focus:ring focus:ring-gray-300 focus:ring-opacity-50"
             >
-              Sign In
+              Sign Up
             </button>
           </div>
         </form>
