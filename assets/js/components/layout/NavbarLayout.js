@@ -46,7 +46,7 @@ function Navbar({ isAuthenticated }) {
         </a>
         <div className="flex md:order-2 space-x-3 md:space-x-0 rtl:space-x-reverse">
           {isAuthenticated ? (
-            <div className="flex gap-2">
+            <div className="hidden md:flex gap-2">
               <button
                 type="button"
                 onClick={() => handleNavigation("account")}
@@ -91,26 +91,41 @@ function Navbar({ isAuthenticated }) {
               </button>
             </div>
           ) : (
-            <button
-              type="button"
-              onClick={() => handleNavigation("login")}
-              className="animation-hover text-white uppercase bg-darkblue hover:bg-rosered font-medium rounded-full text-sm px-4 py-2 text-center"
-            >
-              Login
-              <i className="ml-3 text-amber fa-solid fa-user" />
-            </button>
+            <div className="hidden md:flex gap-2">
+              <button
+                type="button"
+                onClick={() => handleNavigation("login")}
+                className="animation-hover text-white uppercase bg-darkblue hover:bg-rosered font-medium rounded-full text-sm px-4 py-2 text-center"
+              >
+                Login
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  strokeWidth="1.5"
+                  stroke="currentColor"
+                  className="ml-3 text-amber w-5 h-5 self-center"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    d="M15.75 6a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0ZM4.501 20.118a7.5 7.5 0 0 1 14.998 0A17.933 17.933 0 0 1 12 21.75c-2.676 0-5.216-.584-7.499-1.632Z"
+                  />
+                </svg>
+              </button>
+            </div>
           )}
           <button
             data-collapse-toggle="navbar-sticky"
             type="button"
             onClick={toggleMenu}
-            className="inline-flex items-center p-2 w-10 h-10 justify-center text-sm text-gray-500 rounded-lg md:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600"
+            className="animation-hover inline-flex items-center p-2 w-10 h-10 justify-center text-sm text-darkblue rounded-lg md:hidden hover:bg-whitesmoke focus:outline-none focus:ring-2 focus:ring-gray-200"
             aria-controls="navbar-sticky"
             aria-expanded="false"
           >
             <span className="sr-only">Open main menu</span>
             <svg
-              className="w-5 h-5"
+              className="w-5 h-5 text-darkblue"
               aria-hidden="true"
               xmlns="http://www.w3.org/2000/svg"
               fill="none"
@@ -128,25 +143,88 @@ function Navbar({ isAuthenticated }) {
         </div>
       </div>
       <div
-        className={`${isOpen ? "block" : "hidden"} md:hidden w-full md:w-auto`}
+        className={`${
+          isOpen ? "block" : "hidden"
+        } md:hidden w-full md:w-auto p-2`}
       >
-        <ul className="flex flex-col md:flex-row md:space-x-4">
-          <li>
-            <a href="/" className="text-white py-2 md:py-0">
-              Home
-            </a>
-          </li>
-          <li>
-            <a href="/about" className="text-white py-2 md:py-0">
-              About
-            </a>
-          </li>
-          <li>
-            <a href="/contact" className="text-white py-2 md:py-0">
-              Contact
-            </a>
-          </li>
-        </ul>
+        <div className="w-full md:block md:w-auto" id="navbar-default">
+          <ul className="font-medium flex flex-col p-4 md:p-0 mt-4 border border-gray-100 rounded-lg bg-darkblue md:flex-row md:space-x-8 rtl:space-x-reverse md:mt-0 md:border-0 md:bg-white">
+            {isAuthenticated ? (
+              <>
+                <li>
+                  <a
+                    href="/account"
+                    className="animation-hover flex justify-center py-2 px-3 text-amber bg-darkblue hover:bg-rosered rounded md:p-0"
+                    aria-current="page"
+                  >
+                    Account
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      strokeWidth="1.5"
+                      stroke="currentColor"
+                      className="ml-3 text-amber w-5 h-5 self-center"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        d="M15.75 6a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0ZM4.501 20.118a7.5 7.5 0 0 1 14.998 0A17.933 17.933 0 0 1 12 21.75c-2.676 0-5.216-.584-7.499-1.632Z"
+                      />
+                    </svg>
+                  </a>
+                </li>
+                <li>
+                  <a
+                    href="/logout"
+                    className="animation-hover flex justify-center py-2 px-3 text-amber bg-darkblue hover:bg-rosered rounded md:border-0 md:p-0"
+                  >
+                    Logout
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      strokeWidth="1.5"
+                      stroke="currentColor"
+                      className="ml-3 text-amber w-5 h-5 self-center"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        d="M15.75 9V5.25A2.25 2.25 0 0 0 13.5 3h-6a2.25 2.25 0 0 0-2.25 2.25v13.5A2.25 2.25 0 0 0 7.5 21h6a2.25 2.25 0 0 0 2.25-2.25V15M12 9l-3 3m0 0 3 3m-3-3h12.75"
+                      />
+                    </svg>
+                  </a>
+                </li>
+              </>
+            ) : (
+              <>
+                <li>
+                  <a
+                    href="/login"
+                    className="animation-hover flex justify-center py-2 px-3 text-amber bg-darkblue hover:bg-rosered rounded md:p-0"
+                  >
+                    Login
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      strokeWidth="1.5"
+                      stroke="currentColor"
+                      className="ml-3 text-amber w-5 h-5 self-center"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        d="M15.75 6a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0ZM4.501 20.118a7.5 7.5 0 0 1 14.998 0A17.933 17.933 0 0 1 12 21.75c-2.676 0-5.216-.584-7.499-1.632Z"
+                      />
+                    </svg>
+                  </a>
+                </li>
+              </>
+            )}
+          </ul>
+        </div>
       </div>
     </nav>
   );
