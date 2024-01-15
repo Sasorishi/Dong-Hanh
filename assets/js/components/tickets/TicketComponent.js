@@ -1,15 +1,15 @@
-import React from "react";
+import React, { useEffect } from "react";
 
-const TicketComponent = () => {
+const TicketComponent = ({ TicketData }) => {
   return (
     <div className="space-y-8 m-1">
       <div className="bg-white shadow-sm">
         <div className="flex flex-col sm:flex-row justify-between py-2 px-4">
           <p className="text-sm font-medium text-gray-900 overflow-hidden whitespace-nowrap overflow-ellipsis">
-            3UU88481L2557494L
+            {TicketData["capture_id"]}
           </p>
           <p className="text-sm font-medium text-gray-900">
-            Status : COMPLETED
+            {`Status : ${TicketData["status"]}`}
           </p>
         </div>
         <div className="py-4 px-4 sm:grid md:grid lg:grid grid-cols-12 gap-x-8">
@@ -23,9 +23,15 @@ const TicketComponent = () => {
 
             <div className="mt-6 sm:mt-0 sm:ml-6">
               <dt className="text-sm font-medium text-gray-900">Attendee</dt>
-              <p className="mt-3 text-sm text-gray-500">Lastname</p>
-              <p className="text-sm text-gray-500">Firstname</p>
-              <p className="text-sm text-gray-500">$11</p>
+              <p className="mt-3 text-sm text-gray-500">
+                {TicketData["lastname"]}
+              </p>
+              <p className="text-sm text-gray-500">{TicketData["firstname"]}</p>
+              <p className="text-sm text-gray-500">
+                {TicketData["currency"] == "EUR"
+                  ? `${TicketData["price"]} €`
+                  : `$${TicketData["price"]}`}
+              </p>
             </div>
           </div>
 
@@ -35,10 +41,10 @@ const TicketComponent = () => {
                 <dt className="font-medium text-gray-900">May 8 - May 8</dt>
                 <dd className="mt-3 text-gray-500">
                   <span className="block text-sm text-gray-500 normal-case">
-                    6 rue Jules Valles
+                    {TicketData["place"]}
                   </span>
                   <span className="block text-sm text-gray-500 normal-case">
-                    Denmark
+                    {TicketData["location"]}
                   </span>
                 </dd>
               </div>
@@ -46,10 +52,10 @@ const TicketComponent = () => {
                 <dt className="font-medium text-gray-900">Informations</dt>
                 <dd className="mt-3 text-gray-500">
                   <p className="text-sm text-gray-500 overflow-hidden whitespace-nowrap overflow-ellipsis">
-                    email@gmail.com
+                    {TicketData["email"]}
                   </p>
                   <p className="text-sm text-gray-500 overflow-hidden whitespace-nowrap overflow-ellipsis">
-                    +33330000000
+                    {TicketData["phone"]}
                   </p>
                 </dd>
               </div>
@@ -58,10 +64,10 @@ const TicketComponent = () => {
         </div>
         <div className="flex flex-col sm:flex-row justify-between px-4 py-2">
           <p className="text-sm font-medium text-gray-900 overflow-hidden whitespace-nowrap overflow-ellipsis">
-            0x1edaccccfd6d6fb696e84d00ab120c13
+            {TicketData["user_id"]}
           </p>
           <p className="text-sm font-medium text-gray-900">
-            Categorie | Trai he
+            {TicketData["event_category"]} | {TicketData["event_label"]}
           </p>
         </div>
       </div>

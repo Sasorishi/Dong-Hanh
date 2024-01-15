@@ -4,16 +4,8 @@ namespace App\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
-use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
-use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
-use Symfony\Component\Security\Csrf\TokenGenerator\TokenGeneratorInterface;
-use Doctrine\Persistence\ManagerRegistry;
-use App\Entity\User;
-use App\Entity\Ticket;
-use App\Service\MailerService;
 use Symfony\Bundle\SecurityBundle\Security;
 
 class LoginController extends AbstractController
@@ -114,31 +106,6 @@ class LoginController extends AbstractController
     //     return $this->render('account/forgottenPassword.html.twig', [
     //         'tokenAccess' => $tokenAccess,
     //         'response' => $response
-    //     ]);
-    // }
-
-    // #[Route('/ticket_check', name: 'app_ticket_check')]
-    // public function ticketCheck(Request $request, ManagerRegistry $doctrine)
-    // {
-    //     if ($request->isMethod('GET')) {
-    //         $orderId = $request->query->get('order');
-    //         $repository = $doctrine->getRepository(Ticket::class);
-    //         $ticket = $repository->findOneBy(['orderId' => $orderId]);
-    //         $error = null;
-
-    //         if ($ticket->isScan() == True) {
-    //             $error = true;
-    //         } else {
-    //             $ticket->setScan(True);
-    //             $entityManager = $doctrine->getManager();
-    //             $entityManager->persist($ticket);
-    //             $entityManager->flush();
-    //         }
-    //     }
-
-    //     return $this->render('account/check.html.twig', [
-    //         'ticket' => $ticket,
-    //         'error' => $error
     //     ]);
     // }
 

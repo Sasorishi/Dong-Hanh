@@ -40,7 +40,7 @@ const EventDetail = () => {
 
         if (response.status === 200) {
           const data = response.data;
-          setEvent(JSON.parse(data.event));
+          setEvent(data.event);
         } else {
           console.error("Erreur lors de requête api");
           setEvent([]);
@@ -94,14 +94,14 @@ const EventDetail = () => {
 
           <div className="mx-auto max-w-2xl px-4 pb-16 pt-10 sm:px-6 lg:grid lg:max-w-7xl lg:grid-cols-3 lg:grid-rows-[auto,auto,1fr] lg:gap-x-8 lg:px-8 lg:pb-24 lg:pt-16">
             <div className="lg:col-span-2 lg:border-r lg:border-gray-200 lg:pr-8">
-              {/* <p
+              <p
                 id="helper-text-explanation"
                 className="mt-2 text-sm text-gray-500"
               >
-                dalkdzalkdj
-              </p> */}
+                {event["eventCategory"]}
+              </p>
               <h1 className="text-2xl font-bold tracking-tight text-darkblue sm:text-3xl">
-                {event["label"]}
+                {event["name"]}
               </h1>
             </div>
 

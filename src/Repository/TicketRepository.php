@@ -8,7 +8,9 @@ use App\Entity\Ticket;
 use App\Entity\User;
 use DateTime;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\Query\ResultSetMapping;
 use Doctrine\Persistence\ManagerRegistry;
+use Symfony\Component\Uid\Uuid;
 
 /**
  * @extends ServiceEntityRepository<Ticket>
@@ -85,5 +87,25 @@ class TicketRepository extends ServiceEntityRepository
         $entityManager = $this->getEntityManager();
         $entityManager->persist($ticket);
         $entityManager->flush();
+    }
+
+    /**
+     * @return Ticket[]
+     */
+    public function findGroupedTicketsByUser($userId): array
+    {
+        $binaryUserId = hex2bin(str_replace('-', '', $userId));
+        $queryBuilder = $this->createQueryBuilder('t')
+            ->select('t', 'e', 'p', 'u', 'ec')
+            ->leftJoin('t.event', 'e')
+            ->leftJoin('t.participant', 'p')
+            ->leftJoin('t.user', 'u')
+            ->leftJoin('e.eventCategory', 'ec')
+            ->andWhere('u.id = :userId')
+            ->setParameter('userId', $binaryUserId)
+            ->orderBy('t.created_at', 'DESC');
+
+        $tickets = $queryBuilder->getQuery()->getResult();
+        return $tickets;
     }
 }

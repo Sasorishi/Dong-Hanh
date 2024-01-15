@@ -29,22 +29,37 @@ class EventDetailController extends AbstractController
             return new JsonResponse(['error' => 'Event not found'], 404);
         }
 
-        // Use serialization groups or MaxDepth to handle circular references
-        $data = $serializer->serialize(
-            $event,
-            'json',
-            [
-                AbstractNormalizer::CIRCULAR_REFERENCE_HANDLER => function ($object) {
-                    return $object->getId();
-                },
-                // You can also use serialization groups:
-                // 'groups' => ['your_serialization_group']
-            ]
-        );
+        $event = [
+            'id' => $event->getId(),
+            'name' => $event->getLabel(),
+            'description' => $event->getDescription(),
+            'dateStart' => $event->getDateStart(),
+            'dateEnd' => $event->getDateEnd(),
+            'year' => $event->getYear(),
+            'price' => $event->getPrice(),
+            'currency' => $event->getCurrency(),
+            'place' => $event->getPlace(),
+            'location' => $event->getLocation(),
+            'features' => $event->getFeatures(),
+            'eventCategory' => $event->getEventCategory()->getLabel(),
+        ];
+
+        // // Use serialization groups or MaxDepth to handle circular references
+        // $data = $serializer->serialize(
+        //     $event,
+        //     'json',
+        //     [
+        //         AbstractNormalizer::CIRCULAR_REFERENCE_HANDLER => function ($object) {
+        //             return $object->getId();
+        //         },
+        //         // You can also use serialization groups:
+        //         // 'groups' => ['your_serialization_group']
+        //     ]
+        // );
 
         // You can also decode the JSON string to ensure it's valid
         // $decodedData = json_decode($data, true);
 
-        return new JsonResponse(['event' => $data]);
+        return new JsonResponse(['event' => $event]);
     }
 }

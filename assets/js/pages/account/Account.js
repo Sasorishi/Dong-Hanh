@@ -3,7 +3,8 @@ import axios from "axios";
 import Order from "../../components/tickets/OrderComponent";
 
 const Account = () => {
-  const [ticketData, setTicketData] = useState(null);
+  const [ticketsData, setTicketsData] = useState(null);
+  const [ordersData, setOrdersData] = useState(null);
   const [error, setError] = useState(null);
 
   const closeToast = () => {
@@ -15,12 +16,8 @@ const Account = () => {
       try {
         const response = await axios.get("/api/user/tickets");
         const data = response.data;
-
-        if (data.tickets) {
-          setTicketData(null);
-        } else {
-          setTicketData(data.ticket);
-        }
+        setTicketsData(Object.values(data.tickets) || []);
+        setOrdersData(Object.values(data.orders) || []);
       } catch (error) {
         console.error(
           "Erreur lors de la récupération des données du ticket",
@@ -39,17 +36,24 @@ const Account = () => {
 
   return (
     <section>
-      {!ticketData ? (
+      {!ticketsData ? (
         <div className="w-full bg-whitesmoke border rounded-lg shadow mt-4 mb-4">
           <div className="py-2 px-4 flex flex-col text-gray-500">
-            <p>
+            <p className="text-center">
               You don't have a ticket yet. You can buy one{" "}
               <a href="/events">here</a>.
             </p>
           </div>
         </div>
       ) : (
-        <Order />
+        ticketsData.map((data, index) => (
+          <Order
+            key={index}
+            ticketsData={data}
+            index={index}
+            ordersData={ordersData}
+          />
+        ))
       )}
     </section>
   );
