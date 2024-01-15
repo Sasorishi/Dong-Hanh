@@ -2,20 +2,9 @@
 
 namespace App\Controller;
 
-use App\Entity\Event;
-use App\Entity\Participant;
-use App\Entity\Ticket;
-use App\Entity\User;
-use App\Service\MailerService;
-use App\Service\PaypalService;
-use App\Service\QrcodeService;
-use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Component\HttpFoundation\JsonResponse;
-use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 
@@ -40,7 +29,7 @@ class AccountController extends AbstractController
         }
 
         return $this->render('index.html.twig', [
-            'controller_name' => 'LoginController',
+            'controller_name' => 'AccountController',
         ]);
     }
 

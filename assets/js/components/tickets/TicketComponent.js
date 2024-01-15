@@ -22,7 +22,7 @@ const TicketComponent = () => {
             </div>
 
             <div className="mt-6 sm:mt-0 sm:ml-6">
-              <dt className="text-sm font-medium text-gray-900">Participant</dt>
+              <dt className="text-sm font-medium text-gray-900">Attendee</dt>
               <p className="mt-3 text-sm text-gray-500">Lastname</p>
               <p className="text-sm text-gray-500">Firstname</p>
               <p className="text-sm text-gray-500">$11</p>

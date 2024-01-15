@@ -5,6 +5,7 @@ namespace App\Repository;
 use App\Entity\Event;
 use App\Entity\Participant;
 use App\Entity\Ticket;
+use App\Entity\User;
 use DateTime;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
@@ -67,7 +68,7 @@ class TicketRepository extends ServiceEntityRepository
 //        ;
 //    }
 
-    public function createTicket(Event $eventData, array $details, string $captureId, Participant $participant): void {
+    public function createTicket(Event $eventData, array $details, string $captureId, Participant $participant, User $user): void {
         $ticket = new Ticket;
         $ticket->setPrice($eventData->getPrice()[0]);
         $ticket->setStatus($details['status']);
@@ -79,6 +80,7 @@ class TicketRepository extends ServiceEntityRepository
         $ticket->setParticipant($participant);
         $ticket->setEvent($eventData);
         $ticket->setScan(false);
+        $ticket->setUser($user);
 
         $entityManager = $this->getEntityManager();
         $entityManager->persist($ticket);

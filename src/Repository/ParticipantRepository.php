@@ -66,7 +66,7 @@ class ParticipantRepository extends ServiceEntityRepository
 //        ;
 //    }
 
-    public function createParticipant(Array $data, Event $event, string $userId): Participant {
+    public function createParticipant(Array $data, Event $event): Participant {
         $participant = new Participant();
         
         $participant->setFirstname($data['firstName']);
@@ -80,8 +80,6 @@ class ParticipantRepository extends ServiceEntityRepository
         $participant->setExpectations($data['expectation']);
         $participant->setWaiver(true);
         $participant->setGuardian(true);
-        $participant->setAware(true);
-        $participant->setUser($userId);
         $participant->setEvent($event);
         $participant->setCreatedAt(new DateTime());
 

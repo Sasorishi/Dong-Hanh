@@ -4,32 +4,53 @@ import Order from "../../components/tickets/OrderComponent";
 
 const Account = () => {
   const [ticketData, setTicketData] = useState(null);
-  const [expire, setExpire] = useState(false);
+  const [error, setError] = useState(null);
 
-  // useEffect(() => {
-  //   const fetchData = async () => {
-  //     try {
-  //       const response = await axios.get("/api/account");
-  //       const data = response.data;
+  const closeToast = () => {
+    setError(null);
+  };
 
-  //       // Mettez à jour l'état avec les données reçues
-  //       setTicketData(data.ticket);
-  //       setExpire(data.expire);
-  //     } catch (error) {
-  //       console.error(
-  //         "Erreur lors de la récupération des données du ticket",
-  //         error
-  //       );
-  //     }
-  //   };
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await axios.get("/api/user/tickets");
+        const data = response.data;
 
-  //   fetchData();
-  // }, []);
+        if (data.tickets) {
+          setTicketData(null);
+        } else {
+          setTicketData(data.ticket);
+        }
+      } catch (error) {
+        console.error(
+          "Erreur lors de la récupération des données du ticket",
+          error
+        );
+        setError("Server request fetch tickets data fail.");
+
+        setTimeout(() => {
+          closeToast();
+        }, 5000);
+      }
+    };
+
+    fetchData();
+  }, []);
 
   return (
     <section>
-      <Order />
-      <Order />
+      {!ticketData ? (
+        <div className="w-full bg-whitesmoke border rounded-lg shadow mt-4 mb-4">
+          <div className="py-2 px-4 flex flex-col text-gray-500">
+            <p>
+              You don't have a ticket yet. You can buy one{" "}
+              <a href="/events">here</a>.
+            </p>
+          </div>
+        </div>
+      ) : (
+        <Order />
+      )}
     </section>
   );
 };

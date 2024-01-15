@@ -17,7 +17,7 @@ class Ticket
     #[ORM\Column(nullable: true)]
     private ?int $price = null;
 
-    #[ORM\ManyToOne(inversedBy: 'tickets')]
+    #[ORM\ManyToOne(inversedBy: 'tickets', fetch: "EAGER")]
     #[ORM\JoinColumn(nullable: false)]
     private ?Event $event = null;
 
@@ -42,8 +42,11 @@ class Ticket
     #[ORM\Column(nullable: true)]
     private ?bool $scan = null;
 
-    #[ORM\ManyToOne(inversedBy: 'tickets')]
-    private ?Participant $Participant = null;
+    #[ORM\ManyToOne(inversedBy: 'tickets', fetch: "EAGER")]
+    private ?Participant $participant = null;
+
+    #[ORM\ManyToOne(inversedBy: 'tickets', fetch: "EAGER")]
+    private ?User $user = null;
 
     public function getId(): ?int
     {
@@ -160,12 +163,24 @@ class Ticket
 
     public function getParticipant(): ?Participant
     {
-        return $this->Participant;
+        return $this->participant;
     }
 
-    public function setParticipant(?Participant $Participant): static
+    public function setParticipant(?Participant $participant): static
     {
-        $this->Participant = $Participant;
+        $this->participant = $participant;
+
+        return $this;
+    }
+
+    public function getUser(): ?User
+    {
+        return $this->user;
+    }
+
+    public function setUser(?User $user): static
+    {
+        $this->user = $user;
 
         return $this;
     }

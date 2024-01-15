@@ -208,31 +208,26 @@ const EventDetail = () => {
                 </p>
               </div>
 
-              <div className="mt-10">
-                <h3 className="text-sm font-medium text-darkblue">Features</h3>
-
-                <div className="mt-4">
-                  <div className="grid grid-cols-2 gap-4">
-                    {event && event.features ? (
-                      event.features
-                        .slice(0, Math.ceil(event.features.length / 2) * 2) // Ensure you have an even number of elements
+              {event && event.features ? (
+                <div className="mt-10">
+                  <h3 className="text-sm font-medium text-darkblue">
+                    Features
+                  </h3>
+                  <div className="mt-4">
+                    <div className="grid grid-cols-2 gap-4">
+                      {event.features
+                        .slice(0, Math.ceil(event.features.length / 2) * 2)
                         .map((feature, index) => (
                           <div key={index} className="text-gray-400">
                             <span className="text-sm text-gray-600 lowercase">
                               • {feature}
                             </span>
                           </div>
-                        ))
-                    ) : (
-                      <div className="text-gray-400">
-                        <span className="text-sm text-gray-600 lowercase">
-                          No feature
-                        </span>
-                      </div>
-                    )}
+                        ))}
+                    </div>
                   </div>
                 </div>
-              </div>
+              ) : null}
 
               <div className="mt-10">
                 <h2 className="text-sm font-medium text-darkblue items-center">
@@ -273,7 +268,7 @@ const EventDetail = () => {
                     viewBox="0 0 24 24"
                     strokeWidth="1.5"
                     stroke="currentColor"
-                    className="w-6 h-6 my-auto"
+                    className="w-5 h-5 my-auto"
                   >
                     <path
                       strokeLinecap="round"
@@ -287,7 +282,7 @@ const EventDetail = () => {
                       month: "long",
                       day: "numeric",
                     })}{" "}
-                    - End :{" "}
+                    / End :{" "}
                     {new Date(event.dateEnd).toLocaleDateString("en-US", {
                       month: "long",
                       day: "numeric",
