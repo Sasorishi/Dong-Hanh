@@ -16,6 +16,7 @@
     "friendsofphp/proxy-manager-lts": "^1.0",
     "laminas/laminas-code": "^4.8",
     "nelmio/cors-bundle": "^2.4",
+    "nesbot/carbon": "^2.72",
     "paypal/paypal-checkout-sdk": "^1.0",
     "phpmailer/phpmailer": "^6.7",
     "symfony/asset": "6.4.*",
