@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Repository\EventRepository;
+use Carbon\Carbon;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
@@ -29,8 +30,8 @@ class EventsController extends AbstractController
                 'id' => $event->getId(),
                 'name' => $event->getLabel(),
                 'description' => $event->getDescription(),
-                'dateStart' => $event->getDateStart(),
-                'dateEnd' => $event->getDateEnd(),
+                'dateStart' => Carbon::parse($event->getDateStart())->format('F jS'),
+                'dateEnd' => Carbon::parse($event->getDateEnd())->format('F jS'),
                 'year' => $event->getYear(),
                 'price' => $event->getPrice(),
                 'currency' => $event->getCurrency(),

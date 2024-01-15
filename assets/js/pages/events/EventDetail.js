@@ -41,6 +41,7 @@ const EventDetail = () => {
         if (response.status === 200) {
           const data = response.data;
           setEvent(data.event);
+          console.log(data.event);
         } else {
           console.error("Erreur lors de requête api");
           setEvent([]);
@@ -277,16 +278,7 @@ const EventDetail = () => {
                     />
                   </svg>
                   <p className="text-sm text-gray-600 my-auto ml-5">
-                    Start :{" "}
-                    {new Date(event.dateStart).toLocaleDateString("en-US", {
-                      month: "long",
-                      day: "numeric",
-                    })}{" "}
-                    / End :{" "}
-                    {new Date(event.dateEnd).toLocaleDateString("en-US", {
-                      month: "long",
-                      day: "numeric",
-                    })}
+                    {`Start : ${event.dateStart} / End : ${event.dateEnd}`}
                   </p>
                 </div>
               </div>

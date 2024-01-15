@@ -87,24 +87,9 @@ const EventCardComponent = ({ event }) => {
         <div className="rounded-2xl bg-gray-50 py-10 text-center ring-1 ring-inset ring-gray-900/5 lg:flex lg:flex-col lg:justify-center lg:py-16">
           <div className="mx-auto max-w-xs px-8">
             <p className="text-base font-semibold text-darkblue">
-              {event.dateStart.date === event.dateEnd.date ? (
-                new Date(event.dateStart.date).toLocaleDateString("en-US", {
-                  month: "long",
-                  day: "numeric",
-                })
-              ) : (
-                <>
-                  {new Date(event.dateStart.date).toLocaleDateString("en-US", {
-                    month: "long",
-                    day: "numeric",
-                  })}{" "}
-                  -{" "}
-                  {new Date(event.dateEnd.date).toLocaleDateString("en-US", {
-                    month: "long",
-                    day: "numeric",
-                  })}
-                </>
-              )}
+              {event.dateStart === event.dateEnd
+                ? event.dateStart
+                : `${event.dateStart} - ${event.dateEnd}`}
               , {event.year}
             </p>
             <p className="mt-6 flex items-baseline justify-center gap-x-2">
