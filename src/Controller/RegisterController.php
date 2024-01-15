@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Repository\EventRepository;
 use App\Repository\ParticipantRepository;
 use App\Repository\TicketRepository;
+use App\Repository\UserRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -23,22 +24,22 @@ class RegisterController extends AbstractController
     }
 
     #[Route('api/register', name: 'api_registration', methods: ['POST'])]
-    public function setRegister(Request $request, EventRepository $eventRepository, ParticipantRepository $participantRepository, TicketRepository $ticketRepository): JsonResponse
+    public function setRegister(Request $request, EventRepository $eventRepository, ParticipantRepository $participantRepository, TicketRepository $ticketRepository, UserRepository $userRepository): JsonResponse
     {
         $data = json_decode($request->getContent(), true);
         $participants = $data['participants'];
         $details = $data['details'];
         $captureId = $data['captureId'];
         $event = $eventRepository->find($data['eventId']);
-        $userId = $this->getUser()->getId();
+        $user = $userRepository->find($this->getUser()->getId());
 
         foreach ($participants as $key => $participantData) {
             if ($key === "eventId" || $key === "numTickets") {
                 continue;
             }
 
-            $newParticipant = $participantRepository->createParticipant($participantData, $event, $userId);
-            $ticketRepository->createTicket($event, $details, $captureId, $newParticipant);
+            $newParticipant = $participantRepository->createParticipant($participantData, $event);
+            $ticketRepository->createTicket($event, $details, $captureId, $newParticipant, $user);
         }
 
         return new JsonResponse(['message' => 'Enregistrement réussi !']);

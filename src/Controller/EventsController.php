@@ -22,7 +22,6 @@ class EventsController extends AbstractController
     public function getEvents(EventRepository $eventRepository): JsonResponse
     {
         $events = $eventRepository->findAll();
-        dump($events);
 
         $data = [];
         foreach ($events as $event) {

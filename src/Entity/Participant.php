@@ -45,9 +45,6 @@ class Participant
     #[ORM\Column(type: Types::TEXT, nullable: true)]
     private ?string $expectations = null;
 
-    #[ORM\Column(length: 255)]
-    private ?string $aware = null;
-
     #[ORM\Column(type: Types::TEXT, nullable: true)]
     private ?string $healthcare = null;
 
@@ -59,9 +56,6 @@ class Participant
 
     #[ORM\Column(type: Types::DATE_MUTABLE, nullable: true)]
     private ?\DateTimeInterface $created_at = null;
-
-    #[ORM\Column(length: 255)]
-    private ?string $user = null;
 
     #[ORM\Column(nullable: true)]
     private ?bool $payment = null;
@@ -193,18 +187,6 @@ class Participant
         return $this;
     }
 
-    public function getAware(): ?string
-    {
-        return $this->aware;
-    }
-
-    public function setAware(string $aware): self
-    {
-        $this->aware = $aware;
-
-        return $this;
-    }
-
     public function getHealthcare(): ?string
     {
         return $this->healthcare;
@@ -249,18 +231,6 @@ class Participant
     public function setCreatedAt(\DateTimeInterface $created_at): self
     {
         $this->created_at = $created_at;
-
-        return $this;
-    }
-
-    public function getUser(): ?string
-    {
-        return $this->user;
-    }
-
-    public function setUser(string $user): self
-    {
-        $this->user = $user;
 
         return $this;
     }
@@ -322,7 +292,6 @@ class Participant
     public function removeTicket(Ticket $ticket): static
     {
         if ($this->tickets->removeElement($ticket)) {
-            // set the owning side to null (unless already changed)
             if ($ticket->getParticipant() === $this) {
                 $ticket->setParticipant(null);
             }

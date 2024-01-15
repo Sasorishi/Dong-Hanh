@@ -5,9 +5,12 @@ namespace App\Repository;
 use App\Entity\Event;
 use App\Entity\Participant;
 use App\Entity\Ticket;
+use App\Entity\User;
 use DateTime;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\Query\ResultSetMapping;
 use Doctrine\Persistence\ManagerRegistry;
+use Symfony\Component\Uid\Uuid;
 
 /**
  * @extends ServiceEntityRepository<Ticket>
@@ -67,7 +70,7 @@ class TicketRepository extends ServiceEntityRepository
 //        ;
 //    }
 
-    public function createTicket(Event $eventData, array $details, string $captureId, Participant $participant): void {
+    public function createTicket(Event $eventData, array $details, string $captureId, Participant $participant, User $user): void {
         $ticket = new Ticket;
         $ticket->setPrice($eventData->getPrice()[0]);
         $ticket->setStatus($details['status']);
@@ -79,9 +82,30 @@ class TicketRepository extends ServiceEntityRepository
         $ticket->setParticipant($participant);
         $ticket->setEvent($eventData);
         $ticket->setScan(false);
+        $ticket->setUser($user);
 
         $entityManager = $this->getEntityManager();
         $entityManager->persist($ticket);
         $entityManager->flush();
+    }
+
+    /**
+     * @return Ticket[]
+     */
+    public function findGroupedTicketsByUser($userId): array
+    {
+        $binaryUserId = hex2bin(str_replace('-', '', $userId));
+        $queryBuilder = $this->createQueryBuilder('t')
+            ->select('t', 'e', 'p', 'u', 'ec')
+            ->leftJoin('t.event', 'e')
+            ->leftJoin('t.participant', 'p')
+            ->leftJoin('t.user', 'u')
+            ->leftJoin('e.eventCategory', 'ec')
+            ->andWhere('u.id = :userId')
+            ->setParameter('userId', $binaryUserId)
+            ->orderBy('t.created_at', 'DESC');
+
+        $tickets = $queryBuilder->getQuery()->getResult();
+        return $tickets;
     }
 }
