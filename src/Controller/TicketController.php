@@ -3,8 +3,11 @@
 namespace App\Controller;
 
 use App\Repository\TicketRepository;
+use App\Service\QrcodeService;
+use PHPUnit\Util\Json;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Serializer\Normalizer\AbstractNormalizer;
@@ -14,10 +17,12 @@ use Symfony\Component\Serializer\SerializerInterface;
 class TicketController extends AbstractController
 {
     private $ticketRepository;
+    private $qrcodeService;
 
-    public function __construct(TicketRepository $ticketRepository)
+    public function __construct(TicketRepository $ticketRepository, QrcodeService $qrcodeService)
     {
         $this->ticketRepository = $ticketRepository;
+        $this->qrcodeService = $qrcodeService;
     }
 
     #[Route('/ticket', name: 'app_ticket')]
@@ -29,7 +34,7 @@ class TicketController extends AbstractController
     }
 
     #[Route('/api/user/tickets', name: 'api_tickets_user', methods: ['GET'])]
-    public function getTicketsbyUser(NormalizerInterface $normalizer): JsonResponse {
+    public function getTicketsbyUser(): JsonResponse {
         $userId = $this->getUser()->getId();
         $tickets = $this->ticketRepository->findGroupedTicketsByUser($userId);
 
@@ -83,14 +88,14 @@ class TicketController extends AbstractController
                 'refund_expire_at' =>$ticket->getEvent()->getRefundExpireAt(),
                 'email' => $ticket->getParticipant()->getEmail(),
                 'phone' => $ticket->getParticipant()->getPhone(),
+                'qrcode' => $this->ticketQrcode($ticket->getId(), $ticket->getParticipant()->getId(), $ticket->getEvent()->getId()),
             ];
         }
         return new JsonResponse(['tickets' =>  $ticketData, 'orders' => $orderCreatedAtArray]);
     }
 
-
-    #[Route('/api/ticket_check', name: 'api_ticket_check')]
-    public function ticketCheck(): JsonResponse {
+    // #[Route('/api/ticket_check', name: 'api_ticket_check')]
+    // public function ticketCheck(): JsonResponse {
         // if ($request->isMethod('GET')) {
         //     $orderId = $request->query->get('order');
         //     $repository = $doctrine->getRepository(Ticket::class);
@@ -107,6 +112,45 @@ class TicketController extends AbstractController
         //     }
         // }
 
-        return new JsonResponse(['tickets' =>  $tickets]);
+    //     return new JsonResponse(['tickets' =>  $tickets]);
+    // }
+
+    #[Route('/api/ticket/qrcode/generate', name: 'api_ticket_generate_qrcode')]
+    public function ticketQrcode($ticketId, $participantId, $eventId) {
+        $qrcode = $this->qrcodeService->generate($ticketId, $participantId, $eventId);
+        dump($qrcode);
+        return $qrcode;
+    }
+
+    #[Route('/api/ticket_check', name: 'app_ticket_check', methods: ['GET'])]
+    public function ticketCheck(Request $request): JsonResponse {
+        $ticketId = $request->query->get('ticket');
+        $participantId = $request->query->get('participant');
+        $eventId = $request->query->get('event');
+        
+        $ticketData = $this->ticketRepository->findOneBy(['id' => $ticketId, 'event' => $eventId]);
+        dump($ticketData->getId());
+
+        if (!$ticketData) {
+            return new JsonResponse(['success' => false, 'message' => 'Ticket invalid.']);
+        } else {
+            $ticket[] = [
+                'id' => $ticketData->getId(),
+                'firstname' => $ticketData->getParticipant()->getFirstname(),
+                'lastname' => $ticketData->getParticipant()->getLastname(),
+                'age' => $ticketData->getParticipant()->getAge(),
+                'gender' => $ticketData->getParticipant()->getGender(),
+                'event' => $ticketData->getEvent()->getLabel(),
+                'event_category' => $ticketData->getEvent()->getEventCategory()->getLabel(),
+            ];
+
+            if ($ticketData->isScan()) {
+                return new JsonResponse(['success' => false, 'message' => 'Ticket already scanned.', 'ticket' => $ticket]);
+            }
+
+            $this->ticketRepository->scanTicket($ticketData);
+
+            return new JsonResponse(['success' => true, 'message' => 'Ticket valid.', 'ticket' => $ticket]);
+        }
     }
 }
