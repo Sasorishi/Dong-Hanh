@@ -90,9 +90,10 @@ class TicketRepository extends ServiceEntityRepository
     }
 
     /**
+     * @param string $userId
      * @return Ticket[]
      */
-    public function findGroupedTicketsByUser($userId): array
+    public function findGroupedTicketsByUser(string $userId): array
     {
         $binaryUserId = hex2bin(str_replace('-', '', $userId));
         $queryBuilder = $this->createQueryBuilder('t')
@@ -107,5 +108,15 @@ class TicketRepository extends ServiceEntityRepository
 
         $tickets = $queryBuilder->getQuery()->getResult();
         return $tickets;
+    }
+
+    /**
+     * @param Ticket $ticket
+     * @return void
+     */
+    public function scanTicket(Ticket $ticket): void {
+        $ticket->setScan(true);
+        $entityManager = $this->getEntityManager();
+        $entityManager->flush();
     }
 }

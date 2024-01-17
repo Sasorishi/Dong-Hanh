@@ -29,6 +29,7 @@ import EventDetail from "./js/pages/events/EventDetail";
 import Response from "./js/pages/responses/response";
 import Register from "./js/pages/register/Register";
 import Checkout from "./js/pages/checkout/Checkout";
+import TicketCheck from "./js/pages/dashboard/TicketCheck";
 
 const Main = () => {
   AOS.init();
