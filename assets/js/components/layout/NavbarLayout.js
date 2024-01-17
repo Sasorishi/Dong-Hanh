@@ -46,7 +46,7 @@ function Navbar({ isAuthenticated }) {
         </a>
         <div className="flex md:order-2 space-x-3 md:space-x-0 rtl:space-x-reverse">
           {isAuthenticated ? (
-            <div className="hidden md:flex gap-2">
+            <div className="hidden sm:flex md:flex lg:flex gap-2">
               <button
                 type="button"
                 onClick={() => handleNavigation("account")}
@@ -95,7 +95,7 @@ function Navbar({ isAuthenticated }) {
               <button
                 type="button"
                 onClick={() => handleNavigation("login")}
-                className="animation-hover text-white uppercase bg-darkblue hover:bg-rosered font-medium rounded-full text-sm px-4 py-2 text-center"
+                className="animation-hover flex align-center text-white uppercase bg-darkblue hover:bg-rosered font-medium rounded-full text-sm px-4 py-2 text-center"
               >
                 Login
                 <svg
