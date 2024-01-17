@@ -60,7 +60,7 @@ const Login = () => {
             src="https://merakiui.com/images/logo.svg"
             alt=""
           />
-          <span className="mt-3">Signin</span>
+          <span className="mt-3">Signup</span>
         </div>
 
         <form className="mt-6" onSubmit={handleSignup}>
