@@ -75,7 +75,7 @@ const Register = () => {
 
   return (
     <section className="bg-white">
-      {Stepper()}
+      <Stepper currentStep={1} />
       <div className="py-24 sm:py-32 px-6 lg:px-8 rounded-lg">
         <form onSubmit={handleSubmit}>
           {tickets}
@@ -89,7 +89,7 @@ const Register = () => {
             />
             <label
               htmlFor="link-checkbox"
-              className="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300"
+              className="ms-2 text-sm font-medium text-gray-900"
             >
               I agree with the{" "}
               <span
@@ -111,7 +111,7 @@ const Register = () => {
             />
             <label
               htmlFor="link-checkbox"
-              className="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300"
+              className="ms-2 text-sm font-medium text-gray-900"
             >
               I agree with the{" "}
               <span

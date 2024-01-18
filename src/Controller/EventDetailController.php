@@ -45,22 +45,6 @@ class EventDetailController extends AbstractController
             'eventCategory' => $event->getEventCategory()->getLabel(),
         ];
 
-        // // Use serialization groups or MaxDepth to handle circular references
-        // $data = $serializer->serialize(
-        //     $event,
-        //     'json',
-        //     [
-        //         AbstractNormalizer::CIRCULAR_REFERENCE_HANDLER => function ($object) {
-        //             return $object->getId();
-        //         },
-        //         // You can also use serialization groups:
-        //         // 'groups' => ['your_serialization_group']
-        //     ]
-        // );
-
-        // You can also decode the JSON string to ensure it's valid
-        // $decodedData = json_decode($data, true);
-
         return new JsonResponse(['event' => $event]);
     }
 }
