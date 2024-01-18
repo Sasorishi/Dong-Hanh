@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { useNavigate } from "react-router";
 import axios from "axios";
+import Loader from "../../components/LoaderComponent";
 
 const EventDetail = () => {
   const [tickets, setTickets] = useState(1);
@@ -306,9 +307,7 @@ const EventDetail = () => {
           </div>
         </div>
       ) : (
-        <div className="relative m-auto w-full max-w-sm p-6">
-          <p>Loading...</p>
-        </div>
+        <Loader />
       )}
     </div>
   );

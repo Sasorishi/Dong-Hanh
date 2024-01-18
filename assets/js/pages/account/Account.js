@@ -1,10 +1,12 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import Order from "../../components/tickets/OrderComponent";
+import Loader from "../../components/LoaderComponent";
 
 const Account = () => {
   const [ticketsData, setTicketsData] = useState(null);
   const [ordersData, setOrdersData] = useState(null);
+  const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
   const closeToast = () => {
@@ -28,6 +30,8 @@ const Account = () => {
         setTimeout(() => {
           closeToast();
         }, 5000);
+      } finally {
+        setLoading(false);
       }
     };
 
@@ -36,24 +40,28 @@ const Account = () => {
 
   return (
     <section>
-      {!ticketsData ? (
-        <div className="w-full bg-whitesmoke border rounded-lg shadow mt-4 mb-4">
-          <div className="py-2 px-4 flex flex-col text-gray-500">
-            <p className="text-center">
-              You don't have a ticket yet. You can buy one{" "}
-              <a href="/events">here</a>.
-            </p>
+      {!loading ? (
+        !ticketsData ? (
+          <div className="w-full bg-whitesmoke border rounded-lg shadow mt-4 mb-4">
+            <div className="py-2 px-4 flex flex-col text-gray-500">
+              <p className="text-center">
+                You don't have a ticket yet. You can buy one{" "}
+                <a href="/events">here</a>.
+              </p>
+            </div>
           </div>
-        </div>
+        ) : (
+          ticketsData.map((data, index) => (
+            <Order
+              key={index}
+              ticketsData={data}
+              index={index}
+              ordersData={ordersData}
+            />
+          ))
+        )
       ) : (
-        ticketsData.map((data, index) => (
-          <Order
-            key={index}
-            ticketsData={data}
-            index={index}
-            ordersData={ordersData}
-          />
-        ))
+        <Loader />
       )}
     </section>
   );

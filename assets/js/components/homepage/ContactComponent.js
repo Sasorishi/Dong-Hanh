@@ -1,9 +1,11 @@
 import React, { useState } from "react";
 import axios from "axios";
+import Modal from "../ModalComponent";
 import Captcha from "./CaptchaComponent";
 
 const ContactSection = ({ onError }) => {
   const [isChecked, setChecked] = useState(false);
+  const [isDefaultModalVisible, setIsDefaultModalVisible] = useState(false);
   const [formData, setFormData] = useState({
     firstName: "",
     lastName: "",
@@ -42,6 +44,10 @@ const ContactSection = ({ onError }) => {
   const handleCheckboxChange = () => {
     console.log("click");
     setChecked(!isChecked);
+  };
+
+  const handleOpenDefaultModal = () => {
+    setIsDefaultModalVisible(true);
   };
 
   return (
@@ -203,9 +209,12 @@ const ContactSection = ({ onError }) => {
                   id="switch-1-label"
                 >
                   By selecting this, you agree to our{" "}
-                  <a href="#" className="font-semibold text-indigo-600">
+                  <span
+                    className="font-semibold text-indigo-600 hover:underline"
+                    onClick={handleOpenDefaultModal}
+                  >
                     privacy&nbsp;policy
-                  </a>
+                  </span>
                   .
                 </label>
               </div>
@@ -226,6 +235,18 @@ const ContactSection = ({ onError }) => {
           </div>
         </div>
       </form>
+      {isDefaultModalVisible && (
+        <Modal
+          id="default-modal"
+          title="Privacy Policy"
+          content={[
+            "By selecting this, you acknowledge and agree to our Privacy Policy.",
+            "We respect your privacy and assure you that the information you provide will be handled with confidentiality. It will only be used for the purpose of communication and will not be shared with third parties without your consent.",
+            "If you have any concerns or questions about our privacy practices, please feel free to contact us.",
+          ]}
+          onClose={() => setIsDefaultModalVisible(false)}
+        />
+      )}
     </section>
   );
 };
