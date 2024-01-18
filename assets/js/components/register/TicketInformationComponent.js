@@ -112,7 +112,7 @@ const TicketInforamtionComponent = ({ ticketKey, onTicketsDataChange }) => {
                 name="gender"
                 value={formData.gender}
                 onChange={handleInputChange}
-                className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-1.5"
+                className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2"
                 required
               >
                 <option disabled value="">
@@ -198,6 +198,9 @@ const TicketInforamtionComponent = ({ ticketKey, onTicketsDataChange }) => {
                 className="bg-gray-50 block w-full rounded-md border-0 p-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:leading-6"
                 required
               >
+                <option disabled value="">
+                  Choose a country
+                </option>
                 <option value="Afghanistan">Afghanistan</option>
                 <option value="Åland Islands">Åland Islands</option>
                 <option value="Albania">Albania</option>

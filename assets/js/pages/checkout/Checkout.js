@@ -1,16 +1,16 @@
 import React, { useState, useEffect } from "react";
 import { useLocation } from "react-router-dom";
-import { useNavigate } from "react-router";
 import axios from "axios";
 import PayPalButton from "../../components/PaypalButtonComponent";
 import TicketImage from "../../../../public/images/ticket.png";
 import Toast from "../../components/ToastComponent";
+import Stepper from "../../components/register/StepperComponent";
+import Loader from "../../components/LoaderComponent";
 
 const Checkout = () => {
   const [event, setEvent] = useState(null);
   const [numTickets, setNumTickets] = useState(null);
   const [loading, setLoading] = useState(true);
-  const navigate = useNavigate();
   const location = useLocation();
   const [error, setError] = useState(null);
 
@@ -24,7 +24,7 @@ const Checkout = () => {
   }
 
   const price = () => {
-    return numTickets * event.price[0];
+    return numTickets * event["price"][0];
   };
 
   const handlePaymentError = (error) => {
@@ -41,7 +41,7 @@ const Checkout = () => {
 
         if (response.status === 200) {
           const data = response.data;
-          setEvent(JSON.parse(data.event));
+          setEvent(data.event);
           setNumTickets(location.state.numTickets);
         } else {
           setEvent([]);
@@ -67,10 +67,11 @@ const Checkout = () => {
   }, []);
 
   return (
-    <div className="bg-white">
+    <section className="bg-white">
+      <Stepper currentStep={2} />
       {error && <Toast message={error} onClose={closeToast} error={true} />}
       {!loading ? (
-        <>
+        <div className="py-24">
           <div className="grid sm:px-10 lg:grid-cols-2 lg:px-20 xl:px-32">
             <div className="px-4 pt-8">
               <p className="text-xl font-medium">Order Summary</p>
@@ -81,16 +82,14 @@ const Checkout = () => {
                     <img
                       className="m-2 h-24 w-28 rounded-md border object-cover object-center"
                       src={TicketImage}
-                      alt=""
+                      alt="TicketImage"
                     />
                     <div className="flex w-full flex-col px-4 py-4">
-                      {event.eventCategory && (
-                        <span className="text-sm font-semibold text-darkblue items-center">
-                          {event.eventCategory.label}
-                        </span>
-                      )}
-                      <span className="font-semibold">{event["label"]}</span>
-                      <span className="float-right text-gray-400">
+                      <span className="text-sm font-semibold text-darkblue items-center">
+                        {event["eventCategory"]}
+                      </span>
+                      <span className="font-semibold">{event["name"]}</span>
+                      <span className="float-right text-sm font-semibold text-darkblue">
                         {event["year"]} | {event["location"]}
                       </span>
                     </div>
@@ -135,9 +134,6 @@ const Checkout = () => {
                   .
                 </span>
               </div>
-              {/* <button className="mt-4 mb-8 w-full rounded-md bg-gray-900 px-6 py-3 font-medium text-white">
-                Place Order
-              </button> */}
               <div className="mt-4 mb-8 w-full px-6 py-3">
                 <PayPalButton
                   event={event}
@@ -148,11 +144,11 @@ const Checkout = () => {
               </div>
             </div>
           </div>
-        </>
+        </div>
       ) : (
-        <p>Loading...</p>
+        <Loader />
       )}
-    </div>
+    </section>
   );
 };
 
