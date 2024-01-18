@@ -4,15 +4,12 @@ namespace App\Controller;
 
 use App\Repository\TicketRepository;
 use App\Service\QrcodeService;
-use PHPUnit\Util\Json;
+use Carbon\Carbon;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\Serializer\Normalizer\AbstractNormalizer;
-use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
-use Symfony\Component\Serializer\SerializerInterface;
 
 class TicketController extends AbstractController
 {
@@ -47,7 +44,7 @@ class TicketController extends AbstractController
 
         foreach ($tickets as $ticket) {
             $orderId = $ticket->getOrderId();
-            $createdAt = $ticket->getCreatedAt();
+            $createdAt = Carbon::parse($ticket->getCreatedAt())->isoFormat('M-D-YYYY');
 
             $orderIdExists = false;
             foreach ($orderCreatedAtArray as $item) {
@@ -75,8 +72,8 @@ class TicketController extends AbstractController
                 'status' => $ticket->getStatus(),
                 'capture_id' => $ticket->getCaptureId(),
                 'order_id' => $orderId,
-                'date_start' => $ticket->getEvent()->getDateStart(),
-                'date_end' => $ticket->getEvent()->getDateEnd(),
+                'date_start' => Carbon::parse($ticket->getEvent()->getDateStart())->format('F jS'),
+                'date_end' => Carbon::parse($ticket->getEvent()->getDateEnd())->format('F jS'),
                 'create_at' => $ticket->getCreatedAt(),
                 'event_label' => $ticket->getEvent()->getLabel(),
                 'event_category' => $ticket->getEvent()->getEventCategory()->getLabel(),

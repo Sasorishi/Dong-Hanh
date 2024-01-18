@@ -14,13 +14,7 @@ const OrderComponent = ({ ticketsData, index, ordersData }) => {
         <div className="flex flex-col w-full md:w-1/2 mb-4 md:mb-0 md:w-auto">
           <span className="text-sm font-medium text-darkblue">Date</span>
           <span className="text-sm font-medium">
-            {new Date(ordersData[index]["created_at"]).toLocaleDateString(
-              "en-US",
-              {
-                month: "long",
-                day: "numeric",
-              }
-            )}
+            {ordersData[index]["created_at"]}
           </span>
         </div>
         {/* <div className="flex flex-col w-full mb-4 md:w-auto md:mb-0">

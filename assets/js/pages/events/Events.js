@@ -1,9 +1,11 @@
 import React, { useEffect, useState } from "react";
 import axios from "../../../api";
 import EventCard from "../../components/events/EventCardComponent";
+import Loader from "../../components/LoaderComponent";
 
 const Events = () => {
   const [events, setEvents] = useState([]);
+  const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
   useEffect(() => {
@@ -21,6 +23,8 @@ const Events = () => {
       } catch (error) {
         console.error("Erreur lors de requête api", error);
         setEvents([]);
+      } finally {
+        setLoading(false);
       }
     };
 
@@ -43,12 +47,18 @@ const Events = () => {
             something extraordinary.
           </p>
         </div>
-        {events ? (
-          events.map((event, index) => <EventCard key={index} event={event} />)
+        {!loading ? (
+          events ? (
+            events.map((event, index) => (
+              <EventCard key={index} event={event} />
+            ))
+          ) : (
+            <div className="mx-auto max-w-2xl sm:text-center mt-12">
+              <p>No events available at the moment.</p>
+            </div>
+          )
         ) : (
-          <div className="mx-auto max-w-2xl sm:text-center mt-12">
-            <p>No events available at the moment.</p>
-          </div>
+          <Loader />
         )}
       </div>
     </div>
