@@ -21,7 +21,6 @@ class MailerController extends AbstractController
     public function sendEmail(Request $request, string $type): Response
     {
         $data = json_decode($request->getContent(), true);
-        dump($data);
 
         switch ($type) {
             case 'contact':

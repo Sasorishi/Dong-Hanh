@@ -41,31 +41,6 @@ class UserRepository extends ServiceEntityRepository
         }
     }
 
-//    /**
-//     * @return User[] Returns an array of User objects
-//     */
-//    public function findByExampleField($value): array
-//    {
-//        return $this->createQueryBuilder('u')
-//            ->andWhere('u.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->orderBy('u.id', 'ASC')
-//            ->setMaxResults(10)
-//            ->getQuery()
-//            ->getResult()
-//        ;
-//    }
-
-//    public function findOneBySomeField($value): ?User
-//    {
-//        return $this->createQueryBuilder('u')
-//            ->andWhere('u.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->getQuery()
-//            ->getOneOrNullResult()
-//        ;
-//    }
-
     public function createUser(string $email, string $password, UserPasswordHasherInterface $passwordHasher): void {
         $user = new User;
         $user->setEmail($email);
@@ -75,8 +50,17 @@ class UserRepository extends ServiceEntityRepository
         $user->setRoles(['user']);
         $user->setCreateAt(new DateTime());
 
-        $entityManager = $this->getEntityManager();
-        $entityManager->persist($user);
-        $entityManager->flush();
+        $this->save($user, true);
+    }
+
+    /**
+     * @param User $user
+     * @param string $token
+     * @return void
+     */
+    public function generateNewRequestTokenPassword(User $user, string $token): void {
+        $user->setTokenPassword($token);
+        $user->setPasswordRequestAt(new DateTime);
+        $this->save($user, true);
     }
 }

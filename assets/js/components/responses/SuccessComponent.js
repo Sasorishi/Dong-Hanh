@@ -59,11 +59,12 @@ const SuccessComponent = ({ response }) => {
         );
         break;
 
-      case "forgottenPassword":
+      case "forgetPassword":
         setMessage(
           <p>
-            Your password has changed. You can log in with your account now! If
-            you have any questions, please email{" "}
+            Your password reset request has been sent. Please check your email
+            and follow the provided instructions to complete the process. If you
+            have any questions, feel free to contact us via email at{" "}
             <a href="mailto:contact@dong-hanh.com" className="text-darkblue">
               contact@dong-hanh.com
             </a>
