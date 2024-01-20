@@ -43,6 +43,7 @@ class EventDetailController extends AbstractController
             'location' => $event->getLocation(),
             'features' => $event->getFeatures(),
             'eventCategory' => $event->getEventCategory()->getLabel(),
+            'isRegistrable' => $event->isRegister(),
         ];
 
         return new JsonResponse(['event' => $event]);
