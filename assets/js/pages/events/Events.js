@@ -11,11 +11,12 @@ const Events = () => {
   useEffect(() => {
     const getEvents = async () => {
       try {
-        const response = await axios.get("/api/events/getEvents");
+        const response = await axios.get("/api/events/getEventsNotExpired");
 
         if (response.status === 200) {
           const data = response.data;
           setEvents(data.events);
+          console.log(data.events);
         } else {
           console.error("Erreur lors de requête api");
           setEvents([]);
