@@ -287,9 +287,12 @@ const EventDetail = () => {
               <button
                 type="submit"
                 onClick={handleRegister}
-                className="mt-10 uppercase flex w-full items-center justify-center rounded-md border border-transparent bg-darkblue px-8 py-3 text-base font-medium text-white hover:bg-green-800 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+                className="mt-10 uppercase flex w-full items-center justify-center rounded-md border border-transparent bg-darkblue px-8 py-3 text-base font-medium text-white hover:bg-green-800 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 disabled:hover:bg-darkblue disabled:opacity-25"
+                disabled={!event["isRegistrable"]}
               >
-                get a ticket
+                {!event["isRegistrable"]
+                  ? "Registration closed"
+                  : "get a ticket"}
               </button>
             </div>
 

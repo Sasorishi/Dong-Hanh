@@ -156,7 +156,7 @@ const TicketInforamtionComponent = ({ ticketKey, onTicketsDataChange }) => {
             <div className="relative mt-2">
               <div className="absolute inset-y-0 start-0 top-0 flex items-center ps-3.5 pointer-events-none">
                 <svg
-                  className="w-4 h-4 text-gray-500 dark:text-gray-400"
+                  className="w-4 h-4 text-gray-500"
                   aria-hidden="true"
                   xmlns="http://www.w3.org/2000/svg"
                   fill="currentColor"
