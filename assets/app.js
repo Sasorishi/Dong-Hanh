@@ -31,6 +31,7 @@ import Register from "./js/pages/register/Register";
 import Checkout from "./js/pages/checkout/Checkout";
 import TicketCheck from "./js/pages/dashboard/TicketCheck";
 import ForgetPassword from "./js/pages/auth/ForgetPassword";
+import ResetPassword from "./js/pages/auth/ResetPassword";
 
 const Main = () => {
   AOS.init();
@@ -69,6 +70,7 @@ const Main = () => {
           path="/forget_password"
           element={isAuthenticated ? <App /> : <ForgetPassword />}
         />
+        <Route path="/reset_password/:token" element={<ResetPassword />} />
         <Route path="/login" element={isAuthenticated ? <App /> : <Login />} />
         <Route
           path="/signup"
