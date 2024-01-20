@@ -58,7 +58,7 @@ const Login = () => {
                 Password
               </label>
               <a
-                href="#"
+                href="/forget_password"
                 className="text-xs text-gray-600 dark:text-gray-400 hover:underline"
               >
                 Forget Password?

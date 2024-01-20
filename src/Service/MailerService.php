@@ -160,15 +160,20 @@ class MailerService {
     //     $mailer_provider = $this->mailer_provider;
     //     $mailer_port = $this->mailer_port;
     //     $dir_templates = $this->dir_templates;
-        // $template = file_get_contents($dir_templates.'emailing/1675203885219-CLaujD5NotgkxwCs/resetPassword.html');
-        // $sended = false;
+    //     $template = file_get_contents($dir_templates.'emailing/1675203885219-CLaujD5NotgkxwCs/resetPassword.html');
+    //     $sended = false;
 
-        // $variables['domain'] = 'https://dong-hanh.org';
-        // $variables['token'] = $token;
-        // foreach($variables as $key => $value)
-        // {
-        //     $template = str_replace('{{ '.$key.' }}', $value, $template);
-        // }
+    //     $variables['domain'] = 'https://dong-hanh.org';
+    //     $variables['token'] = $token;
+
+    //     $variable[] = [
+    //         'domain' => 'https://dong-hanh.org',
+    //         'token' => $token,
+    //     ];
+    //     foreach($variables as $key => $value)
+    //     {
+    //         $template = str_replace('{{ '.$key.' }}', $value, $template);
+    //     }
 
     //     try {
     //         $mail = new PHPMailer;
@@ -184,7 +189,6 @@ class MailerService {
     //         $mail->addAddress($email, $email);
     //         $mail->isHTML(true);
     //         $mail->Subject = 'Reset password';
-    //         // $mail->Body = $dir_templates.'emailing/1675192987562-WOJnCvduOKxNHOLB/index.html';
     //         $mail->Body = $template;
     //         $mail->send();
     //         // if (!$mail->send()) {
@@ -246,7 +250,7 @@ class MailerService {
         return new JsonResponse(['success' => $sended]);
     }
 
-    public function sendEmail(string $to, string $subject, string $message = null, string $templateName = null, array $variables = null, string $fromName = null, string $replyToEmail = null, string $replyToName = null): JsonResponse
+    public function sendEmail(string $to, string $subject, string $templateName, array $variables = null, string $fromName = null, string $replyToEmail = null, string $replyToName = null): JsonResponse
     {
         $sended = false;
 
@@ -254,29 +258,19 @@ class MailerService {
             $mail = new PHPMailer;
             $this->configureMailer($mail);
 
-            $mail->setFrom($this->mailer_username, $fromName ?? 'Dong Hanh - Support');
+            $mail->setFrom($this->mailer_username, $fromName ?? 'Dong Hanh Network - Support');
             $mail->addReplyTo($replyToEmail ?? $this->mailer_username, $replyToName ?? 'Support');
             $mail->addAddress($to);
             $mail->isHTML(true);
             $mail->Subject = $subject;
-
-
-            if ($variables != null && $templateName != null) {
-                $template = file_get_contents($this->dir_templates.$templateName);
-
-                foreach ($variables as $key => $value) {
-                    $template = str_replace('{{ ' . $key . ' }}', $value, $template);
-                }
+        
+            $template = file_get_contents($this->dir_templates.$templateName);
+            foreach ($variables as $key => $value) {
+                $template = str_replace('{{ ' . $key . ' }}', $value, $template);
             }
 
-            if ($templateName != null && $message = null) {
-                $mail->Body = $templateName;
-            } else {
-                $mail->Body = $message;
-            }
-
+            $mail->Body = $template;
             $mail->send();
-            dump($mail);
             $sended = true;
         } catch (Throwable $th) {
             throw $th;

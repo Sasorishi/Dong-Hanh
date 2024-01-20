@@ -2,11 +2,16 @@
 
 namespace App\Controller;
 
+use App\Repository\UserRepository;
+use App\Service\MailerService;
+use DateTime;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 use Symfony\Bundle\SecurityBundle\Security;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Security\Csrf\TokenGenerator\TokenGeneratorInterface;
 
 class LoginController extends AbstractController
 {
@@ -33,6 +38,14 @@ class LoginController extends AbstractController
         ]);
     }
 
+    #[Route('/forget_password', name: 'app_forget_password')]
+    public function forgetPassword()
+    {
+        return $this->render('index.html.twig', [
+            'controller_name' => 'LoginController',
+        ]);
+    }
+
     #[Route('/api/auth/is-authenticated', name: 'api_is_authenticated')]
     public function isAuthenticated(Security $security): JsonResponse
     {
@@ -41,73 +54,25 @@ class LoginController extends AbstractController
         return new JsonResponse(['isAuthenticated' => $isAuthenticated]);
     }
 
-    // #[Route('/account_forgotten_password', name: 'app_forgotten_password')]
-    // public function forgottenPassword(Request $request, ManagerRegistry $doctrine, UserPasswordHasherInterface $passwordHasher, MailerService $mailer, TokenGeneratorInterface $tokenGenerator)
-    // {
-    //     $tokenAccess = null;
-    //     $response = null;
-    //     if ($request->query->get('token')) {
-    //         $tokenAccess = true;
-    //         $repository = $doctrine->getRepository(User::class);
-    //         $user = $repository->findOneBy(['tokenPassword' => $request->query->get('token')]);
+    #[Route('/api/auth/forget_password', name: 'api_forgot_password', methods: ['POST'])]
+    public function requestForgetPassword(Request $request, UserRepository $userRepository, TokenGeneratorInterface $tokenGenerator, MailerService $mailerService): JsonResponse
+    {
+        $data = json_decode($request->getContent(), true);
+        $user = $userRepository->findOneBy(['email' => $data['email']]);
 
-    //         if ($user) {
-    //             if ($user->getPasswordRequestAt()) {
-    //                 $requestAt = $user->getPasswordRequestAt();
+        if ($user) {
+            $token = $tokenGenerator->generateToken();
+            $userRepository->generateNewRequestTokenPassword($user, $token);
 
-    //                 if ($requestAt->modify('+1 hour') > new \Datetime()) {
-    //                     if ($request->isMethod('POST')) {
-    //                         if ($request->request->get("password") == $request->request->get("passwordVerified")) {
-    //                             $plaintextPassword = $request->request->get("password");
-    //                             // hash the password (based on the security.yaml config for the $user class)
-    //                             $hashedPassword = $passwordHasher->hashPassword(
-    //                                 $user,
-    //                                 $plaintextPassword
-    //                             );
-    //                             $user->setPassword($hashedPassword);
-                    
-    //                             $entityManager = $doctrine->getManager();
-    //                             $entityManager->persist($user);
-    //                             $entityManager->flush();
-            
-    //                             return $this->redirectToRoute('app_success', array('form' => 'forgottenPassword'));
-    //                         } else {
-    //                             $response = false;
-    //                         }
-    //                     }
-    //                 } else {
-    //                     return $this->redirectToRoute('app_cancel', array('error' => 'forgottenPassword'));
-    //                 }
-    //             }
-    //         } else {
-    //             return $this->redirectToRoute('app_cancel', array('error' => 'forgottenPassword'));
-    //         }
-    //     } else {
-    //         $tokenAccess = false;
-    //         if ($request->isMethod('POST')) {
-    //             $userRepository = $doctrine->getRepository(User::class);
-    //             $user = $userRepository->findOneBy(['email' => $request->request->get("email")]);
-    
-    //             if ($user) {
-    //                 $token = $tokenGenerator->generateToken();
-    //                 $user->setTokenPassword($token);
-    //                 $user->setPasswordRequestAt(new \DateTime());
-    //                 $entityManager = $doctrine->getManager();
-    //                 $entityManager->persist($user);
-    //                 $entityManager->flush();
-    //                 $mailer->sendPassword($user->getEmail(), $token);
-    //                 $response = true;
-    //             } else {
-    //                 $response = false;
-    //             }
-    //         }
-    //     }
+            $variables['domain'] = $this->getParameter('app.domain');
+            $variables['token'] = $token;
 
-    //     return $this->render('account/forgottenPassword.html.twig', [
-    //         'tokenAccess' => $tokenAccess,
-    //         'response' => $response
-    //     ]);
-    // }
+            $mailerService->sendEmail($data['email'], "Dong Hanh Network - Request to reset password", "emailing/1675203885219-CLaujD5NotgkxwCs/resetPassword.html", $variables);
+            return new JsonResponse(['success' => true, 'message' => "Request reset password sended"]);
+        }
+
+        return new JsonResponse(['success' => false, 'message' => "Email don't exists"]);
+    }
 
     #[Route('/logout', name: 'app_logout')]
     public function logout()

@@ -30,6 +30,7 @@ import Response from "./js/pages/responses/response";
 import Register from "./js/pages/register/Register";
 import Checkout from "./js/pages/checkout/Checkout";
 import TicketCheck from "./js/pages/dashboard/TicketCheck";
+import ForgetPassword from "./js/pages/auth/ForgetPassword";
 
 const Main = () => {
   AOS.init();
@@ -64,6 +65,10 @@ const Main = () => {
       <Navbar isAuthenticated={isAuthenticated} />
       <Routes>
         <Route path="/" element={<App />} />
+        <Route
+          path="/forget_password"
+          element={isAuthenticated ? <App /> : <ForgetPassword />}
+        />
         <Route path="/login" element={isAuthenticated ? <App /> : <Login />} />
         <Route
           path="/signup"
