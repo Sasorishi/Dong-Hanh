@@ -41,6 +41,12 @@ class UserRepository extends ServiceEntityRepository
         }
     }
 
+    /**
+     * @param string $email
+     * @param string $password
+     * @param UserPasswordHasherInterface $passwordHasher
+     * @return void
+     */
     public function createUser(string $email, string $password, UserPasswordHasherInterface $passwordHasher): void {
         $user = new User;
         $user->setEmail($email);
@@ -61,6 +67,18 @@ class UserRepository extends ServiceEntityRepository
     public function generateNewRequestTokenPassword(User $user, string $token): void {
         $user->setTokenPassword($token);
         $user->setPasswordRequestAt(new DateTime);
+        $this->save($user, true);
+    }
+
+    /**
+     * @param User $user
+     * @param UserPasswordHasherInterface $passwordHasher
+     * @return void
+     */
+    public function resetPassword(User $user, string $password, UserPasswordHasherInterface $passwordHasher): void {
+        $hashedPassword = $passwordHasher->hashPassword($user, $password);
+        $user->setPassword($hashedPassword);
+        $user->setTokenPassword(null);
         $this->save($user, true);
     }
 }

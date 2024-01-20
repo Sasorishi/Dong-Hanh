@@ -11,12 +11,14 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Security\Csrf\TokenGenerator\TokenGeneratorInterface;
 
 class LoginController extends AbstractController
 {
     #[Route('/login', name: 'app_login')]
-    public function index(AuthenticationUtils $authenticationUtils, Security $security)
+    public function index(AuthenticationUtils $authenticationUtils, Security $security): Response
     {
         if ($security->isGranted('IS_AUTHENTICATED_FULLY')) {
             return $this->redirectToRoute('app_main');
@@ -39,7 +41,15 @@ class LoginController extends AbstractController
     }
 
     #[Route('/forget_password', name: 'app_forget_password')]
-    public function forgetPassword()
+    public function forgetPassword(): Response
+    {
+        return $this->render('index.html.twig', [
+            'controller_name' => 'LoginController',
+        ]);
+    }
+
+    #[Route('/reset_password/{token}', name: 'app_reset_password')]
+    public function resetPassword(): Response
     {
         return $this->render('index.html.twig', [
             'controller_name' => 'LoginController',
@@ -67,11 +77,25 @@ class LoginController extends AbstractController
             $variables['domain'] = $this->getParameter('app.domain');
             $variables['token'] = $token;
 
-            $mailerService->sendEmail($data['email'], "Dong Hanh Network - Request to reset password", "emailing/1675203885219-CLaujD5NotgkxwCs/resetPassword.html", $variables);
+            $mailerService->sendEmail($data['email'], "Request to reset password", "emailing/1675203885219-CLaujD5NotgkxwCs/resetPassword.html", $variables);
             return new JsonResponse(['success' => true, 'message' => "Request reset password sended"]);
         }
 
         return new JsonResponse(['success' => false, 'message' => "Email don't exists"]);
+    }
+
+    #[Route('/api/auth/reset_password', name: 'api_reset_password', methods: ['POST'])]
+    public function requestResetPassword(Request $request, UserRepository $userRepository, UserPasswordHasherInterface $passwordHasher): JsonResponse
+    {
+        $data = json_decode($request->getContent(), true);
+        $user = $userRepository->findOneBy(['tokenPassword' => $data['token']]);
+
+        if ($user) {
+            $userRepository->resetPassword($user, $data['password'], $passwordHasher);
+            return new JsonResponse(['success' => true]);
+        }
+
+        return new JsonResponse(['success' => false]);
     }
 
     #[Route('/logout', name: 'app_logout')]

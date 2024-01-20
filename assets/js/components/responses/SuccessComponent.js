@@ -73,6 +73,18 @@ const SuccessComponent = ({ response }) => {
         );
         break;
 
+      case "resetPassword":
+        setMessage(
+          <p>
+            Your new password is set. You can log now{" "}
+            <a href="/login" className="text-darkblue">
+              here
+            </a>
+            .
+          </p>
+        );
+        break;
+
       default:
         setMessage(
           <p>
