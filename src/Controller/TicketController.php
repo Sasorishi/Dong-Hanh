@@ -75,6 +75,7 @@ class TicketController extends AbstractController
                 'date_start' => Carbon::parse($ticket->getEvent()->getDateStart())->format('F jS'),
                 'date_end' => Carbon::parse($ticket->getEvent()->getDateEnd())->format('F jS'),
                 'create_at' => $ticket->getCreatedAt(),
+                'eventId' => $ticket->getEvent()->getId(),
                 'event_label' => $ticket->getEvent()->getLabel(),
                 'event_category' => $ticket->getEvent()->getEventCategory()->getLabel(),
                 'user_id' => $ticket->getUser()->getId(),

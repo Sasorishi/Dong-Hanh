@@ -123,7 +123,7 @@ const PaypalButtonComponent = ({ event, numTickets, ticketsData, onError }) => {
     getEnv();
   }, []);
 
-  return <div id="paypal-button-container"></div>;
+  return <div id="paypal-button-container" />;
 };
 
 export default PaypalButtonComponent;

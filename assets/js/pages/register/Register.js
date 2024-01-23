@@ -163,7 +163,7 @@ const Register = () => {
             <button
               type="submit"
               disabled={isConfirmButtonDisabled}
-              className="rounded-md bg-darkblue px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-green-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 disabled:hover:bg-darkblue disabled:opacity-25"
+              className="rounded-md bg-darkblue px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-green-700 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 disabled:hover:bg-darkblue disabled:opacity-25"
             >
               Confirm
             </button>

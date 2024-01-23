@@ -8,7 +8,7 @@ const ToastComponent = ({ message, onClose, error }) => {
       role="alert"
     >
       {!error ? (
-        <div className="inline-flex items-center justify-center flex-shrink-0 w-8 h-8 bg-green-500 text-white rounded-lg">
+        <div className="inline-flex items-center justify-center flex-shrink-0 w-8 h-8 bg-green-700 text-white rounded-lg">
           <svg
             className="w-5 h-5"
             aria-hidden="true"

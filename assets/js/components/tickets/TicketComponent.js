@@ -1,6 +1,7 @@
 import React from "react";
 
 const TicketComponent = ({ TicketData }) => {
+  console.log(TicketData);
   return (
     <div className="space-y-8 m-1">
       <div className="bg-white shadow-sm">
@@ -69,9 +70,11 @@ const TicketComponent = ({ TicketData }) => {
           <p className="text-sm font-medium text-gray-900 overflow-hidden whitespace-nowrap overflow-ellipsis">
             {TicketData["user_id"]}
           </p>
-          <p className="text-sm font-medium text-gray-900">
-            {TicketData["event_category"]} | {TicketData["event_label"]}
-          </p>
+          <a href={`/events/${TicketData.eventId}`}>
+            <p className="text-sm font-medium text-gray-900">
+              {TicketData["event_category"]} | {TicketData["event_label"]}
+            </p>
+          </a>
         </div>
       </div>
     </div>
