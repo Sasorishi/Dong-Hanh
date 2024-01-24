@@ -48,7 +48,7 @@ const Login = () => {
               type="text"
               name="_username"
               placeholder="Enter your email"
-              className="block w-full px-4 py-2 mt-2 text-gray-700 bg-white border rounded-lg dark:bg-gray-800 dark:text-gray-300 dark:border-gray-600 focus:border-blue-400 dark:focus:border-blue-300 focus:ring-blue-300 focus:outline-none focus:ring focus:ring-opacity-40"
+              className="block w-full px-4 py-2 mt-2 text-gray-700 bg-white border rounded-lg focus:border-blue-400 focus:ring-blue-300 focus:outline-none focus:ring focus:ring-opacity-40"
             />
           </div>
 
@@ -58,8 +58,8 @@ const Login = () => {
                 Password
               </label>
               <a
-                href="#"
-                className="text-xs text-gray-600 dark:text-gray-400 hover:underline"
+                href="/forget_password"
+                className="text-xs text-gray-600 hover:underline"
               >
                 Forget Password?
               </a>
@@ -69,7 +69,7 @@ const Login = () => {
               type="password"
               name="_password"
               placeholder="Enter your password"
-              className="block w-full px-4 py-2 mt-2 text-gray-700 bg-white border rounded-lg dark:bg-gray-800 dark:text-gray-300 dark:border-gray-600 focus:border-blue-400 dark:focus:border-blue-300 focus:ring-blue-300 focus:outline-none focus:ring focus:ring-opacity-40"
+              className="block w-full px-4 py-2 mt-2 text-gray-700 bg-white border rounded-lg focus:border-blue-400 focus:ring-blue-300 focus:outline-none focus:ring focus:ring-opacity-40"
             />
           </div>
 
@@ -88,7 +88,7 @@ const Login = () => {
           Don't have an account?{" "}
           <a
             href="/signup"
-            className="font-medium text-gray-700 dark:text-gray-200 hover:underline"
+            className="font-medium text-gray-700 hover:underline"
           >
             Create One
           </a>

@@ -3,8 +3,10 @@
 namespace App\Repository;
 
 use App\Entity\User;
+use DateTime;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
+use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
 /**
  * @extends ServiceEntityRepository<User>
@@ -39,28 +41,44 @@ class UserRepository extends ServiceEntityRepository
         }
     }
 
-//    /**
-//     * @return User[] Returns an array of User objects
-//     */
-//    public function findByExampleField($value): array
-//    {
-//        return $this->createQueryBuilder('u')
-//            ->andWhere('u.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->orderBy('u.id', 'ASC')
-//            ->setMaxResults(10)
-//            ->getQuery()
-//            ->getResult()
-//        ;
-//    }
+    /**
+     * @param string $email
+     * @param string $password
+     * @param UserPasswordHasherInterface $passwordHasher
+     * @return void
+     */
+    public function createUser(string $email, string $password, UserPasswordHasherInterface $passwordHasher): void {
+        $user = new User;
+        $user->setEmail($email);
+        
+        $hashedPassword = $passwordHasher->hashPassword($user, $password);
+        $user->setPassword($hashedPassword);
+        $user->setRoles(['user']);
+        $user->setCreateAt(new DateTime());
 
-//    public function findOneBySomeField($value): ?User
-//    {
-//        return $this->createQueryBuilder('u')
-//            ->andWhere('u.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->getQuery()
-//            ->getOneOrNullResult()
-//        ;
-//    }
+        $this->save($user, true);
+    }
+
+    /**
+     * @param User $user
+     * @param string $token
+     * @return void
+     */
+    public function generateNewRequestTokenPassword(User $user, string $token): void {
+        $user->setTokenPassword($token);
+        $user->setPasswordRequestAt(new DateTime);
+        $this->save($user, true);
+    }
+
+    /**
+     * @param User $user
+     * @param UserPasswordHasherInterface $passwordHasher
+     * @return void
+     */
+    public function resetPassword(User $user, string $password, UserPasswordHasherInterface $passwordHasher): void {
+        $hashedPassword = $passwordHasher->hashPassword($user, $password);
+        $user->setPassword($hashedPassword);
+        $user->setTokenPassword(null);
+        $this->save($user, true);
+    }
 }

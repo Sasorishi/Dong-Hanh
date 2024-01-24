@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\ParticipantRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Uid\Uuid;
@@ -28,7 +30,7 @@ class Participant
     #[ORM\Column(length: 255)]
     private ?string $phone = null;
 
-    #[ORM\Column(length: 255)]
+    #[ORM\Column(length: 255, nullable: true)]
     private ?string $address = null;
 
     #[ORM\Column(length: 255)]
@@ -43,9 +45,6 @@ class Participant
     #[ORM\Column(type: Types::TEXT, nullable: true)]
     private ?string $expectations = null;
 
-    #[ORM\Column(length: 255)]
-    private ?string $aware = null;
-
     #[ORM\Column(type: Types::TEXT, nullable: true)]
     private ?string $healthcare = null;
 
@@ -58,14 +57,22 @@ class Participant
     #[ORM\Column(type: Types::DATE_MUTABLE, nullable: true)]
     private ?\DateTimeInterface $created_at = null;
 
-    #[ORM\Column(length: 255)]
-    private ?string $user = null;
-
     #[ORM\Column(nullable: true)]
     private ?bool $payment = null;
 
-    #[ORM\Column(length: 255)]
+    #[ORM\Column(length: 255, nullable: true)]
     private ?string $city = null;
+
+    #[ORM\ManyToOne(inversedBy: 'participants')]
+    private ?Event $event = null;
+
+    #[ORM\OneToMany(mappedBy: 'Participant', targetEntity: Ticket::class)]
+    private Collection $tickets;
+
+    public function __construct()
+    {
+        $this->tickets = new ArrayCollection();
+    }
 
     public function getId(): ?Uuid
     {
@@ -180,18 +187,6 @@ class Participant
         return $this;
     }
 
-    public function getAware(): ?string
-    {
-        return $this->aware;
-    }
-
-    public function setAware(string $aware): self
-    {
-        $this->aware = $aware;
-
-        return $this;
-    }
-
     public function getHealthcare(): ?string
     {
         return $this->healthcare;
@@ -240,18 +235,6 @@ class Participant
         return $this;
     }
 
-    public function getUser(): ?string
-    {
-        return $this->user;
-    }
-
-    public function setUser(string $user): self
-    {
-        $this->user = $user;
-
-        return $this;
-    }
-
     public function isPayment(): ?bool
     {
         return $this->payment;
@@ -272,6 +255,47 @@ class Participant
     public function setCity(string $city): self
     {
         $this->city = $city;
+
+        return $this;
+    }
+
+    public function getEvent(): ?Event
+    {
+        return $this->event;
+    }
+
+    public function setEvent(?Event $event): static
+    {
+        $this->event = $event;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Ticket>
+     */
+    public function getTickets(): Collection
+    {
+        return $this->tickets;
+    }
+
+    public function addTicket(Ticket $ticket): static
+    {
+        if (!$this->tickets->contains($ticket)) {
+            $this->tickets->add($ticket);
+            $ticket->setParticipant($this);
+        }
+
+        return $this;
+    }
+
+    public function removeTicket(Ticket $ticket): static
+    {
+        if ($this->tickets->removeElement($ticket)) {
+            if ($ticket->getParticipant() === $this) {
+                $ticket->setParticipant(null);
+            }
+        }
 
         return $this;
     }

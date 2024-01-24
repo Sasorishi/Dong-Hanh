@@ -3,16 +3,16 @@ controllers:
   type: attribute
 
 app_response_signup:
-  path: "/response/signup"
+  path: "/response/success/signup"
 
 app_response_contact:
-  path: "/response/contact"
+  path: "/response/success/contact"
 
 app_response_checkout:
-  path: "/response/checkout"
+  path: "/response/success/checkout"
 
 app_response_refund:
-  path: "/response/refund"
+  path: "/response/success/refund"
 
 app_response_forgottenPassword:
-  path: "/response/forgottenPassword"
+  path: "/response/success/forgottenPassword"

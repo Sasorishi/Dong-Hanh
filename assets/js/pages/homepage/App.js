@@ -17,6 +17,13 @@ const App = () => {
     setError(null);
   };
 
+  const handleError = (value) => {
+    setError(value);
+    setTimeout(() => {
+      closeToast();
+    }, 5000);
+  };
+
   useEffect(() => {
     const fetchData = async () => {
       const errorFromSymfony = window.errorFromSymfony;
@@ -45,7 +52,7 @@ const App = () => {
       <JourneySection />
       <CommunitySection />
       <TeamSection />
-      <ContactSection />
+      <ContactSection onError={handleError} />
     </>
   );
 };

@@ -2,24 +2,23 @@
 
 namespace App\Controller;
 
+use App\Repository\UserRepository;
+use App\Service\MailerService;
+use DateTime;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
-use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
+use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Security\Csrf\TokenGenerator\TokenGeneratorInterface;
-use Doctrine\Persistence\ManagerRegistry;
-use App\Entity\User;
-use App\Entity\Ticket;
-use App\Service\MailerService;
-use Symfony\Bundle\SecurityBundle\Security;
 
 class LoginController extends AbstractController
 {
     #[Route('/login', name: 'app_login')]
-    public function index(AuthenticationUtils $authenticationUtils, Security $security)
+    public function index(AuthenticationUtils $authenticationUtils, Security $security): Response
     {
         if ($security->isGranted('IS_AUTHENTICATED_FULLY')) {
             return $this->redirectToRoute('app_main');
@@ -41,6 +40,22 @@ class LoginController extends AbstractController
         ]);
     }
 
+    #[Route('/forget_password', name: 'app_forget_password')]
+    public function forgetPassword(): Response
+    {
+        return $this->render('index.html.twig', [
+            'controller_name' => 'LoginController',
+        ]);
+    }
+
+    #[Route('/reset_password/{token}', name: 'app_reset_password')]
+    public function resetPassword(): Response
+    {
+        return $this->render('index.html.twig', [
+            'controller_name' => 'LoginController',
+        ]);
+    }
+
     #[Route('/api/auth/is-authenticated', name: 'api_is_authenticated')]
     public function isAuthenticated(Security $security): JsonResponse
     {
@@ -49,97 +64,38 @@ class LoginController extends AbstractController
         return new JsonResponse(['isAuthenticated' => $isAuthenticated]);
     }
 
-    #[Route('/account_forgotten_password', name: 'app_forgotten_password')]
-    public function forgottenPassword(Request $request, ManagerRegistry $doctrine, UserPasswordHasherInterface $passwordHasher, MailerService $mailer, TokenGeneratorInterface $tokenGenerator)
+    #[Route('/api/auth/forget_password', name: 'api_forgot_password', methods: ['POST'])]
+    public function requestForgetPassword(Request $request, UserRepository $userRepository, TokenGeneratorInterface $tokenGenerator, MailerService $mailerService): JsonResponse
     {
-        $tokenAccess = null;
-        $response = null;
-        if ($request->query->get('token')) {
-            $tokenAccess = true;
-            $repository = $doctrine->getRepository(User::class);
-            $user = $repository->findOneBy(['tokenPassword' => $request->query->get('token')]);
+        $data = json_decode($request->getContent(), true);
+        $user = $userRepository->findOneBy(['email' => $data['email']]);
 
-            if ($user) {
-                if ($user->getPasswordRequestAt()) {
-                    $requestAt = $user->getPasswordRequestAt();
+        if ($user) {
+            $token = $tokenGenerator->generateToken();
+            $userRepository->generateNewRequestTokenPassword($user, $token);
 
-                    if ($requestAt->modify('+1 hour') > new \Datetime()) {
-                        if ($request->isMethod('POST')) {
-                            if ($request->request->get("password") == $request->request->get("passwordVerified")) {
-                                $plaintextPassword = $request->request->get("password");
-                                // hash the password (based on the security.yaml config for the $user class)
-                                $hashedPassword = $passwordHasher->hashPassword(
-                                    $user,
-                                    $plaintextPassword
-                                );
-                                $user->setPassword($hashedPassword);
-                    
-                                $entityManager = $doctrine->getManager();
-                                $entityManager->persist($user);
-                                $entityManager->flush();
-            
-                                return $this->redirectToRoute('app_success', array('form' => 'forgottenPassword'));
-                            } else {
-                                $response = false;
-                            }
-                        }
-                    } else {
-                        return $this->redirectToRoute('app_cancel', array('error' => 'forgottenPassword'));
-                    }
-                }
-            } else {
-                return $this->redirectToRoute('app_cancel', array('error' => 'forgottenPassword'));
-            }
-        } else {
-            $tokenAccess = false;
-            if ($request->isMethod('POST')) {
-                $userRepository = $doctrine->getRepository(User::class);
-                $user = $userRepository->findOneBy(['email' => $request->request->get("email")]);
-    
-                if ($user) {
-                    $token = $tokenGenerator->generateToken();
-                    $user->setTokenPassword($token);
-                    $user->setPasswordRequestAt(new \DateTime());
-                    $entityManager = $doctrine->getManager();
-                    $entityManager->persist($user);
-                    $entityManager->flush();
-                    $mailer->sendPassword($user->getEmail(), $token);
-                    $response = true;
-                } else {
-                    $response = false;
-                }
-            }
+            $variables['domain'] = $this->getParameter('app.domain');
+            $variables['token'] = $token;
+
+            $mailerService->sendEmail($data['email'], "Request to reset password", "emailing/1675203885219-CLaujD5NotgkxwCs/resetPassword.html", $variables);
+            return new JsonResponse(['success' => true, 'message' => "Request reset password sended"]);
         }
 
-        return $this->render('account/forgottenPassword.html.twig', [
-            'tokenAccess' => $tokenAccess,
-            'response' => $response
-        ]);
+        return new JsonResponse(['success' => false, 'message' => "Email don't exists"]);
     }
 
-    #[Route('/ticket_check', name: 'app_ticket_check')]
-    public function ticketCheck(Request $request, ManagerRegistry $doctrine)
+    #[Route('/api/auth/reset_password', name: 'api_reset_password', methods: ['POST'])]
+    public function requestResetPassword(Request $request, UserRepository $userRepository, UserPasswordHasherInterface $passwordHasher): JsonResponse
     {
-        if ($request->isMethod('GET')) {
-            $orderId = $request->query->get('order');
-            $repository = $doctrine->getRepository(Ticket::class);
-            $ticket = $repository->findOneBy(['orderId' => $orderId]);
-            $error = null;
+        $data = json_decode($request->getContent(), true);
+        $user = $userRepository->findOneBy(['tokenPassword' => $data['token']]);
 
-            if ($ticket->isScan() == True) {
-                $error = true;
-            } else {
-                $ticket->setScan(True);
-                $entityManager = $doctrine->getManager();
-                $entityManager->persist($ticket);
-                $entityManager->flush();
-            }
+        if ($user) {
+            $userRepository->resetPassword($user, $data['password'], $passwordHasher);
+            return new JsonResponse(['success' => true]);
         }
 
-        return $this->render('account/check.html.twig', [
-            'ticket' => $ticket,
-            'error' => $error
-        ]);
+        return new JsonResponse(['success' => false]);
     }
 
     #[Route('/logout', name: 'app_logout')]

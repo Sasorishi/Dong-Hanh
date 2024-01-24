@@ -2,9 +2,15 @@
 
 namespace App\Repository;
 
+use App\Entity\Event;
+use App\Entity\Participant;
 use App\Entity\Ticket;
+use App\Entity\User;
+use DateTime;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\Query\ResultSetMapping;
 use Doctrine\Persistence\ManagerRegistry;
+use Symfony\Component\Uid\Uuid;
 
 /**
  * @extends ServiceEntityRepository<Ticket>
@@ -63,4 +69,54 @@ class TicketRepository extends ServiceEntityRepository
 //            ->getOneOrNullResult()
 //        ;
 //    }
+
+    public function createTicket(Event $eventData, array $details, string $captureId, Participant $participant, User $user): void {
+        $ticket = new Ticket;
+        $ticket->setPrice($eventData->getPrice()[0]);
+        $ticket->setStatus($details['status']);
+        $ticket->setCurrency($eventData->getCurrency());
+        $ticket->setCreatedAt(new DateTime());
+        $ticket->setUpdatedAt(new DateTime());
+        $ticket->setCaptureId($captureId);
+        $ticket->setOrderId($details['id']);
+        $ticket->setParticipant($participant);
+        $ticket->setEvent($eventData);
+        $ticket->setScan(false);
+        $ticket->setUser($user);
+
+        $entityManager = $this->getEntityManager();
+        $entityManager->persist($ticket);
+        $entityManager->flush();
+    }
+
+    /**
+     * @param string $userId
+     * @return Ticket[]
+     */
+    public function findGroupedTicketsByUser(string $userId): array
+    {
+        $binaryUserId = hex2bin(str_replace('-', '', $userId));
+        $queryBuilder = $this->createQueryBuilder('t')
+            ->select('t', 'e', 'p', 'u', 'ec')
+            ->leftJoin('t.event', 'e')
+            ->leftJoin('t.participant', 'p')
+            ->leftJoin('t.user', 'u')
+            ->leftJoin('e.eventCategory', 'ec')
+            ->andWhere('u.id = :userId')
+            ->setParameter('userId', $binaryUserId)
+            ->orderBy('t.created_at', 'DESC');
+
+        $tickets = $queryBuilder->getQuery()->getResult();
+        return $tickets;
+    }
+
+    /**
+     * @param Ticket $ticket
+     * @return void
+     */
+    public function scanTicket(Ticket $ticket): void {
+        $ticket->setScan(true);
+        $entityManager = $this->getEntityManager();
+        $entityManager->flush();
+    }
 }

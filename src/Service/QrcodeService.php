@@ -6,16 +6,19 @@ use chillerlan\QRCode\QRCode;
 
 class QrcodeService
 {
-    public function generate($ticket) {
-        $domain = 'dong-hanh.org';
-        $data = $domain.'/ticket_check?order='.$ticket;
+    public function __construct(private $domain) {
+        $this->domain = $domain;
+    }
+
+    public function generate(string $ticketId, string $participantId, string $eventId) {
+        $data = $this->domain.'/api/ticket_check?ticket='.$ticketId.'&participant='.$participantId.'&event='.$eventId;
         $qrcode = (new QRCode)->render($data);
 
         return $qrcode;
     }
 
     public function generateMainLink() {
-        $domain = 'dong-hanh.org';
+        $domain = $this->domain;
         $qrcode = (new QRCode)->render($domain);
         dump($qrcode);
         return $qrcode;

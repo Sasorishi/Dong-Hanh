@@ -1,4 +1,5 @@
 import React from "react";
+import ScrollIndicator from "../ScrollIdicationComponent";
 
 const IntroductionSection = () => {
   return (
@@ -73,11 +74,7 @@ const IntroductionSection = () => {
           </div>
         </div>
       </div>
-      <div className="arrow">
-        <span></span>
-        <span></span>
-        <span></span>
-      </div>
+      <ScrollIndicator />
     </section>
   );
 };

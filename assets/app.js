@@ -28,6 +28,10 @@ import Events from "./js/pages/events/Events";
 import EventDetail from "./js/pages/events/EventDetail";
 import Response from "./js/pages/responses/response";
 import Register from "./js/pages/register/Register";
+import Checkout from "./js/pages/checkout/Checkout";
+import TicketCheck from "./js/pages/dashboard/TicketCheck";
+import ForgetPassword from "./js/pages/auth/ForgetPassword";
+import ResetPassword from "./js/pages/auth/ResetPassword";
 
 const Main = () => {
   AOS.init();
@@ -62,6 +66,11 @@ const Main = () => {
       <Navbar isAuthenticated={isAuthenticated} />
       <Routes>
         <Route path="/" element={<App />} />
+        <Route
+          path="/forget_password"
+          element={isAuthenticated ? <App /> : <ForgetPassword />}
+        />
+        <Route path="/reset_password/:token" element={<ResetPassword />} />
         <Route path="/login" element={isAuthenticated ? <App /> : <Login />} />
         <Route
           path="/signup"
@@ -73,8 +82,9 @@ const Main = () => {
         />
         <Route path="/events" element={<Events />} />
         <Route path="/events/:id" element={<EventDetail />} />
-        <Route path="/response/:type" element={<Response />} />
+        <Route path="/response/:redirection/:type" element={<Response />} />
         <Route path="/register/:eventId/:numTickets" element={<Register />} />
+        <Route path="/checkout" element={<Checkout />} />
       </Routes>
       <Footer />
     </Router>

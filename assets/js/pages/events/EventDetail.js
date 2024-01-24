@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { useNavigate } from "react-router";
 import axios from "axios";
+import Loader from "../../components/LoaderComponent";
 
 const EventDetail = () => {
   const [tickets, setTickets] = useState(1);
@@ -12,7 +13,9 @@ const EventDetail = () => {
   const navigate = useNavigate();
 
   const handleIncrement = () => {
-    setTickets(tickets + 1);
+    if (tickets < 15) {
+      setTickets(tickets + 1);
+    }
   };
 
   const handleDecrement = () => {
@@ -26,7 +29,8 @@ const EventDetail = () => {
   };
 
   const handleRegister = () => {
-    navigate(`/register/${id}`);
+    navigate(`/register/${id}/${tickets}`);
+    window.scrollTo(0, 0);
   };
 
   useEffect(() => {
@@ -37,7 +41,8 @@ const EventDetail = () => {
 
         if (response.status === 200) {
           const data = response.data;
-          setEvent(JSON.parse(data.event));
+          setEvent(data.event);
+          console.log(data.event);
         } else {
           console.error("Erreur lors de requête api");
           setEvent([]);
@@ -91,14 +96,22 @@ const EventDetail = () => {
 
           <div className="mx-auto max-w-2xl px-4 pb-16 pt-10 sm:px-6 lg:grid lg:max-w-7xl lg:grid-cols-3 lg:grid-rows-[auto,auto,1fr] lg:gap-x-8 lg:px-8 lg:pb-24 lg:pt-16">
             <div className="lg:col-span-2 lg:border-r lg:border-gray-200 lg:pr-8">
+              <p
+                id="helper-text-explanation"
+                className="mt-2 text-sm text-gray-500"
+              >
+                {event["eventCategory"]}
+              </p>
               <h1 className="text-2xl font-bold tracking-tight text-darkblue sm:text-3xl">
-                {event["label"]}
+                {event["name"]}
               </h1>
             </div>
 
             <div className="mt-4 lg:row-span-3 lg:mt-0">
               <h2 className="sr-only">Product information</h2>
-              <p className="text-3xl tracking-tight text-darkblue">222 €</p>
+              <p className="text-3xl tracking-tight text-darkblue">
+                {event["price"][0]} €
+              </p>
               <p
                 id="helper-text-explanation"
                 className="mt-2 text-sm text-gray-500"
@@ -197,23 +210,26 @@ const EventDetail = () => {
                 </p>
               </div>
 
-              <div className="mt-10">
-                <h3 className="text-sm font-medium text-darkblue">Features</h3>
-
-                <div className="mt-4">
-                  <div className="grid grid-cols-2 gap-4">
-                    {event.features
-                      .slice(0, Math.ceil(event.features.length / 2) * 2) // Assurez-vous d'avoir un nombre pair d'éléments
-                      .map((feature, index) => (
-                        <div key={index} className="text-gray-400">
-                          <span className="text-sm text-gray-600 lowercase">
-                            • {feature}
-                          </span>
-                        </div>
-                      ))}
+              {event && event.features ? (
+                <div className="mt-10">
+                  <h3 className="text-sm font-medium text-darkblue">
+                    Features
+                  </h3>
+                  <div className="mt-4">
+                    <div className="grid grid-cols-2 gap-4">
+                      {event.features
+                        .slice(0, Math.ceil(event.features.length / 2) * 2)
+                        .map((feature, index) => (
+                          <div key={index} className="text-gray-400">
+                            <span className="text-sm text-gray-600 lowercase">
+                              • {feature}
+                            </span>
+                          </div>
+                        ))}
+                    </div>
                   </div>
                 </div>
-              </div>
+              ) : null}
 
               <div className="mt-10">
                 <h2 className="text-sm font-medium text-darkblue items-center">
@@ -254,7 +270,7 @@ const EventDetail = () => {
                     viewBox="0 0 24 24"
                     strokeWidth="1.5"
                     stroke="currentColor"
-                    className="w-6 h-6 my-auto"
+                    className="w-5 h-5 my-auto"
                   >
                     <path
                       strokeLinecap="round"
@@ -263,16 +279,7 @@ const EventDetail = () => {
                     />
                   </svg>
                   <p className="text-sm text-gray-600 my-auto ml-5">
-                    Start :{" "}
-                    {new Date(event.dateStart).toLocaleDateString("en-US", {
-                      month: "long",
-                      day: "numeric",
-                    })}{" "}
-                    - End :{" "}
-                    {new Date(event.dateEnd).toLocaleDateString("en-US", {
-                      month: "long",
-                      day: "numeric",
-                    })}
+                    {`Start : ${event.dateStart} / End : ${event.dateEnd}`}
                   </p>
                 </div>
               </div>
@@ -280,9 +287,12 @@ const EventDetail = () => {
               <button
                 type="submit"
                 onClick={handleRegister}
-                className="mt-10 uppercase flex w-full items-center justify-center rounded-md border border-transparent bg-darkblue px-8 py-3 text-base font-medium text-white hover:bg-green-800 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+                className="mt-10 uppercase flex w-full items-center justify-center rounded-md border border-transparent bg-darkblue px-8 py-3 text-base font-medium text-white hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 disabled:hover:bg-darkblue disabled:opacity-25"
+                disabled={!event["isRegistrable"]}
               >
-                get a ticket
+                {!event["isRegistrable"]
+                  ? "Registration closed"
+                  : "get a ticket"}
               </button>
             </div>
 
@@ -300,9 +310,7 @@ const EventDetail = () => {
           </div>
         </div>
       ) : (
-        <div className="relative m-auto w-full max-w-sm p-6">
-          <p>Loading...</p>
-        </div>
+        <Loader />
       )}
     </div>
   );

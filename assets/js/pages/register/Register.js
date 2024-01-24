@@ -1,51 +1,51 @@
 import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
-import axios from "axios";
+import { useNavigate } from "react-router";
 import TicketInformation from "../../components/register/TicketInformationComponent";
 import Stepper from "../../components/register/StepperComponent";
+import Modal from "../../components/ModalComponent";
 
 const Register = () => {
   const [tickets, setTickets] = useState(null);
-  const [ticketData, setTicketData] = useState({});
-  const [formData, setFormData] = useState({
-    firstName: "",
-    lastName: "",
-    email: "",
-    country: "",
-    streetAddress: "",
-    city: "",
-    postalCode: "",
-  });
+  const [ticketsData, setTicketsData] = useState({});
 
   const { eventId, numTickets } = useParams();
+  const navigate = useNavigate();
+
+  const [isCheckbox1Checked, setCheckbox1Checked] = useState(false);
+  const [isCheckbox2Checked, setCheckbox2Checked] = useState(false);
+  const [isConfirmButtonDisabled, setConfirmButtonDisabled] = useState(true);
+
+  const [isDefaultModalVisible, setIsDefaultModalVisible] = useState(false);
+  const [isSecondModalVisible, setIsSecondModalVisible] = useState(false);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    console.log("Form :", formData);
-    console.log("Données des tickets :", ticketData);
-
-    // try {
-    //   const response = await axios.post(`/api/register/${eventId}`, formData);
-
-    //   if (response.status === 200) {
-    //     console.log("Enregistrement réussi !");
-    //   } else {
-    //     console.error("Erreur lors de la requête API");
-    //   }
-    // } catch (error) {
-    //   console.error("Erreur lors de la requête API", error);
-    // }
+    navigate("/checkout", {
+      state: {
+        eventId: eventId,
+        numTickets: numTickets,
+        ticketsData: ticketsData,
+      },
+    });
+    window.scrollTo(0, 0);
   };
 
-  const handleInputChange = (e) => {
-    const { name, value } = e.target;
-    console.log(name, value);
+  const handleCheckbox1Change = (e) => {
+    setCheckbox1Checked(e.target.checked);
+  };
 
-    setFormData((prevFormData) => ({
-      ...prevFormData,
-      [name]: value,
-    }));
+  const handleCheckbox2Change = (e) => {
+    setCheckbox2Checked(e.target.checked);
+  };
+
+  const handleOpenDefaultModal = () => {
+    setIsDefaultModalVisible(true);
+  };
+
+  const handleOpenSecondModal = () => {
+    setIsSecondModalVisible(true);
   };
 
   useEffect(() => {
@@ -53,499 +53,106 @@ const Register = () => {
       <TicketInformation
         key={index}
         ticketKey={index + 1}
-        onTicketDataChange={(key, data) =>
-          setTicketData((prevData) => ({ ...prevData, [key]: data }))
+        onTicketsDataChange={(key, data) =>
+          setTicketsData((prevData) => ({ ...prevData, [key]: data }))
         }
       />
     ));
 
+    const parsedNumTickets = parseInt(numTickets, 10);
+
+    if (
+      isNaN(parsedNumTickets) ||
+      parsedNumTickets < 1 ||
+      parsedNumTickets > 15
+    ) {
+      navigate("/");
+    }
+
     setTickets(ticketComponents);
-  }, []);
+    setConfirmButtonDisabled(!(isCheckbox1Checked && isCheckbox2Checked));
+  }, [isCheckbox1Checked, isCheckbox2Checked]);
 
   return (
     <section className="bg-white">
-      {Stepper()}
+      <Stepper currentStep={1} />
       <div className="py-24 sm:py-32 px-6 lg:px-8 rounded-lg">
         <form onSubmit={handleSubmit}>
-          <div className="space-y-12">
-            <div className="border-b border-gray-900/10 pb-12">
-              <h2 className="text-base font-semibold leading-7 text-gray-900">
-                Personal Information
-              </h2>
-              <p className="mt-1 text-sm leading-6 text-gray-600">
-                Use a permanent address where you can receive mail.
-              </p>
-
-              <div className="mt-10 grid grid-cols-12 gap-x-6 gap-y-8 sm:grid-cols-12">
-                <div className="col-span-12 sm:col-span-4">
-                  <label
-                    htmlFor="first-name"
-                    className="block text-sm font-medium leading-6 text-gray-900"
-                  >
-                    First name
-                  </label>
-                  <div className="mt-2">
-                    <input
-                      type="text"
-                      name="firstName"
-                      id="firstName"
-                      autoComplete="given-name"
-                      value={formData.firstName}
-                      onChange={handleInputChange}
-                      className="bg-gray-50 block w-full rounded-md border-0 p-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-                    />
-                  </div>
-                </div>
-
-                <div className="col-span-12 sm:col-span-4">
-                  <label
-                    htmlFor="last-name"
-                    className="block text-sm font-medium leading-6 text-gray-900"
-                  >
-                    Last name
-                  </label>
-                  <div className="mt-2">
-                    <input
-                      type="text"
-                      name="lastName"
-                      id="lastName"
-                      autoComplete="family-name"
-                      value={formData.lastName}
-                      onChange={handleInputChange}
-                      className="bg-gray-50 block w-full rounded-md border-0 p-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-                    />
-                  </div>
-                </div>
-
-                <div className="col-span-12 sm:col-span-4">
-                  <label
-                    htmlFor="email"
-                    className="block text-sm font-medium leading-6 text-gray-900"
-                  >
-                    Email address
-                  </label>
-                  <div className="mt-2">
-                    <input
-                      id="email"
-                      name="email"
-                      type="email"
-                      autoComplete="email"
-                      value={formData.email}
-                      onChange={handleInputChange}
-                      className="bg-gray-50 block w-full rounded-md border-0 p-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-                    />
-                  </div>
-                </div>
-
-                <div className="col-span-12 sm:col-span-2">
-                  <label
-                    htmlFor="country"
-                    className="block text-sm font-medium leading-6 text-gray-900"
-                  >
-                    Country
-                  </label>
-                  <div className="mt-2">
-                    <select
-                      id="country"
-                      name="country"
-                      autoComplete="country-name"
-                      value={formData.country}
-                      onChange={handleInputChange}
-                      className="bg-gray-50 block w-full rounded-md border-0 p-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:leading-6"
-                    >
-                      <option value="Afghanistan">Afghanistan</option>
-                      <option value="Åland Islands">Åland Islands</option>
-                      <option value="Albania">Albania</option>
-                      <option value="Algeria">Algeria</option>
-                      <option value="American Samoa">American Samoa</option>
-                      <option value="Andorra">Andorra</option>
-                      <option value="Angola">Angola</option>
-                      <option value="Anguilla">Anguilla</option>
-                      <option value="Antarctica">Antarctica</option>
-                      <option value="Antigua and Barbuda">
-                        Antigua and Barbuda
-                      </option>
-                      <option value="Argentina">Argentina</option>
-                      <option value="Armenia">Armenia</option>
-                      <option value="Aruba">Aruba</option>
-                      <option value="Australia">Australia</option>
-                      <option value="Austria">Austria</option>
-                      <option value="Azerbaijan">Azerbaijan</option>
-                      <option value="Bahamas">Bahamas</option>
-                      <option value="Bahrain">Bahrain</option>
-                      <option value="Bangladesh">Bangladesh</option>
-                      <option value="Barbados">Barbados</option>
-                      <option value="Belarus">Belarus</option>
-                      <option value="Belgium">Belgium</option>
-                      <option value="Belize">Belize</option>
-                      <option value="Benin">Benin</option>
-                      <option value="Bermuda">Bermuda</option>
-                      <option value="Bhutan">Bhutan</option>
-                      <option value="Bolivia">Bolivia</option>
-                      <option value="Bosnia and Herzegovina">
-                        Bosnia and Herzegovina
-                      </option>
-                      <option value="Botswana">Botswana</option>
-                      <option value="Bouvet Island">Bouvet Island</option>
-                      <option value="Brazil">Brazil</option>
-                      <option value="British Indian Ocean Territory">
-                        British Indian Ocean Territory
-                      </option>
-                      <option value="Brunei Darussalam">
-                        Brunei Darussalam
-                      </option>
-                      <option value="Bulgaria">Bulgaria</option>
-                      <option value="Burkina Faso">Burkina Faso</option>
-                      <option value="Burundi">Burundi</option>
-                      <option value="Cambodia">Cambodia</option>
-                      <option value="Cameroon">Cameroon</option>
-                      <option value="Canada">Canada</option>
-                      <option value="Cape Verde">Cape Verde</option>
-                      <option value="Cayman Islands">Cayman Islands</option>
-                      <option value="Central African Republic">
-                        Central African Republic
-                      </option>
-                      <option value="Chad">Chad</option>
-                      <option value="Chile">Chile</option>
-                      <option value="China">China</option>
-                      <option value="Christmas Island">Christmas Island</option>
-                      <option value="Cocos (Keeling) Islands">
-                        Cocos (Keeling) Islands
-                      </option>
-                      <option value="Colombia">Colombia</option>
-                      <option value="Comoros">Comoros</option>
-                      <option value="Congo">Congo</option>
-                      <option value="Congo, The Democratic Republic of The">
-                        Congo, The Democratic Republic of The
-                      </option>
-                      <option value="Cook Islands">Cook Islands</option>
-                      <option value="Costa Rica">Costa Rica</option>
-                      <option value="Cote D'ivoire">Cote D'ivoire</option>
-                      <option value="Croatia">Croatia</option>
-                      <option value="Cuba">Cuba</option>
-                      <option value="Cyprus">Cyprus</option>
-                      <option value="Czech Republic">Czech Republic</option>
-                      <option value="Denmark">Denmark</option>
-                      <option value="Djibouti">Djibouti</option>
-                      <option value="Dominica">Dominica</option>
-                      <option value="Dominican Republic">
-                        Dominican Republic
-                      </option>
-                      <option value="Ecuador">Ecuador</option>
-                      <option value="Egypt">Egypt</option>
-                      <option value="El Salvador">El Salvador</option>
-                      <option value="Equatorial Guinea">
-                        Equatorial Guinea
-                      </option>
-                      <option value="Eritrea">Eritrea</option>
-                      <option value="Estonia">Estonia</option>
-                      <option value="Ethiopia">Ethiopia</option>
-                      <option value="Falkland Islands (Malvinas)">
-                        Falkland Islands (Malvinas)
-                      </option>
-                      <option value="Faroe Islands">Faroe Islands</option>
-                      <option value="Fiji">Fiji</option>
-                      <option value="Finland">Finland</option>
-                      <option value="France">France</option>
-                      <option value="French Guiana">French Guiana</option>
-                      <option value="French Polynesia">French Polynesia</option>
-                      <option value="French Southern Territories">
-                        French Southern Territories
-                      </option>
-                      <option value="Gabon">Gabon</option>
-                      <option value="Gambia">Gambia</option>
-                      <option value="Georgia">Georgia</option>
-                      <option value="Germany">Germany</option>
-                      <option value="Ghana">Ghana</option>
-                      <option value="Gibraltar">Gibraltar</option>
-                      <option value="Greece">Greece</option>
-                      <option value="Greenland">Greenland</option>
-                      <option value="Grenada">Grenada</option>
-                      <option value="Guadeloupe">Guadeloupe</option>
-                      <option value="Guam">Guam</option>
-                      <option value="Guatemala">Guatemala</option>
-                      <option value="Guernsey">Guernsey</option>
-                      <option value="Guinea">Guinea</option>
-                      <option value="Guinea-bissau">Guinea-bissau</option>
-                      <option value="Guyana">Guyana</option>
-                      <option value="Haiti">Haiti</option>
-                      <option value="Heard Island and Mcdonald Islands">
-                        Heard Island and Mcdonald Islands
-                      </option>
-                      <option value="Holy See (Vatican City State)">
-                        Holy See (Vatican City State)
-                      </option>
-                      <option value="Honduras">Honduras</option>
-                      <option value="Hong Kong">Hong Kong</option>
-                      <option value="Hungary">Hungary</option>
-                      <option value="Iceland">Iceland</option>
-                      <option value="India">India</option>
-                      <option value="Indonesia">Indonesia</option>
-                      <option value="Iran, Islamic Republic of">
-                        Iran, Islamic Republic of
-                      </option>
-                      <option value="Iraq">Iraq</option>
-                      <option value="Ireland">Ireland</option>
-                      <option value="Isle of Man">Isle of Man</option>
-                      <option value="Israel">Israel</option>
-                      <option value="Italy">Italy</option>
-                      <option value="Jamaica">Jamaica</option>
-                      <option value="Japan">Japan</option>
-                      <option value="Jersey">Jersey</option>
-                      <option value="Jordan">Jordan</option>
-                      <option value="Kazakhstan">Kazakhstan</option>
-                      <option value="Kenya">Kenya</option>
-                      <option value="Kiribati">Kiribati</option>
-                      <option value="Korea, Democratic People's Republic of">
-                        Korea, Democratic People's Republic of
-                      </option>
-                      <option value="Korea, Republic of">
-                        Korea, Republic of
-                      </option>
-                      <option value="Kuwait">Kuwait</option>
-                      <option value="Kyrgyzstan">Kyrgyzstan</option>
-                      <option value="Lao People's Democratic Republic">
-                        Lao People's Democratic Republic
-                      </option>
-                      <option value="Latvia">Latvia</option>
-                      <option value="Lebanon">Lebanon</option>
-                      <option value="Lesotho">Lesotho</option>
-                      <option value="Liberia">Liberia</option>
-                      <option value="Libyan Arab Jamahiriya">
-                        Libyan Arab Jamahiriya
-                      </option>
-                      <option value="Liechtenstein">Liechtenstein</option>
-                      <option value="Lithuania">Lithuania</option>
-                      <option value="Luxembourg">Luxembourg</option>
-                      <option value="Macao">Macao</option>
-                      <option value="Macedonia, The Former Yugoslav Republic of">
-                        Macedonia, The Former Yugoslav Republic of
-                      </option>
-                      <option value="Madagascar">Madagascar</option>
-                      <option value="Malawi">Malawi</option>
-                      <option value="Malaysia">Malaysia</option>
-                      <option value="Maldives">Maldives</option>
-                      <option value="Mali">Mali</option>
-                      <option value="Malta">Malta</option>
-                      <option value="Marshall Islands">Marshall Islands</option>
-                      <option value="Martinique">Martinique</option>
-                      <option value="Mauritania">Mauritania</option>
-                      <option value="Mauritius">Mauritius</option>
-                      <option value="Mayotte">Mayotte</option>
-                      <option value="Mexico">Mexico</option>
-                      <option value="Micronesia, Federated States of">
-                        Micronesia, Federated States of
-                      </option>
-                      <option value="Moldova, Republic of">
-                        Moldova, Republic of
-                      </option>
-                      <option value="Monaco">Monaco</option>
-                      <option value="Mongolia">Mongolia</option>
-                      <option value="Montenegro">Montenegro</option>
-                      <option value="Montserrat">Montserrat</option>
-                      <option value="Morocco">Morocco</option>
-                      <option value="Mozambique">Mozambique</option>
-                      <option value="Myanmar">Myanmar</option>
-                      <option value="Namibia">Namibia</option>
-                      <option value="Nauru">Nauru</option>
-                      <option value="Nepal">Nepal</option>
-                      <option value="Netherlands">Netherlands</option>
-                      <option value="Netherlands Antilles">
-                        Netherlands Antilles
-                      </option>
-                      <option value="New Caledonia">New Caledonia</option>
-                      <option value="New Zealand">New Zealand</option>
-                      <option value="Nicaragua">Nicaragua</option>
-                      <option value="Niger">Niger</option>
-                      <option value="Nigeria">Nigeria</option>
-                      <option value="Niue">Niue</option>
-                      <option value="Norfolk Island">Norfolk Island</option>
-                      <option value="Northern Mariana Islands">
-                        Northern Mariana Islands
-                      </option>
-                      <option value="Norway">Norway</option>
-                      <option value="Oman">Oman</option>
-                      <option value="Pakistan">Pakistan</option>
-                      <option value="Palau">Palau</option>
-                      <option value="Palestinian Territory, Occupied">
-                        Palestinian Territory, Occupied
-                      </option>
-                      <option value="Panama">Panama</option>
-                      <option value="Papua New Guinea">Papua New Guinea</option>
-                      <option value="Paraguay">Paraguay</option>
-                      <option value="Peru">Peru</option>
-                      <option value="Philippines">Philippines</option>
-                      <option value="Pitcairn">Pitcairn</option>
-                      <option value="Poland">Poland</option>
-                      <option value="Portugal">Portugal</option>
-                      <option value="Puerto Rico">Puerto Rico</option>
-                      <option value="Qatar">Qatar</option>
-                      <option value="Reunion">Reunion</option>
-                      <option value="Romania">Romania</option>
-                      <option value="Russian Federation">
-                        Russian Federation
-                      </option>
-                      <option value="Rwanda">Rwanda</option>
-                      <option value="Saint Helena">Saint Helena</option>
-                      <option value="Saint Kitts and Nevis">
-                        Saint Kitts and Nevis
-                      </option>
-                      <option value="Saint Lucia">Saint Lucia</option>
-                      <option value="Saint Pierre and Miquelon">
-                        Saint Pierre and Miquelon
-                      </option>
-                      <option value="Saint Vincent and The Grenadines">
-                        Saint Vincent and The Grenadines
-                      </option>
-                      <option value="Samoa">Samoa</option>
-                      <option value="San Marino">San Marino</option>
-                      <option value="Sao Tome and Principe">
-                        Sao Tome and Principe
-                      </option>
-                      <option value="Saudi Arabia">Saudi Arabia</option>
-                      <option value="Senegal">Senegal</option>
-                      <option value="Serbia">Serbia</option>
-                      <option value="Seychelles">Seychelles</option>
-                      <option value="Sierra Leone">Sierra Leone</option>
-                      <option value="Singapore">Singapore</option>
-                      <option value="Slovakia">Slovakia</option>
-                      <option value="Slovenia">Slovenia</option>
-                      <option value="Solomon Islands">Solomon Islands</option>
-                      <option value="Somalia">Somalia</option>
-                      <option value="South Africa">South Africa</option>
-                      <option value="South Georgia and The South Sandwich Islands">
-                        South Georgia and The South Sandwich Islands
-                      </option>
-                      <option value="Spain">Spain</option>
-                      <option value="Sri Lanka">Sri Lanka</option>
-                      <option value="Sudan">Sudan</option>
-                      <option value="Suriname">Suriname</option>
-                      <option value="Svalbard and Jan Mayen">
-                        Svalbard and Jan Mayen
-                      </option>
-                      <option value="Swaziland">Swaziland</option>
-                      <option value="Sweden">Sweden</option>
-                      <option value="Switzerland">Switzerland</option>
-                      <option value="Syrian Arab Republic">
-                        Syrian Arab Republic
-                      </option>
-                      <option value="Taiwan">Taiwan</option>
-                      <option value="Tajikistan">Tajikistan</option>
-                      <option value="Tanzania, United Republic of">
-                        Tanzania, United Republic of
-                      </option>
-                      <option value="Thailand">Thailand</option>
-                      <option value="Timor-leste">Timor-leste</option>
-                      <option value="Togo">Togo</option>
-                      <option value="Tokelau">Tokelau</option>
-                      <option value="Tonga">Tonga</option>
-                      <option value="Trinidad and Tobago">
-                        Trinidad and Tobago
-                      </option>
-                      <option value="Tunisia">Tunisia</option>
-                      <option value="Turkey">Turkey</option>
-                      <option value="Turkmenistan">Turkmenistan</option>
-                      <option value="Turks and Caicos Islands">
-                        Turks and Caicos Islands
-                      </option>
-                      <option value="Tuvalu">Tuvalu</option>
-                      <option value="Uganda">Uganda</option>
-                      <option value="Ukraine">Ukraine</option>
-                      <option value="United Arab Emirates">
-                        United Arab Emirates
-                      </option>
-                      <option value="United Kingdom">United Kingdom</option>
-                      <option value="United States">United States</option>
-                      <option value="United States Minor Outlying Islands">
-                        United States Minor Outlying Islands
-                      </option>
-                      <option value="Uruguay">Uruguay</option>
-                      <option value="Uzbekistan">Uzbekistan</option>
-                      <option value="Vanuatu">Vanuatu</option>
-                      <option value="Venezuela">Venezuela</option>
-                      <option value="Viet Nam">Viet Nam</option>
-                      <option value="Virgin Islands, British">
-                        Virgin Islands, British
-                      </option>
-                      <option value="Virgin Islands, U.S.">
-                        Virgin Islands, U.S.
-                      </option>
-                      <option value="Wallis and Futuna">
-                        Wallis and Futuna
-                      </option>
-                      <option value="Western Sahara">Western Sahara</option>
-                      <option value="Yemen">Yemen</option>
-                      <option value="Zambia">Zambia</option>
-                      <option value="Zimbabwe">Zimbabwe</option>
-                    </select>
-                  </div>
-                </div>
-
-                <div className="col-span-12 sm:col-span-4">
-                  <label
-                    htmlFor="street-address"
-                    className="block text-sm font-medium leading-6 text-gray-900"
-                  >
-                    Street address
-                  </label>
-                  <div className="mt-2">
-                    <input
-                      type="text"
-                      name="streetAddress"
-                      id="streetAddress"
-                      autoComplete="street-address"
-                      value={formData.streetAddress}
-                      onChange={handleInputChange}
-                      className="bg-gray-50 block w-full rounded-md border-0 p-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-                    />
-                  </div>
-                </div>
-
-                <div className="col-span-12 sm:col-span-4">
-                  <label
-                    htmlFor="city"
-                    className="block text-sm font-medium leading-6 text-gray-900"
-                  >
-                    City
-                  </label>
-                  <div className="mt-2">
-                    <input
-                      type="text"
-                      name="city"
-                      id="city"
-                      autoComplete="address-level2"
-                      value={formData.city}
-                      onChange={handleInputChange}
-                      className="bg-gray-50 block w-full rounded-md border-0 p-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-                    />
-                  </div>
-                </div>
-
-                <div className="col-span-12 sm:col-span-2">
-                  <label
-                    htmlFor="postal-code"
-                    className="block text-sm font-medium leading-6 text-gray-900"
-                  >
-                    Postal code
-                  </label>
-                  <div className="mt-2">
-                    <input
-                      type="text"
-                      name="postalCode"
-                      id="postalCode"
-                      autoComplete="postal-code"
-                      value={formData.postalCode}
-                      onChange={handleInputChange}
-                      className="bg-gray-50 block w-full rounded-md border-0 p-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-                    />
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-
           {tickets}
+          <div className="flex items-center justify-center mt-6">
+            <input
+              id="link-checkbox-1"
+              type="checkbox"
+              checked={isCheckbox1Checked}
+              onChange={handleCheckbox1Change}
+              className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 focus:ring-2"
+            />
+            <label
+              htmlFor="link-checkbox"
+              className="ms-2 text-sm font-medium text-gray-900"
+            >
+              I agree with the{" "}
+              <span
+                className="text-blue-600 hover:underline text-sm font-medium "
+                onClick={handleOpenDefaultModal}
+              >
+                the accident waiver and release of liability.
+              </span>
+              .
+            </label>
+          </div>
+          <div className="flex items-center justify-center mt-6">
+            <input
+              id="link-checkbox-2"
+              type="checkbox"
+              checked={isCheckbox2Checked}
+              onChange={handleCheckbox2Change}
+              className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 focus:ring-2"
+            />
+            <label
+              htmlFor="link-checkbox"
+              className="ms-2 text-sm font-medium text-gray-900"
+            >
+              I agree with the{" "}
+              <span
+                className="text-blue-600 hover:underline text-sm font-medium "
+                onClick={handleOpenSecondModal}
+              >
+                parent / guardian waiver for minors.
+              </span>
+              .
+            </label>
+          </div>
+          {isDefaultModalVisible && (
+            <Modal
+              id="default-modal"
+              title="The parent / guardian waiver for minors (Under 18 years old)"
+              content={[
+                "The undersigned parent and natural guardian does hereby represent that he/she is, in fact, acting in such capacity, has consented to his/her child or ward’s participation in the activity or event, and has agreed individually and on behalf of the child or ward, to the terms of the accident waiver and release of liability set forth above",
+                "The undersigned parent or guardian further agrees to save and hold harmless and indemnify each and all of the parties referred to above from all liability, loss, cost, claim, or damage whatsoever which may be imposed upon said parties because of any defect in or lack of such capacity to so act and release said parties on behalf of the minor and the parents or legal guardian.",
+              ]}
+              onClose={() => setIsDefaultModalVisible(false)}
+            />
+          )}
 
+          {isSecondModalVisible && (
+            <Modal
+              id="second-modal"
+              title="The accident waiver and release of liability"
+              content={[
+                "I HEREBY ASSUME ALL OF THE RISKS OF PARTICIPATING AND/OR VOLUNTEERING IN THIS ACTIVITY OR EVENT, including by way of example and not limitation, any risks that may arise from negligence or carelessness on the part of the persons or entities being released, from dangerous or defective equipment or property owned, maintained, or controlled by them, or because of their possible liability without fault.",
+                "I certify that I am physically fit, have sufficiently prepared or trained for participation in the activity or event, and have not been advised to not participate by a qualified medical professional. I certify that there are no health-related reasons or problems which preclude my participation in this activity or event. I acknowledge that this Accident Waiver and Release of Liability Form will be used by the event holders, sponsors, and organizers of the activity or event in which I may participate, and that it will govern my actions and responsibilities at said activity or event.",
+                "In consideration of my application and permitting me to participate in this event, I hereby take action for myself, my executors, administrators, heirs, next of kin, successors, and assigns as follows:",
+                "(A) I WAIVE, RELEASE, AND DISCHARGE from any and all liability, including but not limited to, liability arising from the negligence or fault of the entities or persons released, for my death, disability, personal injury, property damage, property theft, or actions of any kind which may hereafter occur to me including my traveling to and from this event, THE FOLLOWING ENTITIES OR PERSONS: DONG HANH and/or their directors, officers, employees, volunteers, representatives, and agents, the activity or event holders, activity or event sponsors, activity or event volunteers;",
+                "(B) I INDEMNIFY, HOLD HARMLESS, AND PROMISE NOT TO SUE the entities or persons mentioned in this paragraph from any and all liabilities or claims made as a result of participation in this activity or event, whether caused by the negligence of release or otherwise.",
+                "I acknowledge that DONG HANH and their directors, officers, volunteers, representatives, and agents are NOT responsible for the errors, omissions, acts, or failures to act of any party or entity conducting a specific event or activity on behalf of Đồng Hành Network.",
+                "I acknowledge that this activity or event may involve a test of a person’s physical and mental limits and may carry with it the potential for death, serious injury, and property loss. The risks may include, but are not limited to, those caused by terrain, facilities, temperature, weather, condition of participants, equipment, vehicular traffic, actions of other people, including, but not limited to, participants, volunteers, spectators, coaches, event officials, and event monitors, and/or producers of the event, and lack of hydration. These risks are not only inherent to participants but are also present for volunteers.",
+                "I hereby consent to receive medical treatment that may be deemed advisable in the event of injury, accident, and/or illness during this activity or event.",
+                "I understand that at this event or related activities, I may be photographed. I agree to allow my photo, video, or film likeness to be used for any legitimate purpose by the event holders, producers, sponsors, organizers, and assigns. The accident waiver and release of liability shall be construed broadly to provide a release and waiver to the maximum extent permissible under applicable law.",
+              ]}
+              onClose={() => setIsSecondModalVisible(false)}
+            />
+          )}
           <div className="mt-6 flex items-center justify-end gap-x-6">
             <button
               type="button"
@@ -555,7 +162,8 @@ const Register = () => {
             </button>
             <button
               type="submit"
-              className="rounded-md bg-darkblue px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-green-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+              disabled={isConfirmButtonDisabled}
+              className="rounded-md bg-darkblue px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-green-700 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 disabled:hover:bg-darkblue disabled:opacity-25"
             >
               Confirm
             </button>

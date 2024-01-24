@@ -17,15 +17,15 @@ class Ticket
     #[ORM\Column(nullable: true)]
     private ?int $price = null;
 
-    #[ORM\ManyToOne(inversedBy: 'tickets')]
+    #[ORM\ManyToOne(inversedBy: 'tickets', fetch: "EAGER")]
     #[ORM\JoinColumn(nullable: false)]
-    private ?Event $idEvent = null;
+    private ?Event $event = null;
 
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
-    private ?\DateTimeInterface $createTime = null;
+    private ?\DateTimeInterface $created_at = null;
 
     #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true)]
-    private ?\DateTimeInterface $updateTime = null;
+    private ?\DateTimeInterface $updated_at = null;
 
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $status = null;
@@ -39,11 +39,14 @@ class Ticket
     #[ORM\Column(length: 255)]
     private ?string $captureId = null;
 
-    #[ORM\Column(length: 255)]
-    private ?string $participant = null;
-
     #[ORM\Column(nullable: true)]
     private ?bool $scan = null;
+
+    #[ORM\ManyToOne(inversedBy: 'tickets', fetch: "EAGER")]
+    private ?Participant $participant = null;
+
+    #[ORM\ManyToOne(inversedBy: 'tickets', fetch: "EAGER")]
+    private ?User $user = null;
 
     public function getId(): ?int
     {
@@ -62,38 +65,38 @@ class Ticket
         return $this;
     }
 
-    public function getIdEvent(): ?Event
+    public function getEvent(): ?Event
     {
-        return $this->idEvent;
+        return $this->event;
     }
 
-    public function setIdEvent(?Event $idEvent): self
+    public function setEvent(?Event $event): self
     {
-        $this->idEvent = $idEvent;
+        $this->event = $event;
 
         return $this;
     }
 
-    public function getCreateTime(): ?\DateTimeInterface
+    public function getCreatedAt(): ?\DateTimeInterface
     {
-        return $this->createTime;
+        return $this->created_at;
     }
 
-    public function setCreateTime(\DateTimeInterface $createTime): self
+    public function setCreatedAt(\DateTimeInterface $created_at): self
     {
-        $this->createTime = $createTime;
+        $this->created_at = $created_at;
 
         return $this;
     }
 
-    public function getUpdateTime(): ?\DateTimeInterface
+    public function getUpdatedAt(): ?\DateTimeInterface
     {
-        return $this->updateTime;
+        return $this->updated_at;
     }
 
-    public function setUpdateTime(?\DateTimeInterface $updateTime): self
+    public function setUpdatedAt(?\DateTimeInterface $updated_at): self
     {
-        $this->updateTime = $updateTime;
+        $this->updated_at = $updated_at;
 
         return $this;
     }
@@ -146,18 +149,6 @@ class Ticket
         return $this;
     }
 
-    public function getParticipant(): ?string
-    {
-        return $this->participant;
-    }
-
-    public function setParticipant(string $participant): self
-    {
-        $this->participant = $participant;
-
-        return $this;
-    }
-
     public function isScan(): ?bool
     {
         return $this->scan;
@@ -166,6 +157,30 @@ class Ticket
     public function setScan(?bool $scan): self
     {
         $this->scan = $scan;
+
+        return $this;
+    }
+
+    public function getParticipant(): ?Participant
+    {
+        return $this->participant;
+    }
+
+    public function setParticipant(?Participant $participant): static
+    {
+        $this->participant = $participant;
+
+        return $this;
+    }
+
+    public function getUser(): ?User
+    {
+        return $this->user;
+    }
+
+    public function setUser(?User $user): static
+    {
+        $this->user = $user;
 
         return $this;
     }
