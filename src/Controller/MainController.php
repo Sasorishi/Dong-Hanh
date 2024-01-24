@@ -21,35 +21,17 @@ use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 class MainController extends AbstractController
 {
     #[Route('/', name: 'app_main')]
-    public function index(MailerService $mailer, RecaptchaService $recaptcha, Request $request): Response
+    public function index(): Response
     {
-        if ($request->isMethod('GET') && $request->query->get('response') !== null) {
-            $response = $request->query->get('response');
-            dump($response);
-            return $this->render('index.html.twig', [
-                'recaptcha_key' => $recaptcha->getKey(),
-                'error' => $response
-            ]);
-        }
-        
-        // if ($request->isMethod('POST')) {
-        //     $validator = $recaptcha->requestApi($request->request->get("g-recaptcha-response"));
-        //     if ($validator["success"] == true) {
-        //         $response = $mailer->sendMail($request);
-    
-        //         if ($response == TRUE) {
-        //             return $this->redirectToRoute('app_success', array('form' => 'contact'));
-        //         } else {
-        //             return $this->redirectToRoute('app_cancel', array('error' => 'contact'));
-        //         }
-        //     } else {
-        //         return $this->redirectToRoute('app_cancel', array('error' => 'contact'));
-        //     }
+        // if ($request->isMethod('GET') && $request->query->get('response') !== null) {
+        //     $response = $request->query->get('response');
+        //     return $this->render('index.html.twig', [
+        //         'recaptcha_key' => $recaptcha->getKey(),
+        //         'error' => $response
+        //     ]);
         // }
-
-        return $this->render('index.html.twig', [
-            'recaptcha_key' => $recaptcha->getKey(),
-        ]);
+        
+        return $this->render('index.html.twig');
     }
 
     // #[Route('/order', name: 'app_order')]

@@ -1,11 +1,12 @@
 import React, { useState } from "react";
 import axios from "axios";
 import Modal from "../ModalComponent";
-import Captcha from "./CaptchaComponent";
+import Recaptcha from "./RecaptchaComponent";
 
 const ContactSection = ({ onError }) => {
   const [isChecked, setChecked] = useState(false);
   const [isDefaultModalVisible, setIsDefaultModalVisible] = useState(false);
+  const [recaptcha, setRecaptcha] = useState(false);
   const [formData, setFormData] = useState({
     firstName: "",
     lastName: "",
@@ -28,8 +29,7 @@ const ContactSection = ({ onError }) => {
 
       const response = await axios.post("/api/mailer/send/contact", formData);
       const data = response.data;
-      console.log(data);
-      console.log(data.success);
+      // console.log(data.success);
       if (data.success == true) {
         window.location.href = "/response/success/contact";
       } else {
@@ -42,7 +42,6 @@ const ContactSection = ({ onError }) => {
   };
 
   const handleCheckboxChange = () => {
-    console.log("click");
     setChecked(!isChecked);
   };
 
@@ -71,7 +70,7 @@ const ContactSection = ({ onError }) => {
                     type="text"
                     name="firstName"
                     id="firstName"
-                    autocomplete="given-name"
+                    autoComplete="given-name"
                     placeholder="Thanh Việt"
                     value={formData.firstName}
                     onChange={handleInputChange}
@@ -92,7 +91,7 @@ const ContactSection = ({ onError }) => {
                     type="text"
                     name="lastName"
                     id="lastName"
-                    autocomplete="family-name"
+                    autoComplete="family-name"
                     placeholder="Nguyễn"
                     value={formData.lastName}
                     onChange={handleInputChange}
@@ -113,7 +112,7 @@ const ContactSection = ({ onError }) => {
                     type="email"
                     name="email"
                     id="email"
-                    autocomplete="email"
+                    autoComplete="email"
                     placeholder="your.email@gmail.com"
                     value={formData.email}
                     onChange={handleInputChange}
@@ -233,6 +232,7 @@ const ContactSection = ({ onError }) => {
               </button>
             </div>
           </div>
+          <Recaptcha />
         </div>
       </form>
       {isDefaultModalVisible && (
