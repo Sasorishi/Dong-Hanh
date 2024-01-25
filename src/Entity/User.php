@@ -34,15 +34,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true)]
     private ?\DateTimeInterface $passwordRequestAt = null;
 
-    #[ORM\Column(nullable: true)]
-    private ?bool $verified = null;
-
-    #[ORM\Column(length: 255, nullable: true)]
-    private ?string $token_verified = null;
-
-    #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true)]
-    private ?\DateTimeInterface $verified_request_at = null;
-
     #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true)]
     private ?\DateTimeInterface $create_at = null;
 
@@ -155,42 +146,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setPasswordRequestAt(?\DateTimeInterface $passwordRequestAt): self
     {
         $this->passwordRequestAt = $passwordRequestAt;
-
-        return $this;
-    }
-
-    public function isVerified(): ?bool
-    {
-        return $this->verified;
-    }
-
-    public function setVerified(?bool $verified): self
-    {
-        $this->verified = $verified;
-
-        return $this;
-    }
-
-    public function getTokenVerified(): ?string
-    {
-        return $this->token_verified;
-    }
-
-    public function setTokenVerified(?string $token_verified): self
-    {
-        $this->token_verified = $token_verified;
-
-        return $this;
-    }
-
-    public function getVerifiedRequestAt(): ?\DateTimeInterface
-    {
-        return $this->verified_request_at;
-    }
-
-    public function setVerifiedRequestAt(?\DateTimeInterface $verified_request_at): self
-    {
-        $this->verified_request_at = $verified_request_at;
 
         return $this;
     }
