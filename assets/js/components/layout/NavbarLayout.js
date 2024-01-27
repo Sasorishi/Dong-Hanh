@@ -13,6 +13,10 @@ function Navbar({ isAuthenticated }) {
         navigate("/login");
         break;
 
+      case "signup":
+        navigate("/signup");
+        break;
+
       case "logout":
         window.location.href = "/logout";
         break;
@@ -33,7 +37,7 @@ function Navbar({ isAuthenticated }) {
 
   return (
     <nav className="relative w-full z-20 top-0 start-0 shadow-md">
-      <div className="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
+      <div className="max-w-screen flex flex-wrap items-center justify-between mx-auto">
         <a href="/" className="flex items-center space-x-3 rtl:space-x-reverse">
           <img src={Logo} className="h-8" alt="Đồng Hành Logo" />
           <span className="brand self-center text-2xl font-semibold whitespace-nowrap">
@@ -46,7 +50,7 @@ function Navbar({ isAuthenticated }) {
               <button
                 type="button"
                 onClick={() => handleNavigation("account")}
-                className="animation-hover flex align-center text-white uppercase bg-darkblue hover:bg-rosered font-medium rounded-full text-sm px-4 py-2 text-center"
+                className="animation-hover flex align-center text-white uppercase bg-darkblue hover:bg-bordeau font-medium rounded-full text-sm px-4 py-2 text-center"
               >
                 Account
                 <svg
@@ -67,21 +71,21 @@ function Navbar({ isAuthenticated }) {
               <button
                 type="button"
                 onClick={() => handleNavigation("logout")}
-                className="animation-hover flex align-center text-white uppercase bg-darkblue hover:bg-rosered font-medium rounded-full text-sm px-4 py-2 text-center"
+                className="animation-hover flex align-center text-white uppercase bg-darkblue hover:bg-bordeau font-medium rounded-full text-sm px-4 py-2 text-center"
               >
                 Logout
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   fill="none"
                   viewBox="0 0 24 24"
-                  strokeWidth="1.5"
+                  stroke-width="1.5"
                   stroke="currentColor"
                   className="ml-3 text-amber w-5 h-5 self-center"
                 >
                   <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    d="M15.75 9V5.25A2.25 2.25 0 0 0 13.5 3h-6a2.25 2.25 0 0 0-2.25 2.25v13.5A2.25 2.25 0 0 0 7.5 21h6a2.25 2.25 0 0 0 2.25-2.25V15M12 9l-3 3m0 0 3 3m-3-3h12.75"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    d="M15.75 9V5.25A2.25 2.25 0 0 0 13.5 3h-6a2.25 2.25 0 0 0-2.25 2.25v13.5A2.25 2.25 0 0 0 7.5 21h6a2.25 2.25 0 0 0 2.25-2.25V15m3 0 3-3m0 0-3-3m3 3H9"
                   />
                 </svg>
               </button>
@@ -91,7 +95,7 @@ function Navbar({ isAuthenticated }) {
               <button
                 type="button"
                 onClick={() => handleNavigation("login")}
-                className="animation-hover flex align-center text-white uppercase bg-darkblue hover:bg-rosered font-medium rounded-full text-sm px-4 py-2 text-center"
+                className="animation-hover flex align-center text-white uppercase bg-darkblue hover:bg-bordeau font-medium rounded-full text-sm px-4 py-2 text-center"
               >
                 Login
                 <svg
@@ -109,14 +113,33 @@ function Navbar({ isAuthenticated }) {
                   />
                 </svg>
               </button>
+              <button
+                type="button"
+                onClick={() => handleNavigation("signup")}
+                className="animation-hover flex align-center text-white uppercase bg-darkblue hover:bg-bordeau font-medium rounded-full text-sm px-4 py-2 text-center"
+              >
+                Signup
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke-width="1.5"
+                  stroke="currentColor"
+                  className="ml-3 text-amber w-5 h-5 self-center"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    d="M15.75 9V5.25A2.25 2.25 0 0 0 13.5 3h-6a2.25 2.25 0 0 0-2.25 2.25v13.5A2.25 2.25 0 0 0 7.5 21h6a2.25 2.25 0 0 0 2.25-2.25V15M12 9l-3 3m0 0 3 3m-3-3h12.75"
+                  />
+                </svg>
+              </button>
             </div>
           )}
           <button
-            data-collapse-toggle="navbar-sticky"
             type="button"
             onClick={toggleMenu}
             className="animation-hover inline-flex items-center p-2 w-10 h-10 justify-center text-sm text-darkblue rounded-lg md:hidden hover:bg-whitesmoke focus:outline-none focus:ring-2 focus:ring-gray-200"
-            aria-controls="navbar-sticky"
             aria-expanded="false"
           >
             <span className="sr-only">Open main menu</span>
@@ -150,7 +173,7 @@ function Navbar({ isAuthenticated }) {
                 <li>
                   <a
                     href="/account"
-                    className="animation-hover flex justify-center py-2 px-3 text-amber bg-darkblue hover:bg-rosered rounded md:p-0"
+                    className="animation-hover flex justify-center py-2 px-3 text-amber bg-darkblue hover:bg-bordeau rounded md:p-0"
                     aria-current="page"
                   >
                     Account
@@ -173,7 +196,7 @@ function Navbar({ isAuthenticated }) {
                 <li>
                   <a
                     href="/logout"
-                    className="animation-hover flex justify-center py-2 px-3 text-amber bg-darkblue hover:bg-rosered rounded md:border-0 md:p-0"
+                    className="animation-hover flex justify-center py-2 px-3 text-amber bg-darkblue hover:bg-bordeau rounded md:border-0 md:p-0"
                   >
                     Logout
                     <svg
@@ -198,7 +221,7 @@ function Navbar({ isAuthenticated }) {
                 <li>
                   <a
                     href="/login"
-                    className="animation-hover flex justify-center py-2 px-3 text-amber bg-darkblue hover:bg-rosered rounded md:p-0"
+                    className="animation-hover flex justify-center py-2 px-3 text-amber bg-darkblue hover:bg-bordeau rounded md:p-0"
                   >
                     Login
                     <svg

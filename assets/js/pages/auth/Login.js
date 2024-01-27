@@ -31,11 +31,11 @@ const Login = () => {
       <div className="w-full max-w-sm p-6 m-auto mx-auto bg-white rounded-lg shadow-md">
         {error && <Toast message={error} onClose={closeToast} error={true} />}
         <div className="flex flex-col text-center justify-center mx-auto">
-          <img
+          {/* <img
             className="w-auto h-7 sm:h-8"
             src="https://merakiui.com/images/logo.svg"
             alt=""
-          />
+          /> */}
           <span className="mt-3">Login</span>
         </div>
 
@@ -76,7 +76,7 @@ const Login = () => {
           <div className="mt-6">
             <button
               type="submit"
-              className="w-full px-6 py-2.5 text-sm font-medium tracking-wide text-white capitalize transition-colors duration-300 transform bg-gray-800 rounded-lg hover:bg-gray-700 focus:outline-none focus:ring focus:ring-gray-300 focus:ring-opacity-50"
+              className="animation-hover w-full uppercase px-6 py-2.5 text-sm font-medium tracking-wide text-white transition-colors duration-300 transform bg-darkblue rounded-lg hover:bg-bordeau focus:outline-none focus:ring focus:ring-gray-300 focus:ring-opacity-50"
             >
               Sign In
             </button>

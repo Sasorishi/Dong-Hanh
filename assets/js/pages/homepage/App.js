@@ -9,6 +9,8 @@ import JourneySection from "../../components/homepage/JourneyComponent";
 import CommunitySection from "../../components/homepage/CommunityComponent";
 import TeamSection from "../../components/homepage/TeamComponent";
 import ContactSection from "../../components/homepage/ContactComponent";
+import TestimonialsSection from "../../components/homepage/TestimonialsComponent";
+import FeaturesSection from "../../components/homepage/FeaturesComponent";
 
 const App = () => {
   const [error, setError] = useState(null);
@@ -49,9 +51,11 @@ const App = () => {
       <SeparatorSection />
       <AboutUsSection />
       <ActivitiesSection />
+      <FeaturesSection />
       <JourneySection />
-      <CommunitySection />
+      <TestimonialsSection />
       <TeamSection />
+      <CommunitySection />
       <ContactSection onError={handleError} />
     </>
   );
