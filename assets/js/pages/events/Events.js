@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import axios from "../../../api";
+import axios from "axios";
 import EventCard from "../../components/events/EventCardComponent";
 import Loader from "../../components/LoaderComponent";
 
@@ -49,7 +49,7 @@ const Events = () => {
           </p>
         </div>
         {!loading ? (
-          events ? (
+          events.length > 1 ? (
             events.map((event, index) => (
               <EventCard key={index} event={event} />
             ))

@@ -1,0 +1,164 @@
+:root {
+  --cognac-color: #6b1d1c;
+  --amber-color: #efbe4c;
+  --dark-blue-color: #0d1b2a;
+  --cream-color: #f2ecd2;
+  --bordeau-color: #8e1f25;
+  --white-smoke-color: #f3f2f0;
+  --charcoal-color: #3a424c;
+  --forest-color: #15803d;
+  --dark-blue-80-color: #495e74;
+}
+
+/*		---- Fonts ---- 	*/
+
+@font-face {
+  font-family: "Hogback";
+  src: url("../../public/fonts/Hogback.ttf");
+}
+
+@font-face {
+  font-family: "IntanEdit";
+  src: url("../../public/fonts/IntanEdit.ttf");
+}
+
+@font-face {
+  font-family: "Gelion-Regular";
+  src: url("../../public/fonts/Gelion-Regular.ttf");
+}
+
+@font-face {
+  font-family: "Gelion-Light";
+  src: url("../../public/fonts/Gelion-Light.ttf");
+}
+
+@font-face {
+  font-family: "Gelion-SemiBold";
+  src: url("../../public/fonts/Gelion-SemiBold.ttf");
+}
+
+@font-face {
+  font-family: "Gelion-Bold";
+  src: url("../../public/fonts/Gelion-Bold.ttf");
+}
+
+@layer components {
+  .animation-hover {
+    @apply transition ease-in-out delay-150 duration-300;
+  }
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background-color: var(--amber-color);
+}
+
+#root {
+  display: contents;
+}
+
+nav {
+  background: var(--amber-color);
+}
+
+h1,
+p,
+span {
+  color: var(--cognac-color);
+}
+
+span {
+  font: 1.2em "Gelion-Light";
+  text-transform: uppercase;
+  letter-spacing: 0.3em;
+}
+
+label {
+  font: 1em "Gelion-Light";
+  text-transform: uppercase;
+  letter-spacing: 0.2em;
+  line-height: 1.8em;
+  color: var(--cognac-color);
+}
+
+h1 {
+  font: 2em "Intan";
+  letter-spacing: 0.05em;
+  margin-top: 0.5em;
+}
+
+p {
+  font: 1rem "Gelion-Light";
+  letter-spacing: 0.2em;
+  line-height: 1.5rem;
+}
+
+i {
+  color: var(--cognac-color);
+}
+
+hr {
+  color: var(--cognac-color);
+  width: 4em;
+  opacity: 1 !important;
+  border: 4px solid;
+  border-top: 0 !important;
+  margin-top: 2em;
+  margin-bottom: 2em;
+}
+
+a {
+  color: var(--dark-blue-color);
+}
+
+.divider-center {
+  margin-left: auto;
+  margin-right: auto;
+}
+
+button {
+  font-family: "Gelion-Light", sans-serif;
+  letter-spacing: 0.05em;
+  // padding: 2em 1em;
+}
+
+nav {
+  padding: 1rem 8rem;
+
+  .brand {
+    color: var(--cognac-color);
+    font-size: 1em;
+    text-decoration: none;
+    white-space: nowrap;
+  }
+}
+
+.navbar a {
+  font: 1em "Gelion-Regular";
+  letter-spacing: 0.2em;
+  color: var(--cognac-color);
+}
+
+section {
+  padding: 4rem 8rem;
+}
+
+footer p,
+a {
+  font: 0.9em "Gelion-Light";
+  letter-spacing: 0.1em;
+}
+
+/* Media query pour les écrans mobiles */
+@media screen and (max-width: 768px) {
+  section {
+    padding: 2rem 1rem;
+  }
+
+  nav {
+    padding: 1rem;
+  }
+}

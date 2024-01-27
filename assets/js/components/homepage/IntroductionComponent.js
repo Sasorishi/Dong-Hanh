@@ -1,81 +1,120 @@
 import React from "react";
-import ScrollIndicator from "../ScrollIdicationComponent";
+import Connection from "../../../../public/images/connection.svg";
+import TrongDong from "../../../../public/images/trong-dong.png";
 
 const IntroductionSection = () => {
   return (
-    <section className="introduction" id="introduction">
-      <div className="trong-dong">
-        <div className="flex flex-col lg:flex-row">
-          <div
-            className="lg:w-7/12 md:w-full sm:w-full mx-auto my-auto"
-            data-aos="fade-up"
-            data-aos-duration="500"
-          >
-            <span>Vietnamese community</span>
-            <h1>Đồng Hành Network</h1>
-            <hr />
-            <p>
-              A 4-day leadership camp to connect with your roots and learn about
-              Vietnamese culture, traditions, and history. Create lifelong
-              memories with friends from all around the world through team
-              building activities and workshops.
-            </p>
-            <div className="flex gap-4 mt-5 mb-5">
-              <a href="/app_register">
-                <button
-                  type="button"
-                  className="uppercase text-white bg-cognac hover:bg-rosered font-medium rounded-full text-sm px-4 py-2 text-center"
-                >
-                  Get your ticket
-                </button>
-              </a>
-              <button
-                type="button"
-                className="uppercase text-white bg-darkblue hover:bg-rosered font-medium rounded-full text-sm px-4 py-2 text-center"
-              >
-                Learn more
-              </button>
-            </div>
-          </div>
-          <div
-            className="lg:w-5/12 md:w-full sm:w-full"
-            data-aos="fade-up"
-            data-aos-offset="300"
-            data-aos-duration="1500"
-            data-aos-easing="ease-in-sine"
-          >
-            <img
-              className="img-fluid event-main"
-              src="images/Banner - 2023.jpg"
-              alt="current_event"
-            />
-            <div className="event-information text-left">
-              <p className="">92 € (with transportation)</p>
-              <p className="mb-3">72 € (without transportation)</p>
-              <p className="mb-1">
-                Date : July 06<sup>th</sup> to 09<sup>th</sup>, 2023
-              </p>
-              <p>
-                Address :{" "}
-                <a
-                  target="_blank"
-                  href="https://www.google.com/maps/place/Egeruphytten/@55.2750846,11.2536974,18z/data=!4m13!1m7!3m6!1s0x464d5e838089ac27:0x34689db1b340138d!2sEgerupvej+49,+4230+Sk%C3%A6lsk%C3%B8r,+Danemark!3b1!8m2!3d55.2750257!4d11.2548142!3m4!1s0x464d5e8389a04ec5:0x4021016010e18f80!8m2!3d55.2750727!4d11.2548531"
-                >
-                  Egerupvej 49, 4230 Skælskør, DENMARK
-                </a>
-              </p>
-              <div className="information">
-                <p className="mt-3">
-                  *Arrive at Copenhagen Airport by 5pm on July 06<sup>th</sup>,
-                  depart from Camp site by 1pm on July 09<sup>th</sup>
-                </p>
+    <div className="bg-hero">
+      <div className="bg-trong">
+        <section className="backdrop-blur bg-cream-filter">
+          <div className="relative">
+            <div className="container m-auto">
+              <div className="-mx-4 flex flex-wrap">
+                <div className="w-full px-4 lg:w-5/12 self-center">
+                  <div className="hero-content">
+                    <span className="text-darkblue">Vietnamese community</span>
+                    <h1 className="text-4xl">Đồng Hành Network</h1>
+                    <hr />
+                    <p className="mb-8 max-w-[480px]">
+                      Embarking on a global expansion! Our Vietnamese community
+                      welcomes individuals worldwide, dedicated to fostering
+                      meaningful connections and social interactions.
+                    </p>
+                    <div className="flex flex-wrap items-center gap-4 mt-5 mb-5">
+                      <a href="/introduction">
+                        <button
+                          type="button"
+                          className="animation-hover uppercase text-white bg-darkblue hover:bg-bordeau font-medium rounded-full text-sm px-4 py-2 text-center"
+                        >
+                          Learn more
+                        </button>
+                      </a>
+                      <a href="/events">
+                        <button
+                          type="button"
+                          className="animation-hover flex items-center uppercase text-darkblue hover:text-bordeau font-medium rounded-full text-sm px-4 py-2 text-center"
+                        >
+                          more events
+                          <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            fill="none"
+                            viewBox="0 0 24 24"
+                            strokeWidth="1.5"
+                            stroke="currentColor"
+                            className="w-6 h-6 ml-2"
+                          >
+                            <path
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                              d="M17.25 8.25 21 12m0 0-3.75 3.75M21 12H3"
+                            />
+                          </svg>
+                        </button>
+                        {/* <button
+                      type="button"
+                      className="uppercase text-white bg-darkblue hover:bg-bordeau font-medium rounded-full text-sm px-4 py-2 text-center"
+                    >
+                      Learn more
+                    </button> */}
+                      </a>
+                    </div>
+                  </div>
+                </div>
+                <div className="hidden px-4 lg:block lg:w-1/12" />
+                <div className="w-full px-4 lg:w-6/12">
+                  <div className="lg:ml-auto lg:text-right">
+                    <div className="relative w-full rounded z-10 inline-block pt-11 lg:pt-0">
+                      <div className="rounded-ss-2xl rounded-ee-2xl bg-cream shadow-lg">
+                        <img
+                          src={Connection}
+                          alt="img-connection"
+                          className="lg:ml-auto shadow-lg"
+                        />
+                      </div>
+                      <span className="absolute -bottom-8 -left-8 z-[-1]">
+                        <svg
+                          width="93"
+                          height="93"
+                          viewBox="0 0 93 93"
+                          fill="none"
+                          xmlns="http://www.w3.org/2000/svg"
+                        >
+                          <circle cx="2.5" cy="2.5" r="2.5" fill="#6b1d1c" />
+                          <circle cx="2.5" cy="24.5" r="2.5" fill="#6b1d1c" />
+                          <circle cx="2.5" cy="46.5" r="2.5" fill="#6b1d1c" />
+                          <circle cx="2.5" cy="68.5" r="2.5" fill="#6b1d1c" />
+                          <circle cx="2.5" cy="90.5" r="2.5" fill="#6b1d1c" />
+                          <circle cx="24.5" cy="2.5" r="2.5" fill="#6b1d1c" />
+                          <circle cx="24.5" cy="24.5" r="2.5" fill="#6b1d1c" />
+                          <circle cx="24.5" cy="46.5" r="2.5" fill="#6b1d1c" />
+                          <circle cx="24.5" cy="68.5" r="2.5" fill="#6b1d1c" />
+                          <circle cx="24.5" cy="90.5" r="2.5" fill="#6b1d1c" />
+                          <circle cx="46.5" cy="2.5" r="2.5" fill="#6b1d1c" />
+                          <circle cx="46.5" cy="24.5" r="2.5" fill="#6b1d1c" />
+                          <circle cx="46.5" cy="46.5" r="2.5" fill="#6b1d1c" />
+                          <circle cx="46.5" cy="68.5" r="2.5" fill="#6b1d1c" />
+                          <circle cx="46.5" cy="90.5" r="2.5" fill="#6b1d1c" />
+                          <circle cx="68.5" cy="2.5" r="2.5" fill="#6b1d1c" />
+                          <circle cx="68.5" cy="24.5" r="2.5" fill="#6b1d1c" />
+                          <circle cx="68.5" cy="46.5" r="2.5" fill="#6b1d1c" />
+                          <circle cx="68.5" cy="68.5" r="2.5" fill="#6b1d1c" />
+                          <circle cx="68.5" cy="90.5" r="2.5" fill="#6b1d1c" />
+                          <circle cx="90.5" cy="2.5" r="2.5" fill="#6b1d1c" />
+                          <circle cx="90.5" cy="24.5" r="2.5" fill="#6b1d1c" />
+                          <circle cx="90.5" cy="46.5" r="2.5" fill="#6b1d1c" />
+                          <circle cx="90.5" cy="68.5" r="2.5" fill="#6b1d1c" />
+                          <circle cx="90.5" cy="90.5" r="2.5" fill="#6b1d1c" />
+                        </svg>
+                      </span>
+                    </div>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
-        </div>
+        </section>
       </div>
-      <ScrollIndicator />
-    </section>
+    </div>
   );
 };
 

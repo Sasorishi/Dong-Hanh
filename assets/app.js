@@ -6,16 +6,12 @@
  */
 
 // any CSS you import will output into a single css file (app.css in this case)
-import $ from "jquery";
+import "flowbite";
 import React, { useEffect, useState } from "react";
 import { createRoot } from "react-dom/client";
-import {
-  BrowserRouter as Router,
-  Route,
-  Routes,
-  Navigate,
-} from "react-router-dom";
-import axios from "./api";
+import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+import Aos from "aos";
+import axios from "axios";
 
 import Navbar from "./js/components/layout/NavbarLayout";
 import Footer from "./js/components/layout/FooterLayout";
@@ -32,11 +28,17 @@ import Checkout from "./js/pages/checkout/Checkout";
 import TicketCheck from "./js/pages/dashboard/TicketCheck";
 import ForgetPassword from "./js/pages/auth/ForgetPassword";
 import ResetPassword from "./js/pages/auth/ResetPassword";
+import Introduction from "./js/pages/homepage/Introduction";
 
 const Main = () => {
-  AOS.init();
+  Aos.init();
 
   const [isAuthenticated, setIsAuthenticated] = useState(null);
+
+  const handleRouteUpdate = () => {
+    Aos.refresh();
+  };
+
   useEffect(() => {
     const checkAuthentication = async () => {
       try {
@@ -62,7 +64,7 @@ const Main = () => {
   }, []);
 
   return (
-    <Router>
+    <Router onUpdate={handleRouteUpdate}>
       <Navbar isAuthenticated={isAuthenticated} />
       <Routes>
         <Route path="/" element={<App />} />
@@ -85,6 +87,7 @@ const Main = () => {
         <Route path="/response/:redirection/:type" element={<Response />} />
         <Route path="/register/:eventId/:numTickets" element={<Register />} />
         <Route path="/checkout" element={<Checkout />} />
+        <Route path="/introduction" element={<Introduction />} />
       </Routes>
       <Footer />
     </Router>

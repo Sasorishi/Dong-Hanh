@@ -5,7 +5,7 @@ const TeamSection = () => {
     <section className="team" id="team">
       <div className="container-fluid wrapper-element">
         <div className="py-5 text-center">
-          <span>Team members</span>
+          <span className="text-whitesmoke">Team members</span>
           <h1>Who we are</h1>
         </div>
         <div className="flex flex-col lg:flex-row justify-between mt-5">

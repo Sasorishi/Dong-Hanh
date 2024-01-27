@@ -5,8 +5,6 @@
 # https://symfony.com/doc/current/best_practices.html#use-parameters-for-application-configuration
 parameters:
   app.domain: "%env(DOMAIN)%"
-  app.stripe_apikey_secret: "%env(STRIPE_APIKEY_SECRET)%"
-  app.stripe_apikey_public: "%env(STRIPE_APIKEY_PUBLIC)%"
   app.dev.paypal_client_id: "%env(DEV_PAYPAL_CLIENT_ID)%"
   app.dev.paypal_client_secret: "%env(DEV_PAYPAL_CLIENT_SECRET)%"
   app.prod.paypal_client_id: "%env(PROD_PAYPAL_CLIENT_ID)%"
@@ -36,18 +34,6 @@ services:
 
   # add more service definitions when explicit configuration is needed
   # please note that last definitions always *replace* previous ones
-
-  App\Service\StripePaymentService:
-    arguments:
-      $stripe_apikey_secret: "%app.stripe_apikey_secret%"
-      $stripe_apikey_public: "%app.stripe_apikey_public%"
-
-  App\Service\PaypalService:
-    arguments:
-      $dev_client_id: "%app.dev.paypal_client_id%"
-      $dev_client_secret: "%app.dev.paypal_client_secret%"
-      $prod_client_id: "%app.prod.paypal_client_id%"
-      $prod_client_secret: "%app.prod.paypal_client_secret%"
 
   App\Service\MailerService:
     arguments:
