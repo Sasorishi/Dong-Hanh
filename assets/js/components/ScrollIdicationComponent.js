@@ -2,7 +2,7 @@ import React from "react";
 
 const ScrollIndicator = () => {
   return (
-    <div className="my-12">
+    <div className="my-4">
       <div className="scroll-indicator" />
     </div>
   );

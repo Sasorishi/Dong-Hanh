@@ -42,10 +42,10 @@ class Ticket
     #[ORM\Column(nullable: true)]
     private ?bool $scan = null;
 
-    #[ORM\ManyToOne(inversedBy: 'tickets', fetch: "EAGER")]
+    #[ORM\ManyToOne(inversedBy: 'tickets')]
     private ?Participant $participant = null;
 
-    #[ORM\ManyToOne(inversedBy: 'tickets', fetch: "EAGER")]
+    #[ORM\ManyToOne(inversedBy: 'tickets')]
     private ?User $user = null;
 
     public function getId(): ?int
