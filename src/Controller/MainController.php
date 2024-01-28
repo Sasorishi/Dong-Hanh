@@ -29,4 +29,16 @@ class MainController extends AbstractController
     {
         return $this->render('index.html.twig');
     }
+
+    #[Route('/about', name: 'app_about')]
+    public function about(): Response
+    {
+        return $this->render('index.html.twig');
+    }
+
+    #[Route('/privacy_policy', name: 'app_privacyPolicy')]
+    public function privacyPolicy(): Response
+    {
+        return $this->render('index.html.twig');
+    }
 }

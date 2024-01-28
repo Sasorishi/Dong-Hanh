@@ -12,8 +12,8 @@ const ActivitiesSection = () => {
           <div
             className="lg:w-4/12 md:w-full sm:w-full"
             data-aos="zoom-in-up"
-            data-aos-duration="1500"
-            data-aos-offset="100"
+            data-aos-duration="500"
+            data-aos-offset="200"
           >
             <div className="wrapper-card text-center mx-auto align-bottom bg-cream">
               <img
@@ -33,8 +33,8 @@ const ActivitiesSection = () => {
           <div
             className="lg:w-4/12 md:w-full sm:w-full"
             data-aos="zoom-in-up"
-            data-aos-duration="1500"
-            data-aos-offset="150"
+            data-aos-duration="500"
+            data-aos-offset="200"
           >
             <div className="wrapper-card text-center mx-auto bg-cream">
               <img
@@ -54,7 +54,7 @@ const ActivitiesSection = () => {
           <div
             className="lg:w-4/12 md:w-full sm:w-full"
             data-aos="zoom-in-up"
-            data-aos-duration="1500"
+            data-aos-duration="500"
             data-aos-offset="200"
           >
             <div className="wrapper-card text-center mx-auto bg-cream">

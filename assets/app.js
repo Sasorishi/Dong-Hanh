@@ -29,6 +29,8 @@ import TicketCheck from "./js/pages/dashboard/TicketCheck";
 import ForgetPassword from "./js/pages/auth/ForgetPassword";
 import ResetPassword from "./js/pages/auth/ResetPassword";
 import Introduction from "./js/pages/homepage/Introduction";
+import About from "./js/pages/homepage/About";
+import PrivacyPolicy from "./js/pages/homepage/PrivacyPolicy";
 
 const Main = () => {
   Aos.init();
@@ -88,6 +90,8 @@ const Main = () => {
         <Route path="/register/:eventId/:numTickets" element={<Register />} />
         <Route path="/checkout" element={<Checkout />} />
         <Route path="/introduction" element={<Introduction />} />
+        <Route path="/about" element={<About />} />
+        <Route path="/privacy_policy" element={<PrivacyPolicy />} />
       </Routes>
       <Footer />
     </Router>

@@ -6,7 +6,12 @@ const AboutUsSection = () => {
     <section className="overflow-hidden pt-20 pb-12 lg:pt-[120px] lg:pb-[90px] bg-whitesmoke bg-img-about-us">
       <div className="container mx-auto">
         <div className="flex flex-wrap items-center justify-between -mx-4">
-          <div className="w-full px-4 lg:w-6/12">
+          <div
+            className="w-full px-4 lg:w-6/12"
+            data-aos="fade-right"
+            data-aos-offset="500"
+            data-aos-duration="500"
+          >
             <div className="flex items-center -mx-3 sm:-mx-4">
               <div className="w-full px-3 sm:px-4 xl:w-1/2">
                 <div className="py-3 sm:py-4">
@@ -593,7 +598,12 @@ const AboutUsSection = () => {
               </div>
             </div>
           </div>
-          <div className="w-full px-8 lg:w-1/2 xl:w-5/12">
+          <div
+            className="w-full px-8 lg:w-1/2 xl:w-5/12"
+            data-aos="zoom-in-up"
+            data-aos-duration="500"
+            data-aos-offset="200"
+          >
             <div className="mt-10 lg:mt-0">
               <span className="mb-4 text-darkblue">About us</span>
               <h1 className="mb-8">Build a strong root community</h1>

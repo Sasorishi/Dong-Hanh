@@ -11,7 +11,7 @@ const IntroductionSection = () => {
             <div className="container m-auto">
               <div className="-mx-4 flex flex-wrap">
                 <div className="w-full px-4 lg:w-5/12 self-center">
-                  <div className="hero-content">
+                  <div className="hero-content" data-aos="fade-up">
                     <span className="text-darkblue">Vietnamese community</span>
                     <h1 className="text-4xl">Đồng Hành Network</h1>
                     <hr />
@@ -64,7 +64,10 @@ const IntroductionSection = () => {
                 <div className="w-full px-4 lg:w-6/12">
                   <div className="lg:ml-auto lg:text-right">
                     <div className="relative w-full rounded z-10 inline-block pt-11 lg:pt-0">
-                      <div className="rounded-ss-2xl rounded-ee-2xl bg-cream shadow-lg">
+                      <div
+                        className="rounded-ss-2xl rounded-ee-2xl bg-cream shadow-lg"
+                        data-aos="fade-up-left"
+                      >
                         <img
                           src={Connection}
                           alt="img-connection"
