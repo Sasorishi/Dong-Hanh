@@ -1,4 +1,5 @@
 import React from "react";
+import PersonPicture from "../../../../public/images/uifaces-human-image.jpg";
 
 const TestimonialsSection = () => {
   return (
@@ -26,8 +27,8 @@ const TestimonialsSection = () => {
           </blockquote>
           <figcaption className="flex items-center justify-center mt-6 space-x-3">
             <img
-              className="w-6 h-6 rounded-full"
-              src="https://flowbite.s3.amazonaws.com/blocks/marketing-ui/avatars/michael-gouch.png"
+              className="w-8 h-8 rounded-full"
+              src={PersonPicture}
               alt="profile picture"
             />
             <div className="flex items-center divide-x-2 divide-gray-500">
