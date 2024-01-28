@@ -3,7 +3,7 @@ import React from "react";
 const ActivitiesSection = () => {
   return (
     <section className="activities" id="activities">
-      <div className="container">
+      <div className="m-auto">
         <div className="py-5 text-center">
           <span className="text-whitesmoke">Activities</span>
           <h1>What we do</h1>
