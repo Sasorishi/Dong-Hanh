@@ -8,7 +8,7 @@ const CommunitySection = () => {
   return (
     <section className="community p-0">
       <div className="bg-community">
-        <div className="py-[4rem] px-[8rem]">
+        <div className="py-[4rem] px-[2rem] sm:px-[8rem] md:px-[8rem] lg:px-[8rem]">
           <div
             className="text-center"
             data-aos="zoom-in-up"
