@@ -32,7 +32,7 @@ const TestimonialsSection = () => {
               alt="profile picture"
             />
             <div className="flex items-center divide-x-2 divide-gray-500">
-              <p className="pr-3 font-medium text-cognac">Thanh Toàn</p>
+              <p className="pr-3 font-medium text-cognac">Hélène Hoa Bi</p>
               <p className="pl-3 text-sm font-light text-cognac">
                 Trai He - Paris 2017
               </p>

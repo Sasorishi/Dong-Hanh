@@ -9,7 +9,7 @@ const Footer = () => {
     <footer className="bg-amber text-cognac p-20">
       <div className="sm:flex sm:items-center sm:justify-between">
         <a
-          href="https://flowbite.com/"
+          href="/"
           className="flex items-center mb-4 sm:mb-0 space-x-3 rtl:space-x-reverse"
         >
           <img src={Logo} className="h-8" alt="Đồng Hành Network Logo" />
@@ -43,7 +43,7 @@ const Footer = () => {
       <div className="text-center">
         <p>
           © Copyright 2022 - {currentYear} |{" "}
-          <a className="text-reset fw-bold" href="">
+          <a className="text-reset fw-bold" href="/">
             Đồng Hành Network
           </a>{" "}
           |{" "}
