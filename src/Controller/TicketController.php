@@ -58,6 +58,8 @@ class TicketController extends AbstractController
                 $orderCreatedAtArray[] = [
                     'order_id' => $orderId,
                     'created_at' => $createdAt,
+                    'status' => $ticket->getStatus(),
+                    'refund_expire_at' =>$ticket->getEvent()->getRefundExpireAt(),
                 ];
             }
 

@@ -1,7 +1,6 @@
 import React from "react";
 
 const TicketComponent = ({ TicketData }) => {
-  console.log(TicketData);
   return (
     <div className="space-y-8 m-1">
       <div className="bg-whitesmoke shadow-sm">
