@@ -22,6 +22,8 @@ const OrderComponent = ({ ticketsData, index, ordersData }) => {
           <span className="text-sm font-medium">200 €</span>
         </div> */}
         <div className="w-full md:w-auto md:text-right">
+          {/* {ordersData[index]["status"] !== "REFUND" ||
+            (new Date() > ordersData[index]["refund_expire_at"] && ( */}
           <button
             type="button"
             className="animation-hover flex items-center uppercase text-darkblue hover:text-bordeau font-medium rounded-full text-sm px-4 py-2 text-center"
@@ -38,10 +40,11 @@ const OrderComponent = ({ ticketsData, index, ordersData }) => {
               <path
                 strokeLinecap="round"
                 strokeLinejoin="round"
-                d="M17.25 8.25 21 12m0 0-3.75 3.75M21 12H3"
+                d="M8.25 9.75h4.875a2.625 2.625 0 0 1 0 5.25H12M8.25 9.75 10.5 7.5M8.25 9.75 10.5 12m9-7.243V21.75l-3.75-1.5-3.75 1.5-3.75-1.5-3.75 1.5V4.757c0-1.108.806-2.057 1.907-2.185a48.507 48.507 0 0 1 11.186 0c1.1.128 1.907 1.077 1.907 2.185Z"
               />
             </svg>
           </button>
+          {/* ))} */}
         </div>
       </div>
       {ticketsData.map((ticket, index) => (
