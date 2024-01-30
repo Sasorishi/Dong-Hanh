@@ -41,7 +41,7 @@ const Account = () => {
   return (
     <section>
       {!loading ? (
-        !ticketsData.length ? (
+        !ticketsData ? (
           <div className="w-full bg-whitesmoke border rounded-lg shadow mt-4 mb-4">
             <div className="py-2 px-4 flex flex-col text-gray-500">
               <p className="text-center">

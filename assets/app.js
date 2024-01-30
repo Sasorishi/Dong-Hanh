@@ -9,7 +9,12 @@
 import "flowbite";
 import React, { useEffect, useState } from "react";
 import { createRoot } from "react-dom/client";
-import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+import {
+  BrowserRouter as Router,
+  Route,
+  Routes,
+  Navigate,
+} from "react-router-dom";
 import Aos from "aos";
 import axios from "axios";
 
@@ -80,20 +85,17 @@ const Main = () => {
           path="/signup"
           element={isAuthenticated ? <App /> : <Signup />}
         />
-        <Route
-          path="/account"
-          element={!isAuthenticated ? <App /> : <Account />}
-        />
+        <Route path="/account" element={<Account />} />
         <Route path="/events" element={<Events />} />
         <Route path="/events/:id" element={<EventDetail />} />
         <Route path="/response/:redirection/:type" element={<Response />} />
         <Route
           path="/register/:eventId/:numTickets"
-          element={isAuthenticated ? <Register /> : <Login />}
+          element={isAuthenticated ? <Register /> : <Navigate to="/login" />}
         />
         <Route
           path="/checkout"
-          element={isAuthenticated ? <Checkout /> : <Login />}
+          element={isAuthenticated ? <Checkout /> : <Navigate to="/login" />}
         />
         <Route path="/introduction" element={<Introduction />} />
         <Route path="/about" element={<About />} />
