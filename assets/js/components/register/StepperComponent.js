@@ -7,12 +7,12 @@ const StepperComponent = ({ currentStep }) => {
         <li
           className={`flex w-full items-center ${
             currentStep <= 1 ? "text-amber" : "text-charcoal"
-          } after:content-[''] after:w-full after:h-1 after:border-b after:border-gray-100 after:border-4 after:inline-block`}
+          } after:content-[''] after:w-full after:h-1 after:border-b after:border-4 after:inline-block`}
         >
           {currentStep <= 1 ? (
-            <span className="flex items-center justify-center w-10 h-10 bg-gray-100 rounded-full lg:h-12 lg:w-12 shrink-0">
+            <span className="flex items-center justify-center w-10 h-10 bg-charcoal rounded-full lg:h-12 lg:w-12 shrink-0">
               <svg
-                className="w-4 h-4 text-gray-500 lg:w-5 lg:h-5"
+                className="w-4 h-4 text-whitesmoke lg:w-5 lg:h-5"
                 aria-hidden="true"
                 xmlns="http://www.w3.org/2000/svg"
                 fill="currentColor"
@@ -44,17 +44,17 @@ const StepperComponent = ({ currentStep }) => {
         <li
           className={`flex w-full items-center ${
             currentStep <= 2 ? "text-amber" : "text-charcoal"
-          } after:content-[''] after:w-full after:h-1 after:border-b after:border-gray-100 after:border-4 after:inline-block`}
+          } after:content-[''] after:w-full after:h-1 after:border-b after:border-4 after:inline-block`}
         >
           {currentStep <= 2 ? (
-            <span className="flex items-center justify-center w-10 h-10 bg-gray-100 rounded-full lg:h-12 lg:w-12 shrink-0">
+            <span className="flex items-center justify-center w-10 h-10 bg-charcoal rounded-full lg:h-12 lg:w-12 shrink-0">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 fill="none"
                 viewBox="0 0 24 24"
                 strokeWidth="1.5"
                 stroke="currentColor"
-                className="w-6 h-6 text-gray-500"
+                className="w-6 h-6 text-whitesmoke"
               >
                 <path
                   strokeLinecap="round"
@@ -85,13 +85,13 @@ const StepperComponent = ({ currentStep }) => {
         </li>
         <li
           className={`flex items-center ${
-            currentStep >= 3 ? "text-gray-500" : ""
+            currentStep >= 3 ? "text-whitesmoke" : ""
           }`}
         >
           {currentStep >= 3 ? (
-            <span className="flex items-center justify-center w-10 h-10 bg-gray-100 rounded-full lg:h-12 lg:w-12 shrink-0">
+            <span className="flex items-center justify-center w-10 h-10 bg-charcoal rounded-full lg:h-12 lg:w-12 shrink-0">
               <svg
-                className="w-4 h-4 text-gray-500 lg:w-5 lg:h-5"
+                className="w-4 h-4 text-whitesmoke lg:w-5 lg:h-5"
                 aria-hidden="true"
                 xmlns="http://www.w3.org/2000/svg"
                 fill="currentColor"
@@ -101,9 +101,9 @@ const StepperComponent = ({ currentStep }) => {
               </svg>
             </span>
           ) : (
-            <span className="flex items-center justify-center w-10 h-10 bg-gray-100 rounded-full lg:h-12 lg:w-12 shrink-0">
+            <span className="flex items-center justify-center w-10 h-10 bg-charcoal rounded-full lg:h-12 lg:w-12 shrink-0">
               <svg
-                className="w-4 h-4 text-gray-500 lg:w-5 lg:h-5"
+                className="w-4 h-4 text-whitesmoke lg:w-5 lg:h-5"
                 aria-hidden="true"
                 xmlns="http://www.w3.org/2000/svg"
                 fill="currentColor"

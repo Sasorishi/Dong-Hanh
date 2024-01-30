@@ -67,17 +67,17 @@ const Checkout = () => {
   }, []);
 
   return (
-    <section className="bg-white">
+    <section className="bg-whitesmoke">
       <Stepper currentStep={2} />
       {error && <Toast message={error} onClose={closeToast} error={true} />}
       {!loading ? (
         <div className="py-24">
-          <div className="grid sm:px-10 lg:grid-cols-2 lg:px-20 xl:px-32">
+          <div className="grid lg:grid-cols-2">
             <div className="px-4 pt-8">
               <p className="text-xl font-medium">Order Summary</p>
               <p className="text-gray-400">Check your items.</p>
               {event ? (
-                <div className="mt-8 space-y-3 rounded-lg border bg-white px-2 py-4 sm:px-6">
+                <div className="mt-8 space-y-3 rounded-lg border bg-whitesmoke px-2 py-4 sm:px-6">
                   <div className="flex flex-col rounded-lg bg-white sm:flex-row">
                     <img
                       className="m-2 h-24 w-28 rounded-md border object-cover object-center"
@@ -97,7 +97,7 @@ const Checkout = () => {
                 </div>
               ) : null}
             </div>
-            <div className="mt-10 bg-gray-50 px-4 pt-8 lg:mt-0">
+            <div className="mt-10 bg-gray-50 px-4 pt-8 lg:mt-0 rounded-lg shadow-lg">
               <p className="text-xl font-medium">Payment Details</p>
               <p className="text-gray-400">
                 Complete your order by providing your payment details.
@@ -126,12 +126,7 @@ const Checkout = () => {
                   </p>
                 </div>
                 <span className="text-sm text-center text-gray-600 flex justify-center align-center">
-                  *refund available before{" "}
-                  {new Date(event.refundExpireAt).toLocaleDateString("en-US", {
-                    month: "long",
-                    day: "numeric",
-                  })}
-                  .
+                  *refund available before {event.dateStart}.
                 </span>
               </div>
               <div className="mt-4 mb-8 w-full px-6 py-3">

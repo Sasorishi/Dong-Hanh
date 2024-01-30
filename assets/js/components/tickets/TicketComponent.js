@@ -4,7 +4,7 @@ const TicketComponent = ({ TicketData }) => {
   console.log(TicketData);
   return (
     <div className="space-y-8 m-1">
-      <div className="bg-white shadow-sm">
+      <div className="bg-whitesmoke shadow-sm">
         <div className="flex flex-col sm:flex-row justify-between py-2 px-4">
           <p className="text-sm font-medium text-gray-900 overflow-hidden whitespace-nowrap overflow-ellipsis">
             {TicketData["capture_id"]}

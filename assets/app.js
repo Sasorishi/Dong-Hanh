@@ -87,8 +87,14 @@ const Main = () => {
         <Route path="/events" element={<Events />} />
         <Route path="/events/:id" element={<EventDetail />} />
         <Route path="/response/:redirection/:type" element={<Response />} />
-        <Route path="/register/:eventId/:numTickets" element={<Register />} />
-        <Route path="/checkout" element={<Checkout />} />
+        <Route
+          path="/register/:eventId/:numTickets"
+          element={isAuthenticated ? <Register /> : <Login />}
+        />
+        <Route
+          path="/checkout"
+          element={isAuthenticated ? <Checkout /> : <Login />}
+        />
         <Route path="/introduction" element={<Introduction />} />
         <Route path="/about" element={<About />} />
         <Route path="/privacy_policy" element={<PrivacyPolicy />} />
