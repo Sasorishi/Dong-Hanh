@@ -1,9 +1,8 @@
 import React from "react";
-import Image1 from "../../../../public/images/AdobeStock_291639531.jpeg";
 
 const AboutUsSection = () => {
   return (
-    <section className="overflow-hidden pt-20 pb-12 lg:pt-[120px] lg:pb-[90px] bg-whitesmoke bg-img-about-us bg-cover sm:bg-[45%] md:bg-[45%] lg:bg-[45%]">
+    <section className="overflow-hidden pt-20 pb-12 lg:pt-[120px] lg:pb-[90px] bg-whitesmoke bg-img-about-us">
       <div className="container mx-auto">
         <div className="flex flex-wrap items-center justify-between -mx-4">
           <div
