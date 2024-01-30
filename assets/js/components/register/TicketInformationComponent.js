@@ -36,27 +36,6 @@ const TicketInforamtionComponent = ({ ticketKey, onTicketsDataChange }) => {
         <div className="mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-12">
           <div className="col-span-12 sm:col-span-4 md:col-span-4 lg:col-span-4">
             <label
-              htmlFor="first-name"
-              className="block text-sm font-medium leading-6 text-gray-900"
-            >
-              First name
-            </label>
-            <div className="mt-2">
-              <input
-                type="text"
-                name="firstName"
-                id="firstName"
-                autoComplete="given-name"
-                value={formData.firstName}
-                onChange={handleInputChange}
-                className="bg-gray-50 block w-full rounded-md border-0 p-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-                required
-              />
-            </div>
-          </div>
-
-          <div className="col-span-12 sm:col-span-4 md:col-span-4 lg:col-span-4">
-            <label
               htmlFor="last-name"
               className="block text-sm font-medium leading-6 text-gray-900"
             >
@@ -75,7 +54,26 @@ const TicketInforamtionComponent = ({ ticketKey, onTicketsDataChange }) => {
               />
             </div>
           </div>
-
+          <div className="col-span-12 sm:col-span-4 md:col-span-4 lg:col-span-4">
+            <label
+              htmlFor="first-name"
+              className="block text-sm font-medium leading-6 text-gray-900"
+            >
+              First name
+            </label>
+            <div className="mt-2">
+              <input
+                type="text"
+                name="firstName"
+                id="firstName"
+                autoComplete="given-name"
+                value={formData.firstName}
+                onChange={handleInputChange}
+                className="bg-gray-50 block w-full rounded-md border-0 p-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                required
+              />
+            </div>
+          </div>
           <div className="col-span-12 sm:col-span-2 md:col-span-2 lg:col-span-2">
             <label
               htmlFor="number-age"

@@ -18,7 +18,7 @@ const FeaturesSection = () => {
                 </p> */}
                 <dl className="mt-10 max-w-xl space-y-8 text-base leading-7 text-gray-600 lg:max-w-none">
                   <div className="relative pl-9">
-                    <dt className="inline font-semibold text-cognac">
+                    <p className="inline font-semibold text-cognac">
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
                         viewBox="0 0 576 512"
@@ -29,17 +29,17 @@ const FeaturesSection = () => {
                         <path d="M377 52c11-13.8 8.8-33.9-5-45s-33.9-8.8-45 5L288 60.8 249 12c-11-13.8-31.2-16-45-5s-16 31.2-5 45l48 60L12.3 405.4C4.3 415.4 0 427.7 0 440.4V464c0 26.5 21.5 48 48 48H288 528c26.5 0 48-21.5 48-48V440.4c0-12.7-4.3-25.1-12.3-35L329 112l48-60zM288 448H168.5L288 291.7 407.5 448H288z" />
                       </svg>
                       Trai he
-                    </dt>{" "}
+                    </p>{" "}
                     :{" "}
-                    <dd className="inline text-darkblue">
+                    <p className="inline text-darkblue">
                       A leadership camp to connect with your roots and learn
                       about Vietnamese culture, traditions, and history. Create
                       lifelong memories with friends from all around the world
                       through team building activities and workshops.
-                    </dd>
+                    </p>
                   </div>
                   <div className="relative pl-9">
-                    <dt className="inline font-semibold text-cognac">
+                    <p className="inline font-semibold text-cognac">
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
                         viewBox="0 0 448 512"
@@ -50,16 +50,16 @@ const FeaturesSection = () => {
                         <path d="M96 0C43 0 0 43 0 96V416c0 53 43 96 96 96H384h32c17.7 0 32-14.3 32-32s-14.3-32-32-32V384c17.7 0 32-14.3 32-32V32c0-17.7-14.3-32-32-32H384 96zm0 384H352v64H96c-17.7 0-32-14.3-32-32s14.3-32 32-32zm32-240c0-8.8 7.2-16 16-16H336c8.8 0 16 7.2 16 16s-7.2 16-16 16H144c-8.8 0-16-7.2-16-16zm16 48H336c8.8 0 16 7.2 16 16s-7.2 16-16 16H144c-8.8 0-16-7.2-16-16s7.2-16 16-16z" />
                       </svg>
                       Training formation
-                    </dt>{" "}
+                    </p>{" "}
                     :{" "}
-                    <dd className="inline">
+                    <p className="inline text-darkblue">
                       Unlock your potential with our Training Formation program,
                       blending language mastery in English and Vietnamese with
                       practical skills in Photoshop and video editing.
-                    </dd>
+                    </p>
                   </div>
                   <div className="relative pl-9">
-                    <dt className="inline font-semibold text-cognac">
+                    <p className="inline font-semibold text-cognac">
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
                         viewBox="0 0 640 512"
@@ -70,13 +70,13 @@ const FeaturesSection = () => {
                         <path d="M192 96a48 48 0 1 0 0-96 48 48 0 1 0 0 96zm-8 384V352h16V480c0 17.7 14.3 32 32 32s32-14.3 32-32V192h56 64 16c17.7 0 32-14.3 32-32s-14.3-32-32-32H384V64H576V256H384V224H320v48c0 26.5 21.5 48 48 48H592c26.5 0 48-21.5 48-48V48c0-26.5-21.5-48-48-48H368c-26.5 0-48 21.5-48 48v80H243.1 177.1c-33.7 0-64.9 17.7-82.3 46.6l-58.3 97c-9.1 15.1-4.2 34.8 10.9 43.9s34.8 4.2 43.9-10.9L120 256.9V480c0 17.7 14.3 32 32 32s32-14.3 32-32z" />
                       </svg>
                       Activism seminar
-                    </dt>{" "}
+                    </p>{" "}
                     :{" "}
-                    <dd className="inline">
+                    <p className="inline text-darkblue">
                       Empower change at our Activism Seminar—ignite passion,
                       build strategies, and connect with like-minded advocates
                       for a brighter future.
-                    </dd>
+                    </p>
                   </div>
                 </dl>
               </div>

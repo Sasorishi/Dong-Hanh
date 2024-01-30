@@ -6,7 +6,7 @@ const Footer = () => {
   const currentYear = date.getFullYear();
 
   return (
-    <footer className="bg-amber text-cognac p-20">
+    <footer className="bg-amber text-cognac p-16">
       <div className="sm:flex sm:items-center sm:justify-between">
         <a
           href="/"

@@ -49,7 +49,7 @@ const Events = () => {
           </p>
         </div>
         {!loading ? (
-          events.length > 1 ? (
+          events.length > 0 ? (
             events.map((event, index) => (
               <EventCard key={index} event={event} />
             ))
