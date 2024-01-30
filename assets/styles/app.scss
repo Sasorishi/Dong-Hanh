@@ -36,10 +36,15 @@
 
 .bg-img-about-us {
   background-image: url("../../public/images/OLEXS91 [Converti].png");
-  // background-size: cover;
-  // background-size: 45%;
+  background-size: cover;
   background-position: left 30px;
   background-repeat: no-repeat;
+}
+
+@media (min-width: 768px) {
+  .bg-img-about-us {
+    background-size: 45%;
+  }
 }
 
 .activities .wrapper-card {
