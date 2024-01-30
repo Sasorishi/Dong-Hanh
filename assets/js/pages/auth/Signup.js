@@ -66,7 +66,7 @@ const Signup = () => {
       {loading ? (
         <Loader />
       ) : (
-        <div className="w-full max-w-sm p-6 m-auto mx-auto bg-white rounded-lg shadow-md">
+        <div className="w-full max-w-sm p-6 m-auto mx-auto bg-whitesmoke rounded-lg shadow-md">
           {error && <Toast message={error} onClose={closeToast} error={true} />}
           <div className="flex flex-col text-center justify-center mx-auto">
             {/* <img

@@ -19,7 +19,7 @@ const ModalComponent = ({ id, title, content, onClose }) => {
         >
           <div className="fixed inset-0 bg-black opacity-80" />
           <div className="relative p-4 w-full max-w-2xl">
-            <div className="relative bg-white rounded-lg shadow">
+            <div className="relative bg-whitesmoke rounded-lg shadow">
               <div className="flex items-center justify-between p-4 border-b rounded-t">
                 <h3 className="text-xl font-semibold text-gray-900">{title}</h3>
                 <button
@@ -51,7 +51,7 @@ const ModalComponent = ({ id, title, content, onClose }) => {
                 <button
                   onClick={handleCloseModal}
                   type="button"
-                  className="ms-3 text-gray-500 bg-white hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-blue-300 rounded-lg border border-gray-200 text-sm font-medium px-5 py-2.5 hover:text-gray-900"
+                  className="ms-3 text-gray-500 bg-whitesmoke hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-blue-300 rounded-lg border border-gray-200 text-sm font-medium px-5 py-2.5 hover:text-gray-900"
                 >
                   Close
                 </button>
