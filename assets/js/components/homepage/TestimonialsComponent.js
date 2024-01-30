@@ -31,7 +31,7 @@ const TestimonialsSection = () => {
               src={PersonPicture}
               alt="profile picture"
             />
-            <div className="flex items-center divide-x-2 divide-gray-500">
+            <div className="flex items-center divide-x-2 divide-[#0d1b2a]">
               <p className="pr-3 font-medium text-cognac">Hélène Hoa Bi</p>
               <p className="pl-3 text-sm font-light text-cognac">
                 Trai He - Paris 2017
