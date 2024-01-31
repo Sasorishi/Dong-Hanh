@@ -58,8 +58,6 @@ class TicketController extends AbstractController
                 $orderCreatedAtArray[] = [
                     'order_id' => $orderId,
                     'created_at' => $createdAt,
-                    'status' => $ticket->getStatus(),
-                    'refund_expire_at' =>$ticket->getEvent()->getRefundExpireAt(),
                 ];
             }
 
@@ -118,7 +116,6 @@ class TicketController extends AbstractController
     #[Route('/api/ticket/qrcode/generate', name: 'api_ticket_generate_qrcode')]
     public function ticketQrcode($ticketId, $participantId, $eventId) {
         $qrcode = $this->qrcodeService->generate($ticketId, $participantId, $eventId);
-        dump($qrcode);
         return $qrcode;
     }
 
@@ -129,7 +126,6 @@ class TicketController extends AbstractController
         $eventId = $request->query->get('event');
         
         $ticketData = $this->ticketRepository->findOneBy(['id' => $ticketId, 'event' => $eventId]);
-        dump($ticketData->getId());
 
         if (!$ticketData) {
             return new JsonResponse(['success' => false, 'message' => 'Ticket invalid.']);

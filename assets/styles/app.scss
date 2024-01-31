@@ -16,8 +16,9 @@
 
 .bg-hero {
   background-image: url("../../public/images/h-ng-nguy-n-vi-t-5pYUt2gEZaA-unsplash.jpg");
-  background-size: contain;
+  background-size: cover;
   background-position: center;
+  background-repeat: no-repeat;
 }
 
 .introduction .trong-dong {

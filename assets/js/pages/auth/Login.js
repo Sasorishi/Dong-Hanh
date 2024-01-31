@@ -41,7 +41,7 @@ const Login = () => {
 
         <form method="POST" className="mt-6">
           <div>
-            <label htmlFor="email" className="block text-sm text-darkblue">
+            <label htmlFor="_username" className="block text-sm text-darkblue">
               Email
             </label>
             <input
@@ -54,7 +54,10 @@ const Login = () => {
 
           <div className="mt-4">
             <div className="flex items-center justify-between">
-              <label htmlFor="password" className="block text-sm text-darkblue">
+              <label
+                htmlFor="_password"
+                className="block text-sm text-darkblue"
+              >
                 Password
               </label>
               <a

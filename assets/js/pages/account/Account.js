@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import Order from "../../components/tickets/OrderComponent";
 import Loader from "../../components/LoaderComponent";
+import Toast from "../../components/ToastComponent";
 
 const Account = () => {
   const [ticketsData, setTicketsData] = useState(null);
@@ -40,6 +41,7 @@ const Account = () => {
 
   return (
     <section>
+      {error && <Toast message={error} onClose={closeToast} error={true} />}
       {!loading ? (
         !ticketsData ? (
           <div className="w-full bg-whitesmoke border rounded-lg shadow mt-4 mb-4">
