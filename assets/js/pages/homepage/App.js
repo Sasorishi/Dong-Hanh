@@ -11,6 +11,7 @@ import TeamSection from "../../components/homepage/TeamComponent";
 import ContactSection from "../../components/homepage/ContactComponent";
 import TestimonialsSection from "../../components/homepage/TestimonialsComponent";
 import FeaturesSection from "../../components/homepage/FeaturesComponent";
+import FeedInstagramSection from "../../components/homepage/FeedInstagramComponent";
 
 const App = () => {
   const [error, setError] = useState(null);
@@ -51,7 +52,8 @@ const App = () => {
       <SeparatorSection />
       <AboutUsSection />
       <ActivitiesSection />
-      <FeaturesSection />
+      <FeedInstagramSection />
+      {/* <FeaturesSection /> */}
       <JourneySection />
       <TestimonialsSection />
       <TeamSection />
