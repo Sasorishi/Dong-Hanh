@@ -16,7 +16,7 @@ const FeedInstagramSection = () => {
   return (
     <section className="bg-whitesmoke px-0">
       <div
-        class="elfsight-app-37e545bb-d1df-4e3c-926d-e5f55f7f2450"
+        className="elfsight-app-37e545bb-d1df-4e3c-926d-e5f55f7f2450"
         data-elfsight-app-lazy
       />
     </section>

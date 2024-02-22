@@ -220,19 +220,19 @@
 }
 
 .img1-aboutUs {
-  background-image: url("../../public/images/AdobeStock_291639531.jpeg");
+  background-image: url("../../public/images/IMG_3442-min.jpg");
   background-size: cover;
   background-position: center;
 }
 
 .img2-aboutUs {
-  background-image: url("../../public/images/AdobeStock_539609743.jpeg");
+  background-image: url("../../public/images/20230704_185501-min.jpg");
   background-size: cover;
   background-position: center;
 }
 
 .img3-aboutUs {
-  background-image: url("../../public/images/AdobeStock_307149337.jpeg");
+  background-image: url("../../public/images/20230709_103324-min.jpg");
   background-size: cover;
   background-position: center;
 }
@@ -254,4 +254,9 @@
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
+}
+
+.global-styles,
+.eapps-widget-toolbar {
+  display: none !important;
 }

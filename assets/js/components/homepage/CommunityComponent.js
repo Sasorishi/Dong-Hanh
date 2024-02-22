@@ -2,7 +2,7 @@ import React from "react";
 
 const CommunitySection = () => {
   const handleJoinUsClick = () => {
-    window.open("https://www.instagram.com/donghanhvn/", "_blank");
+    window.open("https://discord.gg/Gd5rHF7hph", "_blank");
   };
 
   return (
@@ -16,7 +16,7 @@ const CommunitySection = () => {
             data-aos-easing="ease-in-sine"
             data-aos-duration="500"
           >
-            <span>Đồng Hành</span>
+            <span>Join our Discord</span>
             <h1>Be part of our community</h1>
             <button
               type="button"

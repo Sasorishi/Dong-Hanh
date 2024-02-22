@@ -1,8 +1,36 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import Connection from "../../../../public/images/connection.svg";
-import TrongDong from "../../../../public/images/trong-dong.png";
+import SmallEventCard from "../../components/events/SmallEventCardComponent";
+import axios from "axios";
 
 const IntroductionSection = () => {
+  const [event, setEvent] = useState();
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const getEvents = async () => {
+      try {
+        const response = await axios.get("/api/events/getNearestEvent");
+
+        if (response.status === 200) {
+          const data = response.data;
+          setEvent(data.event);
+          console.log(data.event);
+        } else {
+          console.error("Erreur lors de requête api");
+          setEvent([]);
+        }
+      } catch (error) {
+        console.error("Erreur lors de requête api", error);
+        setEvent([]);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    getEvents();
+  }, []);
+
   return (
     <div className="bg-hero">
       <div className="bg-trong">
@@ -16,9 +44,9 @@ const IntroductionSection = () => {
                     <h1 className="text-4xl">Đồng Hành Network</h1>
                     <hr />
                     <p className="mb-8 max-w-[480px]">
-                      Embarking on a global expansion! Our Vietnamese community
-                      welcomes individuals worldwide, dedicated to fostering
-                      meaningful connections and social interactions.
+                      Our Vietnamese community welcomes individuals worldwide,
+                      dedicated to fostering meaningful connections and social
+                      interactions.
                     </p>
                     <div className="flex flex-wrap items-center gap-4 mt-5 mb-5">
                       <a href="/introduction">
@@ -50,21 +78,29 @@ const IntroductionSection = () => {
                             />
                           </svg>
                         </button>
-                        {/* <button
-                      type="button"
-                      className="uppercase text-white bg-darkblue hover:bg-bordeau font-medium rounded-full text-sm px-4 py-2 text-center"
-                    >
-                      Learn more
-                    </button> */}
                       </a>
                     </div>
                   </div>
                 </div>
                 <div className="hidden px-4 lg:block lg:w-1/12" />
                 <div className="w-full px-4 lg:w-6/12">
-                  <div className="lg:ml-auto lg:text-right">
+                  <div className="lg:ml-auto">
                     <div className="relative w-full rounded z-10 inline-block pt-11 lg:pt-0">
-                      <div
+                      {event ? (
+                        <SmallEventCard event={event} />
+                      ) : (
+                        <div
+                          className="rounded-ss-2xl rounded-ee-2xl bg-cream shadow-lg"
+                          data-aos="fade-up-left"
+                        >
+                          <img
+                            src={Connection}
+                            alt="img-connection"
+                            className="lg:ml-auto shadow-lg"
+                          />
+                        </div>
+                      )}
+                      {/* <div
                         className="rounded-ss-2xl rounded-ee-2xl bg-cream shadow-lg"
                         data-aos="fade-up-left"
                       >
@@ -73,7 +109,7 @@ const IntroductionSection = () => {
                           alt="img-connection"
                           className="lg:ml-auto shadow-lg"
                         />
-                      </div>
+                      </div> */}
                       <span className="absolute -bottom-8 -left-8 z-[-1]">
                         <svg
                           width="93"

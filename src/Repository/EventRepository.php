@@ -57,4 +57,22 @@ class EventRepository extends ServiceEntityRepository
 
         return $events;
     }
+
+    public function getNearestEvent(): ?Event
+    {
+        $currentDateTime = new DateTime();
+        $entityManager = $this->getEntityManager();
+        dump($currentDateTime);
+        
+        return $entityManager->getRepository(Event::class)
+            ->createQueryBuilder('e')
+            ->where('e.dateStart >= :currentDateTime')
+            ->andWhere('e.dateEnd >= :currentDateTime')
+            ->andWhere('e.register = true')
+            ->setParameter('currentDateTime', $currentDateTime)
+            ->orderBy('e.dateStart', 'ASC')
+            ->setMaxResults(1)
+            ->getQuery()
+            ->getOneOrNullResult();
+    }
 }

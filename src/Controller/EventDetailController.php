@@ -22,7 +22,7 @@ class EventDetailController extends AbstractController
     }
 
     #[Route('/api/events/{id}/getData', name: 'api_event_data')]
-    public function getEventData(EventRepository $eventRepository, SerializerInterface $serializer, int $id): JsonResponse
+    public function getEventData(EventRepository $eventRepository, int $id): JsonResponse
     {
         $event = $eventRepository->find($id);
 
@@ -44,6 +44,7 @@ class EventDetailController extends AbstractController
             'features' => $event->getFeatures(),
             'eventCategory' => $event->getEventCategory()->getLabel(),
             'isRegistrable' => $event->isRegister(),
+            'images' => $event->getImages(),
         ];
 
         return new JsonResponse(['event' => $event]);
