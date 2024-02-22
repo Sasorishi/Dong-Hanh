@@ -71,4 +71,31 @@ class EventsController extends AbstractController
 
         return new JsonResponse(['events' =>  $data]);
     }
+
+    #[Route('/api/events/getNearestEvent', methods: 'GET')]
+    public function getNearestEvent(EventRepository $eventRepository): JsonResponse
+    {
+        $event = $eventRepository->getNearestEvent();
+
+        $data = null;
+        if ($event) {
+            $data[] = [
+                'id' => $event->getId(),
+                'name' => $event->getLabel(),
+                'description' => $event->getDescription(),
+                'dateStart' => Carbon::parse($event->getDateStart())->format('F jS'),
+                'dateEnd' => Carbon::parse($event->getDateEnd())->format('F jS'),
+                'year' => $event->getYear(),
+                'price' => $event->getPrice(),
+                'currency' => $event->getCurrency(),
+                'place' => $event->getPlace(),
+                'location' => $event->getLocation(),
+                'features' => $event->getFeatures(),
+                'eventCategory' => $event->getEventCategory()->getLabel(),
+                'isRegistrable' => $event->isRegister(),
+            ];
+        }
+
+        return new JsonResponse(['event' =>  $data]);
+    }
 }
