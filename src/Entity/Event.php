@@ -61,6 +61,9 @@ class Event
     #[ORM\ManyToOne(inversedBy: 'events')]
     private ?EventCategories $eventCategory = null;
 
+    #[ORM\Column(type: Types::ARRAY, nullable: true)]
+    private ?array $images = null;
+
     public function __construct()
     {
         $this->tickets = new ArrayCollection();
@@ -284,6 +287,18 @@ class Event
     public function setEventCategory(?EventCategories $eventCategory): static
     {
         $this->eventCategory = $eventCategory;
+
+        return $this;
+    }
+
+    public function getImages(): ?array
+    {
+        return $this->images;
+    }
+
+    public function setImages(?array $images): static
+    {
+        $this->images = $images;
 
         return $this;
     }
