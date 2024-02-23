@@ -62,7 +62,6 @@ class EventRepository extends ServiceEntityRepository
     {
         $currentDateTime = new DateTime();
         $entityManager = $this->getEntityManager();
-        dump($currentDateTime);
         
         return $entityManager->getRepository(Event::class)
             ->createQueryBuilder('e')
