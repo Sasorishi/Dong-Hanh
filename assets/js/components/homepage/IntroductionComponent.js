@@ -15,7 +15,6 @@ const IntroductionSection = () => {
         if (response.status === 200) {
           const data = response.data;
           setEvent(data.event);
-          console.log(data.event);
         } else {
           console.error("Erreur lors de requête api");
           setEvent([]);
