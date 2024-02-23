@@ -1,4 +1,3 @@
-// assets/js/components/App.js
 import React, { useEffect, useState } from "react";
 import Toast from "../../components/ToastComponent";
 import IntroductionSection from "../../components/homepage/IntroductionComponent";

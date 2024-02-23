@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<meta property="og:image" content="images/Banner - 2023.jpg">
+		<meta property="og:image:type" content="image/jpg">
+		<meta property="og:image:width" content="1024">
+		<meta property="og:image:height" content="1024">
+		<meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
+		<title>
+			{% block title %}
+				Đồng Hành Network - Dashboard
+			{% endblock %}
+		</title>
+		<link rel="icon" type="image/png" href="{{ asset('images/vietnam.png') }}">
+		{% block stylesheets %}
+			{{ encore_entry_link_tags('styles') }}
+			{{ encore_entry_link_tags('external_assets_css') }}
+		{% endblock %}
+
+		{% block javascripts %}
+			{{ encore_entry_script_tags('app') }}
+			<script src="https://kit.fontawesome.com/56694ff80d.js" crossorigin="anonymous"></script>
+			<script src="https://www.google.com/recaptcha/api.js?hl=en" async defer></script>
+		{% endblock %}
+	</head>
+
+	<body>
+		{% block body %}{% endblock %}
+	</body>
+
+</html>

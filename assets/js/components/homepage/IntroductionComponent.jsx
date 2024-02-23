@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import Connection from "../../../../public/images/connection.svg";
-import SmallEventCard from "../../components/events/SmallEventCardComponent";
+import SmallEventCard from "../events/SmallEventCardComponent";
 import axios from "axios";
 
 const IntroductionSection = () => {

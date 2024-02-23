@@ -1,0 +1,11 @@
+{% extends 'base.html.twig' %}
+{% block body %}
+
+	<div id="root"></div>
+	{% if error is defined %}
+    <script>
+        window.errorFromSymfony = {{ error|raw }};
+    </script>
+	{% endif %}
+
+{% endblock %}

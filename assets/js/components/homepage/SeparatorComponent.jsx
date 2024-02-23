@@ -1,5 +1,5 @@
 import React from "react";
-import ScrollIndicator from "../ScrollIdicationComponent";
+import ScrollIndicator from "../ScrollIndicationComponent";
 
 const SeparatorSection = () => {
   return (
