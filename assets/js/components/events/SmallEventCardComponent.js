@@ -72,9 +72,14 @@ const EventCardComponent = ({ event }) => {
             </p>
             <a
               href={`/events/${event[0]["id"]}`}
-              className="mt-10 block w-full rounded-full bg-darkblue px-3 py-2 text-center text-sm font-semibold uppercase text-white shadow-sm hover:bg-forest focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+              className="mt-10 block w-full animation-hover rounded-full bg-darkblue px-3 py-2 text-center text-sm font-semibold uppercase text-white shadow-sm hover:bg-forest focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
             >
-              Register now
+              <button
+                type="button"
+                className="uppercase text-white font-medium rounded-full text-sm text-center"
+              >
+                Register now
+              </button>
             </a>
           </div>
         </div>
