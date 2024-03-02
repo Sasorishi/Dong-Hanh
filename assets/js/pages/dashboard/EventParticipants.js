@@ -1,34 +1,36 @@
 import React, { useState, useEffect } from "react";
+import { useParams } from "react-router-dom";
 import axios from "axios";
 import Loader from "../../components/LoaderComponent";
-import editIcon from "../../../../public/icons/edit.svg";
-import listIcon from "../../../../public/icons/list.svg";
+import eyeIcon from "../../../../public/icons/eye.svg";
 
-const Events = () => {
-  const [events, setEvents] = useState();
+const EventParticipants = () => {
+  const [participants, setParticipants] = useState();
   const [loading, setLoading] = useState(true);
+  const { id } = useParams();
 
   useEffect(() => {
-    const getEvents = async () => {
+    const getParticipants = async () => {
       try {
-        const response = await axios.get("/api/events/getEvents");
+        const response = await axios.get(`/api/events/${id}/participants`);
 
         if (response.status === 200) {
           const data = response.data;
-          setEvents(data.events);
+          setParticipants(data.participants);
+          console.log(data.participants);
         } else {
           console.error("Erreur lors de requête api");
-          setEvents([]);
+          setParticipants([]);
         }
       } catch (error) {
         console.error("Erreur lors de requête api", error);
-        setEvents([]);
+        setParticipants([]);
       } finally {
         setLoading(false);
       }
     };
 
-    getEvents();
+    getParticipants();
   }, []);
 
   return (
@@ -40,16 +42,22 @@ const Events = () => {
               <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
                 <tr>
                   <th scope="col" className="px-6 py-3">
-                    Category
+                    Lastname
                   </th>
                   <th scope="col" className="px-6 py-3">
-                    Event name
+                    Firstname
                   </th>
                   <th scope="col" className="px-6 py-3">
-                    Year
+                    Country
                   </th>
                   <th scope="col" className="px-6 py-3">
-                    Location
+                    Gender
+                  </th>
+                  <th scope="col" className="px-6 py-3">
+                    Payment
+                  </th>
+                  <th scope="col" className="px-6 py-3">
+                    Created at
                   </th>
                   <th scope="col" className="px-6 py-3">
                     Action
@@ -58,45 +66,32 @@ const Events = () => {
               </thead>
               <tbody>
                 {!loading ? (
-                  events.length > 0 ? (
-                    events.map((event, index) => (
+                  participants.length > 0 ? (
+                    participants.map((participant, index) => (
                       <tr
                         key={index}
                         className="bg-white border-b dark:bg-gray-800 dark:border-gray-700"
                       >
-                        <th
-                          scope="row"
-                          className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
-                        >
-                          {event.eventCategory}
-                        </th>
-                        <td className="px-6 py-4">{event.name}</td>
-                        <td className="px-6 py-4">{event.year}</td>
-                        <td className="px-6 py-4">{event.location}</td>
+                        <td className="px-6 py-4">{participant.lastname}</td>
+                        <td className="px-6 py-4">{participant.firstname}</td>
+                        <td className="px-6 py-4">{participant.country}</td>
+                        <td className="px-6 py-4">{participant.gender}</td>
+                        <td className="px-6 py-4">{participant.payment}</td>
+                        <td className="px-6 py-4">{participant.created_at}</td>
                         <td className="px-6 py-4 flex gap-2">
                           <a
-                            href={`events/${event.id}/participants`}
+                            href=""
                             className="font-medium text-darkblue hover:underline"
                           >
-                            <img
-                              src={listIcon}
-                              width={16}
-                              alt="Participant Icon"
-                            />
-                          </a>
-                          <a
-                            href={`events/${event.id}`}
-                            className="font-medium text-darkblue hover:underline"
-                          >
-                            <img src={editIcon} width={16} alt="Edit Icon" />
+                            <img src={eyeIcon} width={16} alt="Eye Icon" />
                           </a>
                         </td>
                       </tr>
                     ))
                   ) : (
-                    <tr className="bg-white border-b">
-                      <td colSpan="4" className="px-6 py-4 text-center">
-                        No events available at the moment.
+                    <tr className="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
+                      <td colSpan="7" className="px-6 py-4 text-center">
+                        No participants available at the moment.
                       </td>
                     </tr>
                   )
@@ -112,4 +107,4 @@ const Events = () => {
   );
 };
 
-export default Events;
+export default EventParticipants;

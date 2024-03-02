@@ -6,6 +6,7 @@ use App\Entity\Event;
 use App\Entity\EventCategories;
 use DateTime;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Component\HttpFoundation\Request;
 
@@ -60,6 +61,9 @@ class EventRepository extends ServiceEntityRepository
         return $events;
     }
 
+    /**
+     * @return Event|null
+     */
     public function getNearestEvent(): ?Event
     {
         $currentDateTime = new DateTime();
@@ -77,6 +81,12 @@ class EventRepository extends ServiceEntityRepository
             ->getOneOrNullResult();
     }
 
+    /**
+     * @param Event $event
+     * @param EventCategories $eventCategories
+     * @param Request $request
+     * @return array 
+     */
     public function editEventData(Event $event, EventCategories $eventCategory, Request $request): void {
         $data = json_decode($request->getContent(), true);
 
@@ -89,5 +99,13 @@ class EventRepository extends ServiceEntityRepository
         $event->setRegister($data['isRegistrable']);
 
         $this->save($event, true);
+    }
+
+    /**
+     * @param Event $event
+     * @return Collection 
+     */
+    public function getParticipants(Event $event): Collection {
+        return $event->getParticipants();
     }
 }

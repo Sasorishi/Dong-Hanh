@@ -11,6 +11,7 @@ import DashboardNavbar from "./js/components/layout/DashboardNavbarLayout";
 import Dashboard from "./js/pages/dashboard/Dashboard";
 import Events from "./js/pages/dashboard/Events";
 import EventDetail from "./js/pages/dashboard/EventDetails";
+import EventParticipants from "./js/pages/dashboard/EventParticipants";
 
 function DashboardRoutes() {
   Aos.init();
@@ -23,6 +24,10 @@ function DashboardRoutes() {
         <Route path="/dashboard" element={<Dashboard />} />
         <Route path="/events" element={<Events />} />
         <Route path="/events/:id" element={<EventDetail />} />
+        <Route
+          path="/events/:id/participants"
+          element={<EventParticipants />}
+        />
       </Routes>
       <Footer dashboard={true} />
     </>

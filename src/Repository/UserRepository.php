@@ -53,7 +53,7 @@ class UserRepository extends ServiceEntityRepository
         
         $hashedPassword = $passwordHasher->hashPassword($user, $password);
         $user->setPassword($hashedPassword);
-        $user->setRoles(['user']);
+        $user->setRoles(['ROLE_USER']);
         $user->setCreateAt(new DateTime());
 
         $this->save($user, true);
