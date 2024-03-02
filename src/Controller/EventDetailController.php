@@ -79,11 +79,36 @@ class EventDetailController extends AbstractController
             return new JsonResponse(['error' => 'Event not found'], 404);
         }
 
-        // dump($data);
-        // dump($category);
-
         $eventRepository->editEventData($event, $category, $request);
 
         return new JsonResponse(['message' => 'Enregistrement réussi !']);
+    }
+
+    #[Route('/api/events/{id}/participants', name: 'api_event_data_participant', methods: ['GET'])]
+    public function getEventParticipants(EventRepository $eventRepository, int $id): JsonResponse
+    {
+        $event = $eventRepository->find($id);
+
+        if (!$event) {
+            return new JsonResponse(['error' => 'Event not found'], 404);
+        }
+
+        $data = $eventRepository->getParticipants($event);
+        $participants = [];
+
+        foreach ($data as $participant) {
+            $participants[] = [
+                "lastname" => $participant->getLastname(),
+                "firstname" => $participant->getFirstname(),
+                "email" => $participant->getEmail(),
+                "phone" => $participant->getPhone(),
+                "gender" => $participant->getGender(),
+                "country" => $participant->getCountry(),
+                "payment" => $participant->isPayment(),
+                "created_at" => Carbon::parse($participant->getCreatedAt())->format('d/m/Y'),
+            ];
+        }
+
+        return new JsonResponse(['participants' => $participants]);
     }
 }
