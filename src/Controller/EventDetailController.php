@@ -2,14 +2,14 @@
 
 namespace App\Controller;
 
+use App\Repository\EventCategoriesRepository;
 use App\Repository\EventRepository;
 use Carbon\Carbon;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\Serializer\Normalizer\AbstractNormalizer;
-use Symfony\Component\Serializer\SerializerInterface;
 
 class EventDetailController extends AbstractController
 {
@@ -42,11 +42,48 @@ class EventDetailController extends AbstractController
             'place' => $event->getPlace(),
             'location' => $event->getLocation(),
             'features' => $event->getFeatures(),
+            'eventCategoryId' => $event->getEventCategory()->getId(),
             'eventCategory' => $event->getEventCategory()->getLabel(),
             'isRegistrable' => $event->isRegister(),
             'images' => $event->getImages(),
         ];
 
         return new JsonResponse(['event' => $event]);
+    }
+
+    #[Route('/api/eventCategories', name: 'api_event_categories')]
+    public function getEventCategories(EventCategoriesRepository $eventCategoriesRepository): JsonResponse
+    {
+        $categories = $eventCategoriesRepository->findAll();
+
+        $categoriesArray = [];
+
+        foreach ($categories as $category) {
+            $categoriesArray[] = [
+                'id' => $category->getId(),
+                'label' => $category->getLabel(),
+            ];
+        }
+
+        return new JsonResponse(['categories' => $categoriesArray]);
+    }
+
+    #[Route('/api/events/{id}/edit', name: 'api_event_data_edit', methods: ['POST'])]
+    public function editEventData(Request $request, EventRepository $eventRepository, EventCategoriesRepository $eventCategoriesRepository, int $id): JsonResponse
+    {
+        $data = json_decode($request->getContent(), true);
+        $event = $eventRepository->find($id);
+        $category = $eventCategoriesRepository->findOneBy(["label" => $data['category']]);
+
+        if (!$event) {
+            return new JsonResponse(['error' => 'Event not found'], 404);
+        }
+
+        // dump($data);
+        // dump($category);
+
+        $eventRepository->editEventData($event, $category, $request);
+
+        return new JsonResponse(['message' => 'Enregistrement réussi !']);
     }
 }

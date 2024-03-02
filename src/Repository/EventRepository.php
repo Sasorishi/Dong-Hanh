@@ -3,9 +3,11 @@
 namespace App\Repository;
 
 use App\Entity\Event;
+use App\Entity\EventCategories;
 use DateTime;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
+use Symfony\Component\HttpFoundation\Request;
 
 /**
  * @extends ServiceEntityRepository<Event>
@@ -73,5 +75,19 @@ class EventRepository extends ServiceEntityRepository
             ->setMaxResults(1)
             ->getQuery()
             ->getOneOrNullResult();
+    }
+
+    public function editEventData(Event $event, EventCategories $eventCategory, Request $request): void {
+        $data = json_decode($request->getContent(), true);
+
+        $event->setLabel($data['name']);
+        $event->setDescription($data['description']);
+        $event->setPlace($data['place']);
+        $event->setLocation($data['location']);
+        $event->setYear($data['year']);
+        $event->setEventCategory($eventCategory);
+        $event->setRegister($data['isRegistrable']);
+
+        $this->save($event, true);
     }
 }

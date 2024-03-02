@@ -1,16 +1,18 @@
 import React from "react";
 import Logo from "../../../../public/images/vietnam.png";
 
-const Footer = () => {
+const Footer = ({ dashboard }) => {
   const date = new Date();
   const currentYear = date.getFullYear();
 
   return (
-    <footer className="bg-amber text-cognac p-16">
+    <footer
+      className={`bg-amber text-cognac p-16 ${dashboard ? "sm:ml-64" : ""}`}
+    >
       <div className="sm:flex sm:items-center sm:justify-between">
         <a
           href="/"
-          className="flex items-center mb-4 sm:mb-0 space-x-3 rtl:space-x-reverse"
+          className="flex items-center mb-4 sm:mb-0 space-x-3 rtl:space-x-reverse justify-center sm:justify-left md:justify-left lg:justify-left"
         >
           <img src={Logo} className="h-8" alt="Đồng Hành Network Logo" />
           <span className="brand self-center text-sm font-semibold whitespace-nowrap">
