@@ -20,7 +20,6 @@ class QrcodeService
     public function generateMainLink() {
         $domain = $this->domain;
         $qrcode = (new QRCode)->render($domain);
-        dump($qrcode);
         return $qrcode;
     }
 }

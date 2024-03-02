@@ -611,7 +611,7 @@ const AboutUsSection = () => {
               <p className="mb-5 text-base text-body-color">
                 Immerse yourself in a vibrant community that celebrates
                 diversity through a rich tapestry of events. Our plaform is a
-                hub of meaningful experiences. Join us for engagin sessions
+                hub of meaningful experiences. Join us for engaging sessions
                 where you can connect with others, expand your knowledge, and
                 contribute to the collective growth. Every event is an
                 opportunity to participate in something extraordinary.

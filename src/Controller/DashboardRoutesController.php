@@ -6,10 +6,10 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
-class DashboardController extends AbstractController
+class DashboardRoutesController extends AbstractController
 {
-    #[Route('/admin/dashboard', name: 'app_admin_dashboard')]
-    public function index(): Response
+    #[Route('/admin/dashboard')]
+    public function dashboard(): Response
     {
         $this->denyAccessUnlessGranted('ROLE_ADMIN');
         return $this->render('dashboard/index.html.twig', [
@@ -17,7 +17,7 @@ class DashboardController extends AbstractController
         ]);
     }
 
-    #[Route('/admin/events', name: 'app_admin_events')]
+    #[Route('/admin/events')]
     public function events(): Response
     {
         $this->denyAccessUnlessGranted('ROLE_ADMIN');
@@ -26,12 +26,21 @@ class DashboardController extends AbstractController
         ]);
     }
 
-    #[Route('/admin/events/{id}', name: 'app_admin_event')]
+    #[Route('/admin/events/{id}')]
     public function event(): Response
     {
         $this->denyAccessUnlessGranted('ROLE_ADMIN');
         return $this->render('dashboard/index.html.twig', [
             'controller_name' => 'DashboardController',
+        ]);
+    }
+
+    #[Route('/admin/events/{id}/participants')]
+    public function eventParticipants(): Response
+    {
+        $this->denyAccessUnlessGranted('ROLE_ADMIN');
+        return $this->render('index.html.twig', [
+            'controller_name' => 'EventDetailController',
         ]);
     }
 }
