@@ -11,7 +11,7 @@ const TestimonialsSection = () => {
         className="relative w-full"
         data-carousel="static"
       >
-        <div className="relative h-56 overflow-hidden rounded-lg md:h-96">
+        <div className="relative h-[35rem] overflow-hidden rounded-lg sm:h-56 md:h-[26rem] lg:[36rem]">
           <div className="hidden duration-700 ease-in-out" data-carousel-item>
             <div className="text-center">
               <figure className="py-[4rem] px-[2rem] sm:px-[8rem] md:px-[8rem] lg:px-[8rem] mx-auto">

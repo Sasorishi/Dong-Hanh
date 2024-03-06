@@ -12,6 +12,8 @@ import Dashboard from "./js/pages/dashboard/Dashboard";
 import Events from "./js/pages/dashboard/Events";
 import EventDetail from "./js/pages/dashboard/EventDetails";
 import EventParticipants from "./js/pages/dashboard/EventParticipants";
+import Login from "./js/pages/dashboard/Login";
+import EventsCategories from "./js/pages/dashboard/EventsCategories";
 
 function DashboardRoutes() {
   Aos.init();
@@ -21,6 +23,7 @@ function DashboardRoutes() {
       <DashboardNavbar />
       <Sidebar />
       <Routes>
+        <Route path="/login" element={<Login />} />
         <Route path="/dashboard" element={<Dashboard />} />
         <Route path="/events" element={<Events />} />
         <Route path="/events/:id" element={<EventDetail />} />
@@ -28,6 +31,7 @@ function DashboardRoutes() {
           path="/events/:id/participants"
           element={<EventParticipants />}
         />
+        <Route path="/events/categories" element={<EventsCategories />} />
       </Routes>
       <Footer dashboard={true} />
     </>

@@ -36,6 +36,11 @@ const EventParticipants = () => {
   return (
     <section className="p-0 sm:ml-64">
       <div className="p-4 mt-16">
+        {!loading && participants.length > 0 && (
+          <div className="my-4 flex justify-end">
+            <p>Totals : {participants.length}</p>
+          </div>
+        )}
         <div className="rounded-lg shadow-lg">
           <div className="relative overflow-x-auto rounded-lg">
             <table className="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
@@ -76,7 +81,9 @@ const EventParticipants = () => {
                         <td className="px-6 py-4">{participant.firstname}</td>
                         <td className="px-6 py-4">{participant.country}</td>
                         <td className="px-6 py-4">{participant.gender}</td>
-                        <td className="px-6 py-4">{participant.payment}</td>
+                        <td className="px-6 py-4">
+                          {participant.payment ? "Yes" : "No"}
+                        </td>
                         <td className="px-6 py-4">{participant.created_at}</td>
                         <td className="px-6 py-4 flex gap-2">
                           <a

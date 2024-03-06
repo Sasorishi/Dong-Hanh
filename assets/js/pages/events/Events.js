@@ -40,7 +40,7 @@ const Events = () => {
           </h2>
           <p className="mt-6 text-lg leading-8 text-gray-600">
             Immerse yourself in a vibrant community that celebrates diversity
-            through a rich tapestry of events. Our platform is a hub of
+            through a rich tapestry of events. Our plaform is a hub of
             meaningful experiences. Join us for engaging sessions where you can
             connect with others, expand your knowledge, and contribute to the
             collective growth. Every event is an opportunity to participate in
