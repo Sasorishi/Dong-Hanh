@@ -8,6 +8,15 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class DashboardRoutesController extends AbstractController
 {
+    #[Route('/admin/login')]
+    public function login(): Response
+    {
+        $this->denyAccessUnlessGranted('ROLE_ADMIN');
+        return $this->render('dashboard/index.html.twig', [
+            'controller_name' => 'DashboardController',
+        ]);
+    }
+
     #[Route('/admin/dashboard')]
     public function dashboard(): Response
     {

@@ -605,17 +605,14 @@ const AboutUsSection = () => {
           >
             <div className="mt-10 lg:mt-0">
               <span className="mb-4 text-darkblue">Đồng Hành Network</span>
-              <h1 className="mb-8">
-                Explore diverse community, social, and education events
-              </h1>
+              <h1 className="mb-8">About Us</h1>
               <p className="mb-5 text-base text-body-color">
-                Immerse yourself in a vibrant community that celebrates
-                diversity through a rich tapestry of events. Our plaform is a
-                hub of meaningful experiences. Join us for engaging sessions
-                where you can connect with others, expand your knowledge, and
-                contribute to the collective growth. Every event is an
-                opportunity to participate in something extraordinary.
+                We are a group of Vietnamese youth across the world who want to
+                create a space for others to come together, develop leadership
+                skills, learn about Vietnamese heritage, and contribute to
+                building movements for social change.
               </p>
+              <p>This network was developed as a program from Viet. Tan</p>
               <div className="flex flex-wrap items-end justify-end mt-5 mb-5">
                 <a href="/introduction">
                   <button
