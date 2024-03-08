@@ -21,6 +21,7 @@ import ResetPassword from "./js/pages/auth/ResetPassword";
 import Introduction from "./js/pages/homepage/Introduction";
 import About from "./js/pages/homepage/About";
 import PrivacyPolicy from "./js/pages/homepage/PrivacyPolicy";
+import TermsAndConditionsOfSale from "./js/pages/homepage/TermsAndConditionsOfSale";
 
 function FrontRoutes() {
   Aos.init();
@@ -81,6 +82,14 @@ function FrontRoutes() {
         <Route path="/introduction" element={<Introduction />} />
         <Route path="/about" element={<About />} />
         <Route path="/privacy_policy" element={<PrivacyPolicy />} />
+        <Route
+          path="/terms_and_conditions_of_sale"
+          element={<TermsAndConditionsOfSale date="7th March 2024" />}
+        />
+        <Route
+          path="/privacy_policy"
+          element={<PrivacyPolicy date="7th March 2024" />}
+        />
       </Routes>
       <Footer />
     </>
