@@ -41,4 +41,10 @@ class MainController extends AbstractController
     {
         return $this->render('index.html.twig');
     }
+
+    #[Route('/terms_and_conditions_of_sale', name: 'app_termsAndConditionsOfSale')]
+    public function termsAndConditionsOfSale(): Response
+    {
+        return $this->render('index.html.twig');
+    }
 }
