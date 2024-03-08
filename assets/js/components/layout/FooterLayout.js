@@ -26,7 +26,10 @@ const Footer = ({ dashboard }) => {
             </a>
           </li>
           <li>
-            <a href="/privacy_policy" className="hover:underline me-4 md:me-6">
+            <a
+              href="/terms_and_conditions_of_sale"
+              className="hover:underline me-4 md:me-6"
+            >
               Terms and Conditions of Sale
             </a>
           </li>
