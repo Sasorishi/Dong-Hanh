@@ -81,7 +81,6 @@ function FrontRoutes() {
         />
         <Route path="/introduction" element={<Introduction />} />
         <Route path="/about" element={<About />} />
-        <Route path="/privacy_policy" element={<PrivacyPolicy />} />
         <Route
           path="/terms_and_conditions_of_sale"
           element={<TermsAndConditionsOfSale date="7th March 2024" />}
