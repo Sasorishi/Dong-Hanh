@@ -36,7 +36,7 @@ const Events = () => {
       <div className="mx-auto max-w-7xl px-6 lg:px-8">
         <div className="mx-auto max-w-1xl sm:text-center">
           <h2 className="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">
-            Explore Diverse Community, Social, and Educational Events
+            About Us
           </h2>
           <p className="mt-6 text-lg leading-8 text-gray-600">
             Immerse yourself in a vibrant community that celebrates diversity
