@@ -1,5 +1,6 @@
 import React from "react";
 import Logo from "../../../../public/images/vietnam.png";
+import Socials from "./Socials";
 
 const Footer = ({ dashboard }) => {
   const date = new Date();
@@ -38,18 +39,10 @@ const Footer = ({ dashboard }) => {
               Privacy Policy
             </a>
           </li>
-          <li>
-            <a
-              href="https://www.instagram.com/donghanhvn/"
-              target="_blank"
-              className="hover:underline"
-            >
-              Instagram
-            </a>
-          </li>
         </ul>
       </div>
       <hr className="w-full border-2 my-6 text-whitesmoke sm:mx-auto lg:my-8" />
+      <Socials />
       <div className="text-center">
         <p>
           © Copyright 2022 - {currentYear} |{" "}

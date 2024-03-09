@@ -78,6 +78,7 @@ class ParticipantRepository extends ServiceEntityRepository
         $participant->setCountry($data['country']);
         $participant->setHealthcare($data['healthcare']);
         $participant->setExpectations($data['expectation']);
+        $participant->setPayment(true);
         $participant->setWaiver(true);
         $participant->setGuardian(true);
         $participant->setEvent($event);
