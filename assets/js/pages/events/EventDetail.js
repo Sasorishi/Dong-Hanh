@@ -302,7 +302,7 @@ const EventDetail = () => {
                 <h3 className="sr-only">Description</h3>
 
                 <div className="space-y-6">
-                  <p className="text-base text-darkblue">
+                  <p className="text-base text-darkblue whitespace-pre-line">
                     {event["description"]}
                   </p>
                 </div>
