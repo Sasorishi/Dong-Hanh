@@ -13,6 +13,25 @@ const Checkout = () => {
   const [loading, setLoading] = useState(true);
   const location = useLocation();
   const [error, setError] = useState(null);
+  const TIMEOUT_DURATION = 5 * 60 * 1000;
+  let timeoutId;
+
+  const startTimeout = () => {
+    // console.log("Timeout started");
+    let elapsedTime = 0;
+
+    const intervalId = setInterval(() => {
+      elapsedTime += 1000;
+      // console.log(`Elapsed time: ${elapsedTime / 1000} seconds`);
+    }, 1000);
+
+    setTimeout(() => {
+      // console.log("Timeout expired");
+      clearInterval(intervalId);
+
+      window.location.href = "/response/error/timeout";
+    }, TIMEOUT_DURATION);
+  };
 
   const closeToast = () => {
     setError(null);
@@ -64,6 +83,15 @@ const Checkout = () => {
     };
 
     getEvent();
+
+    // Démarrer le timeout lorsque la page est chargée
+    startTimeout();
+
+    // Réinitialiser le timeout à chaque changement dans numTickets ou event
+    return () => {
+      clearTimeout(timeoutId);
+      startTimeout();
+    };
   }, []);
 
   return (
