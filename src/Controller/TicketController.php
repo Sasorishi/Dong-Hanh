@@ -149,4 +149,28 @@ class TicketController extends AbstractController
             return new JsonResponse(['success' => true, 'message' => 'Ticket valid.', 'ticket' => $ticket]);
         }
     }
+
+    #[Route('/api/tickets/getTickets', methods: 'GET')]
+    public function getTickets(TicketRepository $ticketRepository): JsonResponse
+    {
+        $tickets = $ticketRepository->findAll();
+
+        $data = [];
+        foreach ($tickets as $ticket) {
+            $data[] = [
+                'id' => $ticket->getId(),
+                'event' => $ticket->getEvent()->getId(),
+                'status' => $ticket->getStatus(),
+                'price' => $ticket->getPrice(),
+                'order' => $ticket->getOrderId(),
+                'capture' => $ticket->getCaptureId(),
+                'participant' => $ticket->getParticipant()->getId(),
+                'user' => $ticket->getUser()->getId(),
+                'created_at' => Carbon::parse($ticket->getCreatedAt())->format('d/m/Y'),
+                'scan' => $ticket->isScan(),
+            ];
+        }
+
+        return new JsonResponse(['tickets' =>  $data]);
+    }
 }

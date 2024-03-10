@@ -49,7 +49,31 @@ class DashboardRoutesController extends AbstractController
     {
         $this->denyAccessUnlessGranted('ROLE_ADMIN');
         return $this->render('index.html.twig', [
-            'controller_name' => 'EventDetailController',
+            'controller_name' => 'DashboardController',
+        ]);
+    }
+
+    #[Route('/admin/tickets')]
+    public function tickets(): Response
+    {
+        return $this->render('index.html.twig', [
+            'controller_name' => 'DashboardController',
+        ]);
+    }
+
+    #[Route('/admin/users')]
+    public function users(): Response
+    {
+        return $this->render('index.html.twig', [
+            'controller_name' => 'DashboardController',
+        ]);
+    }
+
+    #[Route('/admin/tickets/create')]
+    public function ticketCreate(): Response
+    {
+        return $this->render('index.html.twig', [
+            'controller_name' => 'DashboardController',
         ]);
     }
 }
