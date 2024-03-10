@@ -2,6 +2,7 @@ import React, { useEffect } from "react";
 import axios from "axios";
 
 const PaypalButtonComponent = ({ event, numTickets, ticketsData, onError }) => {
+  // const [isLoggedIn, setIsLoggedIn] = useState(false);
   const price = () => {
     return numTickets * event["price"][0];
   };
@@ -33,6 +34,30 @@ const PaypalButtonComponent = ({ event, numTickets, ticketsData, onError }) => {
     }
   };
 
+  // useEffect(() => {
+  //   const checkLoggedInStatus = async () => {
+  //     try {
+  //       const response = await axios.get("/api/auth/is-authenticated");
+
+  //       if (response.status === 200) {
+  //         const data = response.data;
+  //         setIsLoggedIn(data.isAuthenticated);
+  //       } else {
+  //         console.error("Erreur lors de la vérification de l'authentification");
+  //         setIsLoggedIn(false);
+  //       }
+  //     } catch (error) {
+  //       console.error(
+  //         "Erreur lors de la vérification de l'authentification",
+  //         error
+  //       );
+  //       setIsLoggedIn(false);
+  //     }
+  //   };
+
+  //   checkLoggedInStatus();
+  // }, []);
+
   useEffect(() => {
     const loadPayPalScript = (clientId) => {
       const script = document.createElement("script");
@@ -53,7 +78,7 @@ const PaypalButtonComponent = ({ event, numTickets, ticketsData, onError }) => {
               return actions.order.create({
                 purchase_units: [
                   {
-                    description: `Register tickets - ${event["eventCategory"]["label"]}`,
+                    description: `Register tickets - ${event["label"]}`,
                     currency_code: event["currency"],
                     amount: {
                       value: price(),
