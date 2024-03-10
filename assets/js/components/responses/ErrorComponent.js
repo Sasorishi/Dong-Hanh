@@ -43,6 +43,12 @@ const ErrorComponent = ({ response }) => {
         );
         break;
 
+      case "timeout":
+        setMessage(
+          <p>Your sessions checkout has expired. Please redo the process.</p>
+        );
+        break;
+
       default:
         setMessage(
           <p>
