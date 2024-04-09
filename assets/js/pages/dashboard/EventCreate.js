@@ -1,17 +1,27 @@
 import React, { useState, useEffect } from "react";
-import { useParams } from "react-router-dom";
 import axios from "axios";
 import Loader from "../../components/LoaderComponent";
 import Toast from "../../components/ToastComponent";
 
-const EventDetail = () => {
+const EventCreate = () => {
   const [eventCategories, setEventCategories] = useState([]);
-  const [eventQrcode, setEventQrcode] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const [edited, setEdit] = useState(null);
-  const { id } = useParams();
-  const [formData, setFormData] = useState(null);
+  const [formData, setFormData] = useState({
+    category: null,
+    name: "",
+    description: "",
+    place: "",
+    location: "",
+    year: "",
+    isRegistrable: null,
+    dateStart: null,
+    dateEnd: null,
+    expiredRefundDate: null,
+    price: null,
+    currency: null,
+    features: [],
+  });
 
   const closeToast = () => {
     setError(null);
@@ -22,31 +32,6 @@ const EventDetail = () => {
       try {
         setLoading(true);
 
-        const responseEvent = await axios.get(`/api/events/${id}/getData`);
-        if (responseEvent.status === 200) {
-          const eventData = responseEvent.data;
-          console.log(eventData);
-          setFormData({
-            category: eventData.event.eventCategory,
-            name: eventData.event.name,
-            description: eventData.event.description,
-            place: eventData.event.place,
-            location: eventData.event.location,
-            year: eventData.event.year,
-            isRegistrable: eventData.event.isRegistrable,
-            dateStart: eventData.event.dateStart,
-            dateEnd: eventData.event.dateEnd,
-            unformatDateStart: eventData.event.unformatDateStart,
-            unformatDateEnd: eventData.event.unformatDateEnd,
-            unformatExpiredRefundDate: eventData.event.expiredRefundDate,
-            price: eventData.event.price,
-            currency: eventData.event.currency,
-            features: eventData.event.features,
-          });
-        } else {
-          console.error("Erreur lors de la requête api pour les événements");
-        }
-
         const responseCategories = await axios.get("/api/eventCategories");
         if (responseCategories.status === 200) {
           setEventCategories(responseCategories.data.categories);
@@ -56,20 +41,9 @@ const EventDetail = () => {
           );
           setEventCategories([]);
         }
-
-        const responseQrcode = await axios.get(`/api/events/${id}/qrcode`);
-        if (responseQrcode.status === 200) {
-          setEventQrcode(responseQrcode.data.qrcode);
-        } else {
-          console.error(
-            "Erreur lors de la requête api pour les catégories d'événements"
-          );
-          setEventQrcode([]);
-        }
       } catch (error) {
         console.error("Erreur lors de la requête api", error);
         setEventCategories([]);
-        setEventQrcode([]);
       } finally {
         setLoading(false);
       }
@@ -94,12 +68,13 @@ const EventDetail = () => {
     try {
       setLoading(true);
 
-      const response = await axios.post(`/api/events/${id}/edit`, formData);
+      const response = await axios.post(`/api/events/create`, formData);
+      console.log(formData);
 
       if (response.data.success !== false) {
         console.log("ok");
         // window.location.reload();
-        setEdit(`Success : Data updated.`);
+        setEdit(`Success : Data created.`);
 
         setTimeout(() => {
           closeToast();
@@ -151,20 +126,12 @@ const EventDetail = () => {
 
   return (
     <section className="p-0 sm:ml-64">
-      {edited && <Toast message={edited} onClose={closeToast} error={false} />}
       {error && <Toast message={error} onClose={closeToast} error={true} />}
       <div className="p-4 mt-16">
         <div className="rounded-lg shadow-lg bg-whitesmoke p-6">
           <div className="relative rounded-lg">
             {!loading ? (
               <form className="w-full max-w" onSubmit={handleSubmit}>
-                <div className="m-auto mb-6 flex-shrink-0 w-full aspect-w-1 aspect-h-1 rounded-lg sm:aspect-none sm:w-40 sm:h-40 w-full h-full">
-                  <img
-                    src={eventQrcode}
-                    className="w-full h-full object-center object-cover sm:w-full sm:h-full"
-                    alt={eventQrcode}
-                  />
-                </div>
                 <div className="flex flex-wrap -mx-3 mb-6">
                   <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0">
                     <label
@@ -297,25 +264,6 @@ const EventDetail = () => {
                             className="bg-gray-50 block w-full rounded-md border-0 p-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                           />
                           <div className="flex justify-end mt-2">
-                            {index === formData.features.length - 1 &&
-                              formData.features.length < 4 && (
-                                <button onClick={handleAddFeature}>
-                                  <svg
-                                    xmlns="http://www.w3.org/2000/svg"
-                                    fill="none"
-                                    viewBox="0 0 24 24"
-                                    stroke-width="1.5"
-                                    stroke="currentColor"
-                                    class="w-6 h-6"
-                                  >
-                                    <path
-                                      stroke-linecap="round"
-                                      stroke-linejoin="round"
-                                      d="M12 9v6m3-3H9m12 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"
-                                    />
-                                  </svg>
-                                </button> // Afficher le bouton "+" uniquement pour le dernier champ d'entrée s'il y a moins de 4 champs d'entrée
-                              )}
                             {index !== 0 && (
                               <button
                                 onClick={() => handleRemoveFeature(index)}
@@ -324,21 +272,39 @@ const EventDetail = () => {
                                   xmlns="http://www.w3.org/2000/svg"
                                   fill="none"
                                   viewBox="0 0 24 24"
-                                  stroke-width="1.5"
+                                  strokeWidth="1.5"
                                   stroke="currentColor"
-                                  class="w-6 h-6"
+                                  className="w-6 h-6"
                                 >
                                   <path
-                                    stroke-linecap="round"
-                                    stroke-linejoin="round"
+                                    strokeLinecap="round"
+                                    strokeLinejoin="round"
                                     d="M15 12H9m12 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"
                                   />
                                 </svg>
-                              </button> // Afficher le bouton "-" pour tous les champs d'entrée sauf le premier
+                              </button>
                             )}
                           </div>
                         </div>
                       ))}
+                      {formData.features.length === 0 || ( // Afficher le bouton "+" si le tableau features est vide ou s'il y a moins de 4 champs d'entrée
+                        <button onClick={handleAddFeature}>
+                          <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            fill="none"
+                            viewBox="0 0 24 24"
+                            strokeWidth="1.5"
+                            stroke="currentColor"
+                            className="w-6 h-6"
+                          >
+                            <path
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                              d="M12 6v6m0 0v6m0-6h6m-6 0H6"
+                            />
+                          </svg>
+                        </button>
+                      )}
                     </div>
                   </div>
                 </div>
@@ -365,10 +331,10 @@ const EventDetail = () => {
                       </div>
                       <input
                         type="date"
-                        name="unformatDateStart"
+                        name="dateStart"
                         value={
-                          formData.unformatDateStart
-                            ? new Date(formData.unformatDateStart)
+                          formData.dateStart
+                            ? new Date(formData.dateStart)
                                 .toISOString()
                                 .substr(0, 10)
                             : ""
@@ -401,10 +367,10 @@ const EventDetail = () => {
                       </div>
                       <input
                         type="date"
-                        name="unformatDateEnd"
+                        name="dateEnd"
                         value={
-                          formData.unformatDateEnd
-                            ? new Date(formData.unformatDateEnd)
+                          formData.dateEnd
+                            ? new Date(formData.dateEnd)
                                 .toISOString()
                                 .substr(0, 10)
                             : ""
@@ -525,10 +491,10 @@ const EventDetail = () => {
                       </div>
                       <input
                         type="date"
-                        name="unformatExpiredRefundDate"
+                        name="expiredRefundDate"
                         value={
-                          formData.unformatExpiredRefundDate
-                            ? new Date(formData.unformatExpiredRefundDate)
+                          formData.expiredRefundDate
+                            ? new Date(formData.expiredRefundDate)
                                 .toISOString()
                                 .substr(0, 10)
                             : ""
@@ -581,4 +547,4 @@ const EventDetail = () => {
   );
 };
 
-export default EventDetail;
+export default EventCreate;

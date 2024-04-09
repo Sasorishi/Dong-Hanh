@@ -17,6 +17,7 @@ import EventsCategories from "./js/pages/dashboard/EventsCategories";
 import Tickets from "./js/pages/dashboard/Tickets";
 import Users from "./js/pages/dashboard/Users";
 import TicketCreate from "./js/pages/dashboard/TicketCreate";
+import EventCreate from "./js/pages/dashboard/EventCreate";
 
 function DashboardRoutes() {
   Aos.init();
@@ -34,6 +35,7 @@ function DashboardRoutes() {
           path="/events/:id/participants"
           element={<EventParticipants />}
         />
+        <Route path="/events/create" element={<EventCreate />} />
         <Route path="/events/categories" element={<EventsCategories />} />
         <Route path="/tickets" element={<Tickets />} />
         <Route path="/tickets/create" element={<TicketCreate />} />
