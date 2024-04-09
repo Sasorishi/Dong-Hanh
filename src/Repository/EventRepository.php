@@ -81,6 +81,29 @@ class EventRepository extends ServiceEntityRepository
             ->getOneOrNullResult();
     }
 
+    public function createEvent(EventCategories $eventCategory, Request $request): void {
+        $data = json_decode($request->getContent(), true);
+        $formatPrice = [];
+        $formatPrice[] = $data['price'];
+
+        $event = new Event;
+        $event->setLabel($data['name']);
+        $event->setDescription($data['description']);
+        $event->setPlace($data['place']);
+        $event->setLocation($data['location']);
+        $event->setYear($data['year']);
+        $event->setEventCategory($eventCategory);
+        $event->setRegister($data['isRegistrable']);
+        $event->setPrice($formatPrice);
+        $event->setCurrency($data['currency']);
+        $event->setDateStart(new DateTime($data['dateStart']));
+        $event->setDateEnd(new DateTime($data['dateEnd']));
+        $event->setRefundExpireAt(new DateTime($data['expiredRefundDate']));
+        $event->setFeatures($data['features']);
+
+        $this->save($event, true);
+    }
+
     /**
      * @param Event $event
      * @param EventCategories $eventCategories
@@ -89,6 +112,8 @@ class EventRepository extends ServiceEntityRepository
      */
     public function editEventData(Event $event, EventCategories $eventCategory, Request $request): void {
         $data = json_decode($request->getContent(), true);
+        $formatPrice = [];
+        $formatPrice[] = $data['price'];
 
         $event->setLabel($data['name']);
         $event->setDescription($data['description']);
@@ -97,6 +122,11 @@ class EventRepository extends ServiceEntityRepository
         $event->setYear($data['year']);
         $event->setEventCategory($eventCategory);
         $event->setRegister($data['isRegistrable']);
+        $event->setPrice($formatPrice);
+        $event->setCurrency($data['currency']);
+        $event->setDateStart(new DateTime($data['unformatDateStart']));
+        $event->setDateEnd(new DateTime($data['unformatDateEnd']));
+        $event->setFeatures($data['features']);
 
         $this->save($event, true);
     }

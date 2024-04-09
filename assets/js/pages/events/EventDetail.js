@@ -3,6 +3,7 @@ import { useParams } from "react-router-dom";
 import { useNavigate } from "react-router";
 import axios from "axios";
 import Loader from "../../components/LoaderComponent";
+import { getCurrencySymbol } from "../../functions/functions";
 
 const EventDetail = () => {
   const [tickets, setTickets] = useState(1);
@@ -55,6 +56,10 @@ const EventDetail = () => {
     getEvent();
     setLoading(false);
   }, []);
+
+  const currencySymbol = event?.currency
+    ? getCurrencySymbol(event.currency)
+    : "";
 
   return (
     <div className="bg-whitesmoke">
@@ -111,7 +116,7 @@ const EventDetail = () => {
             <div className="mt-4 lg:row-span-3 lg:mt-0">
               <h2 className="sr-only">Product information</h2>
               <p className="text-3xl tracking-tight text-darkblue">
-                {event["price"][0]} €
+                {event["price"][0]} {currencySymbol}
               </p>
               <p
                 id="helper-text-explanation"

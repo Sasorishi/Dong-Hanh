@@ -34,6 +34,19 @@ const Events = () => {
   return (
     <section className="p-0 sm:ml-64">
       <div className="p-4 mt-16">
+        <div className="my-4 flex justify-end">
+          <a
+            href="events/create"
+            className="block animation-hover rounded-full bg-darkblue px-3 py-2 text-center text-sm font-semibold uppercase text-white shadow-sm hover:bg-forest focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+          >
+            <button
+              type="button"
+              className="uppercase text-white font-medium rounded-full text-sm text-center"
+            >
+              Create event
+            </button>
+          </a>
+        </div>
         <div className="rounded-lg shadow-lg">
           <div className="relative overflow-x-auto rounded-lg">
             <table className="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">

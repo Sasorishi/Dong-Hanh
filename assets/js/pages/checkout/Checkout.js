@@ -6,6 +6,7 @@ import TicketImage from "../../../../public/images/ticket.png";
 import Toast from "../../components/ToastComponent";
 import Stepper from "../../components/register/StepperComponent";
 import Loader from "../../components/LoaderComponent";
+import { getCurrencySymbol } from "../../functions/functions";
 
 const Checkout = () => {
   const [event, setEvent] = useState(null);
@@ -94,6 +95,10 @@ const Checkout = () => {
     };
   }, []);
 
+  const currencySymbol = event?.currency
+    ? getCurrencySymbol(event.currency)
+    : "";
+
   return (
     <section className="bg-whitesmoke">
       <Stepper currentStep={2} />
@@ -143,14 +148,14 @@ const Checkout = () => {
                       Unit price
                     </p>
                     <p className="font-semibold text-gray-900">
-                      {event["price"][0]} €
+                      {event["price"][0]} {currencySymbol}
                     </p>
                   </div>
                 </div>
                 <div className="mt-6 flex items-center justify-between">
                   <p className="text-sm font-medium text-gray-900">Total</p>
                   <p className="text-2xl font-semibold text-gray-900">
-                    {price()} €
+                    {price()} {currencySymbol}
                   </p>
                 </div>
                 <span className="text-sm text-center text-gray-600 flex justify-center align-center">
