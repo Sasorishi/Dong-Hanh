@@ -22,4 +22,11 @@ class QrcodeService
         $qrcode = (new QRCode)->render($domain);
         return $qrcode;
     }
+
+    public function generateEvent(string $eventId) {
+        $data = $this->domain.'/events/'.$eventId;
+        $qrcode = (new QRCode)->render($data);
+
+        return $qrcode;
+    }
 }

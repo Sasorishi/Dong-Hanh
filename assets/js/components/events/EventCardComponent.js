@@ -1,6 +1,9 @@
 import React from "react";
+import { getCurrencySymbol } from "../../functions/functions";
 
 const EventCardComponent = ({ event }) => {
+  const currencySymbol = getCurrencySymbol(event.currency);
+
   return (
     <div className="bg-amber shadow-lg mx-auto mt-16 max-w-2xl rounded-3xl ring-1 ring-gray-200 sm:mt-20 lg:mx-0 lg:flex lg:max-w-none">
       <div className="p-8 sm:p-10 lg:flex-auto">
@@ -94,10 +97,10 @@ const EventCardComponent = ({ event }) => {
             </p>
             <p className="mt-6 flex items-baseline justify-center gap-x-2">
               <span className="text-5xl font-bold tracking-tight text-gray-900">
-                {event.price[0]} €
+                {event.price[0]} {currencySymbol}
               </span>
               <span className="text-sm font-semibold leading-6 tracking-wide text-gray-600">
-                EUR
+                {event.currency}
               </span>
             </p>
             <a
