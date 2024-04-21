@@ -49,6 +49,16 @@ const ErrorComponent = ({ response }) => {
         );
         break;
 
+      case "checkout":
+        setMessage(<p>Error setting participants. Please redo the process.</p>);
+        break;
+
+      case "transaction":
+        setMessage(
+          <p>Transaction is not complete. Please redo the process.</p>
+        );
+        break;
+
       default:
         setMessage(
           <p>

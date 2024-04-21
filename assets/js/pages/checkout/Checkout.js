@@ -51,6 +51,10 @@ const Checkout = () => {
     setError(error);
   };
 
+  const handleLoadingChange = (newLoadingValue) => {
+    setLoading(newLoadingValue);
+  };
+
   useEffect(() => {
     const getEvent = async () => {
       try {
@@ -158,9 +162,11 @@ const Checkout = () => {
                     {price()} {currencySymbol}
                   </p>
                 </div>
-                <span className="text-sm text-center text-gray-600 flex justify-center align-center">
-                  *refund available before {event.dateStart}.
-                </span>
+                {event.expiredRefundDate != null ? (
+                  <span className="text-sm text-center text-gray-600 flex justify-center align-center">
+                    *refund available before {event.expiredRefundDate}.
+                  </span>
+                ) : null}
               </div>
               <div className="mt-4 mb-8 w-full px-6 py-3">
                 <PayPalButton
@@ -168,6 +174,7 @@ const Checkout = () => {
                   numTickets={numTickets}
                   ticketsData={location.state.ticketsData}
                   onError={handlePaymentError}
+                  onLoadingChange={handleLoadingChange}
                 />
               </div>
             </div>

@@ -1,15 +1,27 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import axios from "axios";
 
-const PaypalButtonComponent = ({ event, numTickets, ticketsData, onError }) => {
+const PaypalButtonComponent = ({
+  event,
+  numTickets,
+  ticketsData,
+  onError,
+  onLoadingChange,
+}) => {
   // const [isLoggedIn, setIsLoggedIn] = useState(false);
   const price = () => {
     return numTickets * event["price"][0];
   };
 
+  console.log(event);
+
   const handleOnError = (err) => {
     // console.log("onError: ", err);
     onError && onError(err);
+  };
+
+  const handleLoadingChange = (newLoadingValue) => {
+    onLoadingChange(newLoadingValue);
   };
 
   const setParticipants = async (details, captureId) => {
@@ -22,7 +34,7 @@ const PaypalButtonComponent = ({ event, numTickets, ticketsData, onError }) => {
         participants: ticketsData,
       };
       const response = await axios.post("/api/register", combinedData);
-      if (response.status === 200) {
+      if (response.status === 200 || response.status === 201) {
         console.log("Request success !");
       } else {
         console.error("Server request fail");
@@ -34,6 +46,7 @@ const PaypalButtonComponent = ({ event, numTickets, ticketsData, onError }) => {
     }
   };
 
+  // Check if not timeout sessions
   // useEffect(() => {
   //   const checkLoggedInStatus = async () => {
   //     try {
@@ -78,7 +91,7 @@ const PaypalButtonComponent = ({ event, numTickets, ticketsData, onError }) => {
               return actions.order.create({
                 purchase_units: [
                   {
-                    description: `Register tickets - ${event["label"]}`,
+                    description: `Register tickets - ${event["eventCategory"]} | ${event["name"]}`,
                     currency_code: event["currency"],
                     amount: {
                       value: price(),
@@ -103,16 +116,27 @@ const PaypalButtonComponent = ({ event, numTickets, ticketsData, onError }) => {
             },
             onApprove: (data, actions) => {
               return actions.order.capture().then(function (details) {
+                handleLoadingChange(true);
                 const captureId =
                   details.purchase_units[0].payments.captures[0].id;
                 const transactionStatus = details.status;
 
                 if (transactionStatus === "COMPLETED") {
-                  setParticipants(details, captureId);
-                  window.location.href = "/response/success/checkout";
+                  setParticipants(details, captureId)
+                    .then(() => {
+                      window.location.href = "/response/success/checkout";
+                    })
+                    .catch((error) => {
+                      console.error("Error setting participants:", error);
+                      handleOnError(
+                        "Error setting participants. Please try again later."
+                      );
+                      window.location.replace("/cancel?error=checkout");
+                    });
                 } else {
                   console.log("Transaction is not complete");
                   handleOnError("Transaction is not complete.");
+                  window.location.replace("/cancel?error=transaction");
                 }
               });
             },
@@ -123,7 +147,7 @@ const PaypalButtonComponent = ({ event, numTickets, ticketsData, onError }) => {
             onError: (err) => {
               console.log("onError: ", err);
               handleOnError("Error. Try again or later.");
-              // window.location.replace("/cancel?error=checkout");
+              window.location.replace("/cancel?error=checkout");
             },
           })
           .render("#paypal-button-container");
@@ -142,13 +166,20 @@ const PaypalButtonComponent = ({ event, numTickets, ticketsData, onError }) => {
         handleOnError(
           "Error. Fail to retrieve tickets data. Try again or later."
         );
+        setTimeout(() => {
+          getEnv();
+        }, 5000); // Attendre 5 secondes avant de relancer
       }
     };
 
     getEnv();
   }, []);
 
-  return <div id="paypal-button-container" />;
+  return (
+    <>
+      <div id="paypal-button-container" />
+    </>
+  );
 };
 
 export default PaypalButtonComponent;
