@@ -125,7 +125,7 @@ const EventCreate = () => {
   };
 
   return (
-    <section className="p-0 sm:ml-64">
+    <section className="p-0 sm:ml-48">
       {error && <Toast message={error} onClose={closeToast} error={true} />}
       <div className="p-4 mt-16">
         <div className="rounded-lg shadow-lg bg-whitesmoke p-6">

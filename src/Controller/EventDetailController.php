@@ -126,6 +126,7 @@ class EventDetailController extends AbstractController
                 "email" => $participant->getEmail(),
                 "phone" => $participant->getPhone(),
                 "gender" => $participant->getGender(),
+                "age" => $participant->getAge(),
                 "country" => $participant->getCountry(),
                 "payment" => $participant->isPayment(),
                 "created_at" => Carbon::parse($participant->getCreatedAt())->format('d/m/Y'),

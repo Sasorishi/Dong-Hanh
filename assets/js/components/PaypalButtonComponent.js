@@ -13,8 +13,6 @@ const PaypalButtonComponent = ({
     return numTickets * event["price"][0];
   };
 
-  console.log(event);
-
   const handleOnError = (err) => {
     // console.log("onError: ", err);
     onError && onError(err);

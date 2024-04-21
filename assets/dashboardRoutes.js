@@ -18,9 +18,19 @@ import Tickets from "./js/pages/dashboard/Tickets";
 import Users from "./js/pages/dashboard/Users";
 import TicketCreate from "./js/pages/dashboard/TicketCreate";
 import EventCreate from "./js/pages/dashboard/EventCreate";
+import { getSession } from "./js/functions/sessionUtils";
 
 function DashboardRoutes() {
   Aos.init();
+  const [userData, setUserData] = useState(null);
+
+  useEffect(() => {
+    async function fetchSessionData() {
+      const sessionData = await getSession();
+      setUserData(sessionData);
+    }
+    fetchSessionData();
+  }, []);
 
   return (
     <>

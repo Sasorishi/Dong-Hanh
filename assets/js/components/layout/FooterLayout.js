@@ -8,7 +8,7 @@ const Footer = ({ dashboard }) => {
 
   return (
     <footer
-      className={`bg-amber text-cognac p-16 ${dashboard ? "sm:ml-64" : ""}`}
+      className={`bg-amber text-cognac p-16 ${dashboard ? "sm:ml-48" : ""}`}
     >
       <div className="sm:flex sm:items-center sm:justify-between">
         <a

@@ -31,7 +31,7 @@ const TicketCreate = () => {
   }, []);
 
   return (
-    <section className="p-0 sm:ml-64">
+    <section className="p-0 sm:ml-48">
       <div className="p-4 mt-16">
         <div className="p-8 rounded-lg shadow-lg bg-whitesmoke">
           <div className="px-4 sm:px-0">
