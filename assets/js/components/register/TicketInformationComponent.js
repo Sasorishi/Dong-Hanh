@@ -39,7 +39,7 @@ const TicketInforamtionComponent = ({ ticketKey, onTicketsDataChange }) => {
               htmlFor="last-name"
               className="block text-sm font-medium leading-6 text-gray-900"
             >
-              Last name
+              Lastname*
             </label>
             <div className="mt-2">
               <input
@@ -59,7 +59,7 @@ const TicketInforamtionComponent = ({ ticketKey, onTicketsDataChange }) => {
               htmlFor="first-name"
               className="block text-sm font-medium leading-6 text-gray-900"
             >
-              First name
+              Firstname*
             </label>
             <div className="mt-2">
               <input
@@ -79,7 +79,7 @@ const TicketInforamtionComponent = ({ ticketKey, onTicketsDataChange }) => {
               htmlFor="number-age"
               className="block text-sm font-medium leading-6 text-gray-900"
             >
-              Age
+              Age*
             </label>
             <div className="mt-2">
               <input
@@ -102,7 +102,7 @@ const TicketInforamtionComponent = ({ ticketKey, onTicketsDataChange }) => {
               htmlFor="gender"
               className="block text-sm font-medium leading-6 text-gray-900"
             >
-              Gender
+              Gender*
             </label>
             <div className="mt-2">
               <select
@@ -128,7 +128,7 @@ const TicketInforamtionComponent = ({ ticketKey, onTicketsDataChange }) => {
               htmlFor="last-name"
               className="block text-sm font-medium leading-6 text-gray-900"
             >
-              Email
+              Email*
             </label>
             <div className="mt-2">
               <input
@@ -149,7 +149,7 @@ const TicketInforamtionComponent = ({ ticketKey, onTicketsDataChange }) => {
               htmlFor="phone-input"
               className="block text-sm font-medium leading-6 text-gray-900"
             >
-              Phone number
+              Phone number*
             </label>
             <div className="relative mt-2">
               <div className="absolute inset-y-0 start-0 top-0 flex items-center ps-3.5 pointer-events-none">
@@ -184,10 +184,20 @@ const TicketInforamtionComponent = ({ ticketKey, onTicketsDataChange }) => {
               htmlFor="country"
               className="block text-sm font-medium leading-6 text-gray-900"
             >
-              Country
+              Country*
             </label>
             <div className="mt-2">
-              <select
+              <input
+                type="text"
+                name="country"
+                id="country"
+                autoComplete="country-name"
+                value={formData.country}
+                onChange={handleInputChange}
+                className="bg-gray-50 block w-full rounded-md border-0 p-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                required
+              />
+              {/* <select
                 id="country"
                 name="country"
                 autoComplete="country-name"
@@ -507,7 +517,7 @@ const TicketInforamtionComponent = ({ ticketKey, onTicketsDataChange }) => {
                 <option value="Yemen">Yemen</option>
                 <option value="Zambia">Zambia</option>
                 <option value="Zimbabwe">Zimbabwe</option>
-              </select>
+              </select> */}
             </div>
           </div>
 
@@ -536,7 +546,7 @@ const TicketInforamtionComponent = ({ ticketKey, onTicketsDataChange }) => {
               htmlFor="message"
               className="block mb-2 text-sm font-medium text-gray-900"
             >
-              The expectation
+              The expectation*
             </label>
             <div className="mt-2">
               <textarea
@@ -547,6 +557,7 @@ const TicketInforamtionComponent = ({ ticketKey, onTicketsDataChange }) => {
                 onChange={handleInputChange}
                 className="bg-gray-50 block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500"
                 placeholder="Write your thoughts here..."
+                required
               />
             </div>
           </div>

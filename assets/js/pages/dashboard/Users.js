@@ -2,10 +2,16 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import Loader from "../../components/LoaderComponent";
 import editIcon from "../../../../public/icons/edit.svg";
+import EditModal from "../../components/dashboard/EditModalComponent";
 
 const Users = () => {
   const [users, setUsers] = useState();
   const [loading, setLoading] = useState(true);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const handleModalClose = () => {
+    setIsModalOpen(false);
+  };
 
   useEffect(() => {
     const getUsers = async () => {
@@ -31,7 +37,7 @@ const Users = () => {
   }, []);
 
   return (
-    <section className="p-0 sm:ml-64">
+    <section className="p-0 sm:ml-48">
       <div className="p-4 mt-16">
         <div className="my-4 flex justify-end">
           <a
@@ -68,9 +74,9 @@ const Users = () => {
                   </th>
                 </tr>
               </thead>
-              <tbody>
-                {!loading ? (
-                  users.length > 0 ? (
+              {!loading ? (
+                <tbody>
+                  {users.length > 0 ? (
                     users.map((user, index) => (
                       <tr
                         key={index}
@@ -87,7 +93,10 @@ const Users = () => {
                         <td className="px-6 py-4">{user.created_at}</td>
                         <td className="px-6 py-4 flex gap-2">
                           <a
-                            href={`users/${user.id}`}
+                            href="#"
+                            type="button"
+                            data-modal-target="editModal"
+                            data-modal-show="editModal"
                             className="font-medium text-darkblue hover:underline"
                           >
                             <img src={editIcon} width={16} alt="Edit Icon" />
@@ -101,12 +110,13 @@ const Users = () => {
                         No users available at the moment.
                       </td>
                     </tr>
-                  )
-                ) : (
-                  <Loader />
-                )}
-              </tbody>
+                  )}
+                </tbody>
+              ) : (
+                <Loader />
+              )}
             </table>
+            <EditModal />
           </div>
         </div>
       </div>

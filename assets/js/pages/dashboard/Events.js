@@ -32,7 +32,7 @@ const Events = () => {
   }, []);
 
   return (
-    <section className="p-0 sm:ml-64">
+    <section className="p-0 sm:ml-48">
       <div className="p-4 mt-16">
         <div className="my-4 flex justify-end">
           <a
@@ -69,9 +69,9 @@ const Events = () => {
                   </th>
                 </tr>
               </thead>
-              <tbody>
-                {!loading ? (
-                  events.length > 0 ? (
+              {!loading ? (
+                <tbody>
+                  {events.length > 0 ? (
                     events.map((event, index) => (
                       <tr
                         key={index}
@@ -112,11 +112,11 @@ const Events = () => {
                         No events available at the moment.
                       </td>
                     </tr>
-                  )
-                ) : (
-                  <Loader />
-                )}
-              </tbody>
+                  )}
+                </tbody>
+              ) : (
+                <Loader />
+              )}
             </table>
           </div>
         </div>

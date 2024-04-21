@@ -3,6 +3,7 @@ import { useParams } from "react-router-dom";
 import axios from "axios";
 import Loader from "../../components/LoaderComponent";
 import eyeIcon from "../../../../public/icons/eye.svg";
+import EditModal from "../../components/dashboard/EditModalComponent";
 
 const EventParticipants = () => {
   const [participants, setParticipants] = useState();
@@ -34,7 +35,7 @@ const EventParticipants = () => {
   }, []);
 
   return (
-    <section className="p-0 sm:ml-64">
+    <section className="p-0 sm:ml-48">
       <div className="p-4 mt-16">
         {!loading && participants.length > 0 && (
           <div className="my-4 flex justify-end">
@@ -53,10 +54,16 @@ const EventParticipants = () => {
                     Firstname
                   </th>
                   <th scope="col" className="px-6 py-3">
+                    Email
+                  </th>
+                  <th scope="col" className="px-6 py-3">
                     Country
                   </th>
                   <th scope="col" className="px-6 py-3">
                     Gender
+                  </th>
+                  <th scope="col" className="px-6 py-3">
+                    Age
                   </th>
                   <th scope="col" className="px-6 py-3">
                     Payment
@@ -69,9 +76,9 @@ const EventParticipants = () => {
                   </th>
                 </tr>
               </thead>
-              <tbody>
-                {!loading ? (
-                  participants.length > 0 ? (
+              {!loading ? (
+                <tbody>
+                  {participants.length > 0 ? (
                     participants.map((participant, index) => (
                       <tr
                         key={index}
@@ -79,15 +86,18 @@ const EventParticipants = () => {
                       >
                         <td className="px-6 py-4">{participant.lastname}</td>
                         <td className="px-6 py-4">{participant.firstname}</td>
+                        <td className="px-6 py-4">{participant.email}</td>
                         <td className="px-6 py-4">{participant.country}</td>
                         <td className="px-6 py-4">{participant.gender}</td>
+                        <td className="px-6 py-4">{participant.age}</td>
                         <td className="px-6 py-4">
                           {participant.payment ? "Yes" : "No"}
                         </td>
                         <td className="px-6 py-4">{participant.created_at}</td>
                         <td className="px-6 py-4 flex gap-2">
                           <a
-                            href=""
+                            href="#"
+                            type="button"
                             className="font-medium text-darkblue hover:underline"
                           >
                             <img src={eyeIcon} width={16} alt="Eye Icon" />
@@ -101,11 +111,11 @@ const EventParticipants = () => {
                         No participants available at the moment.
                       </td>
                     </tr>
-                  )
-                ) : (
-                  <Loader />
-                )}
-              </tbody>
+                  )}
+                </tbody>
+              ) : (
+                <Loader />
+              )}
             </table>
           </div>
         </div>
