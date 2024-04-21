@@ -46,7 +46,7 @@ class EventDetailController extends AbstractController
             'dateEnd' => Carbon::parse($event->getDateEnd())->format('F jS'),
             'unformatDateStart' => $event->getDateStart()->format('Y-m-d'),
             'unformatDateEnd' => $event->getDateEnd()->format('Y-m-d'),
-            'expiredRefundDate' => $event->getRefundExpireAt()->format('Y-m-d'),
+            'expiredRefundDate' => $event->getRefundExpireAt() ? $event->getRefundExpireAt()->format('Y-m-d') : null,
             'year' => $event->getYear(),
             'price' => $event->getPrice(),
             'currency' => $event->getCurrency(),
@@ -57,9 +57,10 @@ class EventDetailController extends AbstractController
             'eventCategory' => $event->getEventCategory()->getLabel(),
             'isRegistrable' => $event->isRegister(),
             'images' => $event->getImages(),
+            'registrationDeadline' => $event->getRegistrationDeadline() ? Carbon::parse($event->getRegistrationDeadline())->format('Y-m-d') : null,
         ];
 
-        return new JsonResponse(['event' => $event]);
+        return new JsonResponse(['event' => $event], Response::HTTP_OK);
     }
 
     #[Route('/api/eventCategories', name: 'api_event_categories')]

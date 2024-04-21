@@ -75,10 +75,7 @@ function FrontRoutes() {
           path="/register/:eventId/:numTickets"
           element={isAuthenticated ? <Register /> : <Navigate to="/login" />}
         />
-        <Route
-          path="/checkout"
-          element={isAuthenticated ? <Checkout /> : <Navigate to="/login" />}
-        />
+        <Route path="/checkout" element={<Checkout />} />
         <Route path="/introduction" element={<Introduction />} />
         <Route path="/about" element={<About />} />
         <Route

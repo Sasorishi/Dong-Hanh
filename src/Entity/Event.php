@@ -64,6 +64,9 @@ class Event
     #[ORM\Column(type: Types::ARRAY, nullable: true)]
     private ?array $images = null;
 
+    #[ORM\Column(type: Types::DATE_MUTABLE, nullable: true)]
+    private ?\DateTimeInterface $registrationDeadline = null;
+
     public function __construct()
     {
         $this->tickets = new ArrayCollection();
@@ -299,6 +302,18 @@ class Event
     public function setImages(?array $images): static
     {
         $this->images = $images;
+
+        return $this;
+    }
+
+    public function getRegistrationDeadline(): ?\DateTimeInterface
+    {
+        return $this->registrationDeadline;
+    }
+
+    public function setRegistrationDeadline(?\DateTimeInterface $registrationDeadline): static
+    {
+        $this->registrationDeadline = $registrationDeadline;
 
         return $this;
     }
