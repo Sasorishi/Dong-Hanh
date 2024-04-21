@@ -31,7 +31,7 @@ const Tickets = () => {
   }, []);
 
   return (
-    <section className="p-0 sm:ml-64">
+    <section className="p-0 sm:ml-48">
       <div className="p-4 mt-16">
         <div className="my-4 flex justify-end">
           <a
@@ -86,9 +86,9 @@ const Tickets = () => {
                   </th>
                 </tr>
               </thead>
-              <tbody>
-                {!loading ? (
-                  tickets.length > 0 ? (
+              {!loading ? (
+                <tbody>
+                  {tickets.length > 0 ? (
                     tickets.map((ticket, index) => (
                       <tr
                         key={index}
@@ -127,11 +127,11 @@ const Tickets = () => {
                         No tickets available at the moment.
                       </td>
                     </tr>
-                  )
-                ) : (
-                  <Loader />
-                )}
-              </tbody>
+                  )}
+                </tbody>
+              ) : (
+                <Loader />
+              )}
             </table>
           </div>
         </div>

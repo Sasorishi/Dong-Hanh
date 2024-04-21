@@ -33,7 +33,7 @@ const EventsCategories = () => {
   }, []);
 
   return (
-    <section className="p-0 sm:ml-64">
+    <section className="p-0 sm:ml-48">
       <div className="p-4 mt-16">
         <div className="rounded-lg shadow-lg">
           <div className="relative overflow-x-auto rounded-lg">
@@ -51,9 +51,9 @@ const EventsCategories = () => {
                   </th>
                 </tr>
               </thead>
-              <tbody>
-                {!loading ? (
-                  categories.length > 0 ? (
+              {!loading ? (
+                <tbody>
+                  {categories.length > 0 ? (
                     categories.map((category, index) => (
                       <tr
                         key={index}
@@ -82,11 +82,11 @@ const EventsCategories = () => {
                         No categories available at the moment.
                       </td>
                     </tr>
-                  )
-                ) : (
-                  <Loader />
-                )}
-              </tbody>
+                  )}
+                </tbody>
+              ) : (
+                <Loader />
+              )}
             </table>
           </div>
         </div>

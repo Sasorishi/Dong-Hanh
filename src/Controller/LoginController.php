@@ -12,11 +12,12 @@ use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Security\Csrf\TokenGenerator\TokenGeneratorInterface;
 
 class LoginController extends AbstractController
-{
+{    
     #[Route('/login', name: 'app_login')]
     public function index(AuthenticationUtils $authenticationUtils, Security $security): Response
     {
@@ -62,6 +63,21 @@ class LoginController extends AbstractController
         $isAuthenticated = $security->isGranted('IS_AUTHENTICATED_FULLY');
 
         return new JsonResponse(['isAuthenticated' => $isAuthenticated]);
+    }
+
+    #[Route('/api/auth/session', name: 'api_session')]
+    public function getSession(Security $security): JsonResponse
+    {
+        $userData = $security->getUser();
+        if ($userData) {
+            $formattedUserData = [
+                'id' => $userData->getId(),
+                'email' => $userData->getEmail(),
+                'roles' => $userData->getRoles(),
+            ];
+            return new JsonResponse(['session' => $formattedUserData]);
+        }
+        return new JsonResponse(['error'], Response::HTTP_NOT_FOUND);
     }
 
     #[Route('/api/auth/forget_password', name: 'api_forgot_password', methods: ['POST'])]
