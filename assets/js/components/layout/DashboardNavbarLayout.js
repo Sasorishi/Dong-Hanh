@@ -1,9 +1,20 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Logo from "../../../../public/images/vietnam.png";
+import { getSession } from "../../functions/sessionUtils";
 
 const DashboardNavbar = () => {
-  const storedUserData = localStorage.getItem("userSession");
-  const userDataObject = JSON.parse(storedUserData);
+  const [loading, setLoading] = useState(true);
+  const [userData, setUserData] = useState(null);
+
+  useEffect(() => {
+    async function fetchSessionData() {
+      const sessionData = await getSession();
+      setUserData(sessionData);
+      console.log(sessionData);
+      setLoading(false);
+    }
+    fetchSessionData();
+  }, []);
 
   return (
     <nav className="fixed p-0 top-0 z-50 w-full bg-whitesmoke border-b border-gray-200">
@@ -72,14 +83,16 @@ const DashboardNavbar = () => {
                 className="z-50 hidden my-4 text-base list-none bg-white divide-y divide-gray-100 rounded shadow dark:bg-gray-700 dark:divide-gray-600"
                 id="dropdown-user"
               >
-                <div className="px-4 py-3" role="none">
-                  <p
-                    className="text-sm font-medium text-gray-900 truncate dark:text-gray-300"
-                    role="none"
-                  >
-                    {userDataObject.email}
-                  </p>
-                </div>
+                {!loading && (
+                  <div className="px-4 py-3" role="none">
+                    <p
+                      className="text-sm font-medium text-gray-900 truncate dark:text-gray-300"
+                      role="none"
+                    >
+                      {userData.email}
+                    </p>
+                  </div>
+                )}
                 <ul className="py-1" role="none">
                   <li>
                     <a
