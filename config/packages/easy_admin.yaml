@@ -1,0 +1,17 @@
+easy_admin:
+  # Configuration des entités et des CRUD
+  entities:
+    # Configuration de l'entité EventCategories
+    EventCategories:
+      class: App\Entity\EventCategories
+      # Autres configurations...
+
+      # Personnalisation du modèle pour inclure le footer
+      templates:
+        # Utilisez le template par défaut pour l'affichage des pages CRUD
+        show: "@EasyAdmin/crud/show.html.twig"
+        edit: "@EasyAdmin/crud/edit.html.twig"
+        new: "@EasyAdmin/crud/new.html.twig"
+        list: "@EasyAdmin/crud/list.html.twig"
+        # Incluez votre footer à la fin de chaque page de CRUD
+        footer: "admin/footer.html.twig"

@@ -1,0 +1,29 @@
+{# @var ea \EasyCorp\Bundle\EasyAdminBundle\Context\AdminContext #}
+{# @var field \EasyCorp\Bundle\EasyAdminBundle\Dto\FieldDto #}
+{# @var entity \EasyCorp\Bundle\EasyAdminBundle\Dto\EntityDto #}
+{% if ea.crud.currentAction == 'detail' %}
+    <table class="table table-striped">
+        <tr>
+            <th>Id</th>
+            <th>Event</th>
+            <th>Price</th>
+            <th>Currency</th>
+            <th>Status</th>
+            <th>OrderId</th>
+            <th>Created</th>
+        </tr>
+        {% for value in field.value %}
+        <tr>
+            <td>{{ value.id }}</td>
+            <td>{{ value.event.label }}</td>
+            <td>{{ value.price }}</td>
+            <td>{{ value.currency }}</td>
+            <td>{{ value.status }}</td>
+            <td>{{ value.orderId }}</td>
+            <td>{{ value.createdAt|date("m/d/Y") }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+{% else %}
+    <span class="badge badge-secondary">{{ field.formattedValue }}</span>
+{% endif %}

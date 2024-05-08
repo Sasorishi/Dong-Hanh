@@ -184,4 +184,10 @@ class Ticket
 
         return $this;
     }
+
+    public function __toString(): string
+    {
+        // Retourne l'identifiant du ticket comme chaîne de caractères
+        return (string) $this->getId();
+    }
 }

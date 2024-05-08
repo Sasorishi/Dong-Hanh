@@ -55,7 +55,7 @@ class EventCategories
     {
         if (!$this->events->contains($event)) {
             $this->events->add($event);
-            $event->setEventCategoryId($this);
+            $event->setEventCategory($this);
         }
 
         return $this;
@@ -65,11 +65,16 @@ class EventCategories
     {
         if ($this->events->removeElement($event)) {
             // set the owning side to null (unless already changed)
-            if ($event->getEventCategoryId() === $this) {
-                $event->setEventCategoryId(null);
+            if ($event->getEventCategory() === $this) {
+                $event->setEventCategory(null);
             }
         }
 
         return $this;
+    }
+
+    public function __toString()
+    {
+        return $this->label;
     }
 }

@@ -7,10 +7,14 @@ import EditModal from "../../components/dashboard/EditModalComponent";
 const Users = () => {
   const [users, setUsers] = useState();
   const [loading, setLoading] = useState(true);
-  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [selectedUserId, setSelectedUserId] = useState(null);
 
-  const handleModalClose = () => {
-    setIsModalOpen(false);
+  const openModalForUser = (userId) => {
+    setSelectedUserId(userId);
+  };
+
+  const closeModal = () => {
+    setSelectedUserId(null);
   };
 
   useEffect(() => {
@@ -116,6 +120,15 @@ const Users = () => {
                 <Loader />
               )}
             </table>
+            <a
+              href="#"
+              type="button"
+              data-modal-target="editModal"
+              data-modal-show="editModal"
+              className="font-medium text-darkblue hover:underline"
+            >
+              <img src={editIcon} width={16} alt="Edit Icon" />
+            </a>
             <EditModal />
           </div>
         </div>
