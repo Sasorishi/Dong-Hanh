@@ -32,8 +32,6 @@ class EventCrudController extends AbstractCrudController
         ->add(Crud::PAGE_INDEX, Action::DETAIL)
         ->add(Crud::PAGE_EDIT, Action::SAVE_AND_ADD_ANOTHER)
         ->setPermission(Action::NEW, 'ROLE_ADMIN')
-        ->setPermission(Action::DETAIL, 'ROLE_ADMIN')
-        ->setPermission(Action::DETAIL, 'ROLE_MEMBER')
         ->setPermission(Action::EDIT, 'ROLE_ADMIN')
         ->setPermission(Action::SAVE_AND_ADD_ANOTHER, 'ROLE_ADMIN')
         ->setPermission(Action::DELETE, 'ROLE_ADMIN');
