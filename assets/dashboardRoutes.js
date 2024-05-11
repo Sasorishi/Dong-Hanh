@@ -1,8 +1,7 @@
-import React, { useEffect, useState } from "react";
-import { Route, Routes, Navigate } from "react-router-dom";
+import React from "react";
+import { Route, Routes } from "react-router-dom";
 
 import Aos from "aos";
-import axios from "axios";
 
 import Sidebar from "./js/components/layout/SidebarLayout";
 import Footer from "./js/components/layout/FooterLayout";
@@ -18,19 +17,9 @@ import Tickets from "./js/pages/dashboard/Tickets";
 import Users from "./js/pages/dashboard/Users";
 import TicketCreate from "./js/pages/dashboard/TicketCreate";
 import EventCreate from "./js/pages/dashboard/EventCreate";
-import { getSession } from "./js/functions/sessionUtils";
 
 function DashboardRoutes() {
   Aos.init();
-  const [userData, setUserData] = useState(null);
-
-  useEffect(() => {
-    async function fetchSessionData() {
-      const sessionData = await getSession();
-      setUserData(sessionData);
-    }
-    fetchSessionData();
-  }, []);
 
   return (
     <>
