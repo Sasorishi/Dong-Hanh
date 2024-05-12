@@ -1,5 +1,5 @@
 import React from "react";
-import { getCurrencySymbol } from "../../functions/functions";
+import { getCurrencySymbol } from "@functions/functions";
 
 const EventCardComponent = ({ event }) => {
   const currencySymbol = getCurrencySymbol(event.currency);

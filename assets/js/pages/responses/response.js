@@ -1,7 +1,7 @@
 import React from "react";
 import { useParams } from "react-router-dom";
-import Success from "../../components/responses/SuccessComponent";
-import Error from "../../components/responses/ErrorComponent";
+import Success from "@components/responses/SuccessComponent";
+import Error from "@components/responses/ErrorComponent";
 
 const Response = () => {
   const { redirection, type } = useParams();

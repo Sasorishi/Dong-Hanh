@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import { useParams } from "react-router-dom";
 import axios from "axios";
-import Loader from "../../components/LoaderComponent";
-import Toast from "../../components/ToastComponent";
+import Loader from "@components/LoaderComponent";
+import Toast from "@components/ToastComponent";
 
 const ResetPassword = () => {
   const [loading, setLoading] = useState(false);

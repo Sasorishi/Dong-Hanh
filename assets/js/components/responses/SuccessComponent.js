@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import GirlRice from "../../../../public/images/vector-free-rice-field-background.png";
+import GirlRice from "@images/vector-free-rice-field-background.png";
 
 const SuccessComponent = ({ response }) => {
   const [message, setMessage] = useState(null);

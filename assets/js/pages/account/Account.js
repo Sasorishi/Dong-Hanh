@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import Order from "../../components/tickets/OrderComponent";
-import Loader from "../../components/LoaderComponent";
-import Toast from "../../components/ToastComponent";
+import Order from "@components/tickets/OrderComponent";
+import Loader from "@components/LoaderComponent";
+import Toast from "@components/ToastComponent";
 
 const Account = () => {
   const [ticketsData, setTicketsData] = useState(null);

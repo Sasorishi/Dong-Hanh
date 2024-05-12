@@ -1,7 +1,7 @@
 import React from "react";
-import PersonPicture1 from "../../../../public/images/uifaces-human-image.jpg";
-import PersonPicture2 from "../../../../public/images/uifaces-2.jpg";
-import PersonPicture3 from "../../../../public/images/uifaces-3.jpg";
+import PersonPicture1 from "@images/uifaces-human-image.jpg";
+import PersonPicture2 from "@images/uifaces-2.jpg";
+import PersonPicture3 from "@images/uifaces-3.jpg";
 
 const TestimonialsSection = () => {
   return (

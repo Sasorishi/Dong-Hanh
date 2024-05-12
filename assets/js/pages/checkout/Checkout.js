@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from "react";
 import { useLocation } from "react-router-dom";
 import axios from "axios";
-import PayPalButton from "../../components/PaypalButtonComponent";
-import TicketImage from "../../../../public/images/ticket.png";
-import Toast from "../../components/ToastComponent";
-import Stepper from "../../components/register/StepperComponent";
-import Loader from "../../components/LoaderComponent";
-import { getCurrencySymbol } from "../../functions/functions";
+import PayPalButton from "@components/PaypalButtonComponent";
+import TicketImage from "@images/ticket.png";
+import Toast from "@components/ToastComponent";
+import Stepper from "@components/register/StepperComponent";
+import Loader from "@components/LoaderComponent";
+import { getCurrencySymbol } from "@functions/functions";
 
 const Checkout = () => {
   const [event, setEvent] = useState(null);
