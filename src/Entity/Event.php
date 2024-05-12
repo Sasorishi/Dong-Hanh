@@ -67,6 +67,9 @@ class Event
     #[ORM\Column(type: Types::DATE_MUTABLE, nullable: true)]
     private ?\DateTimeInterface $registrationDeadline = null;
 
+    #[ORM\Column(nullable: true)]
+    private ?array $checklist = null;
+
     public function __construct()
     {
         $this->tickets = new ArrayCollection();
@@ -314,6 +317,18 @@ class Event
     public function setRegistrationDeadline(?\DateTimeInterface $registrationDeadline): static
     {
         $this->registrationDeadline = $registrationDeadline;
+
+        return $this;
+    }
+
+    public function getChecklist(): ?array
+    {
+        return $this->checklist;
+    }
+
+    public function setChecklist(?array $checklist): static
+    {
+        $this->checklist = $checklist;
 
         return $this;
     }

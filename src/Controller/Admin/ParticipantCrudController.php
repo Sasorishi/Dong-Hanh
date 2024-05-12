@@ -29,15 +29,4 @@ class ParticipantCrudController extends AbstractCrudController
         ->setPermission(Action::SAVE_AND_ADD_ANOTHER, 'ROLE_ADMIN')
         ->setPermission(Action::DELETE, 'ROLE_ADMIN');
     }
-
-    /*
-    public function configureFields(string $pageName): iterable
-    {
-        return [
-            IdField::new('id'),
-            TextField::new('title'),
-            TextEditorField::new('description'),
-        ];
-    }
-    */
 }

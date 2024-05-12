@@ -43,6 +43,7 @@ const EventDetail = () => {
         if (response.status === 200) {
           const data = response.data;
           setEvent(data.event);
+          console.log(data);
         } else {
           console.error("Erreur lors de requête api");
           setEvent([]);
@@ -330,15 +331,33 @@ const EventDetail = () => {
             </div>
 
             <div className="py-10 lg:col-span-2 lg:col-start-1 lg:border-r lg:border-gray-200 lg:pb-16 lg:pr-8 lg:pt-6">
-              <div>
-                <h3 className="sr-only">Description</h3>
+              <h3 className="sr-only">Description</h3>
 
-                <div className="space-y-6">
-                  <p className="text-base text-darkblue whitespace-pre-line">
-                    {event["description"]}
-                  </p>
-                </div>
+              <div className="space-y-6">
+                <p className="text-base text-darkblue whitespace-pre-line">
+                  {event["description"]}
+                </p>
               </div>
+
+              {event.checklist && (
+                <>
+                  <div className="mt-12 mb-12 flex items-center gap-x-4">
+                    <h4 className="flex-none text-sm font-semibold leading-6 text-darkblue">
+                      What to bring / things to know
+                    </h4>
+                    <div className="h-px flex-auto bg-charcoal" />
+                  </div>
+                  <div className="grid grid-cols-1 gap-4">
+                    {event.checklist.map((item, index) => (
+                      <div key={index} className="text-gray-400">
+                        <span className="text-sm text-gray-600 lowercase">
+                          • {item}
+                        </span>
+                      </div>
+                    ))}
+                  </div>
+                </>
+              )}
             </div>
           </div>
         </div>

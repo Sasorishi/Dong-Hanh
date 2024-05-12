@@ -58,6 +58,7 @@ class EventDetailController extends AbstractController
             'isRegistrable' => $event->isRegister(),
             'images' => $event->getImages(),
             'registrationDeadline' => $event->getRegistrationDeadline() ? Carbon::parse($event->getRegistrationDeadline())->format('Y-m-d') : null,
+            'checklist' => $event->getChecklist(),
         ];
 
         return new JsonResponse(['event' => $event], Response::HTTP_OK);
