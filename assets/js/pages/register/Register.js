@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { useNavigate } from "react-router";
-import TicketInformation from "../../components/register/TicketInformationComponent";
-import Stepper from "../../components/register/StepperComponent";
-import Modal from "../../components/ModalComponent";
+import TicketInformation from "@components/register/TicketInformationComponent";
+import Stepper from "@components/register/StepperComponent";
+import Modal from "@components/ModalComponent";
 
 const Register = () => {
   const [tickets, setTickets] = useState(null);

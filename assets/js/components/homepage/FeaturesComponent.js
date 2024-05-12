@@ -1,5 +1,5 @@
 import React from "react";
-import Image from "../../../../public/images/AdobeStock_255760077.jpeg";
+import Image from "@images/AdobeStock_255760077.jpeg";
 
 const FeaturesSection = () => {
   return (

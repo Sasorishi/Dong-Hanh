@@ -2,8 +2,8 @@ import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { useNavigate } from "react-router";
 import axios from "axios";
-import Loader from "../../components/LoaderComponent";
-import { getCurrencySymbol } from "../../functions/functions";
+import Loader from "@components/LoaderComponent";
+import { getCurrencySymbol } from "@functions/functions";
 
 const EventDetail = () => {
   const [tickets, setTickets] = useState(1);

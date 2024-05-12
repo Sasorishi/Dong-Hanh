@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import GirlRice from "../../../../public/images/vector-free-rice-field-background.png";
+import GirlRice from "@images/vector-free-rice-field-background.png";
 
 const ErrorComponent = ({ response }) => {
   const [message, setMessage] = useState(null);

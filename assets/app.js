@@ -11,8 +11,7 @@ import React from "react";
 import { createRoot } from "react-dom/client";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Aos from "aos";
-import FrontRoutes from "./frontRoutes";
-import DashboardRoutes from "./dashboardRoutes";
+import WebRoutes from "./WebRoutes";
 
 const Main = () => {
   const handleRouteUpdate = () => {
@@ -22,8 +21,7 @@ const Main = () => {
   return (
     <Router onUpdate={handleRouteUpdate}>
       <Routes>
-        <Route path="/*" element={<FrontRoutes />} />
-        <Route path="/admin/*" element={<DashboardRoutes />} />
+        <Route path="/*" element={<WebRoutes />} />
       </Routes>
     </Router>
   );

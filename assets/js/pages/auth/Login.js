@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import Toast from "../../components/ToastComponent";
+import Toast from "@components/ToastComponent";
 
 const Login = () => {
   const [error, setError] = useState(null);
