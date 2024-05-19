@@ -2,6 +2,7 @@
     <table class="table table-striped">
         <thead>
             <tr>
+                <th>Ticket ID</th>
                 <th>Firstname</th>
                 <th>Lastname</th>
                 <th>Scanned</th>
@@ -17,6 +18,7 @@
                 .setEntityId(participant.id)
             %}
             <tr>
+                <td>{{ participant.id }}</td>
                 <td>{{ participant.firstname }}</td>
                 <td>{{ participant.lastname }}</td>
                 <td>

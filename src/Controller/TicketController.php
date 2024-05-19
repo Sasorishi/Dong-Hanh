@@ -6,6 +6,7 @@ use App\Repository\TicketRepository;
 use App\Service\QrcodeService;
 use Carbon\Carbon;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -15,11 +16,13 @@ class TicketController extends AbstractController
 {
     private $ticketRepository;
     private $qrcodeService;
+    private $params;
 
-    public function __construct(TicketRepository $ticketRepository, QrcodeService $qrcodeService)
+    public function __construct(TicketRepository $ticketRepository, QrcodeService $qrcodeService, ParameterBagInterface $params)
     {
         $this->ticketRepository = $ticketRepository;
         $this->qrcodeService = $qrcodeService;
+        $this->params = $params;
     }
 
     #[Route('/ticket', name: 'app_ticket')]
@@ -92,27 +95,6 @@ class TicketController extends AbstractController
         return new JsonResponse(['tickets' =>  $ticketData, 'orders' => $orderCreatedAtArray]);
     }
 
-    // #[Route('/api/ticket_check', name: 'api_ticket_check')]
-    // public function ticketCheck(): JsonResponse {
-        // if ($request->isMethod('GET')) {
-        //     $orderId = $request->query->get('order');
-        //     $repository = $doctrine->getRepository(Ticket::class);
-        //     $ticket = $repository->findOneBy(['orderId' => $orderId]);
-        //     $error = null;
-
-        //     if ($ticket->isScan() == True) {
-        //         $error = true;
-        //     } else {
-        //         $ticket->setScan(True);
-        //         $entityManager = $doctrine->getManager();
-        //         $entityManager->persist($ticket);
-        //         $entityManager->flush();
-        //     }
-        // }
-
-    //     return new JsonResponse(['tickets' =>  $tickets]);
-    // }
-
     #[Route('/api/ticket/qrcode/generate', name: 'api_ticket_generate_qrcode')]
     public function ticketQrcode($ticketId, $participantId, $eventId) {
         $qrcode = $this->qrcodeService->generate($ticketId, $participantId, $eventId);
@@ -121,8 +103,14 @@ class TicketController extends AbstractController
 
     #[Route('/api/ticket_check', name: 'app_ticket_check', methods: ['GET'])]
     public function ticketCheck(Request $request): JsonResponse {
+        $secretKey = $this->params->get("app.ticket_insight_key");
+        $apiKey = $request->headers->get('API-Key');
+
+        if ($apiKey !== $secretKey) {
+            return new JsonResponse(['success' => false, 'message' => 'Unauthorized access.'], Response::HTTP_UNAUTHORIZED);
+        }
+
         $ticketId = $request->query->get('ticket');
-        $participantId = $request->query->get('participant');
         $eventId = $request->query->get('event');
         
         $ticketData = $this->ticketRepository->findOneBy(['id' => $ticketId, 'event' => $eventId]);
@@ -131,7 +119,8 @@ class TicketController extends AbstractController
             return new JsonResponse(['success' => false, 'message' => 'Ticket invalid.']);
         } else {
             $ticket[] = [
-                'id' => $ticketData->getId(),
+                'ticket ID' => $ticketData->getId(),
+                'participant ID' => $ticketData->getParticipant()->getId(),
                 'firstname' => $ticketData->getParticipant()->getFirstname(),
                 'lastname' => $ticketData->getParticipant()->getLastname(),
                 'age' => $ticketData->getParticipant()->getAge(),
