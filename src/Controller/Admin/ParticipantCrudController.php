@@ -8,6 +8,7 @@ use EasyCorp\Bundle\EasyAdminBundle\Config\Actions;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
 use EasyCorp\Bundle\EasyAdminBundle\Field\AssociationField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\ChoiceField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\CollectionField;
 
 class ParticipantCrudController extends AbstractCrudController
@@ -32,6 +33,12 @@ class ParticipantCrudController extends AbstractCrudController
     public function configureFields(string $pageName): iterable
     {
         $fields = parent::configureFields($pageName);
+        $fields[] = ChoiceField::new('gender', 'Gender')
+        ->setChoices([
+            'Male' => 'male',
+            'Female' => 'female',
+            'Non Binary' => 'nonBinary',
+        ]);
         $fields[] = CollectionField::new('tickets', "Ticket ID")->onlyOnDetail()->setTemplatePath('admin/fields/tickets.html.twig');
         return $fields;
     }
