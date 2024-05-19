@@ -107,7 +107,7 @@ class TicketController extends AbstractController
         $apiKey = $request->headers->get('API-Key');
 
         if ($apiKey !== $secretKey) {
-            return new JsonResponse(['success' => false, 'message' => 'Unauthorized access.'], Response::HTTP_UNAUTHORIZED);
+            throw new \Exception('Unauthorized access.', Response::HTTP_UNAUTHORIZED);
         }
 
         $ticketId = $request->query->get('ticket');
@@ -130,12 +130,12 @@ class TicketController extends AbstractController
             ];
 
             if ($ticketData->isScan()) {
-                return new JsonResponse(['success' => false, 'message' => 'Ticket already scanned.', 'ticket' => $ticket]);
+                return new JsonResponse(['success' => false, 'message' => 'Ticket already scanned.', 'ticket' => $ticket, Response::HTTP_ACCEPTED]);
             }
 
             $this->ticketRepository->scanTicket($ticketData);
 
-            return new JsonResponse(['success' => true, 'message' => 'Ticket valid.', 'ticket' => $ticket]);
+            return new JsonResponse(['success' => true, 'message' => 'Ticket valid.', 'ticket' => $ticket, Response::HTTP_ACCEPTED]);
         }
     }
 
