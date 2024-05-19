@@ -7,9 +7,8 @@ use EasyCorp\Bundle\EasyAdminBundle\Config\Action;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Actions;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
-use EasyCorp\Bundle\EasyAdminBundle\Field\IdField;
-use EasyCorp\Bundle\EasyAdminBundle\Field\TextEditorField;
-use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\AssociationField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\CollectionField;
 
 class ParticipantCrudController extends AbstractCrudController
 {
@@ -28,5 +27,18 @@ class ParticipantCrudController extends AbstractCrudController
         ->setPermission(Action::EDIT, 'ROLE_ADMIN')
         ->setPermission(Action::SAVE_AND_ADD_ANOTHER, 'ROLE_ADMIN')
         ->setPermission(Action::DELETE, 'ROLE_ADMIN');
+    }
+
+    public function configureFields(string $pageName): iterable
+    {
+        $fields = parent::configureFields($pageName);
+        $fields[] = CollectionField::new('tickets', "Ticket ID")->onlyOnDetail()->setTemplatePath('admin/fields/tickets.html.twig');
+        return $fields;
+    }
+
+    public function configureCrud(Crud $crud): Crud
+    {
+        return $crud
+            ->setDefaultSort(['created_at' => 'DESC']); // Optionally set a default sort
     }
 }

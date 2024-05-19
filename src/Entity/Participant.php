@@ -66,7 +66,7 @@ class Participant
     #[ORM\ManyToOne(inversedBy: 'participants')]
     private ?Event $event = null;
 
-    #[ORM\OneToMany(mappedBy: 'Participant', targetEntity: Ticket::class)]
+    #[ORM\OneToMany(mappedBy: 'participant', targetEntity: Ticket::class)]
     private Collection $tickets;
 
     public function __construct()

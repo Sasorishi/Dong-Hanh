@@ -58,9 +58,9 @@ class DashboardController extends AbstractDashboardController
             MenuItem::linkToCrud('Participants', 'fas fa-list', Participant::class),
             MenuItem::section('Tickets'),
             MenuItem::linkToCrud('Tickets', 'fas fa-list', Ticket::class),
+            MenuItem::linkToCrud('Scan', 'fas fa-list', User::class),
             MenuItem::section('Monitoring'),
             MenuItem::linkToCrud('Users', 'fas fa-list', User::class),
-            MenuItem::linkToCrud('Check Tickets', 'fas fa-list', User::class),
         ];
     }
 }

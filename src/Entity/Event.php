@@ -273,6 +273,18 @@ class Event
         return $this;
     }
 
+    public function getCompletedParticipants(): Collection
+    {
+        return $this->participants->filter(function (Participant $participant) {
+            foreach ($participant->getTickets() as $ticket) {
+                if ($ticket->getStatus() === 'COMPLETED') {
+                    return true;
+                }
+            }
+            return false;
+        });
+    }
+
     public function removeParticipant(Participant $participant): static
     {
         if ($this->participants->removeElement($participant)) {
