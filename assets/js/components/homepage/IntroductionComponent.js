@@ -99,16 +99,6 @@ const IntroductionSection = () => {
                           />
                         </div>
                       )}
-                      <div
-                        className="rounded-ss-2xl rounded-ee-2xl bg-cream shadow-lg"
-                        data-aos="fade-up-left"
-                      >
-                        <img
-                          src={Connection}
-                          alt="img-connection"
-                          className="lg:ml-auto shadow-lg"
-                        />
-                      </div>
                       <span className="absolute -bottom-8 -left-8 z-[-1]">
                         <svg
                           width="93"

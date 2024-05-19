@@ -42,7 +42,8 @@ class EventCrudController extends AbstractCrudController
         $fields = parent::configureFields($pageName);
         $fields[] = AssociationField::new('eventCategory', 'Category');
         $fields[] = ArrayField::new('features', 'Features');
-        $fields[] = CollectionField::new('participants', "Participants")->setTemplatePath('admin/fields/participants.html.twig');
+        $fields[] = ArrayField::new('checklist', 'Checklist');
+        $fields[] = CollectionField::new('getCompletedParticipants', "Participants")->onlyOnDetail()->setTemplatePath('admin/fields/participants.html.twig');
         return $fields;
     }
 }
