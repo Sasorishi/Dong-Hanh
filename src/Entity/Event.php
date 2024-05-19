@@ -67,6 +67,9 @@ class Event
     #[ORM\Column(type: Types::DATE_MUTABLE, nullable: true)]
     private ?\DateTimeInterface $registrationDeadline = null;
 
+    #[ORM\Column(nullable: true)]
+    private ?array $checklist = null;
+
     public function __construct()
     {
         $this->tickets = new ArrayCollection();
@@ -270,6 +273,18 @@ class Event
         return $this;
     }
 
+    public function getCompletedParticipants(): Collection
+    {
+        return $this->participants->filter(function (Participant $participant) {
+            foreach ($participant->getTickets() as $ticket) {
+                if ($ticket->getStatus() === 'COMPLETED') {
+                    return true;
+                }
+            }
+            return false;
+        });
+    }
+
     public function removeParticipant(Participant $participant): static
     {
         if ($this->participants->removeElement($participant)) {
@@ -314,6 +329,18 @@ class Event
     public function setRegistrationDeadline(?\DateTimeInterface $registrationDeadline): static
     {
         $this->registrationDeadline = $registrationDeadline;
+
+        return $this;
+    }
+
+    public function getChecklist(): ?array
+    {
+        return $this->checklist;
+    }
+
+    public function setChecklist(?array $checklist): static
+    {
+        $this->checklist = $checklist;
 
         return $this;
     }

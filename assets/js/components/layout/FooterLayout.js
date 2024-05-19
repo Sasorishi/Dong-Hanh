@@ -1,5 +1,5 @@
 import React from "react";
-import Logo from "../../../../public/images/vietnam.png";
+import Logo from "@images/vietnam.png";
 import Socials from "./Socials";
 
 const Footer = ({ dashboard }) => {

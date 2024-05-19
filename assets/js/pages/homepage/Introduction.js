@@ -1,6 +1,6 @@
 import React from "react";
-import ImageCover from "../../../../public/images/DSC_0039.jpg";
-import Image1 from "../../../../public/images/20230709_104807.jpg";
+import ImageCover from "@images/DSC_0039.jpg";
+import Image1 from "@images/20230709_104807.jpg";
 
 const Introduction = () => {
   return (

@@ -7,7 +7,7 @@ import axios from "axios";
 import Navbar from "./js/components/layout/NavbarLayout";
 import Footer from "./js/components/layout/FooterLayout";
 
-import App from "./js/pages/homepage/App";
+import Main from "./js/pages/homepage/App";
 import Login from "./js/pages/auth/Login";
 import Signup from "./js/pages/auth/Signup";
 import Account from "./js/pages/account/Account";
@@ -23,7 +23,7 @@ import About from "./js/pages/homepage/About";
 import PrivacyPolicy from "./js/pages/homepage/PrivacyPolicy";
 import TermsAndConditionsOfSale from "./js/pages/homepage/TermsAndConditionsOfSale";
 
-function FrontRoutes() {
+function WebRoutes() {
   Aos.init();
 
   const [isAuthenticated, setIsAuthenticated] = useState(null);
@@ -56,16 +56,16 @@ function FrontRoutes() {
     <>
       <Navbar isAuthenticated={isAuthenticated} />
       <Routes>
-        <Route path="/" element={<App />} />
+        <Route path="/" element={<Main />} />
         <Route
           path="/forget_password"
-          element={isAuthenticated ? <App /> : <ForgetPassword />}
+          element={isAuthenticated ? <Main /> : <ForgetPassword />}
         />
         <Route path="/reset_password/:token" element={<ResetPassword />} />
-        <Route path="/login" element={isAuthenticated ? <App /> : <Login />} />
+        <Route path="/login" element={isAuthenticated ? <Main /> : <Login />} />
         <Route
           path="/signup"
-          element={isAuthenticated ? <App /> : <Signup />}
+          element={isAuthenticated ? <Main /> : <Signup />}
         />
         <Route path="/account" element={<Account />} />
         <Route path="/events" element={<Events />} />
@@ -92,4 +92,4 @@ function FrontRoutes() {
   );
 }
 
-export default FrontRoutes;
+export default WebRoutes;

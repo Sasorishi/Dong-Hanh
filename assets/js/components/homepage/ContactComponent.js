@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import axios from "axios";
-import Modal from "../ModalComponent";
+import Modal from "@components/ModalComponent";
 import Recaptcha from "./RecaptchaComponent";
 
 const ContactSection = ({ onError }) => {

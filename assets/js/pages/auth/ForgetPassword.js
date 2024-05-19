@@ -1,7 +1,7 @@
 import React, { useState } from "react";
-import Toast from "../../components/ToastComponent";
+import Toast from "@components/ToastComponent";
 import axios from "axios";
-import Loader from "../../components/LoaderComponent";
+import Loader from "@components/LoaderComponent";
 
 const ForgetPassword = () => {
   const [loading, setLoading] = useState(false);
