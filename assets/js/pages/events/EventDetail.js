@@ -43,7 +43,6 @@ const EventDetail = () => {
         if (response.status === 200) {
           const data = response.data;
           setEvent(data.event);
-          console.log(data);
         } else {
           console.error("Erreur lors de requête api");
           setEvent([]);
