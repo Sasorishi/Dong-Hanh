@@ -5,10 +5,10 @@ const EventCardComponent = ({ event }) => {
     <div className="bg-amber shadow-lg mx-auto mt-16 max-w-2xl rounded-3xl ring-1 ring-gray-200 sm:mt-20">
       <div className="p-6">
         <h3 className="text-2xl font-bold tracking-tight text-cognac">
-          {event[0]["name"]}
+          {event["name"]}
         </h3>
         <p className="text-base font-semibold text-darkblue">
-          {event[0]["eventCategory"]}
+          {event["eventCategory"]}
         </p>
         <div className="mt-4 flex items-center gap-x-4">
           <h4 className="flex-none text-sm font-semibold leading-6 text-whitesmoke">
@@ -26,7 +26,7 @@ const EventCardComponent = ({ event }) => {
             lineHeight: "1.4em",
           }}
         >
-          {event[0]["description"]}
+          {event["description"]}
         </p>
         <div className="flex flex-row mt-6">
           <svg
@@ -49,7 +49,7 @@ const EventCardComponent = ({ event }) => {
             />
           </svg>
           <p className="text-base leading-7 text-charcoal">
-            {event[0]["place"]}, {event[0]["location"]}
+            {event["place"]}, {event["location"]}
           </p>
         </div>
       </div>
@@ -57,21 +57,21 @@ const EventCardComponent = ({ event }) => {
         <div className="rounded-2xl bg-gray-50 py-10 text-center ring-1 ring-inset ring-gray-900/5 lg:flex lg:flex-col lg:justify-center py-4">
           <div className="mx-auto max-w-xs px-8">
             <p className="text-base font-semibold text-darkblue">
-              {event[0]["dateStart"] === event[0]["dateEnd"]
-                ? event[0]["dateStart"]
-                : `${event[0]["dateStart"]} - ${event[0]["dateEnd"]}`}
-              , {event[0]["year"]}
+              {event["dateStart"] === event["dateEnd"]
+                ? event["dateStart"]
+                : `${event["dateStart"]} - ${event["dateEnd"]}`}
+              , {event["year"]}
             </p>
             <p className="mt-6 flex items-baseline justify-center gap-x-2">
               <span className="text-5xl font-bold tracking-tight text-gray-900">
-                {event[0]["price"][0]} €
+                {event["price"][0]} €
               </span>
               <span className="text-sm font-semibold leading-6 tracking-wide text-gray-600">
                 EUR
               </span>
             </p>
             <a
-              href={`/events/${event[0]["id"]}`}
+              href={`/events/${event["id"]}`}
               className="mt-10 block w-full animation-hover rounded-full bg-darkblue px-3 py-2 text-center text-sm font-semibold uppercase text-white shadow-sm hover:bg-forest focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
             >
               <button
