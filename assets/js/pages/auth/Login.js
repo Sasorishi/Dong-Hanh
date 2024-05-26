@@ -77,6 +77,11 @@ const Login = () => {
           </div>
 
           <div className="mt-6">
+            <input
+              type="hidden"
+              name="_target_path"
+              value="{{ path('app_events') }}"
+            />
             <button
               type="submit"
               className="animation-hover w-full uppercase px-6 py-2.5 text-sm font-medium tracking-wide text-white transition-colors duration-300 transform bg-darkblue rounded-lg hover:bg-bordeau focus:outline-none focus:ring focus:ring-gray-300 focus:ring-opacity-50"

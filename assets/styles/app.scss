@@ -6,6 +6,9 @@
 @import "tailwindcss/base";
 @import "tailwindcss/components";
 @import "tailwindcss/utilities";
+@import "swiper/css";
+@import "swiper/css/navigation";
+@import "swiper/css/pagination";
 @import "./global.scss";
 @import "./loader.scss";
 @import "./scroll-indicator.scss";

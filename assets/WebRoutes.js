@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Route, Routes, Navigate } from "react-router-dom";
+import { Route, Routes, Navigate, useLocation } from "react-router-dom";
 
 import Aos from "aos";
 import axios from "axios";
@@ -27,6 +27,7 @@ function WebRoutes() {
   Aos.init();
 
   const [isAuthenticated, setIsAuthenticated] = useState(null);
+  const location = useLocation();
 
   useEffect(() => {
     const checkAuthentication = async () => {
@@ -52,6 +53,14 @@ function WebRoutes() {
     checkAuthentication();
   }, []);
 
+  const renderProtectedRoute = (element) => {
+    return isAuthenticated === null ? null : isAuthenticated ? (
+      element
+    ) : (
+      <Navigate to={`/login?_target_path=${location.pathname}`} />
+    );
+  };
+
   return (
     <>
       <Navbar isAuthenticated={isAuthenticated} />
@@ -73,7 +82,7 @@ function WebRoutes() {
         <Route path="/response/:redirection/:type" element={<Response />} />
         <Route
           path="/register/:eventId/:numTickets"
-          element={isAuthenticated ? <Register /> : <Navigate to="/login" />}
+          element={renderProtectedRoute(<Register />)}
         />
         <Route path="/checkout" element={<Checkout />} />
         <Route path="/introduction" element={<Introduction />} />
