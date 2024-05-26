@@ -1,27 +1,27 @@
 import React, { useState, useEffect } from "react";
 import Connection from "@icons/connection.svg";
-import SmallEventCard from "@components/events/SmallEventCardComponent";
+import EventCarousel from "@components/events/EventsCarousel";
 import axios from "axios";
 
 const IntroductionSection = () => {
-  const [event, setEvent] = useState();
+  const [events, setEvents] = useState();
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const getEvents = async () => {
       try {
-        const response = await axios.get("/api/events/getNearestEvent");
+        const response = await axios.get("/api/events/getEventsNotExpired");
 
         if (response.status === 200) {
           const data = response.data;
-          setEvent(data.event);
+          setEvents(data.events);
         } else {
           console.error("Erreur lors de requête api");
-          setEvent([]);
+          setEvents([]);
         }
       } catch (error) {
         console.error("Erreur lors de requête api", error);
-        setEvent([]);
+        setEvents([]);
       } finally {
         setLoading(false);
       }
@@ -82,11 +82,11 @@ const IntroductionSection = () => {
                   </div>
                 </div>
                 <div className="hidden px-4 lg:block lg:w-1/12" />
-                <div className="w-full px-4 lg:w-6/12">
+                <div className="w-full lg:w-6/12">
                   <div className="lg:ml-auto">
                     <div className="relative w-full rounded z-10 inline-block pt-11 lg:pt-0">
-                      {event ? (
-                        <SmallEventCard event={event} />
+                      {!loading && events ? (
+                        <EventCarousel events={events} loading={loading} />
                       ) : (
                         <div
                           className="rounded-ss-2xl rounded-ee-2xl bg-cream shadow-lg"
@@ -99,7 +99,7 @@ const IntroductionSection = () => {
                           />
                         </div>
                       )}
-                      <span className="absolute -bottom-8 -left-8 z-[-1]">
+                      <span className="absolute bottom-8 left-8 z-[-1]">
                         <svg
                           width="93"
                           height="93"
