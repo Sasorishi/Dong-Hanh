@@ -612,7 +612,7 @@ const AboutUsSection = () => {
                 skills, learn about Vietnamese heritage, and contribute to
                 building movements for social change.
               </p>
-              <p>This network was developed as a program from Viet Tan.</p>
+              {/* <p>This network was developed as a program from Viet Tan.</p> */}
               <div className="flex flex-wrap items-end justify-end mt-5 mb-5">
                 <a href="/introduction">
                   <button
