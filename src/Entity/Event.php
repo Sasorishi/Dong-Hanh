@@ -52,7 +52,7 @@ class Event
     #[ORM\Column(type: Types::DATE_MUTABLE, nullable: true)]
     private ?\DateTimeInterface $dateEnd = null;
 
-    #[ORM\Column(nullable: true)]
+    #[ORM\Column(type: Types::JSON, nullable: true)]
     private ?array $features = null;
 
     #[ORM\OneToMany(mappedBy: 'event', targetEntity: Participant::class)]
@@ -61,13 +61,13 @@ class Event
     #[ORM\ManyToOne(inversedBy: 'events')]
     private ?EventCategories $eventCategory = null;
 
-    #[ORM\Column(type: Types::ARRAY, nullable: true)]
+    #[ORM\Column(type: Types::JSON, nullable: true)]
     private ?array $images = null;
 
     #[ORM\Column(type: Types::DATE_MUTABLE, nullable: true)]
     private ?\DateTimeInterface $registrationDeadline = null;
 
-    #[ORM\Column(nullable: true)]
+    #[ORM\Column(type: Types::JSON, nullable: true)]
     private ?array $checklist = null;
 
     public function __construct()

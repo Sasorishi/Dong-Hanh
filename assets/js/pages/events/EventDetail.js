@@ -65,7 +65,7 @@ const EventDetail = () => {
     <div className="bg-whitesmoke">
       {!loading && event ? (
         <div className="pt-6">
-          {event["images"] !== null && (
+          {event["images"] !== null && event["images"].length > 0 ? (
             <div className="mx-auto mt-6 max-w-2xl sm:px-6 lg:grid lg:max-w-7xl lg:grid-cols-3 lg:gap-x-8 lg:px-8">
               <div className="aspect-h-4 aspect-w-3 hidden overflow-hidden rounded-lg shadow-md lg:block">
                 <img
@@ -98,7 +98,7 @@ const EventDetail = () => {
                 />
               </div>
             </div>
-          )}
+          ) : null}
 
           <div className="mx-auto max-w-2xl px-4 pb-16 pt-10 sm:px-6 lg:grid lg:max-w-7xl lg:grid-cols-3 lg:grid-rows-[auto,auto,1fr] lg:gap-x-8 lg:px-8 lg:pb-24 lg:pt-16">
             <div className="lg:col-span-2 lg:border-r lg:border-gray-200 lg:pr-8">
@@ -216,7 +216,7 @@ const EventDetail = () => {
                 </p>
               </div>
 
-              {event && event.features ? (
+              {event.features && event.features.length > 0 ? (
                 <div className="mt-10">
                   <h3 className="text-sm font-medium text-darkblue">
                     Features
@@ -338,7 +338,7 @@ const EventDetail = () => {
                 </p>
               </div>
 
-              {event.checklist && (
+              {event.checklist && event.checklist.length > 0 ? (
                 <>
                   <div className="mt-12 mb-12 flex items-center gap-x-4">
                     <h4 className="flex-none text-sm font-semibold leading-6 text-darkblue">
@@ -356,7 +356,7 @@ const EventDetail = () => {
                     ))}
                   </div>
                 </>
-              )}
+              ) : null}
             </div>
           </div>
         </div>

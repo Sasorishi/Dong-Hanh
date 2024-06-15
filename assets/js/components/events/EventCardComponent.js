@@ -51,7 +51,7 @@ const EventCardComponent = ({ event }) => {
             {event.place}, {event.location}
           </p>
         </div>
-        {event.features && (
+        {event.features && event.features.length > 0 ? (
           <>
             <div className="mt-10 flex items-center gap-x-4">
               <h4 className="flex-none text-sm font-semibold leading-6 text-whitesmoke">
@@ -84,7 +84,7 @@ const EventCardComponent = ({ event }) => {
               ))}
             </ul>
           </>
-        )}
+        ) : null}
       </div>
       <div className="p-2 lg:w-full lg:max-w-md lg:flex-shrink-0 m-auto">
         <div className="rounded-2xl bg-gray-50 py-10 text-center ring-1 ring-inset ring-gray-900/5 lg:flex lg:flex-col lg:justify-center lg:py-16">

@@ -3,7 +3,6 @@
 namespace App\Controller\Admin;
 
 use App\Entity\Event;
-use App\Entity\Participant;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Action;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Actions;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
@@ -41,6 +40,7 @@ class EventCrudController extends AbstractCrudController
     {
         $fields = parent::configureFields($pageName);
         $fields[] = AssociationField::new('eventCategory', 'Category');
+        $fields[] = ArrayField::new('images', 'Images');
         $fields[] = ArrayField::new('features', 'Features');
         $fields[] = ArrayField::new('checklist', 'Checklist');
         $fields[] = CollectionField::new('getCompletedParticipants', "Participants")->onlyOnDetail()->setTemplatePath('admin/fields/participants.html.twig');
