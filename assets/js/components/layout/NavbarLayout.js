@@ -11,7 +11,6 @@ import {
 } from "@headlessui/react";
 
 function Navbar({ isAuthenticated }) {
-  console.log(isAuthenticated);
   const navigate = useNavigate();
   const [error, setError] = useState(null);
   const [isOpen, setIsOpen] = useState(false);

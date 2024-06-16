@@ -39,7 +39,7 @@ class TicketController extends AbstractController
         $tickets = $this->ticketRepository->findGroupedTicketsByUser($userId);
 
         if (empty($tickets)) {
-            return new JsonResponse(['tickets' =>  false]);
+            return new JsonResponse(['tickets' =>  null], Response::HTTP_OK);
         }
 
         $ticketData = [];
@@ -92,7 +92,7 @@ class TicketController extends AbstractController
                 'qrcode' => $this->ticketQrcode($ticket->getId(), $ticket->getParticipant()->getId(), $ticket->getEvent()->getId()),
             ];
         }
-        return new JsonResponse(['tickets' =>  $ticketData, 'orders' => $orderCreatedAtArray]);
+        return new JsonResponse(['tickets' =>  $ticketData, 'orders' => $orderCreatedAtArray], Response::HTTP_OK);
     }
 
     #[Route('/api/ticket/qrcode/generate', name: 'api_ticket_generate_qrcode')]
