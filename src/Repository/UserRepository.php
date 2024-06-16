@@ -81,4 +81,15 @@ class UserRepository extends ServiceEntityRepository
         $user->setTokenPassword(null);
         $this->save($user, true);
     }
+
+    /**
+     * @param User $user
+     * @param UserPasswordHasherInterface $passwordHasher
+     * @return void
+     */
+    public function changePassword(User $user, string $password, UserPasswordHasherInterface $passwordHasher): void {
+        $hashedPassword = $passwordHasher->hashPassword($user, $password);
+        $user->setPassword($hashedPassword);
+        $this->save($user, true);
+    }
 }

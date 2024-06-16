@@ -4,7 +4,7 @@ import Order from "@components/tickets/OrderComponent";
 import Loader from "@components/LoaderComponent";
 import Toast from "@components/ToastComponent";
 
-const Account = () => {
+const Tickets = () => {
   const [ticketsData, setTicketsData] = useState(null);
   const [ordersData, setOrdersData] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -19,20 +19,22 @@ const Account = () => {
       try {
         const response = await axios.get("/api/user/tickets");
         const data = response.data;
-        setTicketsData(Object.values(data.tickets) || []);
-        setOrdersData(Object.values(data.orders) || []);
+
+        if (response.data.tickets !== null) {
+          setTicketsData(Object.values(data.tickets) || []);
+          setOrdersData(Object.values(data.orders) || []);
+        }
       } catch (error) {
         console.error(
           "Erreur lors de la récupération des données du ticket",
           error
         );
         setError("Server request fetch tickets data fail.");
-
+      } finally {
+        setLoading(false);
         setTimeout(() => {
           closeToast();
         }, 5000);
-      } finally {
-        setLoading(false);
       }
     };
 
@@ -48,7 +50,10 @@ const Account = () => {
             <div className="py-2 px-4 flex flex-col text-gray-500">
               <p className="text-center">
                 You don't have a ticket yet. You can buy one{" "}
-                <a href="/events">here</a>.
+                <a href="/events" className="text-base">
+                  here
+                </a>
+                .
               </p>
             </div>
           </div>
@@ -69,4 +74,4 @@ const Account = () => {
   );
 };
 
-export default Account;
+export default Tickets;

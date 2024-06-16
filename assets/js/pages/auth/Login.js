@@ -3,9 +3,11 @@ import Toast from "@components/ToastComponent";
 
 const Login = () => {
   const [error, setError] = useState(null);
+  const [success, setSuccess] = useState(null);
 
   const closeToast = () => {
     setError(null);
+    setSuccess(null);
   };
 
   useEffect(() => {
@@ -15,12 +17,14 @@ const Login = () => {
       if (errorFromSymfony) {
         if (errorFromSymfony.message) {
           setError(errorFromSymfony.message);
-
-          setTimeout(() => {
-            closeToast();
-          }, 5000);
+        } else {
+          setSuccess("Logged");
         }
       }
+
+      setTimeout(() => {
+        closeToast();
+      }, 5000);
     };
 
     fetchData();
@@ -30,6 +34,9 @@ const Login = () => {
     <section className="relative mx-auto">
       <div className="w-full max-w-sm p-6 m-auto mx-auto bg-white rounded-lg shadow-md">
         {error && <Toast message={error} onClose={closeToast} error={true} />}
+        {success && (
+          <Toast message={success} onClose={closeToast} error={false} />
+        )}
         <div className="flex flex-col text-center justify-center mx-auto">
           {/* <img
             className="w-auto h-7 sm:h-8"

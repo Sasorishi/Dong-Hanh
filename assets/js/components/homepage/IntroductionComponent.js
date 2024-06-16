@@ -94,7 +94,7 @@ const IntroductionSection = () => {
                         >
                           <img
                             src={Connection}
-                            alt="img-connection"
+                            alt="icon-connection"
                             className="lg:ml-auto shadow-lg"
                           />
                         </div>

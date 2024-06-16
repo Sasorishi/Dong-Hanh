@@ -10,7 +10,8 @@ import Footer from "./js/components/layout/FooterLayout";
 import Main from "./js/pages/homepage/App";
 import Login from "./js/pages/auth/Login";
 import Signup from "./js/pages/auth/Signup";
-import Account from "./js/pages/account/Account";
+import Tickets from "./js/pages/account/Tickets";
+import Settings from "./js/pages/account/Settings";
 import Events from "./js/pages/events/Events";
 import EventDetail from "./js/pages/events/EventDetail";
 import Response from "./js/pages/responses/response";
@@ -27,6 +28,7 @@ function WebRoutes() {
   Aos.init();
 
   const [isAuthenticated, setIsAuthenticated] = useState(null);
+  const [loading, setLoading] = useState(true);
   const location = useLocation();
 
   useEffect(() => {
@@ -39,7 +41,6 @@ function WebRoutes() {
           setIsAuthenticated(data.isAuthenticated);
         } else {
           console.error("Erreur lors de la vérification de l'authentification");
-          setIsAuthenticated(false);
         }
       } catch (error) {
         console.error(
@@ -47,6 +48,8 @@ function WebRoutes() {
           error
         );
         setIsAuthenticated(false);
+      } finally {
+        setLoading(false);
       }
     };
 
@@ -76,7 +79,8 @@ function WebRoutes() {
           path="/signup"
           element={isAuthenticated ? <Main /> : <Signup />}
         />
-        <Route path="/account" element={<Account />} />
+        <Route path="/account/tickets" element={<Tickets />} />
+        <Route path="/account/settings" element={<Settings />} />
         <Route path="/events" element={<Events />} />
         <Route path="/events/:id" element={<EventDetail />} />
         <Route path="/response/:redirection/:type" element={<Response />} />

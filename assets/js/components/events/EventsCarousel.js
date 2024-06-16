@@ -27,10 +27,8 @@ const EventCarousel = ({ events }) => {
       }}
     >
       {events.map((event, index) => (
-        <SwiperSlide className="px-12 pb-12">
-          <div key={index}>
-            <SmallEventCard event={event} />
-          </div>
+        <SwiperSlide key={index} className="px-12 pb-12">
+          <SmallEventCard event={event} />
         </SwiperSlide>
       ))}
     </Swiper>
