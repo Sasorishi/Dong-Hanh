@@ -10,6 +10,9 @@ use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
 use EasyCorp\Bundle\EasyAdminBundle\Field\ArrayField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\AssociationField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\CollectionField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\NumberField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
+use Symfony\Component\Validator\Constraints as Assert;
 
 class EventCrudController extends AbstractCrudController
 {
@@ -39,9 +42,16 @@ class EventCrudController extends AbstractCrudController
     public function configureFields(string $pageName): iterable
     {
         $fields = parent::configureFields($pageName);
+        $fields[] = NumberField::new('year', 'Year')->setFormTypeOptions(['constraints' => [
+            new Assert\Positive(),
+        ]]);
         $fields[] = AssociationField::new('eventCategory', 'Category');
         $fields[] = ArrayField::new('images', 'Images');
-        $fields[] = ArrayField::new('features', 'Features');
+        $fields[] = ArrayField::new('features', 'Features')->setFormTypeOptions(['constraints' => [
+            new Assert\Count([
+                'max' => 4,
+            ]),
+        ]]);
         $fields[] = ArrayField::new('checklist', 'Checklist');
         $fields[] = CollectionField::new('getCompletedParticipants', "Participants")->onlyOnDetail()->setTemplatePath('admin/fields/participants.html.twig');
         return $fields;
