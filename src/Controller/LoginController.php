@@ -114,6 +114,19 @@ class LoginController extends AbstractController
         return new JsonResponse(['success' => false]);
     }
 
+    #[Route('/api/auth/change_password', name: 'api_change_password', methods: ['POST'])]
+    public function requestChangePassword(Request $request, UserRepository $userRepository, UserPasswordHasherInterface $passwordHasher, Security $security): JsonResponse
+    {
+        $data = json_decode($request->getContent(), true);
+        $user = $security->getUser();
+        if ($user) {
+            $userRepository->changePassword($user, $data['password'], $passwordHasher);
+            return new JsonResponse(['success' => true]);
+        }
+
+        return new JsonResponse(['success' => false]);
+    }
+
     #[Route('/logout', name: 'app_logout')]
     public function logout()
     {

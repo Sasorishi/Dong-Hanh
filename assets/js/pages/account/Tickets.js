@@ -4,7 +4,7 @@ import Order from "@components/tickets/OrderComponent";
 import Loader from "@components/LoaderComponent";
 import Toast from "@components/ToastComponent";
 
-const Account = () => {
+const Tickets = () => {
   const [ticketsData, setTicketsData] = useState(null);
   const [ordersData, setOrdersData] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -69,4 +69,4 @@ const Account = () => {
   );
 };
 
-export default Account;
+export default Tickets;
