@@ -49,10 +49,10 @@ const Footer = ({ dashboard }) => {
           <a className="text-reset fw-bold" href="/">
             Đồng Hành Network
           </a>{" "}
-          |{" "}
-          <a href="https://viettan.org/" target="_blank">
+          {/* |{" "} */}
+          {/* <a href="https://viettan.org/" target="_blank">
             VIET TAN
-          </a>{" "}
+          </a>{" "} */}
           | All Rights Reserved by Đồng Hành Network
         </p>
       </div>
