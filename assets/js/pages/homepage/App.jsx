@@ -1,4 +1,3 @@
-// assets/js/components/App.js
 import React, { useEffect, useState } from "react";
 import Toast from "@components/ToastComponent";
 import IntroductionSection from "@components/homepage/IntroductionComponent";
@@ -10,7 +9,7 @@ import CommunitySection from "@components/homepage/CommunityComponent";
 import TeamSection from "@components/homepage/TeamComponent";
 import ContactSection from "@components/homepage/ContactComponent";
 import TestimonialsSection from "@components/homepage/TestimonialsComponent";
-import FeaturesSection from "@components/homepage/FeaturesComponent";
+// import FeaturesSection from "@components/homepage/FeaturesComponent";
 import FeedInstagramSection from "@components/homepage/FeedInstagramComponent";
 
 const App = () => {
