@@ -58,6 +58,12 @@ const ResetPassword = () => {
       ) : (
         <div className="w-full max-w-sm p-6 m-auto mx-auto bg-white rounded-lg shadow-md">
           {error && <Toast message={error} onClose={closeToast} error={true} />}
+          {/* <img
+              className="w-auto h-7 sm:h-8"
+              src="https://merakiui.com/images/logo.svg"
+              alt=""
+            /> */}
+          <span className="mt-3">Reset Your Password</span>
           <form className="mt-6" onSubmit={handleSubmit}>
             <div>
               <label htmlFor="password" className="block text-sm text-darkblue">
@@ -87,9 +93,9 @@ const ResetPassword = () => {
             <div className="mt-6">
               <button
                 type="submit"
-                className="w-full px-6 py-2.5 text-sm font-medium tracking-wide text-white capitalize transition-colors duration-300 transform bg-gray-800 rounded-lg hover:bg-gray-700 focus:outline-none focus:ring focus:ring-gray-300 focus:ring-opacity-50"
+                className="w-full px-6 py-2.5 text-sm font-medium tracking-wide text-white uppercase transition-colors duration-300 transform bg-gray-800 rounded-lg hover:bg-gray-700 focus:outline-none focus:ring focus:ring-gray-300 focus:ring-opacity-50"
               >
-                Valide
+                Submit
               </button>
             </div>
           </form>
