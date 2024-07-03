@@ -45,9 +45,9 @@ class UserRepository extends ServiceEntityRepository
      * @param string $email
      * @param string $password
      * @param UserPasswordHasherInterface $passwordHasher
-     * @return void
+     * @return User|null
      */
-    public function createUser(string $email, string $password, UserPasswordHasherInterface $passwordHasher): void {
+    public function createUser(string $email, string $password, UserPasswordHasherInterface $passwordHasher): ?User {
         $user = new User;
         $user->setEmail($email);
         
@@ -57,6 +57,8 @@ class UserRepository extends ServiceEntityRepository
         $user->setCreateAt(new DateTime());
 
         $this->save($user, true);
+
+        return $user;
     }
 
     /**

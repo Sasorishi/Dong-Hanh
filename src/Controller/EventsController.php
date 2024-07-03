@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Repository\EventRepository;
+use App\Service\MailerService;
 use Carbon\Carbon;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -11,6 +12,12 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class EventsController extends AbstractController
 {
+    private $mailService;
+    
+    public function __construct(MailerService $mailerService) {
+        $this->mailService = $mailerService;
+    }
+
     #[Route('/events', name: 'app_events')]
     public function index(): Response
     {

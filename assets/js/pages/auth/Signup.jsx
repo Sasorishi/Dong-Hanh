@@ -137,7 +137,7 @@ const Signup = () => {
                 type="submit"
                 className="w-full px-6 py-2.5 text-sm font-medium tracking-wide text-white uppercase transition-colors duration-300 transform bg-darkblue rounded-lg hover:bg-bordeau focus:outline-none focus:ring focus:ring-gray-300 focus:ring-opacity-50"
               >
-                Sign Up
+                Submit
               </button>
             </div>
           </form>
