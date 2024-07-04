@@ -21,7 +21,7 @@ class MailerService {
     {
         try {
             $email = (new Email())
-                ->from(new Address($from, "Dong-Hanh")) // Sender
+                ->from(new Address($from, "Dong Hanh Network")) // Sender
                 ->to($to) // Receiver
                 ->replyTo($from)
                 ->subject($subject)
@@ -40,11 +40,31 @@ class MailerService {
     {
         try {
             $email = (new TemplatedEmail())
-                ->from(new Address($from, "Dong-Hanh")) // Sender
+                ->from(new Address($from, "Dong Hanh Network")) // Sender
                 ->to($to) // Receiver
                 ->replyTo($from)
                 ->subject($subject)
                 ->htmlTemplate($templateName)
+                ->context($context);
+
+            $this->mailer->send($email);
+
+            return new Response('Email sent successfully!', Response::HTTP_OK);
+        } catch (Throwable $th) {
+            dump($th);
+            return new Response('Failed to send email: ' . $th->getMessage(), Response::HTTP_BAD_REQUEST);
+        }
+    }
+
+    public function sendContactForm(string $from, string $to, string $subject, array $context = []): Response
+    {
+        try {
+            $email = (new TemplatedEmail())
+                ->from(new Address($to, "Dong Hanh Network - Contact Form")) // Sender
+                ->to($to) // Receiver
+                ->replyTo($from)
+                ->subject($subject)
+                ->htmlTemplate('emails/contact.html.twig')
                 ->context($context);
 
             $this->mailer->send($email);
