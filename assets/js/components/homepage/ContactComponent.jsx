@@ -27,10 +27,11 @@ const ContactSection = ({ onError }) => {
         return;
       }
 
-      const response = await axios.post("/api/mailer/send/contact", formData);
-      // console.log(response);
+      const response = await axios.post("/api/mailer/send", formData);
+      console.log(response);
+
       if (response.status === 200) {
-        window.location.href = "/response/success/contact";
+        // window.location.href = "/response/success/contact";
       } else {
         onError("Error sending email.");
       }
