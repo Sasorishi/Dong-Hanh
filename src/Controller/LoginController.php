@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Repository\ResetsPasswordsRepository;
 use App\Repository\UserRepository;
 use App\Service\MailerService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -79,7 +80,7 @@ class LoginController extends AbstractController
     }
 
     #[Route('/api/auth/forget_password', name: 'api_forgot_password', methods: ['POST'])]
-    public function requestForgetPassword(Request $request, UserRepository $userRepository, TokenGeneratorInterface $tokenGenerator, MailerService $mailerService): JsonResponse
+    public function requestForgetPassword(Request $request, UserRepository $userRepository, TokenGeneratorInterface $tokenGenerator, MailerService $mailerService, ResetsPasswordsRepository $resetsPasswordsRepository): JsonResponse
     {
         $data = json_decode($request->getContent(), true);
         $user = $userRepository->findOneBy(['email' => $data['email']]);
@@ -89,7 +90,7 @@ class LoginController extends AbstractController
         }
         
         $token = $tokenGenerator->generateToken();
-        $userRepository->generateNewRequestTokenPassword($user, $token);
+        $resetsPasswordsRepository->generateNewRequestTokenPassword($user, $token);
 
         $context = ([
             'domain' => $this->getParameter('app.domain'),

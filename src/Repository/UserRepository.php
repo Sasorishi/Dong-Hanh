@@ -63,17 +63,6 @@ class UserRepository extends ServiceEntityRepository
 
     /**
      * @param User $user
-     * @param string $token
-     * @return void
-     */
-    public function generateNewRequestTokenPassword(User $user, string $token): void {
-        $user->setTokenPassword($token);
-        $user->setPasswordRequestAt(new DateTime);
-        $this->save($user, true);
-    }
-
-    /**
-     * @param User $user
      * @param UserPasswordHasherInterface $passwordHasher
      * @return void
      */
