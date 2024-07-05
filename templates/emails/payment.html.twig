@@ -4,6 +4,14 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Đồng Hành Network</title>
+    <style>
+      .imgBackground {
+          background-image: url("https://nypost.com/wp-content/uploads/sites/2/2021/09/10080.jpg?quality=75&strip=all"); 
+          background-size: cover;
+          height: 11.6em;
+          width: 17em;
+      }
+    </style>
   </head>
   <body style="font-family: 'Poppins', Arial, sans-serif">
     <table width="100%" border="0" cellspacing="0" cellpadding="0">
@@ -45,84 +53,89 @@
               </td>
             </tr>
             <tr>
+              <td colspan="4" class="body" style="background-color: white; padding: 40px; padding-top: 10px; padding-bottom: 15px; text-align: left; font-size: 16px; line-height: 1.6;">
+                  <img src="https://static.vecteezy.com/system/resources/previews/038/461/228/non_2x/payment-security-online-concept-smartphone-with-credit-card-gold-coin-paper-bag-on-isolated-background-digital-marketing-illustration-free-vector.jpg" style="width: 100%;"/>
+                  <h3 style="text-align: center; font-size: 1.5em;">Your Payment Successfull 🚀</h3>
+                  <p style="text-align: center;">Hi {{ user_firstname }}! Thank you for your payment of <span style="color: rgb(54, 54, 54); font-weight: bold;">{{ amount }}</span> on<br/>
+                  <span style="color: rgb(54, 54, 54); font-weight: bold;">April 04, 2022</span> using <span style="color: rgb(54, 54, 54); font-weight: bold;">{{ typeof_payment }} {{no_payment_method}}</span><p>
+              </td>
+            </tr>
+            <tr>
+              <td colspan="4" style="padding-bottom: 25px;">
+                  <hr style="width: 90%; color: grey; opacity: 0.25;"/>
+              </td>
+            </tr>
+            <tr>
+              <td colspan="4" style="padding: 40px; padding-top: 0px; padding-bottom: 20px; text-align: left; font-size: 16px; line-height: 1.6;">
+                  <span style="font-weight: bold;">Payment Details</span>
+              </td>
+            </tr>
+            <tr>
               <td colspan="4">
-                <table
-                  width="550"
-                  border="0"
-                  cellspacing="0"
-                  cellpadding="0"
-                  style="margin: auto"
-                >
-                  <tr>
-                    <td
-                      class="body"
-                      style="
-                        background-color: white;
-                        padding: 40px;
-                        padding-top: 10px;
-                        text-align: left;
-                        font-size: 16px;
-                        line-height: 1.6;
-                        border-top-left-radius: 10px;
-                        border-top-right-radius: 10px;
-                      "
-                    >
-                      <h3 style="color: #0d1b2a;">Welcome to Đồng Hành Network!</h3>
-                      <p style="color: #0d1b2a;">
-                        Hi {{ user_email }}, <br /><br />
-                        We're excited to welcome you to Đồng Hành Network and are eager to see you at our in our upcoming events.<br />
-                        You're on your way to creating memorable experiences and exploring the rich Vietnamese culture.
-                        <br /><br />
-                        Our global Vietnamese community is dedicated to fostering meaningful connections and social interactions. 
-                        <br />
-                        If you need any assistance, we'll be here to support you every step of the way.
-                        <br /><br />
-                        Thanks,<br />
-                        Đồng Hành Network Team
-                      </p>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td
-                      style="
-                        padding: 0px 40px 40px 40px;
-                        text-align: center;
-                        background-color: white;
-                        border-bottom-left-radius: 10px;
-                        border-bottom-right-radius: 10px;
-                      "
-                    >
-                      <table cellspacing="0" cellpadding="0">
-                        <tr>
-                          <td
-                            align="center"
-                            style="
-                              background-color: #0d1b2a;
-                              padding-top: 8px;
-                              padding-bottom: 8px;
-                              padding-left: 10px;
-                              padding-right: 10px;
-                              border-radius: 20px
-                            "
-                          >
-                            <a
-                              href="https://dong-hanh.org/events"
-                              target="_blank"
-                              style="
-                                color: #ffffff;
-                                text-decoration: none;
-                                font-size: 0.8rem;
-                                font-weight: bold;
-                                text-transform: uppercase;
-                              "
-                              >Let's Get Started</a
-                            >
+                  <table cellpadding="10" style="background-color: #f8fafc; margin: auto; width: 90%; padding-block: 15px; margin-bottom: 10px;">
+                      <tr>
+                          <td style="color: rgb(75, 75, 75); font-weight: 500;">
+                              Amount
                           </td>
-                        </tr>
-                      </table>
-                    </td>
-                  </tr>
-                </table>
+                          <td colspan="2" style="text-align: right; font-weight: bold; color: rgb(75, 75, 75);">
+                              {{ amount }}
+                          </td>
+                      </tr>
+                      <tr>
+                          <td style="color: rgb(75, 75, 75); font-weight: 500;">
+                              Date
+                          </td>
+                          <td colspan="2" style="text-align: right; font-weight: bold; color: rgb(75, 75, 75);">
+                              April 04, 2022
+                          </td>
+                      </tr>
+                      <tr>
+                          <td style="color: rgb(75, 75, 75); font-weight: 500; width: 65%;">
+                              Method
+                          </td>
+                          <td align="right" style="padding-right: 0px;">
+                              <img src={{ logo_payment_method }} style="width: 65%;"/>
+                          </td>
+                          <td style="text-align: right; font-weight: bold; color: rgb(75, 75, 75); padding-left: 0px;">
+                              <p style="display: inline; vertical-align: text-top;">{{typeof_payment}}</p>
+                          </td>
+                      </tr>
+                      <tr>
+                          <td style="color: rgb(75, 75, 75); font-weight: 500;">
+                              Confirmation
+                          </td>
+                          <td colspan="2" style="text-align: right; font-weight: bold; color: rgb(75, 75, 75);">
+                              {{confirmation_code}}
+                          </td>
+                      </tr>
+                  </table> 
+              </td>
+            </tr>
+            <tr>
+              <td colspan="4" style="text-align: center; color: rgb(175, 175, 175); font-size: 15px; padding-bottom: 10px;">
+                  <p>*Please note that the payment is non-refundale in the case of cancellation</p>
+              </td>
+            </tr>
+            <tr>
+              <td colspan="4" style="padding: 20px 40px 40px 40px; text-align: center;">
+                  <table cellspacing="0" cellpadding="0" style="margin: auto;">
+                      <tr>
+                          <td>
+                              <div class="imgBackground"></div>
+                          </td>
+                          <td align="center" style="background-color: #2969ff; width: 12em;">
+                              <h2 style="color: white;">20% OFF</h2>
+                              <p style="color: white; line-height: 1.5;">
+                                  <span style="font-size: 0.9em;">Your next shopping</span>
+                                  <br/>
+                                  <span style="font-weight: bold;">USE CODE: {{sales_code}}</span>
+                                  <div style="background-color: white; margin-inline: 10px; padding: 10px;">
+                                      <a href="" target="_blank" style="color: #2969ff; text-decoration: none; font-size: 15px; font-weight: bold;">Go Shopping</a>
+                                  </div>
+                              </p>
+                          </td>
+                      </tr>
+                  </table>
               </td>
             </tr>
             <tr>
