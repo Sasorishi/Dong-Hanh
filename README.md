@@ -8,13 +8,6 @@
 
 The Dong Hanh website is powered by [Symfony][2], a robust PHP framework for web and console applications, and utilizes a set of reusable PHP components.
 
-## Installation
-
-1. [Install Symfony][4] using Composer (refer to [requirements details][3]).
-2. Symfony strictly follows [semantic versioning][5] and provides "Long Term Support" (LTS) versions. Check the [release process][6] for predictability and business-friendly updates.
-3. If you encounter issues with Composer installation, consider [installing it locally][12] and moving it to a folder within your PATH for [global usage][13].
-4. Ensure Symfony is exported to your PATH.
-
 ## Documentation
 
 Explore the following resources to master Symfony and understand its ecosystem:
@@ -28,18 +21,65 @@ Explore the following resources to master Symfony and understand its ecosystem:
 
 This Symfony 6 project incorporates React and Tailwind. Follow the steps below to set up and run the project:
 
-### Prerequisites
+## Prerequisites
 
-- Node.js and npm for managing JavaScript dependencies.
-- Yarn for efficient package management.
+Before getting started, make sure you have the following prerequisites installed on your machine:
 
-### Installation Steps
+- [PHP](https://www.php.net/) >= 8.2
+- [Composer](https://getcomposer.org/) (Dependency Manager for PHP)
+- [Node.js](https://nodejs.org/) (v14 or higher)
+- [npm](https://www.npmjs.com/) (Node Package Manager)
 
-1. Clone the repository: `git clone https://github.com/Sasorishi/dong-hanh.git`.
-2. Navigate to the project folder: `cd dong-hanh`.
-3. Install PHP dependencies with Composer: `composer install`.
-4. Install JavaScript dependencies with Yarn: `npm install`.
-5. Build assets with Webpack Encore: `npm run dev-server`.
+## Getting Started
+
+1. **Clone this repository to your local machine:**
+
+```bash
+git clone url-repo
+```
+
+2. **Navigate into the project directory:**
+
+   ```bash
+   cd your-project
+   ```
+
+3. **Install PHP dependencies using Composer:**
+
+   ```bash
+   composer install
+   ```
+
+4. **Install JavaScript dependencies using npm:**
+
+   ```bash
+   npm install
+   ```
+
+5. **Build the frontend assets:**
+
+   ```bash
+   npm run build
+   ```
+
+6. **Start the Symfony server:**
+
+   ```bash
+   symfony serve:start
+   ```
+
+7. **Migrate the database:**
+   Edit in your .env file : DATABASE_URL="mysql://username:password@127.0.0.1:3306/database"
+
+```
+php bin/console doctrine:database:create
+```
+
+```
+php bin/console doctrine:schema:update --force
+```
+
+8. **Open your web browser and navigate to** `http://localhost:8000` **to view the application.**
 
 ### Development
 
