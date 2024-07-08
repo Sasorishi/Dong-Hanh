@@ -10,6 +10,7 @@ const Signup = () => {
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [isRegistered, setIsRegistered] = useState(false);
+  const [userId, setUserId] = useState(null);
 
   const closeToast = () => {
     setError(null);
@@ -36,6 +37,8 @@ const Signup = () => {
 
       if (response.data.success !== false) {
         setIsRegistered(true);
+        console.log(response.data.idUser);
+        setUserId(response.data.idUser);
       } else {
         setError(`Error : ${response.data.message}.`);
 
@@ -57,7 +60,7 @@ const Signup = () => {
 
   useEffect(() => {
     if (isRegistered) {
-      window.location.href = "/response/success/signup";
+      //window.location.href = "/account-verify/" + toString(userId);
     }
   }, [isRegistered]);
 

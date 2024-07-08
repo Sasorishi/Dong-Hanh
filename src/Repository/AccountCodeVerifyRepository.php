@@ -3,6 +3,7 @@
 namespace App\Repository;
 
 use App\Entity\AccountCodeVerify;
+use App\Entity\User;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
@@ -21,7 +22,30 @@ class AccountCodeVerifyRepository extends ServiceEntityRepository
         parent::__construct($registry, AccountCodeVerify::class);
     }
 
-//    /**
+    public function save(AccountCodeVerify $entity, bool $flush = false): void
+    {
+        $this->getEntityManager()->persist($entity);
+
+        if ($flush) {
+            $this->getEntityManager()->flush();
+        }
+    }
+
+    public function createAccountCodeVerify(string $code, User $user): ?AccountCodeVerify
+    {
+        $accountCodeVerify = new AccountCodeVerify;
+        $accountCodeVerify->setUser($user);
+        $accountCodeVerify->setCode($code);
+        $dateTime = new \DateTime();
+        $dateTime->modify("+10 minutes");
+        $accountCodeVerify->setExpiredAt($dateTime);
+
+        $this->save($accountCodeVerify, true);
+
+        return $accountCodeVerify;
+    }
+
+    //    /**
 //     * @return AccountCodeVerify[] Returns an array of AccountCodeVerify objects
 //     */
 //    public function findByExampleField($value): array
@@ -36,7 +60,7 @@ class AccountCodeVerifyRepository extends ServiceEntityRepository
 //        ;
 //    }
 
-//    public function findOneBySomeField($value): ?AccountCodeVerify
+    //    public function findOneBySomeField($value): ?AccountCodeVerify
 //    {
 //        return $this->createQueryBuilder('a')
 //            ->andWhere('a.exampleField = :val')

@@ -23,6 +23,7 @@ import Introduction from "./js/pages/homepage/Introduction";
 import About from "./js/pages/homepage/About";
 import PrivacyPolicy from "./js/pages/homepage/PrivacyPolicy";
 import TermsAndConditionsOfSale from "./js/pages/homepage/TermsAndConditionsOfSale";
+import AccountVerify from "./js/pages/auth/AccountVerify";
 
 function WebRoutes() {
   Aos.init();
@@ -98,6 +99,10 @@ function WebRoutes() {
         <Route
           path="/privacy_policy"
           element={<PrivacyPolicy date="7th March 2024" />}
+        />
+        <Route
+          path="/account-verify/:id"
+          element={<AccountVerify />}
         />
       </Routes>
       <Footer />

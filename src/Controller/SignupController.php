@@ -2,8 +2,12 @@
 
 namespace App\Controller;
 
+use App\Repository\AccountCodeVerifyRepository;
 use App\Repository\UserRepository;
+use App\Service\AccountVerify;
+use App\Service\AccountVerifyService;
 use App\Service\MailerService;
+use App\Controller\AccountVerifyController;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -18,13 +22,17 @@ class SignupController extends AbstractController
     private $userRepository;
     private $mailerService;
     private $params;
+    private $accountVerifyService;
+    private $accountCodeVerifyRepository;
 
-    public function __construct(UserPasswordHasherInterface $passwordHasher, UserRepository $userRepository, MailerService $mailerService, ParameterBagInterface $params)
+    public function __construct(UserPasswordHasherInterface $passwordHasher, UserRepository $userRepository, MailerService $mailerService, ParameterBagInterface $params, AccountVerifyService $accountVerifyService, AccountCodeVerifyRepository $accountCodeVerifyRepository)
     {
         $this->passwordHasher = $passwordHasher;
         $this->userRepository = $userRepository;
         $this->mailerService = $mailerService;
         $this->params = $params;
+        $this->accountVerifyService = $accountVerifyService;
+        $this->accountCodeVerifyRepository = $accountCodeVerifyRepository;
     }
 
     #[Route('/signup', name: 'app_signup')]
@@ -49,14 +57,16 @@ class SignupController extends AbstractController
                 return new JsonResponse(['success' => false, 'message' => 'Password confirmation does not match']);
             }
         }
-        
+
         $newUser = $this->userRepository->createUser($data['email'], $data['password'], $this->passwordHasher);
+        $code = $this->accountVerifyService->codeGenerator();
+        $this->accountCodeVerifyRepository->createAccountCodeVerify($code, $newUser);
         $context = ([
             'user_id' => $newUser->getId(),
             'user_email' => $newUser->getEmail(),
             'current_year' => new \DateTime('Y')
         ]);
-        $this->mailerService->sendTemplateEmail($mail, $newUser->getEmail(), "Welcome", 'emails/welcome.html.twig', $context);
-        return new JsonResponse(['success' => true, 'message' => 'Signin successful']);
+        $this->mailerService->sendTemplateEmail($mail, $newUser->getEmail(), "Verify your account", 'emails/verification_code.html.twig', $context);
+        return new JsonResponse(['success' => true, 'message' => 'Signin successful', 'idUser' => $newUser->getId()]);
     }
 }

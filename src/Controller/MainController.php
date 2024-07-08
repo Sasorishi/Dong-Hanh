@@ -20,7 +20,7 @@ class MainController extends AbstractController
         //         'error' => $response
         //     ]);
         // }
-        
+
         return $this->render('index.html.twig');
     }
 
@@ -46,5 +46,17 @@ class MainController extends AbstractController
     public function termsAndConditionsOfSale(): Response
     {
         return $this->render('index.html.twig');
+    }
+
+    #[Route('/test', name: 'test')]
+    public function test(): Response
+    {
+
+        return $this->render('emails/verification_code.html.twig', [
+            'user_id' => "14567456",
+            'user_email' => "matteo.baldinetti@gmail.com",
+            'code' => [1, 3, 5, 4, 8, 6],
+            'current_year' => new \DateTime('Y')
+        ]);
     }
 }
