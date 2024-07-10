@@ -34,10 +34,8 @@ const Signup = () => {
       };
 
       const response = await axios.post("/api/auth/signup", combinedData);
-
       if (response.data.success !== false) {
         setIsRegistered(true);
-        console.log(response.data.idUser);
         setUserId(response.data.idUser);
       } else {
         setError(`Error : ${response.data.message}.`);
@@ -60,7 +58,7 @@ const Signup = () => {
 
   useEffect(() => {
     if (isRegistered) {
-      //window.location.href = "/account-verify/" + toString(userId);
+      window.location.href = "/account-verify/" + userId;
     }
   }, [isRegistered]);
 
