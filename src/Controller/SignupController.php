@@ -4,10 +4,8 @@ namespace App\Controller;
 
 use App\Repository\AccountCodeVerifyRepository;
 use App\Repository\UserRepository;
-use App\Service\AccountVerify;
 use App\Service\AccountVerifyService;
 use App\Service\MailerService;
-use App\Controller\AccountVerifyController;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -60,10 +58,11 @@ class SignupController extends AbstractController
 
         $newUser = $this->userRepository->createUser($data['email'], $data['password'], $this->passwordHasher);
         $code = $this->accountVerifyService->codeGenerator();
-        $this->accountCodeVerifyRepository->createAccountCodeVerify($code, $newUser);
+        $this->accountCodeVerifyRepository->createAccountCodeVerify($this->accountVerifyService->arrayToString($code), $newUser);
         $context = ([
             'user_id' => $newUser->getId(),
             'user_email' => $newUser->getEmail(),
+            'code' => $code,
             'current_year' => new \DateTime('Y')
         ]);
         $this->mailerService->sendTemplateEmail($mail, $newUser->getEmail(), "Verify your account", 'emails/verification_code.html.twig', $context);
