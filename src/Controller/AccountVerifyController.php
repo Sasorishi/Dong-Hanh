@@ -8,21 +8,20 @@ use App\Service\MailerService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
-use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Routing\Annotation\Route;
 
 class AccountVerifyController extends AbstractController
 {
     private $accountCodeVerifyRepository;
-
+    private $userRepository;
     private $mailerService;
     private $params;
 
-    public function __construct(AccountCodeVerifyRepository $accountCodeVerifyRepository, MailerService $mailerService, ParameterBagInterface $params)
+    public function __construct(AccountCodeVerifyRepository $accountCodeVerifyRepository, UserRepository $userRepository, MailerService $mailerService, ParameterBagInterface $params)
     {
         $this->accountCodeVerifyRepository = $accountCodeVerifyRepository;
+        $this->userRepository = $userRepository;
         $this->mailerService = $mailerService;
         $this->params = $params;
     }
@@ -36,18 +35,18 @@ class AccountVerifyController extends AbstractController
     }
 
     #[Route('/api/auth/account-verify/{id}', name: 'api_auth_account-verify', methods: ['POST'])]
-    public function accountVerify(Request $request, $id): JsonResponse
+    public function accountVerify($id): JsonResponse
     {
-        $mail = $this->params->get("app.mail_address");
-        $code = $this->codeGenerator();
-        $newAccountCodeVerify = $this->accountCodeVerifyRepository->createAccountCodeVerify($code);
-        $context = ([
-            'user_id' => $newAccountCodeVerify->getUserId(),
-            'user_email' => $newAccountCodeVerify->getEmail(),
-            'code' => $code,
-            'current_year' => new \DateTime('Y')
-        ]);
-        $this->mailerService->sendTemplateEmail($mail, $newAccountCodeVerify->getEmail(), "Verify your account", 'emails/verification_code.html.twig', $context);
+        $user = $this->accountCodeVerifyRepository->findOneBy(['user' => $id]);
+        return new JsonResponse(['success' => true, 'message' => 'Signin successful', 'userId' => $user->getUser()->getId(), 'code' => $user->getCode(), 'expiredAt' => $user->getExpiredAt()]);
+    }
+
+    #[Route('/api/auth/account-verify/database/{id}', name: 'api_auth_account-verify_database', methods: ['POST'])]
+    public function accountVerifyDatabase($id): JsonResponse
+    {
+        $user = $this->userRepository->findOneBy(['id' => $id]);
+        $user->setIsVerified(true);
+        $this->userRepository->save($user, true);
         return new JsonResponse(['success' => true, 'message' => 'Signin successful']);
     }
 }
