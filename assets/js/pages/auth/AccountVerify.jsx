@@ -61,6 +61,18 @@ const AccountVerify = () => {
         }
     }
 
+    const handleResendEmail = async () => {
+        const response = await axios.post(`/api/auth/account-verify/resend/${id}`);
+        console.log(response)
+        if (response.data.success !== false) {
+            setUserId(response.data.userId);
+            setCode(response.data.code);
+            setExpiredAt(response.data.expiredAt);
+        } else {
+            setError(`Error : ${response.data.message}.`);
+        }
+    }
+
     const onChange = (text) => {
         handleAccountVerify();
         verifyCode(text, code, expiredAt)
@@ -82,7 +94,7 @@ const AccountVerify = () => {
                         <Input.OTP length={6} {...sharedProps} />
                     </div>
                     <p className='text-center mt-6'>If you have not received it, <br /> click on the link below</p>
-                    <p className='text-center mt-4' ><a href="">Resend me an email</a></p>
+                    <p className='text-center mt-4'><a onClick={() => handleResendEmail()} style={{ cursor: "pointer" }}>Resend me an email</a></p>
                 </form>
             </div>
         </section>
