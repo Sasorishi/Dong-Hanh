@@ -4,13 +4,21 @@ namespace App\Service;
 
 class AccountVerifyService
 {
-    public function codeGenerator(): string
+    public function codeGenerator(): array
     {
-        $code = "";
+        $code = array();
         for ($i = 0; $i < 6; $i++) {
-            $randomNumber = strval(random_int(0, 9));
-            $code = $code . $randomNumber;
+            array_push($code, random_int(0, 9));
         }
         return $code;
+    }
+
+    public function arrayToString(array $array): string
+    {
+        $string = "";
+        foreach ($array as $key => $value) {
+            $string = $string . $value;
+        }
+        return $string;
     }
 }
