@@ -56,6 +56,15 @@
             "config/packages/nelmio_cors.yaml"
         ]
     },
+    "pentatrion/vite-bundle": {
+        "version": "6.4",
+        "recipe": {
+            "repo": "github.com/symfony/recipes-contrib",
+            "branch": "main",
+            "version": "1.0",
+            "ref": "4d98e6cbe66f6cd2dadc8375b035c7a1c30100c0"
+        }
+    },
     "phpunit/phpunit": {
         "version": "10.5",
         "recipe": {
@@ -268,25 +277,6 @@
         "files": [
             "config/packages/web_profiler.yaml",
             "config/routes/web_profiler.yaml"
-        ]
-    },
-    "symfony/webpack-encore-bundle": {
-        "version": "1.16",
-        "recipe": {
-            "repo": "github.com/symfony/recipes",
-            "branch": "main",
-            "version": "1.10",
-            "ref": "5878c7c28468ca0fdce2497a04cfc66bab0dc3ef"
-        },
-        "files": [
-            "assets/app.js",
-            "assets/bootstrap.js",
-            "assets/controllers.json",
-            "assets/controllers/hello_controller.js",
-            "assets/styles/app.css",
-            "config/packages/webpack_encore.yaml",
-            "package.json",
-            "webpack.config.js"
         ]
     },
     "symfonycasts/verify-email-bundle": {

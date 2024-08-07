@@ -15,12 +15,12 @@
 		</title>
 		<link rel="icon" type="image/png" href="{{ asset('images/vietnam.png') }}">
 		{% block stylesheets %}
-			{{ encore_entry_link_tags('styles') }}
-			{{ encore_entry_link_tags('external_assets_css') }}
+			{{ vite_entry_link_tags('styles') }}
+			{{ vite_entry_link_tags('external_assets_css') }}
 		{% endblock %}
 
 		{% block javascripts %}
-			{{ encore_entry_script_tags('app') }}
+			{{ vite_entry_script_tags('app') }}
 			<script src="https://kit.fontawesome.com/56694ff80d.js" crossorigin="anonymous"></script>
 			<script src="https://www.google.com/recaptcha/api.js?hl=en" async defer></script>
 		{% endblock %}
