@@ -15,21 +15,20 @@ const Checkout = () => {
   const location = useLocation();
   const [error, setError] = useState(null);
   const TIMEOUT_DURATION = 5 * 60 * 1000;
+  const [code, setCode] = useState(null);
+  const [discount, setDiscount] = useState(null);
   let timeoutId;
+  const [price, setPrice] = useState(0);
 
   const startTimeout = () => {
-    // console.log("Timeout started");
     let elapsedTime = 0;
 
     const intervalId = setInterval(() => {
       elapsedTime += 1000;
-      // console.log(`Elapsed time: ${elapsedTime / 1000} seconds`);
     }, 1000);
 
     setTimeout(() => {
-      // console.log("Timeout expired");
       clearInterval(intervalId);
-
       window.location.href = "/response/error/timeout";
     }, TIMEOUT_DURATION);
   };
@@ -43,16 +42,23 @@ const Checkout = () => {
     window.location.href = "/";
   }
 
-  const price = () => {
-    return numTickets * event["price"][0];
-  };
-
   const handlePaymentError = (error) => {
     setError(error);
   };
 
   const handleLoadingChange = (newLoadingValue) => {
     setLoading(newLoadingValue);
+  };
+
+  const calculatePrice = () => {
+    // Fix before
+    console.log(event);
+    if (discount !== null) {
+      return parseFloat(
+        (numTickets * event["price"][0] * (1 - discount / 100)).toFixed(2)
+      );
+    }
+    return numTickets * event["price"][0];
   };
 
   useEffect(() => {
@@ -65,43 +71,82 @@ const Checkout = () => {
 
         if (response.status === 200) {
           const data = response.data;
+          console.log(response.data);
           setEvent(data.event);
           setNumTickets(location.state.numTickets);
         } else {
           setEvent([]);
-          setError("Erreur lors de requête api");
-
-          setTimeout(() => {
-            closeToast();
-          }, 5000);
+          setError("Error call api request");
         }
       } catch (error) {
         setEvent([]);
-        setError("Erreur lors de requête api");
+        setError("Error call api request");
+      } finally {
+        setLoading(false);
 
         setTimeout(() => {
           closeToast();
         }, 5000);
-      } finally {
-        setLoading(false);
       }
     };
 
     getEvent();
 
     // Démarrer le timeout lorsque la page est chargée
-    startTimeout();
+    // startTimeout();
 
     // Réinitialiser le timeout à chaque changement dans numTickets ou event
     return () => {
-      clearTimeout(timeoutId);
-      startTimeout();
+      // clearTimeout(timeoutId);
+      // startTimeout();
     };
-  }, []);
+  }, [location.state.eventId, location.state.numTickets]);
+
+  useEffect(() => {
+    if (event && numTickets !== null) {
+      setPrice(calculatePrice(event, numTickets, discount));
+    }
+  }, [event, numTickets, discount]);
 
   const currencySymbol = event?.currency
     ? getCurrencySymbol(event.currency)
     : "";
+
+  const handleCode = (e) => {
+    const { value } = e.target;
+    setCode(value);
+  };
+
+  const handleSubmitDiscount = async () => {
+    try {
+      const response = await axios.get(`/api/discount/${code}`);
+      console.log(response);
+
+      if (response.status === 200) {
+        const data = response.data.voucher;
+        console.log(response.data.voucher);
+        setDiscount(data.discount);
+      }
+    } catch (error) {
+      console.log(error);
+      setError("Error call api request");
+    } finally {
+      setTimeout(() => {
+        closeToast();
+      }, 5000);
+    }
+  };
+
+  const removeDiscount = () => {
+    if (discount) {
+      setDiscount(null);
+      setCode(null);
+      setError("Discount removed");
+      setTimeout(() => {
+        closeToast();
+      }, 5000);
+    }
+  };
 
   return (
     <section className="bg-whitesmoke">
@@ -156,10 +201,60 @@ const Checkout = () => {
                     </p>
                   </div>
                 </div>
+                <div className="border-b py-2">
+                  <label
+                    htmlFor="discountCode"
+                    className="block text-sm font-medium leading-6 text-gray-900"
+                  >
+                    Discount code
+                  </label>
+                  <div className="mt-2">
+                    <input
+                      type="text"
+                      name="discountCode"
+                      id="discountCode"
+                      placeholder="Code"
+                      maxLength={12}
+                      onChange={handleCode}
+                      className="bg-gray-50 block w-full rounded-md border-0 p-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                      required
+                    />
+                  </div>
+                  <div className="mt-6 flex items-center justify-end gap-x-6">
+                    <button
+                      type="button"
+                      onClick={removeDiscount}
+                      className="animation-hover uppercase flex align-center leading-6 text-gray-900 text-center font-medium hover:text-bordeau"
+                    >
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        strokeWidth="1.5"
+                        stroke="currentColor"
+                        className="w-6 h-6 mr-2"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          d="M6.75 15.75 3 12m0 0 3.75-3.75M3 12h18"
+                        />
+                      </svg>
+                      Cancel
+                    </button>
+                    <button
+                      type="submit"
+                      onClick={handleSubmitDiscount}
+                      className="animation-hover flex align-center text-white uppercase rounded-full bg-darkblue px-4 py-2 text-center font-medium shadow-sm hover:bg-green-700 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 disabled:hover:bg-darkblue disabled:opacity-25"
+                    >
+                      Confirm
+                    </button>
+                  </div>
+                </div>
                 <div className="mt-6 flex items-center justify-between">
                   <p className="text-sm font-medium text-gray-900">Total</p>
                   <p className="text-2xl font-semibold text-gray-900">
-                    {price()} {currencySymbol}
+                    {price} {currencySymbol}
                   </p>
                 </div>
                 {event.expiredRefundDate != null ? (
@@ -175,6 +270,8 @@ const Checkout = () => {
                   ticketsData={location.state.ticketsData}
                   onError={handlePaymentError}
                   onLoadingChange={handleLoadingChange}
+                  price={price}
+                  discountCode={code}
                 />
               </div>
             </div>

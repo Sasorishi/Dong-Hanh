@@ -22,7 +22,7 @@ const SuccessComponent = ({ response }) => {
         setMessage(
           <p>
             Thank you! See you soon. You can check your ticket{" "}
-            <a href="/account" className="text-darkblue">
+            <a href="account/tickets" className="text-darkblue">
               here
             </a>
             . If you have any questions, please email{" "}

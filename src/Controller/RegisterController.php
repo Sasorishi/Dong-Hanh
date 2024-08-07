@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Repository\DiscountVoucherRepository;
 use App\Repository\EventRepository;
 use App\Repository\ParticipantRepository;
 use App\Repository\TicketRepository;
@@ -32,7 +33,7 @@ class RegisterController extends AbstractController
     }
 
     #[Route('api/register', name: 'api_registration', methods: ['POST'])]
-    public function setRegister(Request $request, EventRepository $eventRepository, ParticipantRepository $participantRepository, TicketRepository $ticketRepository, UserRepository $userRepository): JsonResponse
+    public function setRegister(Request $request, EventRepository $eventRepository, ParticipantRepository $participantRepository, TicketRepository $ticketRepository, UserRepository $userRepository, DiscountVoucherRepository $discountVoucherRepository): JsonResponse
     {
         try {
             $data = json_decode($request->getContent(), true);
@@ -46,12 +47,18 @@ class RegisterController extends AbstractController
             $captureId = $data['captureId'];
             $event = $eventRepository->find($data['eventId']);
             $user = $userRepository->find($this->getUser()->getId());
+            $discountCode = $data['discountCode'];
+            $priceAfterDiscount = $data['discountCode'];
             
             $this->entityManager->getConnection()->beginTransaction();
+
+            $vouche = $discountVoucherRepository->findOneBy(['code' => $discountCode]);
+            dump($vouche);
+            $discountVoucherRepository->setUsed($vouche, $user);
             
             foreach ($participants as $key => $participantData) {
                 $newParticipant = $participantRepository->createParticipant($participantData, $event);
-                $ticketRepository->createTicket($event, $details, $captureId, $newParticipant, $user);
+                $ticketRepository->createTicket($event, $details, $captureId, $newParticipant, $user, $priceAfterDiscount);
             }
 
             $this->entityManager->getConnection()->commit();

@@ -2,6 +2,7 @@
 
 namespace App\Controller\Admin;
 
+use App\Entity\DiscountVoucher;
 use App\Entity\Event;
 use App\Entity\EventCategories;
 use App\Entity\Participant;
@@ -59,6 +60,7 @@ class DashboardController extends AbstractDashboardController
             MenuItem::section('Tickets'),
             MenuItem::linkToCrud('Tickets', 'fas fa-list', Ticket::class),
             MenuItem::linkToCrud('Scan', 'fas fa-list', User::class),
+            MenuItem::linkToCrud('Discounts', 'fas fa-list', DiscountVoucher::class),
             MenuItem::section('Monitoring'),
             MenuItem::linkToCrud('Users', 'fas fa-list', User::class),
         ];
