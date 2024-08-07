@@ -10,6 +10,7 @@ const Signup = () => {
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [isRegistered, setIsRegistered] = useState(false);
+  const [userId, setUserId] = useState(null);
 
   const closeToast = () => {
     setError(null);
@@ -33,9 +34,9 @@ const Signup = () => {
       };
 
       const response = await axios.post("/api/auth/signup", combinedData);
-
       if (response.data.success !== false) {
         setIsRegistered(true);
+        setUserId(response.data.idUser);
       } else {
         setError(`Error : ${response.data.message}.`);
 
@@ -57,7 +58,7 @@ const Signup = () => {
 
   useEffect(() => {
     if (isRegistered) {
-      window.location.href = "/response/success/signup";
+      window.location.href = "/account-verify/" + userId;
     }
   }, [isRegistered]);
 

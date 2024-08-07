@@ -6,17 +6,17 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Đồng Hành Network</title>
     <style>
-            .numbers {
-                display: inline; 
-                font-size: 45px;
-                font-weight: bold;
-                background-color: rgb(248, 248, 248); 
-                border: 1px solid rgb(35, 105, 255); 
-                padding: 10px; 
-                padding-inline: 22px; 
-                border-radius: 10px;
-            }
-        </style>
+        .numbers {
+            display: inline; 
+            font-size: 45px;
+            font-weight: bold;
+            background-color: rgb(248, 248, 248); 
+            border: 1px solid rgb(35, 105, 255); 
+            padding: 10px; 
+            padding-inline: 22px; 
+            border-radius: 10px;
+        }
+    </style>
 </head>
 <body style="font-family: 'Poppins', Arial, sans-serif">
     <table width="100%" border="0" cellspacing="0" cellpadding="0">
@@ -55,16 +55,15 @@
                     <tr>
                         <td colspan="4" class="body" style="background-color: white; padding: 40px; padding-top: 10px; text-align: left; font-size: 16px; line-height: 1.6;">
                             <h3>Confirm Verification Code</h3>
-                            Hi {{ user_firstname }}, <br/><br/>
+                            Hi {{ user_email }}, <br/><br/>
                             This is your verification code<br/>
                         </td>
                     </tr>
                     <tr>
                         <td colspan="4" style="background-color: white; padding: 40px; padding-top: 0px;">
-                            <p class="numbers">4</p>
-                            <p class="numbers">4</p>
-                            <p class="numbers">8</p>
-                            <p class="numbers">6</p>
+                            {% for numbers in code %}
+                                <p class="numbers">{{ numbers }}</p>
+                            {% endfor %}
                         </td>
                     </tr>
                     <tr>
