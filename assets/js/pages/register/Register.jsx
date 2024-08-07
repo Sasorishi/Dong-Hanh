@@ -126,18 +126,6 @@ const Register = () => {
           {isDefaultModalVisible && (
             <Modal
               id="default-modal"
-              title="The parent / guardian waiver for minors (Under 18 years old)"
-              content={[
-                "The undersigned parent and natural guardian does hereby represent that he/she is, in fact, acting in such capacity, has consented to his/her child or ward’s participation in the activity or event, and has agreed individually and on behalf of the child or ward, to the terms of the accident waiver and release of liability set forth above",
-                "The undersigned parent or guardian further agrees to save and hold harmless and indemnify each and all of the parties referred to above from all liability, loss, cost, claim, or damage whatsoever which may be imposed upon said parties because of any defect in or lack of such capacity to so act and release said parties on behalf of the minor and the parents or legal guardian.",
-              ]}
-              onClose={() => setIsDefaultModalVisible(false)}
-            />
-          )}
-
-          {isSecondModalVisible && (
-            <Modal
-              id="second-modal"
               title="The accident waiver and release of liability"
               content={[
                 "I HEREBY ASSUME ALL OF THE RISKS OF PARTICIPATING AND/OR VOLUNTEERING IN THIS ACTIVITY OR EVENT, including by way of example and not limitation, any risks that may arise from negligence or carelessness on the part of the persons or entities being released, from dangerous or defective equipment or property owned, maintained, or controlled by them, or because of their possible liability without fault.",
@@ -149,6 +137,18 @@ const Register = () => {
                 "I acknowledge that this activity or event may involve a test of a person’s physical and mental limits and may carry with it the potential for death, serious injury, and property loss. The risks may include, but are not limited to, those caused by terrain, facilities, temperature, weather, condition of participants, equipment, vehicular traffic, actions of other people, including, but not limited to, participants, volunteers, spectators, coaches, event officials, and event monitors, and/or producers of the event, and lack of hydration. These risks are not only inherent to participants but are also present for volunteers.",
                 "I hereby consent to receive medical treatment that may be deemed advisable in the event of injury, accident, and/or illness during this activity or event.",
                 "I understand that at this event or related activities, I may be photographed. I agree to allow my photo, video, or film likeness to be used for any legitimate purpose by the event holders, producers, sponsors, organizers, and assigns. The accident waiver and release of liability shall be construed broadly to provide a release and waiver to the maximum extent permissible under applicable law.",
+              ]}
+              onClose={() => setIsDefaultModalVisible(false)}
+            />
+          )}
+
+          {isSecondModalVisible && (
+            <Modal
+              id="second-modal"
+              title="The parent / guardian waiver for minors (Under 18 years old)"
+              content={[
+                "The undersigned parent and natural guardian does hereby represent that he/she is, in fact, acting in such capacity, has consented to his/her child or ward’s participation in the activity or event, and has agreed individually and on behalf of the child or ward, to the terms of the accident waiver and release of liability set forth above",
+                "The undersigned parent or guardian further agrees to save and hold harmless and indemnify each and all of the parties referred to above from all liability, loss, cost, claim, or damage whatsoever which may be imposed upon said parties because of any defect in or lack of such capacity to so act and release said parties on behalf of the minor and the parents or legal guardian.",
               ]}
               onClose={() => setIsSecondModalVisible(false)}
             />

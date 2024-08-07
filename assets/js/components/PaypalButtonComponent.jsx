@@ -7,11 +7,12 @@ const PaypalButtonComponent = ({
   ticketsData,
   onError,
   onLoadingChange,
+  discountCode,
+  price,
 }) => {
-  // const [isLoggedIn, setIsLoggedIn] = useState(false);
-  const price = () => {
-    return numTickets * event["price"][0];
-  };
+  // const price = () => {
+  //   return numTickets * event["price"][0];
+  // };
 
   const handleOnError = (err) => {
     // console.log("onError: ", err);
@@ -30,6 +31,8 @@ const PaypalButtonComponent = ({
         details: details,
         captureId: captureId,
         participants: ticketsData,
+        discountCode: discountCode,
+        price: price,
       };
       const response = await axios.post("/api/register", combinedData);
       if (response.status === 200 || response.status === 201) {
@@ -43,31 +46,6 @@ const PaypalButtonComponent = ({
       handleOnError("Server request fail. Try again or later.");
     }
   };
-
-  // Check if not timeout sessions
-  // useEffect(() => {
-  //   const checkLoggedInStatus = async () => {
-  //     try {
-  //       const response = await axios.get("/api/auth/is-authenticated");
-
-  //       if (response.status === 200) {
-  //         const data = response.data;
-  //         setIsLoggedIn(data.isAuthenticated);
-  //       } else {
-  //         console.error("Erreur lors de la vérification de l'authentification");
-  //         setIsLoggedIn(false);
-  //       }
-  //     } catch (error) {
-  //       console.error(
-  //         "Erreur lors de la vérification de l'authentification",
-  //         error
-  //       );
-  //       setIsLoggedIn(false);
-  //     }
-  //   };
-
-  //   checkLoggedInStatus();
-  // }, []);
 
   useEffect(() => {
     const loadPayPalScript = (clientId) => {
@@ -86,13 +64,14 @@ const PaypalButtonComponent = ({
               label: "pay",
             },
             createOrder: (data, actions) => {
+              console.log(price);
               return actions.order.create({
                 purchase_units: [
                   {
                     description: `Register tickets - ${event["eventCategory"]} | ${event["name"]}`,
                     currency_code: event["currency"],
                     amount: {
-                      value: price(),
+                      value: price,
                     },
                     item: [
                       {
@@ -122,19 +101,20 @@ const PaypalButtonComponent = ({
                 if (transactionStatus === "COMPLETED") {
                   setParticipants(details, captureId)
                     .then(() => {
-                      window.location.href = "/response/success/checkout";
+                      console.log("OK");
+                      // window.location.href = "/response/success/checkout";
                     })
                     .catch((error) => {
                       console.error("Error setting participants:", error);
                       handleOnError(
                         "Error setting participants. Please try again later."
                       );
-                      window.location.replace("/cancel?error=checkout");
+                      // window.location.replace("/response/error/checkout");
                     });
                 } else {
                   console.log("Transaction is not complete");
                   handleOnError("Transaction is not complete.");
-                  window.location.replace("/cancel?error=transaction");
+                  window.location.replace("/response/error/transaction");
                 }
               });
             },
@@ -145,7 +125,7 @@ const PaypalButtonComponent = ({
             onError: (err) => {
               console.log("onError: ", err);
               handleOnError("Error. Try again or later.");
-              window.location.replace("/cancel?error=checkout");
+              // window.location.replace("/response/error/checkout");
             },
           })
           .render("#paypal-button-container");
@@ -171,9 +151,10 @@ const PaypalButtonComponent = ({
     };
 
     getEnv();
-  }, []);
+  }, [price]);
 
   return (
+    // <>{price !== 0 ? <div id="paypal-button-container" /> : <p>Test</p>}</>
     <>
       <div id="paypal-button-container" />
     </>
