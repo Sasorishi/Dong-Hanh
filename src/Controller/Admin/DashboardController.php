@@ -2,10 +2,12 @@
 
 namespace App\Controller\Admin;
 
+use App\Entity\AccountCodeVerify;
 use App\Entity\DiscountVoucher;
 use App\Entity\Event;
 use App\Entity\EventCategories;
 use App\Entity\Participant;
+use App\Entity\ResetsPasswords;
 use App\Entity\Ticket;
 use App\Entity\User;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Assets;
@@ -59,10 +61,11 @@ class DashboardController extends AbstractDashboardController
             MenuItem::linkToCrud('Participants', 'fas fa-list', Participant::class),
             MenuItem::section('Tickets'),
             MenuItem::linkToCrud('Tickets', 'fas fa-list', Ticket::class),
-            MenuItem::linkToCrud('Scan', 'fas fa-list', User::class),
             MenuItem::linkToCrud('Discounts', 'fas fa-list', DiscountVoucher::class),
             MenuItem::section('Monitoring'),
             MenuItem::linkToCrud('Users', 'fas fa-list', User::class),
+            MenuItem::linkToCrud('CodeVerify', 'fas fa-list', AccountCodeVerify::class),
+            MenuItem::linkToCrud('ResetsPassords', 'fas fa-list', ResetsPasswords::class),
         ];
     }
 }
