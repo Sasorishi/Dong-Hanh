@@ -48,15 +48,9 @@ class MainController extends AbstractController
         return $this->render('index.html.twig');
     }
 
-    #[Route('/test', name: 'test')]
-    public function test(): Response
+    #[Route('/account-verify/{id}', name: 'app_account_verify')]
+    public function accountVerify(): Response
     {
-
-        return $this->render('emails/verification_code.html.twig', [
-            'user_id' => "14567456",
-            'user_email' => "matteo.baldinetti@gmail.com",
-            'code' => [1, 3, 5, 4, 8, 6],
-            'current_year' => new \DateTime('Y')
-        ]);
+        return $this->render('index.html.twig');
     }
 }

@@ -4,6 +4,7 @@ namespace App\Repository;
 
 use App\Entity\AccountCodeVerify;
 use App\Entity\User;
+use App\Service\AccountVerifyService;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
@@ -17,9 +18,12 @@ use Doctrine\Persistence\ManagerRegistry;
  */
 class AccountCodeVerifyRepository extends ServiceEntityRepository
 {
-    public function __construct(ManagerRegistry $registry)
+    private $accountVerifyService;
+
+    public function __construct(ManagerRegistry $registry, AccountVerifyService $accountVerifyService)
     {
         parent::__construct($registry, AccountCodeVerify::class);
+        $this->accountVerifyService = $accountVerifyService;
     }
 
     public function save(AccountCodeVerify $entity, bool $flush = false): void
@@ -36,8 +40,7 @@ class AccountCodeVerifyRepository extends ServiceEntityRepository
         $accountCodeVerify = new AccountCodeVerify;
         $accountCodeVerify->setUser($user);
         $accountCodeVerify->setCode($code);
-        $dateTime = new \DateTime();
-        $dateTime->modify("+10 minutes");
+        $dateTime = $this->accountVerifyService->setTimeExpired("+10 minutes");
         $accountCodeVerify->setExpiredAt($dateTime);
 
         $this->save($accountCodeVerify, true);
@@ -45,28 +48,15 @@ class AccountCodeVerifyRepository extends ServiceEntityRepository
         return $accountCodeVerify;
     }
 
-    //    /**
-//     * @return AccountCodeVerify[] Returns an array of AccountCodeVerify objects
-//     */
-//    public function findByExampleField($value): array
-//    {
-//        return $this->createQueryBuilder('a')
-//            ->andWhere('a.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->orderBy('a.id', 'ASC')
-//            ->setMaxResults(10)
-//            ->getQuery()
-//            ->getResult()
-//        ;
-//    }
+    public function refreshAccountCodeVerify(string $code, string $userId): ?AccountCodeVerify
+    {
+        $accountCodeVerify = $this->findOneBy(['user' => $userId]);
+        $accountCodeVerify->setCode($code);
+        $dateTime = $this->accountVerifyService->setTimeExpired("+10 minutes");
+        $accountCodeVerify->setExpiredAt($dateTime);
 
-    //    public function findOneBySomeField($value): ?AccountCodeVerify
-//    {
-//        return $this->createQueryBuilder('a')
-//            ->andWhere('a.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->getQuery()
-//            ->getOneOrNullResult()
-//        ;
-//    }
+        $this->save($accountCodeVerify, true);
+
+        return $accountCodeVerify;
+    }
 }

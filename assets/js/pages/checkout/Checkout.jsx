@@ -52,7 +52,6 @@ const Checkout = () => {
 
   const calculatePrice = () => {
     // Fix before
-    console.log(event);
     if (discount !== null) {
       return parseFloat(
         (numTickets * event["price"][0] * (1 - discount / 100)).toFixed(2)
@@ -71,7 +70,6 @@ const Checkout = () => {
 
         if (response.status === 200) {
           const data = response.data;
-          console.log(response.data);
           setEvent(data.event);
           setNumTickets(location.state.numTickets);
         } else {
@@ -120,15 +118,12 @@ const Checkout = () => {
   const handleSubmitDiscount = async () => {
     try {
       const response = await axios.get(`/api/discount/${code}`);
-      console.log(response);
 
       if (response.status === 200) {
         const data = response.data.voucher;
-        console.log(response.data.voucher);
         setDiscount(data.discount);
       }
     } catch (error) {
-      console.log(error);
       setError("Error call api request");
     } finally {
       setTimeout(() => {

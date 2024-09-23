@@ -21,6 +21,12 @@ class LoginController extends AbstractController
     public function index(AuthenticationUtils $authenticationUtils, Security $security): Response
     {
         if ($security->isGranted('IS_AUTHENTICATED_FULLY')) {
+            $user = $security->getUser();
+
+            if (!$user->isVerified()) {
+                return $this->redirectToRoute('app_account_verify', ['id' => $user->getId()]);
+            }
+
             return $this->redirectToRoute('app_main');
         }
 

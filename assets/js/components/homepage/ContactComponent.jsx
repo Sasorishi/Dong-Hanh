@@ -28,7 +28,6 @@ const ContactSection = ({ onError }) => {
       }
 
       const response = await axios.post("/api/mailer/send", formData);
-      console.log(response);
 
       if (response.status === 200) {
         // window.location.href = "/response/success/contact";

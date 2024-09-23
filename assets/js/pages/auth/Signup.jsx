@@ -58,7 +58,7 @@ const Signup = () => {
 
   useEffect(() => {
     if (isRegistered) {
-      window.location.href = "/account-verify/" + userId;
+      window.location.href = "/login";
     }
   }, [isRegistered]);
 
