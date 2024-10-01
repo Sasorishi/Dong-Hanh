@@ -40,3 +40,7 @@ services:
   App\Service\QrcodeService:
     arguments:
       $domain: "%app.domain%"
+
+  App\EventListener\CheckVerifiedUserListener:
+    tags:
+      - { name: kernel.event_listener, event: kernel.request }

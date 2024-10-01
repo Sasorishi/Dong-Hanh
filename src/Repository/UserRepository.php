@@ -86,4 +86,10 @@ class UserRepository extends ServiceEntityRepository
         $user->setPassword($hashedPassword);
         $this->save($user, true);
     }
+
+    public function setAccountVerify(User $user): void
+    {
+        $user->setIsVerified(true);
+        $this->save($user, true);
+    }
 }

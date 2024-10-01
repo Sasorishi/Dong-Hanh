@@ -9,6 +9,7 @@ use App\Service\MailerService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
@@ -29,51 +30,52 @@ class AccountVerifyController extends AbstractController
         $this->params = $params;
     }
 
-    #[Route('/account-verify/{id}', name: 'app_account_verify')]
-    public function index(): Response
+    #[Route('/api/auth/account-verify/{id}', methods: ['POST'])]
+    public function accountVerify(Request $request, string $id): JsonResponse
     {
-        return $this->render('index.html.twig', [
-            'controller_name' => 'AccountVerifyController',
-        ]);
+        $data = json_decode($request->getContent(), true);
+
+        $account = $this->accountCodeVerifyRepository->findOneBy(["user" => $id, "code" => $data['code']]);
+        if (!$account) {
+            return new JsonResponse(['success' => false, 'message' => 'Account not found']);
+        }
+    
+        $currentDateTime = new \DateTime();
+    
+        if ($account->getExpiredAt() < $currentDateTime) {
+            return new JsonResponse(['success' => false, 'message' => 'Expired code']);
+        }
+        
+        $user = $this->userRepository->findOneBy(["id" => $id]);
+        dump($user);
+        $this->userRepository->setAccountVerify($user);
+        return new JsonResponse(['success' => true, 'message' => 'Verify successful']);
     }
 
-    #[Route('/api/auth/account-verify/{id}', name: 'api_auth_account-verify', methods: ['POST'])]
-    public function accountVerify($id): JsonResponse
-    {
-        $user = $this->accountCodeVerifyRepository->findOneBy(['user' => $id]);
-        return new JsonResponse(['success' => true, 'message' => 'Signin successful', 'userId' => $user->getUser()->getId(), 'code' => $user->getCode(), 'expiredAt' => $user->getExpiredAt()]);
-    }
-
-    #[Route('/api/auth/account-verify/resend/{id}', name: 'api_auth_account-verify', methods: ['POST'])]
+    #[Route('/api/auth/account-verify/resend/{id}', methods: ['POST'])]
     public function resentEmail($id): JsonResponse
     {
         $mail = $this->params->get("app.mail_address");
-        $user = $this->accountCodeVerifyRepository->findOneBy(['user' => $id]);
+        $accountCode = $this->accountCodeVerifyRepository->findOneBy(['user' => $id]);
+        $user = $this->userRepository->findOneBy(["id" => $id]);
         $newCode = $this->accountVerifyService->codeGenerator();
-        $newCode = $this->accountVerifyService->arrayToString($newCode);
-        $user->setCode($newCode);
-        $dateTime = new \DateTime();
-        $dateTime->modify("+10 minutes");
-        $user->setExpiredAt($dateTime);
-        $this->accountCodeVerifyRepository->save($user, true);
-        $userData = $this->userRepository->findOneBy(["id" => $id]);
+        $newCodeFormatted = $this->accountVerifyService->arrayToString($newCode);
+
+        if (!$accountCode) {
+            $this->accountCodeVerifyRepository->createAccountCodeVerify($newCodeFormatted, $user);
+        } else {
+            $this->accountCodeVerifyRepository->refreshAccountCodeVerify($newCodeFormatted, $id);
+        }
+
         $context = ([
-            'user_id' => $userData->getId(),
-            'user_email' => $userData->getEmail(),
-            'code' => $userData,
+            'user_id' => $user->getId(),
+            'user_email' => $user->getEmail(),
+            'code' => $newCode,
             'current_year' => new \DateTime('Y')
         ]);
-        $this->mailerService->sendTemplateEmail($mail, $userData->getEmail(), "Verify your account", 'emails/verification_code.html.twig', $context);
-        return new JsonResponse(['success' => true, 'message' => 'Signin successful', 'userId' => $user->getUser()->getId(), 'code' => $user->getCode(), 'expiredAt' => $user->getExpiredAt()]);
-    }
-
-    #[Route('/api/auth/account-verify/database/{id}', name: 'api_auth_account-verify_database', methods: ['POST'])]
-    public function accountVerifyDatabase($id): JsonResponse
-    {
-        $user = $this->userRepository->findOneBy(['id' => $id]);
-        $user->setIsVerified(true);
-        $this->userRepository->save($user, true);
-        return new JsonResponse(['success' => true, 'message' => 'Signin successful']);
+        $this->mailerService->sendTemplateEmail($mail, $user->getEmail(), "Verify your account", 'emails/verification_code.html.twig', $context);
+        
+        return new JsonResponse(['success' => true, 'message' => 'Verified account']);
     }
 }
 

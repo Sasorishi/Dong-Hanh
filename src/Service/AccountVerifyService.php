@@ -6,7 +6,7 @@ class AccountVerifyService
 {
     public function codeGenerator(): array
     {
-        $code = array();
+        $code = [];
         for ($i = 0; $i < 6; $i++) {
             array_push($code, random_int(0, 9));
         }
@@ -17,8 +17,15 @@ class AccountVerifyService
     {
         $string = "";
         foreach ($array as $key => $value) {
-            $string = $string . $value;
+            $string .= $value;
         }
         return $string;
+    }
+
+    public function setTimeExpired(string $value): \DateTime
+    {
+        $dateTime = new \DateTime();
+        $dateTime->modify($value);
+        return $dateTime;
     }
 }
