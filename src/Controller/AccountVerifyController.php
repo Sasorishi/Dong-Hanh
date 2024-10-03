@@ -47,7 +47,6 @@ class AccountVerifyController extends AbstractController
         }
         
         $user = $this->userRepository->findOneBy(["id" => $id]);
-        dump($user);
         $this->userRepository->setAccountVerify($user);
         return new JsonResponse(['success' => true, 'message' => 'Verify successful']);
     }
