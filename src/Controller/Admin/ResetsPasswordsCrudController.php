@@ -39,4 +39,10 @@ class ResetsPasswordsCrudController extends AbstractCrudController
         $fields = parent::configureFields($pageName);
         return $fields;
     }
+
+    public function configureCrud(Crud $crud): Crud
+    {
+        return $crud
+            ->setDefaultSort(['id' => 'DESC']);
+    }
 }

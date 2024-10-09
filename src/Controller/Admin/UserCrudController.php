@@ -64,4 +64,10 @@ class UserCrudController extends AbstractCrudController
         $userTickets = $user->getTickets();
         return $this->ticketExportService->exportUserTicketsToXlsx($userTickets, $userId);
     }
+
+    public function configureCrud(Crud $crud): Crud
+    {
+        return $crud
+            ->setDefaultSort(['create_at' => 'DESC']);
+    }
 }

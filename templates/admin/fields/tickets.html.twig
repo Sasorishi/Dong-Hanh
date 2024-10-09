@@ -1,30 +1,6 @@
-{# {% if ea.crud.currentAction == 'detail' %}
-    <table class="table table-striped">
-        <tr>
-            <th>Id</th>
-            <th>Event</th>
-            <th>Price</th>
-            <th>Currency</th>
-            <th>Status</th>
-            <th>OrderId</th>
-            <th>Created</th>
-        </tr>
-        {% for value in field.value %}
-        <tr>
-            <td>{{ value.id }}</td>
-            <td>{{ value.event.label }}</td>
-            <td>{{ value.price }}</td>
-            <td>{{ value.currency }}</td>
-            <td>{{ value.status }}</td>
-            <td>{{ value.orderId }}</td>
-            <td>{{ value.createdAt|date("m/d/Y") }}</td>
-        </tr>
-        {% endfor %}
-    </table>
-{% else %}
-    <span class="badge badge-secondary">{{ field.formattedValue }}</span>
-{% endif %} #}
+{# {% if ea.crud.currentAction == 'detail' %} #}
 
+{% set sortedTickets = field.value|sort((a, b) => b.createdAt <=> a.createdAt) %}
 {% if field.value is not empty %}
     <table class="table table-striped">
         <thead>
@@ -36,7 +12,7 @@
             </tr>
         </thead>
         <tbody>
-        {% for ticket in field.value %}
+        {% for ticket in sortedTickets %}
             {% set ticketDetailUrl = ea_url()
                 .setController('App\\Controller\\Admin\\TicketCrudController')
                 .setAction(constant('EasyCorp\\Bundle\\EasyAdminBundle\\Config\\Action::DETAIL'))
