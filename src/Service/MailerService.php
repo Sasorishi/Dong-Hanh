@@ -51,7 +51,6 @@ class MailerService {
 
             return new Response('Email sent successfully!', Response::HTTP_OK);
         } catch (Throwable $th) {
-            dump($th);
             return new Response('Failed to send email: ' . $th->getMessage(), Response::HTTP_BAD_REQUEST);
         }
     }

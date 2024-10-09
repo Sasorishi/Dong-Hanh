@@ -53,7 +53,6 @@ class RegisterController extends AbstractController
             $this->entityManager->getConnection()->beginTransaction();
 
             $vouche = $discountVoucherRepository->findOneBy(['code' => $discountCode]);
-            dump($vouche);
             $discountVoucherRepository->setUsed($vouche, $user);
             
             foreach ($participants as $key => $participantData) {

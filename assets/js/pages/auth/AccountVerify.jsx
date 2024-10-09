@@ -48,7 +48,6 @@ const AccountVerify = () => {
 
   const handleResendEmail = async () => {
     const response = await axios.post(`/api/auth/account-verify/resend/${id}`);
-    console.log(response);
     if (response.data.success !== false) {
       setSuccess("Email sent successfully.");
     } else {
