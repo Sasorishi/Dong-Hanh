@@ -44,17 +44,18 @@ class UserRepository extends ServiceEntityRepository
     /**
      * @param string $email
      * @param string $password
+     * @param bool $password
      * @param UserPasswordHasherInterface $passwordHasher
      * @return User|null
      */
-    public function createUser(string $email, string $password, UserPasswordHasherInterface $passwordHasher): ?User
+    public function createUser(string $email, string $password, UserPasswordHasherInterface $passwordHasher, bool $isAdmin = null): ?User
     {
         $user = new User;
         $user->setEmail($email);
 
         $hashedPassword = $passwordHasher->hashPassword($user, $password);
         $user->setPassword($hashedPassword);
-        $user->setRoles(['ROLE_USER']);
+        $user->setRoles($isAdmin ? ['ROLE_USER', 'ROLE_ADMIN'] : ['ROLE_USER']);
         $user->setCreateAt(new DateTime());
 
         $this->save($user, true);
@@ -87,6 +88,10 @@ class UserRepository extends ServiceEntityRepository
         $this->save($user, true);
     }
 
+    /**
+     * @param User $user
+     * @return void
+     */
     public function setAccountVerify(User $user): void
     {
         $user->setIsVerified(true);
