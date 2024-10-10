@@ -4,6 +4,7 @@ namespace App\Controller\Admin;
 
 use App\Entity\DiscountVoucher;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
+use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
 use EasyCorp\Bundle\EasyAdminBundle\Field\BooleanField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\DateTimeField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\IntegerField;
@@ -53,5 +54,11 @@ class DiscountVoucherCrudController extends AbstractCrudController
             ]);
         $fields[] = TextField::new('user', 'User')->hideOnForm();
         return $fields;
+    }
+
+    public function configureCrud(Crud $crud): Crud
+    {
+        return $crud
+        ->setDefaultSort(['id' => 'DESC']);
     }
 }

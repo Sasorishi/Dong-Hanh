@@ -36,4 +36,10 @@ class TicketCrudController extends AbstractCrudController
         $fields[] = AssociationField::new('participant', 'Participant');
         return $fields;
     }
+
+    public function configureCrud(Crud $crud): Crud
+    {
+        return $crud
+            ->setDefaultSort(['id' => 'DESC']);
+    }
 }

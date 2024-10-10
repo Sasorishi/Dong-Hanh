@@ -80,6 +80,12 @@ class EventCrudController extends AbstractCrudController
         return $fields;
     }
 
+    public function configureCrud(Crud $crud): Crud
+    {
+        return $crud
+            ->setDefaultSort(['id' => 'DESC']);
+    }
+
     public function exportParticipantsXlsx(): Response
     {
         $event = $this->getContext()->getEntity()->getInstance();
