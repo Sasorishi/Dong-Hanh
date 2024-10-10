@@ -56,7 +56,7 @@ class SignupController extends AbstractController
             }
         }
 
-        $newUser = $this->userRepository->createUser($data['email'], $data['password'], $this->passwordHasher);
+        $newUser = $this->userRepository->createUser($data['email'], $data['password'], $this->passwordHasher, false);
         $code = $this->accountVerifyService->codeGenerator();
         $this->accountCodeVerifyRepository->createAccountCodeVerify($this->accountVerifyService->arrayToString($code), $newUser);
         $context = ([

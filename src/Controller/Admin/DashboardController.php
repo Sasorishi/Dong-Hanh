@@ -56,16 +56,16 @@ class DashboardController extends AbstractDashboardController
         return [
             MenuItem::linkToDashboard('Dashboard', 'fa fa-home'),
             MenuItem::section('Events'),
-            MenuItem::linkToCrud('Categories', 'fas fa-list', EventCategories::class),
-            MenuItem::linkToCrud('Events', 'fas fa-list', Event::class),
-            MenuItem::linkToCrud('Participants', 'fas fa-list', Participant::class),
+            MenuItem::linkToCrud('Categories', 'fa fa-tag', EventCategories::class),
+            MenuItem::linkToCrud('Events', 'fa fa-calendar', Event::class),
+            MenuItem::linkToCrud('Participants', 'fa fa-list-alt', Participant::class),
             MenuItem::section('Tickets'),
-            MenuItem::linkToCrud('Tickets', 'fas fa-list', Ticket::class),
+            MenuItem::linkToCrud('Tickets', 'fa fa-ticket', Ticket::class),
             MenuItem::linkToCrud('Discounts', 'fas fa-list', DiscountVoucher::class),
             MenuItem::section('Monitoring'),
-            MenuItem::linkToCrud('Users', 'fas fa-list', User::class),
-            MenuItem::linkToCrud('CodeVerify', 'fas fa-list', AccountCodeVerify::class),
-            MenuItem::linkToCrud('ResetsPassords', 'fas fa-list', ResetsPasswords::class),
+            MenuItem::linkToCrud('Users', 'fa fa-users', User::class),
+            MenuItem::linkToCrud('CodeVerify', 'fa fa-list-ol', AccountCodeVerify::class),
+            MenuItem::linkToCrud('ResetsPassords', 'fa fa-key', ResetsPasswords::class),
         ];
     }
 }
