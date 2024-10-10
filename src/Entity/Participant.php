@@ -69,6 +69,9 @@ class Participant
     #[ORM\OneToMany(mappedBy: 'participant', targetEntity: Ticket::class)]
     private Collection $tickets;
 
+    #[ORM\OneToOne(mappedBy: 'participant', cascade: ['persist', 'remove'])]
+    private ?FlightInformation $flightInformation = null;
+
     public function __construct()
     {
         $this->tickets = new ArrayCollection();
@@ -303,5 +306,27 @@ class Participant
     public function __toString(): string
     {
         return $this->Firstname. ' ' .$this->Lastname;
+    }
+
+    public function getFlightInformation(): ?FlightInformation
+    {
+        return $this->flightInformation;
+    }
+
+    public function setFlightInformation(?FlightInformation $flightInformation): static
+    {
+        // unset the owning side of the relation if necessary
+        if ($flightInformation === null && $this->flightInformation !== null) {
+            $this->flightInformation->setParticipant(null);
+        }
+
+        // set the owning side of the relation if necessary
+        if ($flightInformation !== null && $flightInformation->getParticipant() !== $this) {
+            $flightInformation->setParticipant($this);
+        }
+
+        $this->flightInformation = $flightInformation;
+
+        return $this;
     }
 }
