@@ -56,7 +56,7 @@ class DashboardController extends AbstractDashboardController
         return [
             MenuItem::linkToDashboard('Dashboard', 'fa fa-home'),
             MenuItem::section('Events'),
-            MenuItem::linkToCrud('Categories', 'fa fa-calendar-o', EventCategories::class),
+            MenuItem::linkToCrud('Categories', 'fa fa-tag', EventCategories::class),
             MenuItem::linkToCrud('Events', 'fa fa-calendar', Event::class),
             MenuItem::linkToCrud('Participants', 'fa fa-list-alt', Participant::class),
             MenuItem::section('Tickets'),
