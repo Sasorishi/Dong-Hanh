@@ -145,7 +145,7 @@ const Checkout = () => {
 
   return (
     <section className="bg-whitesmoke">
-      <Stepper currentStep={2} />
+      <Stepper currentStep={3} />
       {error && <Toast message={error} onClose={closeToast} error={true} />}
       {!loading ? (
         <div className="py-24">
