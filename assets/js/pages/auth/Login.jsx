@@ -32,7 +32,7 @@ const Login = () => {
 
   return (
     <section className="relative mx-auto">
-      <div className="w-full max-w-sm p-6 m-auto mx-auto bg-white rounded-lg shadow-md">
+      <div className="w-full max-w-sm min-w-96 p-6 m-auto mx-auto bg-white rounded-lg shadow-md">
         {error && <Toast message={error} onClose={closeToast} error={true} />}
         {success && (
           <Toast message={success} onClose={closeToast} error={false} />
