@@ -15,22 +15,12 @@ const LogisticInformation = () => {
     logisticCase: "",
   });
 
-  if (!location.state) {
-    setState((prevState) => ({
-      ...prevState,
-      loading: true,
-    }));
-
-    window.location.href = "/";
-  }
-
   const handleSubmit = async (e) => {
     e.preventDefault();
 
     switch (state.logisticCase) {
       case "flight-details":
-        console.log("Flight details");
-        navigate("/register/logistic_informations/flight_details", {
+        navigate("/register/logistic_informations/flight_informations", {
           state: {
             eventId: state.eventId,
             numTickets: state.numTickets,
@@ -40,12 +30,11 @@ const LogisticInformation = () => {
         break;
 
       default:
-        console.log("Checkout");
         navigate("/checkout", {
           state: {
-            eventId: state.eventId,
-            numTickets: state.numTickets,
-            ticketsData: state.ticketsData,
+            eventId: location.state.eventId,
+            numTickets: location.state.numTickets,
+            ticketsData: location.state.ticketsData,
           },
         });
         break;
@@ -57,7 +46,10 @@ const LogisticInformation = () => {
   useEffect(() => {
     if (!location.state?.ticketsData || !location.state?.eventId) {
       console.log("No tickets data or event id");
-      setState((prevState) => ({ ...prevState, loading: true }));
+      setState((prevState) => ({
+        ...prevState,
+        loading: true,
+      }));
       navigate("/", { replace: true });
     }
 

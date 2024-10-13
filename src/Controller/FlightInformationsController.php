@@ -17,4 +17,13 @@ class FlightInformationsController extends AbstractController
             'controller_name' => 'RegisterController',
         ]);
     }
+
+    #[Route('/register/logistic_informations/flight_infomrations', name: 'app_register_flight_informations')]
+    public function flightInformation(Request $request): Response
+    {
+        $this->denyAccessUnlessGranted('ROLE_USER');
+        return $this->render('index.html.twig', [
+            'controller_name' => 'RegisterController',
+        ]);
+    }
 }

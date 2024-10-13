@@ -25,6 +25,7 @@ import PrivacyPolicy from "./js/pages/homepage/PrivacyPolicy";
 import TermsAndConditionsOfSale from "./js/pages/homepage/TermsAndConditionsOfSale";
 import AccountVerify from "./js/pages/auth/AccountVerify";
 import LogisticInformation from "./js/pages/register/LogisticInformation";
+import FlightInformation from "./js/pages/register/FlightInformation";
 
 function WebRoutes() {
   Aos.init();
@@ -93,6 +94,10 @@ function WebRoutes() {
         <Route
           path="/register/logistic_informations"
           element={<LogisticInformation />}
+        />
+        <Route
+          path="/register/logistic_informations/flight_informations"
+          element={<FlightInformation />}
         />
         <Route path="/checkout" element={<Checkout />} />
         <Route path="/introduction" element={<Introduction />} />
