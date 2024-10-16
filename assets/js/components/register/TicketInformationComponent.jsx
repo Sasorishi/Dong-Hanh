@@ -526,7 +526,7 @@ const TicketInforamtionComponent = ({ ticketKey, onTicketsDataChange }) => {
               htmlFor="message"
               className="block mb-2 text-sm font-medium text-gray-900"
             >
-              Healthcare
+              Healthcare (Optional)
             </label>
             <div className="mt-2">
               <textarea

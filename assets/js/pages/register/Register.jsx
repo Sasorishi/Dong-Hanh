@@ -22,7 +22,7 @@ const Register = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    navigate("/register/logistic_informations", {
+    navigate("/register/logistic", {
       state: {
         eventId: eventId,
         numTickets: numTickets,

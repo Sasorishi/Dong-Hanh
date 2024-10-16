@@ -70,7 +70,10 @@ class Participant
     private Collection $tickets;
 
     #[ORM\OneToOne(mappedBy: 'participant', cascade: ['persist', 'remove'])]
-    private ?FlightInformation $flightInformation = null;
+    private ?LogisticInformation $logisticInformation = null;
+
+    #[ORM\Column]
+    private ?bool $needLogistic = null;
 
     public function __construct()
     {
@@ -308,24 +311,36 @@ class Participant
         return $this->Firstname. ' ' .$this->Lastname;
     }
 
-    public function getFlightInformation(): ?FlightInformation
+    public function LogisticInformation(): ?LogisticInformation
     {
-        return $this->flightInformation;
+        return $this->logisticInformation;
     }
 
-    public function setFlightInformation(?FlightInformation $flightInformation): static
+    public function setLogisticInformation(?LogisticInformation $logisticInformation): static
     {
         // unset the owning side of the relation if necessary
-        if ($flightInformation === null && $this->flightInformation !== null) {
-            $this->flightInformation->setParticipant(null);
+        if ($logisticInformation === null && $this->logisticInformation !== null) {
+            $this->logisticInformation->setParticipant(null);
         }
 
         // set the owning side of the relation if necessary
-        if ($flightInformation !== null && $flightInformation->getParticipant() !== $this) {
-            $flightInformation->setParticipant($this);
+        if ($logisticInformation !== null && $logisticInformation->getParticipant() !== $this) {
+            $logisticInformation->setParticipant($this);
         }
 
-        $this->flightInformation = $flightInformation;
+        $this->logisticInformation = $logisticInformation;
+
+        return $this;
+    }
+
+    public function isNeedLogistic(): ?bool
+    {
+        return $this->needLogistic;
+    }
+
+    public function setNeedLogistic(bool $needLogistic): static
+    {
+        $this->needLogistic = $needLogistic;
 
         return $this;
     }

@@ -24,8 +24,8 @@ import About from "./js/pages/homepage/About";
 import PrivacyPolicy from "./js/pages/homepage/PrivacyPolicy";
 import TermsAndConditionsOfSale from "./js/pages/homepage/TermsAndConditionsOfSale";
 import AccountVerify from "./js/pages/auth/AccountVerify";
+import Logistic from "./js/pages/register/Logistic";
 import LogisticInformation from "./js/pages/register/LogisticInformation";
-import FlightInformation from "./js/pages/register/FlightInformation";
 
 function WebRoutes() {
   Aos.init();
@@ -91,13 +91,10 @@ function WebRoutes() {
           path="/register/:eventId/:numTickets"
           element={renderProtectedRoute(<Register />)}
         />
+        <Route path="/register/logistic" element={<Logistic />} />
         <Route
           path="/register/logistic_informations"
           element={<LogisticInformation />}
-        />
-        <Route
-          path="/register/logistic_informations/flight_informations"
-          element={<FlightInformation />}
         />
         <Route path="/checkout" element={<Checkout />} />
         <Route path="/introduction" element={<Introduction />} />

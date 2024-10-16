@@ -2,83 +2,64 @@ import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router";
 import { useLocation } from "react-router-dom";
 import Stepper from "@components/register/StepperComponent";
-import Loader from "@components/LoaderComponent";
 import LogisticInformationComponent from "@components/register/LogisticInformationComponent";
 
 const LogisticInformation = () => {
   const location = useLocation();
   const navigate = useNavigate();
-
-  const [state, setState] = useState({
-    loading: false,
-    isConfirmButtonDisabled: true,
-    logisticCase: "",
-  });
+  const [logisticInformationComponents, setLogisticInformationComponents] =
+    useState(null);
+  const [logisticsData, setLogisticsData] = useState(null);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    switch (state.logisticCase) {
-      case "flight-details":
-        navigate("/register/logistic_informations/flight_informations", {
-          state: {
-            eventId: state.eventId,
-            numTickets: state.numTickets,
-            ticketsData: state.ticketsData,
-          },
-        });
-        break;
-
-      default:
-        navigate("/checkout", {
-          state: {
-            eventId: location.state.eventId,
-            numTickets: location.state.numTickets,
-            ticketsData: location.state.ticketsData,
-          },
-        });
-        break;
-    }
-
+    navigate("/checkout", {
+      state: {
+        eventId: location.state.eventId,
+        numTickets: location.state.numTickets,
+        ticketsData: location.state.ticketsData,
+        logisticsData: logisticsData,
+        logisticCase: location.state.logisticCase,
+      },
+    });
     window.scrollTo(0, 0);
   };
 
   useEffect(() => {
-    if (!location.state?.ticketsData || !location.state?.eventId) {
+    if (
+      !location.state?.ticketsData ||
+      !location.state?.eventId ||
+      !location.state?.numTickets
+    ) {
       console.log("No tickets data or event id");
-      setState((prevState) => ({
-        ...prevState,
-        loading: true,
-      }));
       navigate("/", { replace: true });
     }
 
-    if (state.logisticCase) {
-      setState((prevState) => ({
-        ...prevState,
-        isConfirmButtonDisabled: false,
-      }));
-    }
-  }, [
-    location.state?.ticketsData,
-    location.state?.eventId,
-    state.logisticCase,
-    navigate,
-  ]);
+    const logisticInformationComponents = Array.from(
+      { length: location.state.numTickets },
+      (_, index) => (
+        <LogisticInformationComponent
+          key={index}
+          ticketKey={index + 1}
+          lastname={location.state.ticketsData[index + 1].lastName}
+          firstname={location.state.ticketsData[index + 1].firstName}
+          onLogisticDataChange={(key, data) =>
+            setLogisticsData((prevData) => ({ ...prevData, [key]: data }))
+          }
+        />
+      )
+    );
+
+    setLogisticInformationComponents(logisticInformationComponents);
+  }, []);
 
   return (
     <section className="bg-whitesmoke">
       <Stepper currentStep={2} />
-      {!state.loading ? (
-        <div className="py-24 sm:py-32 px-6 lg:px-8 rounded-lg">
-          <LogisticInformationComponent
-            onLogisticCaseChange={(value) =>
-              setState((prevState) => ({
-                ...prevState,
-                logisticCase: value,
-              }))
-            }
-          />
+      <div className="py-24 sm:py-32 px-6 lg:px-8 rounded-lg">
+        <form onSubmit={handleSubmit}>
+          {logisticInformationComponents}
           <div className="mt-6 flex items-center justify-end gap-x-6">
             <button
               type="button"
@@ -103,17 +84,13 @@ const LogisticInformation = () => {
             </button>
             <button
               type="submit"
-              onClick={handleSubmit}
-              disabled={state.isConfirmButtonDisabled}
               className="animation-hover flex align-center text-white uppercase rounded-full bg-darkblue px-4 py-2 text-center font-medium shadow-sm hover:bg-green-700 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 disabled:hover:bg-darkblue disabled:opacity-25"
             >
               Confirm
             </button>
           </div>
-        </div>
-      ) : (
-        <Loader />
-      )}
+        </form>
+      </div>
     </section>
   );
 };

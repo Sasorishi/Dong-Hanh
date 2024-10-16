@@ -79,10 +79,10 @@ const StepperComponent = ({ currentStep }) => {
         </li>
         <li
           className={`flex w-full items-center ${
-            currentStep <= 2 ? "text-amber" : "text-charcoal"
+            currentStep <= 3 ? "text-amber" : "text-charcoal"
           } after:content-[''] after:w-full after:h-1 after:border-b after:border-4 after:inline-block`}
         >
-          {currentStep <= 2 ? (
+          {currentStep <= 3 ? (
             <span className="flex items-center justify-center w-10 h-10 bg-charcoal rounded-full lg:h-12 lg:w-12 shrink-0">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -120,10 +120,10 @@ const StepperComponent = ({ currentStep }) => {
         </li>
         <li
           className={`flex items-center ${
-            currentStep >= 3 ? "text-whitesmoke" : ""
+            currentStep >= 4 ? "text-whitesmoke" : ""
           }`}
         >
-          {currentStep >= 3 ? (
+          {currentStep >= 4 ? (
             <span className="flex items-center justify-center w-10 h-10 bg-charcoal rounded-full lg:h-12 lg:w-12 shrink-0">
               <svg
                 className="w-4 h-4 text-whitesmoke lg:w-5 lg:h-5"

@@ -7,9 +7,9 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
-class FlightInformationsController extends AbstractController
+class LogisticInformationsController extends AbstractController
 {
-    #[Route('/register/logistic_informations', name: 'app_register_logistic_informations')]
+    #[Route('/register/logistic', name: 'app_register_logistic')]
     public function index(Request $request): Response
     {
         $this->denyAccessUnlessGranted('ROLE_USER');
@@ -18,8 +18,8 @@ class FlightInformationsController extends AbstractController
         ]);
     }
 
-    #[Route('/register/logistic_informations/flight_infomrations', name: 'app_register_flight_informations')]
-    public function flightInformation(Request $request): Response
+    #[Route('/register/logistic_informations')]
+    public function logisticInformation(Request $request): Response
     {
         $this->denyAccessUnlessGranted('ROLE_USER');
         return $this->render('index.html.twig', [

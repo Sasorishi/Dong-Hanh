@@ -51,13 +51,17 @@ const Checkout = () => {
   };
 
   const calculatePrice = () => {
-    // Fix before
+    let totalPrice;
+
+    // Calcul du prix total avec réduction si disponible
     if (discount !== null) {
-      return parseFloat(
-        (numTickets * event["price"][0] * (1 - discount / 100)).toFixed(2)
-      );
+      totalPrice = numTickets * event["price"][0] * (1 - discount / 100);
+    } else {
+      totalPrice = numTickets * event["price"][0];
     }
-    return numTickets * event["price"][0];
+
+    // Arrondir à la dizaine la plus proche
+    return Math.round(totalPrice / 10) * 10;
   };
 
   useEffect(() => {
@@ -124,7 +128,7 @@ const Checkout = () => {
         setDiscount(data.discount);
       }
     } catch (error) {
-      setError("Error call api request");
+      setError(error.response.data.message);
     } finally {
       setTimeout(() => {
         closeToast();
@@ -263,6 +267,8 @@ const Checkout = () => {
                   event={event}
                   numTickets={numTickets}
                   ticketsData={location.state.ticketsData}
+                  logisticsInformations={location.state.logisticsData}
+                  logisticCase={location.state.logisticCase}
                   onError={handlePaymentError}
                   onLoadingChange={handleLoadingChange}
                   price={price}
