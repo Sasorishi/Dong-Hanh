@@ -28,7 +28,7 @@ const RecaptchaComponent = () => {
 
   return (
     <>
-      {!loading ?? (
+      {!loading && (
         <div id="recaptcha" className="g-recaptcha" data-sitekey={publicKey} />
       )}
     </>

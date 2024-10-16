@@ -27,8 +27,8 @@ class DiscountVoucherController extends AbstractController
             return new JsonResponse(Response::HTTP_NOT_FOUND);
         }
         
-        if ($discount->isIsUsed()) {
-            return new JsonResponse(['message' =>  "Code already used"], Response::HTTP_BAD_REQUEST);
+        if (!$discount->isUsable()) {
+            return new JsonResponse(['message' =>  "Code can't be use"], Response::HTTP_BAD_REQUEST);
         }
 
         $data = [

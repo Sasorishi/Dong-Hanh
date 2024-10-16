@@ -66,7 +66,14 @@ class ParticipantRepository extends ServiceEntityRepository
 //        ;
 //    }
 
-    public function createParticipant(Array $data, Event $event): Participant {
+    /**
+     * Create a new participant
+     *
+     * @param array $data
+     * @param Event $event
+     * @return Participant
+     */
+    public function createParticipant(Array $data, Event $event, string $logisticCase): Participant {
         $participant = new Participant();
         
         $participant->setFirstname($data['firstName']);
@@ -82,8 +89,9 @@ class ParticipantRepository extends ServiceEntityRepository
         $participant->setWaiver(true);
         $participant->setGuardian(true);
         $participant->setEvent($event);
+        $participant->setNeedLogistic($logisticCase == "logisticInformation" ? true : false);
         $participant->setCreatedAt(new DateTime());
-
+        
         $entityManager = $this->getEntityManager();
         $entityManager->persist($participant);
         $entityManager->flush();

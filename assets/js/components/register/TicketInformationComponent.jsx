@@ -30,7 +30,7 @@ const TicketInforamtionComponent = ({ ticketKey, onTicketsDataChange }) => {
           Ticket {ticketKey}
         </h2>
         <p className="mt-1 text-sm leading-6 text-gray-600">
-          Register informations of the attendees.
+          Register informations of the attendee(s).
         </p>
 
         <div className="mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-12">
@@ -526,7 +526,7 @@ const TicketInforamtionComponent = ({ ticketKey, onTicketsDataChange }) => {
               htmlFor="message"
               className="block mb-2 text-sm font-medium text-gray-900"
             >
-              Healthcare
+              Healthcare (Optional)
             </label>
             <div className="mt-2">
               <textarea

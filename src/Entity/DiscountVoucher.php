@@ -28,6 +28,9 @@ class DiscountVoucher
     #[ORM\ManyToOne]
     private ?User $user = null;
 
+    #[ORM\Column]
+    private ?bool $usable = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -57,18 +60,6 @@ class DiscountVoucher
         return $this;
     }
 
-    public function isIsUsed(): ?bool
-    {
-        return $this->isUsed;
-    }
-
-    public function setIsUsed(bool $isUsed): static
-    {
-        $this->isUsed = $isUsed;
-
-        return $this;
-    }
-
     public function getCreatedAt(): ?\DateTimeImmutable
     {
         return $this->createdAt;
@@ -81,20 +72,20 @@ class DiscountVoucher
         return $this;
     }
 
-    public function getUser(): ?User
-    {
-        return $this->user;
-    }
-
-    public function setUser(?User $user): static
-    {
-        $this->user = $user;
-
-        return $this;
-    }
-
     public function __toString(): string
     {
         return (string) $this->getCode();
+    }
+
+    public function isUsable(): ?bool
+    {
+        return $this->usable;
+    }
+
+    public function setUsable(bool $usable): static
+    {
+        $this->usable = $usable;
+
+        return $this;
     }
 }

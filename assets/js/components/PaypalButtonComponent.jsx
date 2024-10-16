@@ -1,19 +1,17 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import axios from "axios";
 
 const PaypalButtonComponent = ({
   event,
   numTickets,
   ticketsData,
+  logisticsInformations,
+  logisticCase,
   onError,
   onLoadingChange,
   discountCode,
   price,
 }) => {
-  // const price = () => {
-  //   return numTickets * event["price"][0];
-  // };
-
   const handleOnError = (err) => {
     // console.log("onError: ", err);
     onError && onError(err);
@@ -28,6 +26,8 @@ const PaypalButtonComponent = ({
       const combinedData = {
         eventId: event["id"],
         numTickets: numTickets,
+        logisticsInformations: logisticsInformations,
+        logisticCase: logisticCase,
         details: details,
         captureId: captureId,
         participants: ticketsData,
@@ -35,6 +35,7 @@ const PaypalButtonComponent = ({
         price: price,
       };
       const response = await axios.post("/api/register", combinedData);
+      console.log(combinedData);
       if (response.status === 200 || response.status === 201) {
         console.log("Request success !");
       } else {

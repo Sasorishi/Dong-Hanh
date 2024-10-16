@@ -6,6 +6,7 @@ use App\Entity\AccountCodeVerify;
 use App\Entity\DiscountVoucher;
 use App\Entity\Event;
 use App\Entity\EventCategories;
+use App\Entity\LogisticInformation;
 use App\Entity\Participant;
 use App\Entity\ResetsPasswords;
 use App\Entity\Ticket;
@@ -59,13 +60,14 @@ class DashboardController extends AbstractDashboardController
             MenuItem::linkToCrud('Categories', 'fa fa-tag', EventCategories::class),
             MenuItem::linkToCrud('Events', 'fa fa-calendar', Event::class),
             MenuItem::linkToCrud('Participants', 'fa fa-list-alt', Participant::class),
+            MenuItem::linkToCrud('Logistics informations', 'fas fa-list', LogisticInformation::class),
             MenuItem::section('Tickets'),
             MenuItem::linkToCrud('Tickets', 'fa fa-ticket', Ticket::class),
             MenuItem::linkToCrud('Discounts', 'fas fa-list', DiscountVoucher::class),
             MenuItem::section('Monitoring'),
             MenuItem::linkToCrud('Users', 'fa fa-users', User::class),
-            MenuItem::linkToCrud('CodeVerify', 'fa fa-list-ol', AccountCodeVerify::class),
-            MenuItem::linkToCrud('ResetsPassords', 'fa fa-key', ResetsPasswords::class),
+            MenuItem::linkToCrud('Code Verify', 'fa fa-list-ol', AccountCodeVerify::class),
+            MenuItem::linkToCrud('Resets passwords', 'fa fa-key', ResetsPasswords::class),
         ];
     }
 }
