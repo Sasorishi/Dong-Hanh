@@ -89,7 +89,7 @@ class ParticipantRepository extends ServiceEntityRepository
         $participant->setWaiver(true);
         $participant->setGuardian(true);
         $participant->setEvent($event);
-        $participant->setNeedLogistic($logisticCase == "logisticInformation" ? true : false);
+        $participant->setNeedLogistic($logisticCase == "logisticInformation" || $logisticCase == "notBooked" ? true : false);
         $participant->setCreatedAt(new DateTime());
         
         $entityManager = $this->getEntityManager();

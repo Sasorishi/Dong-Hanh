@@ -95,12 +95,12 @@ const Checkout = () => {
     getEvent();
 
     // Démarrer le timeout lorsque la page est chargée
-    // startTimeout();
+    startTimeout();
 
     // Réinitialiser le timeout à chaque changement dans numTickets ou event
     return () => {
-      // clearTimeout(timeoutId);
-      // startTimeout();
+      clearTimeout(timeoutId);
+      startTimeout();
     };
   }, [location.state.eventId, location.state.numTickets]);
 

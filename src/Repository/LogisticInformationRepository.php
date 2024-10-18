@@ -54,11 +54,11 @@ class LogisticInformationRepository extends ServiceEntityRepository
         $logisticInformation = new LogisticInformation();
         $logisticInformation->setParticipant($participant);
         $logisticInformation->setArrivalTransport($data['arrivalTransportType']);
-        $logisticInformation->setArrivalDatetime(DateTime::createFromFormat('Y-m-d\TH:i', $data['arrivalDatetime']));
+        $logisticInformation->setArrivalDatetime(!empty($data['arrivalDatetime']) ? DateTime::createFromFormat('Y-m-d\TH:i', $data['arrivalDatetime']) : null);
         $logisticInformation->setArrivalAirline($data['arrivalAirline']);
         $logisticInformation->setArrivalFlightNumber($data['arrivalFlightNumber']);
         $logisticInformation->setDepartureTransport($data['departureTransportType']);
-        $logisticInformation->setDepartureDatetime(DateTime::createFromFormat('Y-m-d\TH:i', $data['departureDatetime']));
+        $logisticInformation->setDepartureDatetime(!empty($data['departureDatetime']) ? DateTime::createFromFormat('Y-m-d\TH:i', $data['departureDatetime']) : null);
         $logisticInformation->setDepartureAirline($data['departureAirline']);
         $logisticInformation->setDepartureFlightNumber($data['departureFlightNumber']);
         $logisticInformation->setComments($data['comments']);

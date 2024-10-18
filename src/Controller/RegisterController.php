@@ -47,24 +47,20 @@ class RegisterController extends AbstractController
             }
 
             $participants = $data['participants'];
-            $logisticsInformations = $data['logisticsInformations'];
+            $logisticsInformations = $data['logisticsInformations'] ?? [];
             $logisticCase = $data['logisticCase'];
             $details = $data['details'];
             $captureId = $data['captureId'];
             $event = $eventRepository->find($data['eventId']);
             $user = $userRepository->find($this->getUser()->getId());
             $price = $data['price'];
-
-            dump($data);
-
+            
             $this->entityManager->getConnection()->beginTransaction();
 
             foreach ($participants as $participantKey => $participantData) {
                 $newParticipant = $participantRepository->createParticipant($participantData, $event, $logisticCase);
-                dump("dehors");
 
                 if ($logisticCase == "logisticInformation" && !empty($logisticsInformations)) {
-                    dump("dedans");
                     foreach ($logisticsInformations as $logisticKey => $logisticInformation) {
                         if ($logisticKey == $participantKey) {
                             $logisticInformationRepository->createLogisticInformation($logisticInformation, $newParticipant);
@@ -79,7 +75,9 @@ class RegisterController extends AbstractController
     
             return new JsonResponse(['message' => 'Enregistrement réussi !'], Response::HTTP_OK);
         } catch (Exception $e) {
-            $this->entityManager->getConnection()->rollback();
+            if ($this->entityManager->getConnection()->isTransactionActive()) {
+                $this->entityManager->getConnection()->rollback();
+            }
             error_log("Error on create participants : " . $e->getMessage());
             return new JsonResponse(['error' => 'Error on create participants. Try again.'], Response::HTTP_INTERNAL_SERVER_ERROR);
         }

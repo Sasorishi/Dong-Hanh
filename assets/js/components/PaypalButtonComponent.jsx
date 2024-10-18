@@ -92,25 +92,30 @@ const PaypalButtonComponent = ({
                 },
               });
             },
-            onApprove: (data, actions) => {
-              return actions.order.capture().then(function (details) {
+            onApprove: async (data, actions) => {
+              return actions.order.capture().then(async function (details) {
                 handleLoadingChange(true);
                 const captureId =
                   details.purchase_units[0].payments.captures[0].id;
                 const transactionStatus = details.status;
 
                 if (transactionStatus === "COMPLETED") {
-                  setParticipants(details, captureId)
+                  await setParticipants(details, captureId)
                     .then(() => {
                       console.log("OK");
-                      // window.location.href = "/response/success/checkout";
+                      window.location.href = "/response/success/checkout";
+                      window.history.replaceState(
+                        null,
+                        "",
+                        "/response/success/checkout"
+                      );
                     })
                     .catch((error) => {
                       console.error("Error setting participants:", error);
                       handleOnError(
                         "Error setting participants. Please try again later."
                       );
-                      // window.location.replace("/response/error/checkout");
+                      window.location.replace("/response/error/checkout");
                     });
                 } else {
                   console.log("Transaction is not complete");
@@ -154,12 +159,7 @@ const PaypalButtonComponent = ({
     getEnv();
   }, [price]);
 
-  return (
-    // <>{price !== 0 ? <div id="paypal-button-container" /> : <p>Test</p>}</>
-    <>
-      <div id="paypal-button-container" />
-    </>
-  );
+  return <div id="paypal-button-container" />;
 };
 
 export default PaypalButtonComponent;
