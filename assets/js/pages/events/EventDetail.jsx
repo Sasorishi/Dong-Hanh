@@ -14,7 +14,7 @@ const EventDetail = () => {
   const navigate = useNavigate();
 
   const handleIncrement = () => {
-    if (tickets < 15) {
+    if (tickets < 8) {
       setTickets(tickets + 1);
     }
   };

@@ -64,7 +64,7 @@ const Register = () => {
     if (
       isNaN(parsedNumTickets) ||
       parsedNumTickets < 1 ||
-      parsedNumTickets > 15
+      parsedNumTickets > 8
     ) {
       navigate("/");
     }
