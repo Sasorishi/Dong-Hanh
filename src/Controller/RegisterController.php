@@ -2,8 +2,10 @@
 
 namespace App\Controller;
 
+use App\Entity\LogisticInformation;
 use App\Repository\DiscountVoucherRepository;
 use App\Repository\EventRepository;
+use App\Repository\LogisticInformationRepository;
 use App\Repository\ParticipantRepository;
 use App\Repository\TicketRepository;
 use App\Repository\UserRepository;
@@ -14,6 +16,8 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+
+use function PHPUnit\Framework\isEmpty;
 
 class RegisterController extends AbstractController
 {
@@ -33,7 +37,7 @@ class RegisterController extends AbstractController
     }
 
     #[Route('api/register', name: 'api_registration', methods: ['POST'])]
-    public function setRegister(Request $request, EventRepository $eventRepository, ParticipantRepository $participantRepository, TicketRepository $ticketRepository, UserRepository $userRepository, DiscountVoucherRepository $discountVoucherRepository): JsonResponse
+    public function setRegister(Request $request, EventRepository $eventRepository, ParticipantRepository $participantRepository, TicketRepository $ticketRepository, UserRepository $userRepository, DiscountVoucherRepository $discountVoucherRepository, LogisticInformationRepository $logisticInformationRepository): JsonResponse
     {
         try {
             $data = json_decode($request->getContent(), true);
@@ -41,30 +45,39 @@ class RegisterController extends AbstractController
             if (!isset($data['eventId']) || !isset($data['participants']) || !isset($data['details']) || !isset($data['captureId'])) {
                 throw new \InvalidArgumentException("Données invalides");
             }
-            
+
             $participants = $data['participants'];
+            $logisticsInformations = $data['logisticsInformations'] ?? [];
+            $logisticCase = $data['logisticCase'];
             $details = $data['details'];
             $captureId = $data['captureId'];
             $event = $eventRepository->find($data['eventId']);
             $user = $userRepository->find($this->getUser()->getId());
-            $discountCode = $data['discountCode'];
-            $priceAfterDiscount = $data['discountCode'];
+            $price = $data['price'];
             
             $this->entityManager->getConnection()->beginTransaction();
 
-            $vouche = $discountVoucherRepository->findOneBy(['code' => $discountCode]);
-            $discountVoucherRepository->setUsed($vouche, $user);
-            
-            foreach ($participants as $key => $participantData) {
-                $newParticipant = $participantRepository->createParticipant($participantData, $event);
-                $ticketRepository->createTicket($event, $details, $captureId, $newParticipant, $user, $priceAfterDiscount);
+            foreach ($participants as $participantKey => $participantData) {
+                $newParticipant = $participantRepository->createParticipant($participantData, $event, $logisticCase);
+
+                if ($logisticCase == "logisticInformation" && !empty($logisticsInformations)) {
+                    foreach ($logisticsInformations as $logisticKey => $logisticInformation) {
+                        if ($logisticKey == $participantKey) {
+                            $logisticInformationRepository->createLogisticInformation($logisticInformation, $newParticipant);
+                        }
+                    }
+                }
+
+                $ticketRepository->createTicket($event, $details, $captureId, $newParticipant, $user, $price);
             }
 
             $this->entityManager->getConnection()->commit();
     
             return new JsonResponse(['message' => 'Enregistrement réussi !'], Response::HTTP_OK);
         } catch (Exception $e) {
-            $this->entityManager->getConnection()->rollback();
+            if ($this->entityManager->getConnection()->isTransactionActive()) {
+                $this->entityManager->getConnection()->rollback();
+            }
             error_log("Error on create participants : " . $e->getMessage());
             return new JsonResponse(['error' => 'Error on create participants. Try again.'], Response::HTTP_INTERNAL_SERVER_ERROR);
         }

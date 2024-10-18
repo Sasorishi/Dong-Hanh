@@ -1,19 +1,17 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import axios from "axios";
 
 const PaypalButtonComponent = ({
   event,
   numTickets,
   ticketsData,
+  logisticsInformations,
+  logisticCase,
   onError,
   onLoadingChange,
   discountCode,
   price,
 }) => {
-  // const price = () => {
-  //   return numTickets * event["price"][0];
-  // };
-
   const handleOnError = (err) => {
     // console.log("onError: ", err);
     onError && onError(err);
@@ -28,6 +26,8 @@ const PaypalButtonComponent = ({
       const combinedData = {
         eventId: event["id"],
         numTickets: numTickets,
+        logisticsInformations: logisticsInformations,
+        logisticCase: logisticCase,
         details: details,
         captureId: captureId,
         participants: ticketsData,
@@ -35,6 +35,7 @@ const PaypalButtonComponent = ({
         price: price,
       };
       const response = await axios.post("/api/register", combinedData);
+      console.log(combinedData);
       if (response.status === 200 || response.status === 201) {
         console.log("Request success !");
       } else {
@@ -91,25 +92,30 @@ const PaypalButtonComponent = ({
                 },
               });
             },
-            onApprove: (data, actions) => {
-              return actions.order.capture().then(function (details) {
+            onApprove: async (data, actions) => {
+              return actions.order.capture().then(async function (details) {
                 handleLoadingChange(true);
                 const captureId =
                   details.purchase_units[0].payments.captures[0].id;
                 const transactionStatus = details.status;
 
                 if (transactionStatus === "COMPLETED") {
-                  setParticipants(details, captureId)
+                  await setParticipants(details, captureId)
                     .then(() => {
                       console.log("OK");
-                      // window.location.href = "/response/success/checkout";
+                      window.location.href = "/response/success/checkout";
+                      window.history.replaceState(
+                        null,
+                        "",
+                        "/response/success/checkout"
+                      );
                     })
                     .catch((error) => {
                       console.error("Error setting participants:", error);
                       handleOnError(
                         "Error setting participants. Please try again later."
                       );
-                      // window.location.replace("/response/error/checkout");
+                      window.location.replace("/response/error/checkout");
                     });
                 } else {
                   console.log("Transaction is not complete");
@@ -153,12 +159,7 @@ const PaypalButtonComponent = ({
     getEnv();
   }, [price]);
 
-  return (
-    // <>{price !== 0 ? <div id="paypal-button-container" /> : <p>Test</p>}</>
-    <>
-      <div id="paypal-button-container" />
-    </>
-  );
+  return <div id="paypal-button-container" />;
 };
 
 export default PaypalButtonComponent;

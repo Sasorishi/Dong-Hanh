@@ -22,7 +22,7 @@ const Register = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    navigate("/checkout", {
+    navigate("/register/logistic", {
       state: {
         eventId: eventId,
         numTickets: numTickets,
@@ -64,7 +64,7 @@ const Register = () => {
     if (
       isNaN(parsedNumTickets) ||
       parsedNumTickets < 1 ||
-      parsedNumTickets > 15
+      parsedNumTickets > 8
     ) {
       navigate("/");
     }
@@ -96,7 +96,7 @@ const Register = () => {
                 className="text-blue-600 hover:underline text-sm font-medium "
                 onClick={handleOpenDefaultModal}
               >
-                the accident waiver and release of liability.
+                the accident waiver and release of liability
               </span>
               .
             </label>
@@ -118,7 +118,7 @@ const Register = () => {
                 className="text-blue-600 hover:underline text-sm font-medium "
                 onClick={handleOpenSecondModal}
               >
-                parent / guardian waiver for minors.
+                parent / guardian waiver for minors
               </span>
               .
             </label>
@@ -154,28 +154,27 @@ const Register = () => {
             />
           )}
           <div className="mt-6 flex items-center justify-end gap-x-6">
-            <a href="/">
-              <button
-                type="button"
-                className="animation-hover uppercase flex align-center leading-6 text-gray-900 text-center font-medium hover:text-bordeau"
+            <button
+              type="button"
+              onClick={() => navigate(-1)}
+              className="animation-hover uppercase flex align-center leading-6 text-gray-900 text-center font-medium hover:text-bordeau"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                strokeWidth="1.5"
+                stroke="currentColor"
+                className="w-6 h-6 mr-2"
               >
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  strokeWidth="1.5"
-                  stroke="currentColor"
-                  className="w-6 h-6 mr-2"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    d="M6.75 15.75 3 12m0 0 3.75-3.75M3 12h18"
-                  />
-                </svg>
-                Cancel
-              </button>
-            </a>
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  d="M6.75 15.75 3 12m0 0 3.75-3.75M3 12h18"
+                />
+              </svg>
+              Cancel
+            </button>
             <button
               type="submit"
               disabled={isConfirmButtonDisabled}
