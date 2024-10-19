@@ -24,9 +24,11 @@ export default defineConfig({
     hmr: false,
   },
   build: {
+    outDir: "public/build",
     rollupOptions: {
       input: {
         app: "./assets/app.jsx",
+        styles: "assets/styles/app.scss",
       },
     },
   },
