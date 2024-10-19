@@ -20,7 +20,7 @@ class MainController extends AbstractController
         //         'error' => $response
         //     ]);
         // }
-        
+
         return $this->render('index.html.twig');
     }
 
@@ -44,6 +44,12 @@ class MainController extends AbstractController
 
     #[Route('/terms_and_conditions_of_sale', name: 'app_termsAndConditionsOfSale')]
     public function termsAndConditionsOfSale(): Response
+    {
+        return $this->render('index.html.twig');
+    }
+
+    #[Route('/account-verify/{id}', name: 'app_account_verify')]
+    public function accountVerify(): Response
     {
         return $this->render('index.html.twig');
     }

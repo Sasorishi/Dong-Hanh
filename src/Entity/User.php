@@ -40,6 +40,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\OneToMany(mappedBy: 'user', targetEntity: Ticket::class)]
     private Collection $tickets;
 
+    #[ORM\Column(nullable: true, options: ['default' => false])]
+    private ?bool $isVerified = null;
+
     public function __construct()
     {
         $this->tickets = new ArrayCollection();
@@ -188,6 +191,18 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
                 $ticket->setUser(null);
             }
         }
+
+        return $this;
+    }
+
+    public function isVerified(): ?bool
+    {
+        return $this->isVerified;
+    }
+
+    public function setIsVerified(?bool $isVerified): self
+    {
+        $this->isVerified = $isVerified;
 
         return $this;
     }

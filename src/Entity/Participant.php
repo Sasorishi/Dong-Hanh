@@ -69,6 +69,12 @@ class Participant
     #[ORM\OneToMany(mappedBy: 'participant', targetEntity: Ticket::class)]
     private Collection $tickets;
 
+    #[ORM\OneToOne(mappedBy: 'participant', cascade: ['persist', 'remove'])]
+    private ?LogisticInformation $logisticInformation = null;
+
+    #[ORM\Column]
+    private ?bool $needLogistic = null;
+
     public function __construct()
     {
         $this->tickets = new ArrayCollection();
@@ -303,5 +309,39 @@ class Participant
     public function __toString(): string
     {
         return $this->Firstname. ' ' .$this->Lastname;
+    }
+
+    public function LogisticInformation(): ?LogisticInformation
+    {
+        return $this->logisticInformation;
+    }
+
+    public function setLogisticInformation(?LogisticInformation $logisticInformation): static
+    {
+        // unset the owning side of the relation if necessary
+        if ($logisticInformation === null && $this->logisticInformation !== null) {
+            $this->logisticInformation->setParticipant(null);
+        }
+
+        // set the owning side of the relation if necessary
+        if ($logisticInformation !== null && $logisticInformation->getParticipant() !== $this) {
+            $logisticInformation->setParticipant($this);
+        }
+
+        $this->logisticInformation = $logisticInformation;
+
+        return $this;
+    }
+
+    public function isNeedLogistic(): ?bool
+    {
+        return $this->needLogistic;
+    }
+
+    public function setNeedLogistic(bool $needLogistic): static
+    {
+        $this->needLogistic = $needLogistic;
+
+        return $this;
     }
 }

@@ -44,30 +44,23 @@ class UserRepository extends ServiceEntityRepository
     /**
      * @param string $email
      * @param string $password
+     * @param bool $password
      * @param UserPasswordHasherInterface $passwordHasher
-     * @return void
+     * @return User|null
      */
-    public function createUser(string $email, string $password, UserPasswordHasherInterface $passwordHasher): void {
+    public function createUser(string $email, string $password, UserPasswordHasherInterface $passwordHasher, bool $isAdmin = false): ?User
+    {
         $user = new User;
         $user->setEmail($email);
-        
+
         $hashedPassword = $passwordHasher->hashPassword($user, $password);
         $user->setPassword($hashedPassword);
-        $user->setRoles(['ROLE_USER']);
+        $user->setRoles($isAdmin ? ['ROLE_USER', 'ROLE_ADMIN'] : ['ROLE_USER']);
         $user->setCreateAt(new DateTime());
 
         $this->save($user, true);
-    }
 
-    /**
-     * @param User $user
-     * @param string $token
-     * @return void
-     */
-    public function generateNewRequestTokenPassword(User $user, string $token): void {
-        $user->setTokenPassword($token);
-        $user->setPasswordRequestAt(new DateTime);
-        $this->save($user, true);
+        return $user;
     }
 
     /**
@@ -75,7 +68,8 @@ class UserRepository extends ServiceEntityRepository
      * @param UserPasswordHasherInterface $passwordHasher
      * @return void
      */
-    public function resetPassword(User $user, string $password, UserPasswordHasherInterface $passwordHasher): void {
+    public function resetPassword(User $user, string $password, UserPasswordHasherInterface $passwordHasher): void
+    {
         $hashedPassword = $passwordHasher->hashPassword($user, $password);
         $user->setPassword($hashedPassword);
         $user->setTokenPassword(null);
@@ -87,9 +81,20 @@ class UserRepository extends ServiceEntityRepository
      * @param UserPasswordHasherInterface $passwordHasher
      * @return void
      */
-    public function changePassword(User $user, string $password, UserPasswordHasherInterface $passwordHasher): void {
+    public function changePassword(User $user, string $password, UserPasswordHasherInterface $passwordHasher): void
+    {
         $hashedPassword = $passwordHasher->hashPassword($user, $password);
         $user->setPassword($hashedPassword);
+        $this->save($user, true);
+    }
+
+    /**
+     * @param User $user
+     * @return void
+     */
+    public function setAccountVerify(User $user): void
+    {
+        $user->setIsVerified(true);
         $this->save($user, true);
     }
 }

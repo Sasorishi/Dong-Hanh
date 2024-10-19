@@ -2,9 +2,9 @@
 
 namespace App\Controller;
 
+use App\Repository\ResetsPasswordsRepository;
 use App\Repository\UserRepository;
 use App\Service\MailerService;
-use DateTime;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\Routing\Annotation\Route;
@@ -12,7 +12,6 @@ use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Security\Csrf\TokenGenerator\TokenGeneratorInterface;
 
@@ -22,6 +21,12 @@ class LoginController extends AbstractController
     public function index(AuthenticationUtils $authenticationUtils, Security $security): Response
     {
         if ($security->isGranted('IS_AUTHENTICATED_FULLY')) {
+            $user = $security->getUser();
+
+            if (!$user->isVerified()) {
+                return $this->redirectToRoute('app_account_verify', ['id' => $user->getId()]);
+            }
+
             return $this->redirectToRoute('app_main');
         }
 
@@ -81,23 +86,31 @@ class LoginController extends AbstractController
     }
 
     #[Route('/api/auth/forget_password', name: 'api_forgot_password', methods: ['POST'])]
-    public function requestForgetPassword(Request $request, UserRepository $userRepository, TokenGeneratorInterface $tokenGenerator, MailerService $mailerService): JsonResponse
+    public function requestForgetPassword(Request $request, UserRepository $userRepository, TokenGeneratorInterface $tokenGenerator, MailerService $mailerService, ResetsPasswordsRepository $resetsPasswordsRepository): JsonResponse
     {
         $data = json_decode($request->getContent(), true);
         $user = $userRepository->findOneBy(['email' => $data['email']]);
 
-        if ($user) {
-            $token = $tokenGenerator->generateToken();
-            $userRepository->generateNewRequestTokenPassword($user, $token);
-
-            $variables['domain'] = $this->getParameter('app.domain');
-            $variables['token'] = $token;
-
-            $mailerService->sendEmail($data['email'], "Request to reset password", "emailing/1675203885219-CLaujD5NotgkxwCs/resetPassword.html", $variables);
-            return new JsonResponse(['success' => true, 'message' => "Request reset password sended"]);
+        if (!$user) {
+            return new JsonResponse(['message' => "Email don't exists", Response::HTTP_BAD_REQUEST]);
         }
+        
+        $token = $tokenGenerator->generateToken();
+        $resetsPasswordsRepository->generateNewRequestTokenPassword($user, $token);
 
-        return new JsonResponse(['success' => false, 'message' => "Email don't exists"]);
+        $context = ([
+            'domain' => $this->getParameter('app.domain'),
+            'token' => $token,
+            'user_id' => $user->getId(),
+            'current_year' => new \DateTime('Y')
+        ]);
+        $response = $mailerService->sendTemplateEmail($this->getParameter('app.mail_address'), $data['email'], "Reset password", 'emails/reset_password.html.twig', $context);
+        
+        if ($response->getStatusCode() !== Response::HTTP_OK) {
+            return new JsonResponse(['message' => "Failed to send email", Response::HTTP_BAD_REQUEST]);
+        }
+        
+        return new JsonResponse(['message' => "Request reset password sended", Response::HTTP_OK]);
     }
 
     #[Route('/api/auth/reset_password', name: 'api_reset_password', methods: ['POST'])]

@@ -1,3 +1,4 @@
+{% set sortedParticipants = field.value|sort((a, b) => b.createdAt <=> a.createdAt) %}
 {% if field.value is not empty %}
     <span>Total : {{ field.value|length }}</span>
     <table class="table table-striped">
@@ -6,13 +7,16 @@
                 <th>Ticket ID</th>
                 <th>Firstname</th>
                 <th>Lastname</th>
+                <th>Gender</th>
+                <th>Age</th>
+                <th>Country</th>
                 <th>Scanned</th>
                 <th>Created at</th>
                 <th>Actions</th>
             </tr>
         </thead>
         <tbody>
-        {% for participant in field.value %}
+        {% for participant in sortedParticipants %}
             {% set participantDetailUrl = ea_url()
                 .setController('App\\Controller\\Admin\\ParticipantCrudController')
                 .setAction(constant('EasyCorp\\Bundle\\EasyAdminBundle\\Config\\Action::DETAIL'))
@@ -22,6 +26,9 @@
                 <td>{{ participant.id }}</td>
                 <td>{{ participant.firstname }}</td>
                 <td>{{ participant.lastname }}</td>
+                <td>{{ participant.gender }}</td>
+                <td>{{ participant.age }}</td>
+                <td>{{ participant.country }}</td>
                 <td>
                     {% for ticket in participant.tickets %}
                         {% set scanStatus = ticket.isScan ? 'yes' : 'no' %}

@@ -37,4 +37,10 @@ class EventCategoriesCrudController extends AbstractCrudController
             TextField::new('label')
         ];
     }
+
+    public function configureCrud(Crud $crud): Crud
+    {
+        return $crud
+            ->setDefaultSort(['id' => 'DESC']);
+    }
 }
