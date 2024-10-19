@@ -1,0 +1,25 @@
+name: Deploy to Hostinger
+
+on:
+  push:
+    branches:
+      - dev # ou la branche que vous souhaitez
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Install sshpass
+        run: sudo apt-get update && sudo apt-get install -y sshpass
+
+      - name: Deploy to Hostinger
+        env:
+          HOSTINGER_USER: ${{ secrets.HOSTINGER_USER }}
+          HOSTINGER_PASSWORD: ${{ secrets.HOSTINGER_PASSWORD }}
+          HOSTINGER_DOMAIN: ${{ secrets.HOSTINGER_DOMAIN }}
+          HOSTINGER_PORT: ${{ secrets.HOSTINGER_PORT }}
+        run: |
+          sshpass -p $HOSTINGER_PASSWORD ssh -p $HOSTINGER_PORT $HOSTINGER_USER@$HOSTINGER_DOMAIN "cd public_html/staging && git pull && php composer.phar install && npm install && npm run build"
