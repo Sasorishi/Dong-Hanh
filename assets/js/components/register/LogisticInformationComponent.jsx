@@ -1,25 +1,24 @@
 import React, { useState } from "react";
-import { DatePicker, Space, TimePicker } from "antd";
-import dayjs from "dayjs";
 
 const LogisticInformationComponent = ({
   ticketKey,
   lastname,
   firstname,
+  logisticData,
   onLogisticDataChange,
 }) => {
   const [formData, setFormData] = useState({
-    arrivalTransportType: "",
-    arrivalDatetime: "",
-    arrivalAirline: "",
-    arrivalFlightNumber: "",
-    departureTransportType: "",
-    departureDatetime: "",
-    departureAirline: "",
-    departureFlightNumber: "",
-    comments: "",
+    arrivalTransportType: logisticData?.arrival_transport || "",
+    arrivalDatetime: logisticData?.arrival_datetime || "",
+    arrivalAirline: logisticData?.arrival_airline || "",
+    arrivalFlightNumber: logisticData?.arrival_flight_number || "",
+    departureTransportType: logisticData?.departure_transport || "",
+    departureDatetime: logisticData?.departure_datetime || "",
+    departureAirline: logisticData?.departure_airline || "",
+    departureFlightNumber: logisticData?.departure_flight_number || "",
+    comments: logisticData?.comments || "",
   });
-
+  console.log(logisticData);
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setFormData((prevFormData) => ({
@@ -28,6 +27,18 @@ const LogisticInformationComponent = ({
     }));
 
     onLogisticDataChange(ticketKey, formData);
+  };
+
+  const getMinDate = () => {
+    const date = new Date();
+    date.setFullYear(date.getFullYear() - 1);
+    return date.toISOString().slice(0, 16); // format 'YYYY-MM-DDTHH:MM'
+  };
+
+  const getMaxDate = () => {
+    const date = new Date();
+    date.setFullYear(date.getFullYear() + 10);
+    return date.toISOString().slice(0, 16); // format 'YYYY-MM-DDTHH:MM'
   };
 
   return (
@@ -78,8 +89,13 @@ const LogisticInformationComponent = ({
                 type="datetime-local"
                 id="arrivalDatetime"
                 name="arrivalDatetime"
-                min="2018-06-07T00:00"
-                max="2050-06-14T00:00"
+                min={getMinDate()}
+                max={getMaxDate()}
+                value={
+                  formData.arrivalDatetime
+                    ? formData.arrivalDatetime + "T00:00"
+                    : ""
+                }
                 onClick={(e) => e.currentTarget.showPicker()}
                 onChange={handleInputChange}
               />
@@ -171,8 +187,8 @@ const LogisticInformationComponent = ({
                 type="datetime-local"
                 id="departureDatetime"
                 name="departureDatetime"
-                min="2018-06-07T00:00"
-                max="2050-06-14T00:00"
+                min={getMinDate()}
+                max={getMaxDate()}
                 onClick={(e) => e.currentTarget.showPicker()}
                 onChange={handleInputChange}
               />

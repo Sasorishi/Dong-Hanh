@@ -69,4 +69,57 @@ class LogisticInformationRepository extends ServiceEntityRepository
 
         return $logisticInformation;
     }
+
+
+    /**
+     * @param string $userId
+     * @param int $eventId
+     * @return LogisticInformation[]
+     */
+    public function findGroupedTicketsByUserAndEvent(string $userId, int $eventId): array
+    {
+        $binaryUserId = hex2bin(str_replace('-', '', $userId));
+        $conn = $this->getEntityManager()->getConnection();
+
+        $sql = 'SELECT 
+        logistic_information.id, logistic_information.participant_id, arrival_transport, arrival_datetime, 
+        arrival_airline, arrival_flight_number, departure_transport,
+        departure_datetime, departure_airline, departure_flight_number, comments,
+        firstname, lastname, need_logistic
+        FROM logistic_information 
+        LEFT JOIN participant 
+        ON logistic_information.participant_id = participant.id
+        LEFT JOIN event
+        on participant.event_id = event.id
+        LEFT JOIN ticket
+        on event.id = ticket.event_id
+        LEFT JOIN user
+        on ticket.user_id = user.id
+        WHERE user.id = :userId AND event.id = :eventId
+        GROUP BY logistic_information.id';
+
+        $resultSet = $conn->executeQuery($sql, ['userId' => $binaryUserId, 'eventId' => $eventId]);
+
+        $results = $resultSet->fetchAllAssociative();
+
+        foreach ($results as &$row) {
+            $row['participant_id'] = $this->convertBinaryUuidToString($row['participant_id']);
+        }
+    
+        return $results;
+    }
+
+    private function convertBinaryUuidToString(string $binaryUuid): string
+    {
+        $hex = bin2hex($binaryUuid);
+        
+        // Ajouter des tirets pour reformater l'UUID
+        return sprintf('%08s-%04s-%04s-%04s-%12s',
+            substr($hex, 0, 8),
+            substr($hex, 8, 4),
+            substr($hex, 12, 4),
+            substr($hex, 16, 4),
+            substr($hex, 20, 12)
+        );
+    }
 }

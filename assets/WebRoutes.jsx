@@ -26,6 +26,7 @@ import TermsAndConditionsOfSale from "./js/pages/homepage/TermsAndConditionsOfSa
 import AccountVerify from "./js/pages/auth/AccountVerify";
 import Logistic from "./js/pages/register/Logistic";
 import LogisticInformation from "./js/pages/register/LogisticInformation";
+import LogisticsInformations from "./js/pages/account/LogisticsInformations";
 
 function WebRoutes() {
   Aos.init();
@@ -83,6 +84,10 @@ function WebRoutes() {
           element={isAuthenticated ? <Main /> : <Signup />}
         />
         <Route path="/account/tickets" element={<Tickets />} />
+        <Route
+          path="/account/events/:eventId/logistics_informations"
+          element={<LogisticsInformations />}
+        />
         <Route path="/account/settings" element={<Settings />} />
         <Route path="/events" element={<Events />} />
         <Route path="/events/:id" element={<EventDetail />} />
