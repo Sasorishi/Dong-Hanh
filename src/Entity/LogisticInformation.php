@@ -17,7 +17,7 @@ class LogisticInformation
     #[ORM\Column(length: 40)]
     private ?string $ArrivalTransport = null;
     
-    #[ORM\Column(type: Types::DATE_MUTABLE)]
+    #[ORM\Column(type: Types::DATETIME_IMMUTABLE)]
     private ?\DateTimeInterface $arrivalDatetime = null;
     
     #[ORM\Column(length: 80, nullable: true)]
@@ -29,7 +29,7 @@ class LogisticInformation
     #[ORM\Column(length: 80, nullable: true)]
     private ?string $DepartureTransport = null;
 
-    #[ORM\Column(type: Types::DATE_MUTABLE)]
+    #[ORM\Column(type: Types::DATETIME_IMMUTABLE)]
     private ?\DateTimeInterface $departureDatetime = null;
     
     #[ORM\Column(length: 80, nullable: true)]
