@@ -45,10 +45,10 @@ const LogisticInformationComponent = ({
     <div className="mt-6 space-y-12">
       <div className="border-b border-gray-900/10 pb-12">
         <h2 className="text-base font-semibold leading-7 text-gray-900">
-          Flight information {ticketKey} - {firstname} {lastname}
+          Logistic information {ticketKey} - {firstname} {lastname}
         </h2>
         <p className="mt-1 text-sm leading-6 text-gray-600">
-          Your flight details help us coordinate transportation and logistics
+          Your logistic details help us coordinate transportation and logistics
           for a seamless event experience.
         </p>
         <div className="mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-12">
