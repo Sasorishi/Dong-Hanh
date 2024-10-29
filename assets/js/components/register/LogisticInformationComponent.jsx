@@ -1,3 +1,4 @@
+import { id } from "postcss-selector-parser";
 import React, { useState } from "react";
 
 const LogisticInformationComponent = ({
@@ -8,25 +9,32 @@ const LogisticInformationComponent = ({
   onLogisticDataChange,
 }) => {
   const [formData, setFormData] = useState({
-    arrivalTransportType: logisticData?.arrival_transport || "",
-    arrivalDatetime: logisticData?.arrival_datetime || "",
-    arrivalAirline: logisticData?.arrival_airline || "",
-    arrivalFlightNumber: logisticData?.arrival_flight_number || "",
-    departureTransportType: logisticData?.departure_transport || "",
-    departureDatetime: logisticData?.departure_datetime || "",
-    departureAirline: logisticData?.departure_airline || "",
-    departureFlightNumber: logisticData?.departure_flight_number || "",
+    id: logisticData?.id || "",
+    firstname: logisticData?.firstname || "",
+    lastname: logisticData?.lastname || "",
+    need_logistic: logisticData?.need_logistic || "",
+    order_id: logisticData?.order_id || "",
+    participant_id: logisticData?.participant_id || "",
+    arrival_transport: logisticData?.arrival_transport || "",
+    arrival_datetime: logisticData?.arrival_datetime || "",
+    arrival_airline: logisticData?.arrival_airline || "",
+    arrival_flight_number: logisticData?.arrival_flight_number || "",
+    departure_transport: logisticData?.departure_transport || "",
+    departure_datetime: logisticData?.departure_datetime || "",
+    departure_airline: logisticData?.departure_airline || "",
+    departure_flight_number: logisticData?.departure_flight_number || "",
     comments: logisticData?.comments || "",
   });
-  console.log(logisticData);
+
   const handleInputChange = (e) => {
     const { name, value } = e.target;
-    setFormData((prevFormData) => ({
-      ...prevFormData,
+    const updatedFormData = {
+      ...formData,
       [name]: value,
-    }));
+    };
 
-    onLogisticDataChange(ticketKey, formData);
+    setFormData(updatedFormData);
+    onLogisticDataChange(ticketKey, updatedFormData);
   };
 
   const getMinDate = () => {
@@ -45,7 +53,7 @@ const LogisticInformationComponent = ({
     <div className="mt-6 space-y-12">
       <div className="border-b border-gray-900/10 pb-12">
         <h2 className="text-base font-semibold leading-7 text-gray-900">
-          Logistic information {ticketKey} - {firstname} {lastname}
+          Logistic information {ticketKey + 1} - {firstname} {lastname}
         </h2>
         <p className="mt-1 text-sm leading-6 text-gray-600">
           Your logistic details help us coordinate transportation and logistics
@@ -61,9 +69,9 @@ const LogisticInformationComponent = ({
             </label>
             <div className="mt-2">
               <select
-                id="arrivalTransportType"
-                name="arrivalTransportType"
-                value={formData.arrivalTransportType}
+                id="arrival_transport"
+                name="arrival_transport"
+                value={formData.arrival_transport}
                 onChange={handleInputChange}
                 className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2"
                 required
@@ -87,13 +95,13 @@ const LogisticInformationComponent = ({
               <input
                 className="bg-gray-50 block w-full rounded-lg border-0 p-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                 type="datetime-local"
-                id="arrivalDatetime"
-                name="arrivalDatetime"
+                id="arrival_datetime"
+                name="arrival_datetime"
                 min={getMinDate()}
                 max={getMaxDate()}
                 value={
-                  formData.arrivalDatetime
-                    ? formData.arrivalDatetime + "T00:00"
+                  formData.arrival_datetime
+                    ? formData.arrival_datetime.slice(0, 16)
                     : ""
                 }
                 onClick={(e) => e.currentTarget.showPicker()}
@@ -104,7 +112,7 @@ const LogisticInformationComponent = ({
 
           <div
             className={`col-span-12 sm:col-span-6 md:col-span-6 lg:col-span-6 ${
-              formData.arrivalTransportType !== "plane" ? "hidden" : ""
+              formData.arrival_transport !== "plane" ? "hidden" : ""
             }`}
           >
             <label
@@ -116,19 +124,19 @@ const LogisticInformationComponent = ({
             <div className="mt-2">
               <input
                 type="text"
-                name="arrivalAirline"
-                id="arrivalAirline"
-                value={formData.arrivalAirline}
+                name="arrival_airline"
+                id="arrival_airline"
+                value={formData.arrival_airline}
                 onChange={handleInputChange}
                 className="bg-gray-50 block w-full rounded-md border-0 p-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                 required
-                disabled={formData.arrivalTransportType !== "plane"}
+                disabled={formData.arrival_transport !== "plane"}
               />
             </div>
           </div>
           <div
             className={`col-span-12 sm:col-span-6 md:col-span-6 lg:col-span-6 ${
-              formData.arrivalTransportType !== "plane" ? "hidden" : ""
+              formData.arrival_transport !== "plane" ? "hidden" : ""
             }`}
           >
             <label
@@ -140,13 +148,13 @@ const LogisticInformationComponent = ({
             <div className="mt-2">
               <input
                 type="text"
-                name="arrivalFlightNumber"
-                id="arrivalFlightNumber"
-                value={formData.arrivalFlightNumber}
+                name="arrival_flight_number"
+                id="arrival_flight_number"
+                value={formData.arrival_flight_number}
                 onChange={handleInputChange}
                 className="bg-gray-50 block w-full rounded-md border-0 p-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                 required
-                disabled={formData.arrivalTransportType !== "plane"}
+                disabled={formData.arrival_transport !== "plane"}
               />
             </div>
           </div>
@@ -159,9 +167,9 @@ const LogisticInformationComponent = ({
             </label>
             <div className="mt-2">
               <select
-                id="departureTransportType"
-                name="departureTransportType"
-                value={formData.departureTransportType}
+                id="departure_transport"
+                name="departure_transport"
+                value={formData.departure_transport}
                 onChange={handleInputChange}
                 className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2"
                 required
@@ -185,10 +193,15 @@ const LogisticInformationComponent = ({
               <input
                 className="bg-gray-50 block w-full rounded-lg border-0 p-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                 type="datetime-local"
-                id="departureDatetime"
-                name="departureDatetime"
+                id="departure_datetime"
+                name="departure_datetime"
                 min={getMinDate()}
                 max={getMaxDate()}
+                value={
+                  formData.departure_datetime
+                    ? formData.departure_datetime.slice(0, 16)
+                    : ""
+                }
                 onClick={(e) => e.currentTarget.showPicker()}
                 onChange={handleInputChange}
               />
@@ -196,7 +209,7 @@ const LogisticInformationComponent = ({
           </div>
           <div
             className={`col-span-12 sm:col-span-6 md:col-span-6 lg:col-span-6 ${
-              formData.departureTransportType !== "plane" ? "hidden" : ""
+              formData.departure_transport !== "plane" ? "hidden" : ""
             }`}
           >
             <label
@@ -208,19 +221,19 @@ const LogisticInformationComponent = ({
             <div className="mt-2">
               <input
                 type="text"
-                name="departureAirline"
-                id="departureAirline"
-                value={formData.departureAirline}
+                name="departure_airline"
+                id="departure_airline"
+                value={formData.departure_airline}
                 onChange={handleInputChange}
                 className="bg-gray-50 block w-full rounded-md border-0 p-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                 required
-                disabled={formData.departureTransportType !== "plane"}
+                disabled={formData.departure_transport !== "plane"}
               />
             </div>
           </div>
           <div
             className={`col-span-12 sm:col-span-6 md:col-span-6 lg:col-span-6 ${
-              formData.departureTransportType !== "plane" ? "hidden" : ""
+              formData.departure_transport !== "plane" ? "hidden" : ""
             }`}
           >
             <label
@@ -232,13 +245,13 @@ const LogisticInformationComponent = ({
             <div className="mt-2">
               <input
                 type="text"
-                name="departureFlightNumber"
-                id="departureFlightNumber"
-                value={formData.departureFlightNumber}
+                name="departure_flight_number"
+                id="departure_flight_number"
+                value={formData.departure_flight_number}
                 onChange={handleInputChange}
                 className="bg-gray-50 block w-full rounded-md border-0 p-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                 required
-                disabled={formData.departureTransportType !== "plane"}
+                disabled={formData.departure_transport !== "plane"}
               />
             </div>
           </div>

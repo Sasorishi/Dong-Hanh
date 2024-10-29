@@ -85,7 +85,7 @@ function WebRoutes() {
         />
         <Route path="/account/tickets" element={<Tickets />} />
         <Route
-          path="/account/events/:eventId/logistics_informations"
+          path="/account/events/:eventId/logistics_informations/:orderId"
           element={<LogisticsInformations />}
         />
         <Route path="/account/settings" element={<Settings />} />

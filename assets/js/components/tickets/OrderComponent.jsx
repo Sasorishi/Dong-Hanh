@@ -1,17 +1,15 @@
 import React from "react";
 import Ticket from "./TicketComponent";
+import { useNavigate } from "react-router-dom";
 
 const OrderComponent = ({ ticketsData, index, ordersData }) => {
-  // totalPrice = () => {
-  //   const amount = 0;
-  //   ticketsData.forEach((ticket) => {
-  //     if (ticket["price"]) {
-  //       amount += ticket["price"];
-  //     }
-  //   });
+  const navigate = useNavigate();
 
-  //   return amount;
-  // };
+  const handleNavigation = () => {
+    navigate(
+      `/account/events/${ticketsData[0]["eventId"]}/logistics_informations/${ordersData[index]["order_id"]}`
+    );
+  };
 
   return (
     <div className="w-full bg-cream border border-gray-200 rounded-lg shadow mt-4 mb-4">
@@ -28,10 +26,30 @@ const OrderComponent = ({ ticketsData, index, ordersData }) => {
             {ordersData[index]["created_at"]}
           </span>
         </div>
-        {/* <div className="flex flex-col w-full mb-4 md:w-auto md:mb-0">
-          <span className="text-sm font-medium text-darkblue">Amount</span>
-          <span className="text-sm font-medium">{totalPrice()} €</span>
-        </div> */}
+        <div className="flex flex-col w-full mb-4 md:w-auto md:mb-0">
+          <button
+            data-tooltip-target="tooltip-refund"
+            type="button"
+            onClick={handleNavigation}
+            className="animation-hover flex items-center uppercase text-darkblue hover:text-bordeau font-medium rounded-full text-sm px-4 py-2 text-center"
+          >
+            Edit Logistics
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+              strokeWidth="1.5"
+              stroke="currentColor"
+              className="w-6 h-6 ml-2"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                d="M19.5 14.25v-2.625a3.375 3.375 0 0 0-3.375-3.375h-1.5A1.125 1.125 0 0 1 13.5 7.125v-1.5a3.375 3.375 0 0 0-3.375-3.375H8.25m0 12.75h7.5m-7.5 3H12M10.5 2.25H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 0 0-9-9Z"
+              />
+            </svg>
+          </button>
+        </div>
         <div className="w-full md:w-auto md:text-right">
           {/* {ordersData[index]["status"] !== "REFUND" ||
             (new Date() > ordersData[index]["refund_expire_at"] && ( */}

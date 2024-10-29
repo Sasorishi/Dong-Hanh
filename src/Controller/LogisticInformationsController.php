@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\LogisticInformation;
 use App\Repository\LogisticInformationRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -36,7 +37,7 @@ class LogisticInformationsController extends AbstractController
         ]);
     }
 
-    #[Route('/account/events/{eventId}/logistics_informations')]
+    #[Route('/account/events/{eventId}/logistics_informations/{orderId}')]
     public function userLogisticsInformations(Request $request): Response
     {
         $this->denyAccessUnlessGranted('ROLE_USER');
@@ -45,16 +46,37 @@ class LogisticInformationsController extends AbstractController
         ]);
     }
 
-    #[Route('/api/user/events/{eventId}/getLogisticsInformations', methods: ['GET'])]
-    public function getEventData(int $eventId): JsonResponse
+    #[Route('/api/user/events/{eventId}/getLogisticsInformations/{orderId}', methods: ['GET'])]
+    public function getLogisticsData(int $eventId, string $orderId): JsonResponse
     {
         $userId = $this->getUser()->getId();
-        $logisticData = $this->logisticInformationRepository->findGroupedTicketsByUserAndEvent($userId, $eventId);
+        $logisticData = $this->logisticInformationRepository->findGroupedTicketsByUserAndEvent($userId, $eventId, $orderId);
 
         if (empty($logisticData)) {
             return new JsonResponse(['logisticData' =>  null], Response::HTTP_OK);
         }
 
         return new JsonResponse(['logisticData' => $logisticData], Response::HTTP_OK);
+    }
+
+    #[Route('/api/user/events/{eventId}/setLogisticsInformations', methods: ['POST'])]
+    public function setLogisticsData(Request $request): JsonResponse
+    {
+        $data = json_decode($request->getContent(), true);
+
+        foreach ($data['logisticsData'] as $logisticData) {
+            $id = $logisticData['id'];
+            $logisticInformation = $this->logisticInformationRepository->find(["id" => $id]);
+
+            if (!$logisticInformation) {
+                throw $this->createNotFoundException(
+                    'No logistic information found for id '.$logisticData->id
+                );
+            }
+
+            $this->logisticInformationRepository->updateLogisticInformation($logisticInformation, $logisticData);
+        }
+
+        return new JsonResponse(['logisticData' => "Logistics updated"], Response::HTTP_OK);
     }
 }

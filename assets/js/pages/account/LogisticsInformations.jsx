@@ -2,9 +2,10 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { useParams } from "react-router-dom";
 import LogisticInformationComponent from "@components/register/LogisticInformationComponent";
+import ToastComponent from "@components/ToastComponent";
 
 const LogisticsInformations = () => {
-  const { eventId } = useParams();
+  const { eventId, orderId } = useParams();
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const [success, setSuccess] = useState(null);
@@ -17,33 +18,37 @@ const LogisticsInformations = () => {
       try {
         setLoading(true);
         const response = await axios.get(
-          `/api/user/events/${eventId}/getLogisticsInformations`
+          `/api/user/events/${eventId}/getLogisticsInformations/${orderId}`
         );
 
         if (response.status === 200) {
           const data = response.data.logisticData;
-          setLogisticsData(data); // Met à jour logisticsData avec les données récupérées
+          if (data.length != 0) {
+            setLogisticsData(data);
+          }
         } else {
-          setError("Erreur lors de la requête API");
+          setError("Logistics informations failled to load");
         }
       } catch (error) {
-        setError("Erreur lors de la requête API");
+        setError("Error loading logistics informations");
         console.error(error);
       } finally {
         setLoading(false);
+        setTimeout(() => {
+          closeToast();
+        }, 5000);
       }
     };
 
     getLogisticInformation();
-  }, [eventId]); // Se déclenche lorsque eventId change
+  }, [eventId, orderId]);
 
-  // Créer les composants lorsque logisticsData change
   useEffect(() => {
     if (logisticsData.length > 0) {
       const components = logisticsData.map((logisticData, index) => (
         <LogisticInformationComponent
           key={index}
-          ticketKey={index + 1}
+          ticketKey={index}
           lastname={logisticData.lastname}
           firstname={logisticData.firstname}
           logisticData={logisticData}
@@ -55,18 +60,54 @@ const LogisticsInformations = () => {
 
       setLogisticsInformationsComponents(components);
     }
-  }, [logisticsData]); // Se déclenche lorsque logisticsData est mis à jour
+  }, [logisticsData]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    window.scrollTo(0, 0);
+    try {
+      const combinedData = {
+        logisticsData: logisticsData,
+      };
+      console.log(combinedData);
+      const response = await axios.post(
+        "/api/user/events/{eventId}/setLogisticsInformations",
+        combinedData
+      );
+      if (response.status === 200 || response.status === 201) {
+        console.log("Request success !");
+        setSuccess("Logistics informations saved.");
+      } else {
+        console.error("Server request fail");
+        setError("Server request fail. Try again or later.");
+      }
+    } catch (error) {
+      console.error("Server request fail", error);
+      setError("Server request fail. Try again or later.");
+    } finally {
+      setTimeout(() => {
+        closeToast();
+      }, 5000);
+    }
+  };
+
+  const closeToast = () => {
+    setError(null);
+    setSuccess(null);
   };
 
   return (
     <section className="bg-whitesmoke">
       <div className="py-24 sm:py-32 px-6 lg:px-8 rounded-lg">
-        {error && <p className="error">{error}</p>}
-        {success && <p className="success">{success}</p>}
+        {error && (
+          <ToastComponent message={error} onClose={closeToast} error={true} />
+        )}
+        {success && (
+          <ToastComponent
+            message={success}
+            onClose={closeToast}
+            error={false}
+          />
+        )}
         <form onSubmit={handleSubmit}>
           {logisticsInformationsComponents}
           <div className="mt-6 flex items-center justify-end gap-x-6">
