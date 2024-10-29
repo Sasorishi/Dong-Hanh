@@ -17,7 +17,7 @@ class LogisticInformation
     #[ORM\Column(length: 40)]
     private ?string $ArrivalTransport = null;
     
-    #[ORM\Column(type: Types::DATETIME_IMMUTABLE)]
+    #[ORM\Column(type: Types::DATETIME_MUTABLE)]
     private ?\DateTimeInterface $arrivalDatetime = null;
     
     #[ORM\Column(length: 80, nullable: true)]
@@ -29,7 +29,7 @@ class LogisticInformation
     #[ORM\Column(length: 80, nullable: true)]
     private ?string $DepartureTransport = null;
 
-    #[ORM\Column(type: Types::DATETIME_IMMUTABLE)]
+    #[ORM\Column(type: Types::DATETIME_MUTABLE)]
     private ?\DateTimeInterface $departureDatetime = null;
     
     #[ORM\Column(length: 80, nullable: true)]
@@ -46,6 +46,9 @@ class LogisticInformation
 
     #[ORM\Column]
     private ?\DateTimeImmutable $CreateAt = null;
+
+    #[ORM\Column(nullable: true)]
+    private ?\DateTime $UpdatedAt = null;
 
     public function getId(): ?int
     {
@@ -179,6 +182,18 @@ class LogisticInformation
     public function setCreateAt(\DateTimeImmutable $CreateAt): static
     {
         $this->CreateAt = $CreateAt;
+
+        return $this;
+    }
+
+    public function getUpdatedAt(): ?\DateTime
+    {
+        return $this->UpdatedAt;
+    }
+
+    public function setUpdatedAt(?\DateTime $UpdatedAt): static
+    {
+        $this->UpdatedAt = $UpdatedAt;
 
         return $this;
     }
