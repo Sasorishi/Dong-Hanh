@@ -7,7 +7,8 @@ const OrderComponent = ({ ticketsData, index, ordersData }) => {
 
   const handleNavigation = () => {
     navigate(
-      `/account/events/${ticketsData[0]["eventId"]}/logistics_informations/${ordersData[index]["order_id"]}`
+      `/account/events/${ticketsData[0]["eventId"]}/logistics_informations/${ordersData[index]["order_id"]}`,
+      { state: { ticketsData } }
     );
   };
 

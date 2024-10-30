@@ -1,7 +1,14 @@
-import React from "react";
+import React, { useState } from "react";
 
-const LogisticCaseComponent = ({ onLogisticCaseChange }) => {
+const LogisticCaseComponent = ({
+  onLogisticCaseChange,
+  isEdit,
+  defaultValue,
+}) => {
+  const [selectedOption, setSelectedOption] = useState(defaultValue || "");
+
   const handleInputChange = (value) => {
+    setSelectedOption(value);
     onLogisticCaseChange(value);
   };
 
@@ -30,7 +37,8 @@ const LogisticCaseComponent = ({ onLogisticCaseChange }) => {
               type="radio"
               name="bordered-radio"
               className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500"
-              onClick={() => handleInputChange("selfTravel")}
+              onChange={() => handleInputChange("selfTravel")}
+              checked={selectedOption === "selfTravel"}
             />
             <label
               htmlFor="bordered-radio-1"
@@ -45,7 +53,8 @@ const LogisticCaseComponent = ({ onLogisticCaseChange }) => {
               type="radio"
               name="bordered-radio"
               className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500"
-              onClick={() => handleInputChange("logisticInformation")}
+              onChange={() => handleInputChange("logisticInformation")}
+              checked={selectedOption === "logisticInformation"}
             />
             <label
               htmlFor="bordered-radio-2"
@@ -54,21 +63,24 @@ const LogisticCaseComponent = ({ onLogisticCaseChange }) => {
               I can provide the transportation details.
             </label>
           </div>
-          <div className="flex w-full items-center ps-4 border border-gray-200 rounded">
-            <input
-              id="bordered-radio-3"
-              type="radio"
-              name="bordered-radio"
-              className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500"
-              onClick={() => handleInputChange("notBooked")}
-            />
-            <label
-              htmlFor="bordered-radio-3"
-              className="w-full py-4 ms-2 text-xs font-medium text-gray-900"
-            >
-              I haven't booked yet.
-            </label>
-          </div>
+          {!isEdit && (
+            <div className="flex w-full items-center ps-4 border border-gray-200 rounded">
+              <input
+                id="bordered-radio-3"
+                type="radio"
+                name="bordered-radio"
+                className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500"
+                onChange={() => handleInputChange("notBooked")}
+                checked={selectedOption === "notBooked"}
+              />
+              <label
+                htmlFor="bordered-radio-3"
+                className="w-full py-4 ms-2 text-xs font-medium text-gray-900"
+              >
+                I haven't booked yet.
+              </label>
+            </div>
+          )}
         </div>
       </div>
     </div>

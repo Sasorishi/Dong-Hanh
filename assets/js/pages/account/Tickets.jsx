@@ -19,6 +19,7 @@ const Tickets = () => {
       try {
         const response = await axios.get("/api/user/tickets");
         const data = response.data;
+        console.log(data);
 
         if (response.data.tickets !== null) {
           setTicketsData(Object.values(data.tickets) || []);

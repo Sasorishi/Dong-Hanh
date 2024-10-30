@@ -90,6 +90,7 @@ class TicketController extends AbstractController
                 'email' => $ticket->getParticipant()->getEmail(),
                 'phone' => $ticket->getParticipant()->getPhone(),
                 'qrcode' => $this->ticketQrcode($ticket->getId(), $ticket->getParticipant()->getId(), $ticket->getEvent()->getId()),
+                'participant_id' => $ticket->getParticipant()->getId(),
             ];
         }
         return new JsonResponse(['tickets' =>  $ticketData, 'orders' => $orderCreatedAtArray], Response::HTTP_OK);
