@@ -17,21 +17,21 @@ const Checkout = () => {
   const TIMEOUT_DURATION = 5 * 60 * 1000;
   const [code, setCode] = useState(null);
   const [discount, setDiscount] = useState(null);
-  let timeoutId;
+  // let timeoutId;
   const [price, setPrice] = useState(0);
 
-  const startTimeout = () => {
-    let elapsedTime = 0;
+  // const startTimeout = () => {
+  //   let elapsedTime = 0;
 
-    const intervalId = setInterval(() => {
-      elapsedTime += 1000;
-    }, 1000);
+  //   const intervalId = setInterval(() => {
+  //     elapsedTime += 1000;
+  //   }, 1000);
 
-    setTimeout(() => {
-      clearInterval(intervalId);
-      window.location.href = "/response/error/timeout";
-    }, TIMEOUT_DURATION);
-  };
+  //   setTimeout(() => {
+  //     clearInterval(intervalId);
+  //     window.location.href = "/response/error/timeout";
+  //   }, TIMEOUT_DURATION);
+  // };
 
   const closeToast = () => {
     setError(null);
@@ -94,14 +94,14 @@ const Checkout = () => {
 
     getEvent();
 
-    // Démarrer le timeout lorsque la page est chargée
-    startTimeout();
+    // // Démarrer le timeout lorsque la page est chargée
+    // startTimeout();
 
-    // Réinitialiser le timeout à chaque changement dans numTickets ou event
-    return () => {
-      clearTimeout(timeoutId);
-      startTimeout();
-    };
+    // // Réinitialiser le timeout à chaque changement dans numTickets ou event
+    // return () => {
+    //   clearTimeout(timeoutId);
+    //   startTimeout();
+    // };
   }, [location.state.eventId, location.state.numTickets]);
 
   useEffect(() => {
