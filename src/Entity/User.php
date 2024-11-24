@@ -43,6 +43,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(nullable: true, options: ['default' => false])]
     private ?bool $isVerified = null;
 
+    // This property is used temporarily to store the new password
+    private $newPassword;
+
     public function __construct()
     {
         $this->tickets = new ArrayCollection();
@@ -204,6 +207,17 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     {
         $this->isVerified = $isVerified;
 
+        return $this;
+    }
+
+    public function getNewPassword(): ?string
+    {
+        return $this->newPassword;
+    }
+
+    public function setNewPassword(?string $newPassword): self
+    {
+        $this->newPassword = $newPassword;
         return $this;
     }
 }
