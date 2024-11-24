@@ -91,7 +91,7 @@ const AccountVerify = () => {
               Enter the code you have <br /> received by email
             </p>
             <div className="text-center">
-              <Input.OTP length={6} {...sharedProps} />
+              <Input.OTP className="otp" length={6} {...sharedProps} />
             </div>
             <p className="text-center mt-6">
               If you have not received it, <br /> click on the link below

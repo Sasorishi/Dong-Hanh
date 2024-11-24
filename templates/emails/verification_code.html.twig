@@ -15,6 +15,7 @@
             padding: 10px; 
             padding-inline: 22px; 
             border-radius: 10px;
+            margin: 0;
         }
     </style>
 </head>
@@ -60,24 +61,22 @@
                         </td>
                     </tr>
                     <tr>
-                        <td colspan="4" style="background-color: white; padding: 40px; padding-top: 0px;">
-                            {% for numbers in code %}
-                                <p class="numbers">{{ numbers }}</p>
-                            {% endfor %}
+                        <td colspan="4" style="background-color: white; margin: 0px; padding: 40px; padding-top: 0px; font-size:0;">
+                            <span class="numbers">{{ code }}</span>
                         </td>
                     </tr>
                     <tr>
                         <td colspan="4" style="background-color: white; padding: 40px; padding-top: 0px; padding-bottom: 20px; text-align: left; font-size: 16px; line-height: 1.6;">
-                            Whether you're here for your brand, for a cause, or jsut for fun -- welcome!<br/>
-                            This code will only be valid for the next 5 minutes. If the code does not work,<br/>
+                            This code will only be valid for the next 5 minutes,<br/>
                             you can use this login verification link:
                         </td>
                     </tr>
+                    <tr>
                         <td colspan="4" style="padding: 0px 40px 40px 40px; text-align: center; background-color: white;">
                             <table cellspacing="0" cellpadding="0">
                                 <tr>
                                     <td align="center" style="background-color: #2969ff; padding: 15px 30px;">
-                                        <a href={{"https://dong-hanh.org/account/verify/" ~ user_id}} target="_blank" style="color: #ffffff; text-decoration: none; font-size: 15px; font-weight: bold;">Verify Email</a>
+                                        <a href={{"https://dong-hanh.org/account-verify/" ~ user_id}} target="_blank" style="color: #ffffff; text-decoration: none; font-size: 15px; font-weight: bold;">Verify Email</a>
                                     </td>
                                 </tr>
                             </table>
