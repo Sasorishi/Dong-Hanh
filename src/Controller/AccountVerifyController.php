@@ -69,7 +69,7 @@ class AccountVerifyController extends AbstractController
         $context = ([
             'user_id' => $user->getId(),
             'user_email' => $user->getEmail(),
-            'code' => $newCode,
+            'code' => implode("", $newCode),
             'current_year' => new \DateTime('Y')
         ]);
         $this->mailerService->sendTemplateEmail($mail, $user->getEmail(), "Verify your account", 'emails/verification_code.html.twig', $context);
