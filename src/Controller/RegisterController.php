@@ -2,29 +2,35 @@
 
 namespace App\Controller;
 
-use App\Entity\LogisticInformation;
 use App\Repository\DiscountVoucherRepository;
 use App\Repository\EventRepository;
 use App\Repository\LogisticInformationRepository;
 use App\Repository\ParticipantRepository;
 use App\Repository\TicketRepository;
 use App\Repository\UserRepository;
+use App\Service\MailerService;
+use App\Service\QrcodeService;
 use Doctrine\ORM\EntityManagerInterface;
 use Exception;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
-use function PHPUnit\Framework\isEmpty;
-
 class RegisterController extends AbstractController
 {
     private $entityManager;
+    private $mailerService;
+    private $params;
+    private $qrcodeService;
 
-    public function __construct(EntityManagerInterface $entityManager) {
+    public function __construct(EntityManagerInterface $entityManager, MailerService $mailerService, ParameterBagInterface $params,  QrcodeService $qrcodeService) {
         $this->entityManager = $entityManager;
+        $this->mailerService = $mailerService;
+        $this->params = $params;
+        $this->qrcodeService = $qrcodeService;
     }
 
     #[Route('/register/{eventId}/{tickets}', name: 'app_register_form')]
@@ -39,6 +45,9 @@ class RegisterController extends AbstractController
     #[Route('api/register', name: 'api_registration', methods: ['POST'])]
     public function setRegister(Request $request, EventRepository $eventRepository, ParticipantRepository $participantRepository, TicketRepository $ticketRepository, UserRepository $userRepository, DiscountVoucherRepository $discountVoucherRepository, LogisticInformationRepository $logisticInformationRepository): JsonResponse
     {
+        $mail = $this->params->get("app.mail_address");
+        $participantsTickets = [];
+
         try {
             $data = json_decode($request->getContent(), true);
         
@@ -68,11 +77,31 @@ class RegisterController extends AbstractController
                     }
                 }
 
-                $ticketRepository->createTicket($event, $details, $captureId, $newParticipant, $user, $price);
+                $newTicket = $ticketRepository->createTicket($event, $details, $captureId, $newParticipant, $user, $price);
+                $newParticipantTicket = [
+                    'participant_id' => $newParticipant->getId(),
+                    'participant_name' => $newParticipant->getFirstname() . ' ' . $newParticipant->getLastname(),
+                    'ticket_price' => $price,
+                    'qrcode' => $this->qrcodeService->generate($newTicket->getId(), $newParticipant->getId(), $event->getId()),
+                ];
+                array_push($participantsTickets, $newParticipantTicket);
             }
 
             $this->entityManager->getConnection()->commit();
-    
+
+            $context = [
+                'user_id' => $user->getId(),
+                'user_email' => $user->getEmail(),
+                'event_name' => $event->getLabel(),
+                'currency' => $event->getCurrency(),
+                'order_id' => $details['id'],
+                'tickets' => $participantsTickets,
+                'amount' => $price * count($participants),
+                'date' => new \DateTime(),
+                'current_year' => new \DateTime('Y')
+            ];
+            $this->mailerService->sendTemplateEmail($mail, $user->getEmail(), "Thank you for your payment", 'emails/payment.html.twig', $context);
+
             return new JsonResponse(['message' => 'Enregistrement réussi !'], Response::HTTP_OK);
         } catch (Exception $e) {
             if ($this->entityManager->getConnection()->isTransactionActive()) {

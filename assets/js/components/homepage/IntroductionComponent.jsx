@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import Connection from "@icons/connection.svg";
 import EventCarousel from "@components/events/EventsCarousel";
+import Loader from "@components/LoaderComponent";
 import axios from "axios";
 
 const IntroductionSection = () => {
@@ -85,19 +86,23 @@ const IntroductionSection = () => {
                 <div className="w-full lg:w-6/12">
                   <div className="lg:ml-auto">
                     <div className="relative w-full rounded z-10 inline-block pt-11 lg:pt-0">
-                      {!loading && events ? (
-                        <EventCarousel events={events} loading={loading} />
+                      {!loading ? (
+                        events?.length > 0 ? (
+                          <EventCarousel events={events} loading={loading} />
+                        ) : (
+                          <div
+                            className="rounded-ss-2xl rounded-ee-2xl bg-cream shadow-lg"
+                            data-aos="fade-up-left"
+                          >
+                            <img
+                              src={Connection}
+                              alt="icon-connection"
+                              className="lg:ml-auto shadow-lg"
+                            />
+                          </div>
+                        )
                       ) : (
-                        <div
-                          className="rounded-ss-2xl rounded-ee-2xl bg-cream shadow-lg"
-                          data-aos="fade-up-left"
-                        >
-                          <img
-                            src={Connection}
-                            alt="icon-connection"
-                            className="lg:ml-auto shadow-lg"
-                          />
-                        </div>
+                        <Loader />
                       )}
                       <span className="absolute bottom-8 left-8 z-[-1]">
                         <svg

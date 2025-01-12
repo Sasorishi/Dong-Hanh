@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Flex, Input, Typography } from "antd";
 import Toast from "@components/ToastComponent";
 import axios from "axios";
@@ -63,6 +63,10 @@ const AccountVerify = () => {
     onChange,
   };
 
+  useEffect(() => {
+    handleResendEmail();
+  }, []);
+
   return (
     <section>
       {error && <Toast message={error} onClose={closeToast} error={true} />}
@@ -100,6 +104,7 @@ const AccountVerify = () => {
               <a
                 onClick={() => handleResendEmail()}
                 style={{ cursor: "pointer" }}
+                className="hover:underline me-4 md:me-6"
               >
                 Resend me an email
               </a>

@@ -39,6 +39,7 @@ const OrderComponent = ({ ticketsData, index, ordersData }) => {
             data-tooltip-target="tooltip-refund"
             type="button"
             className="animation-hover flex items-center uppercase text-darkblue hover:text-bordeau font-medium rounded-full text-sm px-4 py-2 text-center"
+            disabled
           >
             Refund
             <svg
