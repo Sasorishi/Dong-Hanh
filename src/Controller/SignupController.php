@@ -62,7 +62,7 @@ class SignupController extends AbstractController
         $context = ([
             'user_id' => $newUser->getId(),
             'user_email' => $newUser->getEmail(),
-            'code' => $code,
+            'code' => implode("", $code),
             'current_year' => new \DateTime('Y')
         ]);
         $this->mailerService->sendTemplateEmail($mail, $newUser->getEmail(), "Verify your account", 'emails/verification_code.html.twig', $context);

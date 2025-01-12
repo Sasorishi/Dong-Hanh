@@ -56,10 +56,36 @@
               <td colspan="4" class="body" style="background-color: white; padding: 40px; padding-top: 10px; padding-bottom: 15px; text-align: left; font-size: 16px; line-height: 1.6;">
                   <img src="https://static.vecteezy.com/system/resources/previews/038/461/228/non_2x/payment-security-online-concept-smartphone-with-credit-card-gold-coin-paper-bag-on-isolated-background-digital-marketing-illustration-free-vector.jpg" style="width: 100%;"/>
                   <h3 style="text-align: center; font-size: 1.5em;">Your Payment Successfull 🚀</h3>
-                  <p style="text-align: center;">Hi {{ user_firstname }}! Thank you for your payment of <span style="color: rgb(54, 54, 54); font-weight: bold;">{{ amount }}</span> on<br/>
-                  <span style="color: rgb(54, 54, 54); font-weight: bold;">April 04, 2022</span> using <span style="color: rgb(54, 54, 54); font-weight: bold;">{{ typeof_payment }} {{no_payment_method}}</span><p>
+                  <p style="text-align: center;">Hi {{ user_email }}! Thank you for your payment of <span style="color: rgb(54, 54, 54); font-weight: bold;">{{ amount }} {{ currency }}</span> on<br/>
+                  <span style="color: rgb(54, 54, 54); font-weight: bold;">{{ date|date("F d, Y") }}</span>
               </td>
             </tr>
+            <tr>
+                <td colspan="2" style="padding: 20px;">
+                    <p style="font-weight: bold;">Order details</p>
+                    <p>No. Order: <span style="color: #2969ff;">{{ order_id }}</span></p>
+                </td>
+            </tr>
+            <tr>
+              <td colspan="4" style="padding-bottom: 25px;">
+                  <hr style="width: 90%; color: grey; opacity: 0.25;"/>
+              </td>
+            </tr>
+            {% for ticket in tickets %}
+              <tr>
+                  <td>
+                      <img src="{{ ticket.qrcode }}" style="width: 50%; margin: auto;" alt="Product Image"/>
+                  </td>
+                  <td colspan="2">
+                      <h3 style="color: #384860;">{{ ticket.participant_name }}</h3>
+                      <h3 style="color: #2969ff;">{{ event_name }}</h3>
+                      <p style="color: #a2aec1; font-size: 0.8em; line-height: 1.8em;">
+                          ID : {{ ticket.participant_id }}<br/>
+                          Price: {{ ticket.ticket_price }}
+                      </p>
+                  </td>
+              </tr>
+            {% endfor %}
             <tr>
               <td colspan="4" style="padding-bottom: 25px;">
                   <hr style="width: 90%; color: grey; opacity: 0.25;"/>
@@ -78,7 +104,7 @@
                               Amount
                           </td>
                           <td colspan="2" style="text-align: right; font-weight: bold; color: rgb(75, 75, 75);">
-                              {{ amount }}
+                              {{ amount }} {{ currency }}
                           </td>
                       </tr>
                       <tr>
@@ -86,37 +112,42 @@
                               Date
                           </td>
                           <td colspan="2" style="text-align: right; font-weight: bold; color: rgb(75, 75, 75);">
-                              April 04, 2022
-                          </td>
-                      </tr>
-                      <tr>
-                          <td style="color: rgb(75, 75, 75); font-weight: 500; width: 65%;">
-                              Method
-                          </td>
-                          <td align="right" style="padding-right: 0px;">
-                              <img src={{ logo_payment_method }} style="width: 65%;"/>
-                          </td>
-                          <td style="text-align: right; font-weight: bold; color: rgb(75, 75, 75); padding-left: 0px;">
-                              <p style="display: inline; vertical-align: text-top;">{{typeof_payment}}</p>
+                              {{ date|date("F d, Y") }}
                           </td>
                       </tr>
                       <tr>
                           <td style="color: rgb(75, 75, 75); font-weight: 500;">
-                              Confirmation
+                              Payment method
                           </td>
                           <td colspan="2" style="text-align: right; font-weight: bold; color: rgb(75, 75, 75);">
-                              {{confirmation_code}}
+                              Card
+                          </td>
+                      </tr>
+                      <tr>
+                          <td style="color: rgb(75, 75, 75); font-weight: 500;">
+                              No. Order
+                          </td>
+                          <td colspan="2" style="text-align: right; font-weight: bold; color: rgb(75, 75, 75);">
+                              {{ order_id }}
+                          </td>
+                      </tr>
+                      <tr>
+                          <td style="color: rgb(75, 75, 75); font-weight: 500;">
+                              User ID
+                          </td>
+                          <td colspan="2" style="text-align: right; font-weight: bold; color: rgb(75, 75, 75);">
+                              {{ user_id }}
                           </td>
                       </tr>
                   </table> 
               </td>
             </tr>
-            <tr>
+            {# <tr>
               <td colspan="4" style="text-align: center; color: rgb(175, 175, 175); font-size: 15px; padding-bottom: 10px;">
                   <p>*Please note that the payment is non-refundale in the case of cancellation</p>
               </td>
-            </tr>
-            <tr>
+            </tr> #}
+            {# <tr>
               <td colspan="4" style="padding: 20px 40px 40px 40px; text-align: center;">
                   <table cellspacing="0" cellpadding="0" style="margin: auto;">
                       <tr>
@@ -137,7 +168,7 @@
                       </tr>
                   </table>
               </td>
-            </tr>
+            </tr> #}
             <tr>
               <td
                 class="footer"

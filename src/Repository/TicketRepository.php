@@ -70,7 +70,7 @@ class TicketRepository extends ServiceEntityRepository
 //        ;
 //    }
 
-    public function createTicket(Event $eventData, array $details, string $captureId, Participant $participant, User $user, int $price): void {
+    public function createTicket(Event $eventData, array $details, string $captureId, Participant $participant, User $user, int $price): Ticket {
         $ticket = new Ticket;
         $ticket->setPrice($price);
         $ticket->setStatus($details['status']);
@@ -87,6 +87,8 @@ class TicketRepository extends ServiceEntityRepository
         $entityManager = $this->getEntityManager();
         $entityManager->persist($ticket);
         $entityManager->flush();
+
+        return $ticket;
     }
 
     /**

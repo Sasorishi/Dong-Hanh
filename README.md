@@ -27,16 +27,17 @@ Before getting started, make sure you have the following prerequisites installed
 
 - [PHP](https://www.php.net/) >= 8.2
 - [Composer](https://getcomposer.org/) (Dependency Manager for PHP)
+- [Symfony CLI](https://symfony.com/download) (Developer tool to help you build)
 - [Node.js](https://nodejs.org/) (v14 or higher)
-- [npm](https://www.npmjs.com/) (Node Package Manager)
+- [NPM](https://www.npmjs.com/) (Node Package Manager)
 
 ## Getting Started
 
 1. **Clone this repository to your local machine:**
 
-```bash
-git clone url-repo
-```
+   ```bash
+   git clone url-repo
+   ```
 
 2. **Navigate into the project directory:**
 
@@ -69,15 +70,16 @@ git clone url-repo
    ```
 
 7. **Migrate the database:**
+   Install MAMP (MacOS) or WAMP (Windows)
    Edit in your .env file : DATABASE_URL="mysql://username:password@127.0.0.1:3306/database"
 
-```
-php bin/console doctrine:database:create
-```
+   ```bash
+   php bin/console doctrine:database:create
+   ```
 
-```
-php bin/console doctrine:schema:update --force
-```
+   ```bash
+   php bin/console doctrine:schema:update --force
+   ```
 
 8. **Open your web browser and navigate to** `http://localhost:8000` **to view the application.**
 
