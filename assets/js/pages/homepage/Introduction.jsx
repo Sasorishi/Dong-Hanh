@@ -4,7 +4,7 @@ import Image1 from "@images/20230709_104807.jpg";
 
 const Introduction = () => {
   return (
-    <section className="bg-whitesmoke">
+    <section className="bg-whitesmoke py-16 px-32">
       <div className="h-[18rem] max-w-full shadow-lg mb-8">
         <img
           className="h-full w-full object-cover rounded-lg"

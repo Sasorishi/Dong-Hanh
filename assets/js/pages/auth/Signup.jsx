@@ -63,7 +63,7 @@ const Signup = () => {
   }, [isRegistered]);
 
   return (
-    <section className="relative mx-auto">
+    <section className="relative mx-auto py-16 px-32">
       {loading ? (
         <Loader />
       ) : (

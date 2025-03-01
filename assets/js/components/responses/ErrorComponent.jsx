@@ -74,7 +74,7 @@ const ErrorComponent = ({ response }) => {
   }, [response]);
 
   return (
-    <section className="container mx-auto">
+    <section className="container mx-auto py-16 px-32">
       <div className="flex flex-col items-center">
         <div className="mt-5 mb-5">
           <img src={GirlRice} width="350" alt="image-filler" />

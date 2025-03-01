@@ -49,7 +49,7 @@ const ContactSection = ({ onError }) => {
   };
 
   return (
-    <section className="contact" id="contact">
+    <section className="contact py-16 px-32" id="contact">
       <form method="POST" className="needs-validation">
         <div className="container wrapper-element m-auto bg-cream p-12 rounded-xl">
           <div className="w-full">

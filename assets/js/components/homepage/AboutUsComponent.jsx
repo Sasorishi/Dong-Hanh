@@ -2,7 +2,7 @@ import React from "react";
 
 const AboutUsSection = () => {
   return (
-    <section className="overflow-hidden pt-20 pb-12 lg:pt-[120px] lg:pb-[90px] bg-whitesmoke bg-img-about-us">
+    <section className="py-16 px-32 overflow-hidden pt-20 pb-12 lg:pt-[120px] lg:pb-[90px] bg-whitesmoke bg-img-about-us">
       <div className="container mx-auto">
         <div className="flex flex-wrap items-center justify-between -mx-4">
           <div

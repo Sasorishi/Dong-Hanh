@@ -2,7 +2,7 @@ import React from "react";
 
 const PrivacyPolicy = ({ date }) => {
   return (
-    <section>
+    <section className="py-16 px-32">
       <div className="hero-content px-8" data-aos="fade-up">
         <span className="text-darkblue">Đồng Hành Network</span>
         <h1 className="text-4xl">Privacy Policy</h1>

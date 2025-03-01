@@ -3,7 +3,7 @@ import Image from "@images/AdobeStock_255760077.jpeg";
 
 const FeaturesSection = () => {
   return (
-    <section className="bg-whitesmoke px-0">
+    <section className="bg-whitesmoke px-0 py-16">
       <div className="overflow-hidden">
         <div className="mx-auto max-w-7xl">
           <div className="mx-auto items-center grid max-w-2xl grid-cols-1 gap-x-8 gap-y-16 sm:gap-y-20 lg:mx-0 lg:max-w-none lg:grid-cols-2">

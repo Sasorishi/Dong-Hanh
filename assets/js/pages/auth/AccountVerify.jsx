@@ -68,7 +68,7 @@ const AccountVerify = () => {
   }, []);
 
   return (
-    <section>
+    <section className="py-16 px-32">
       {error && <Toast message={error} onClose={closeToast} error={true} />}
       {success && (
         <Toast message={success} onClose={closeToast} error={false} />

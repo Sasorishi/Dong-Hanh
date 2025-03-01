@@ -2,7 +2,7 @@ import React from "react";
 
 const ActivitiesSection = () => {
   return (
-    <section className="activities" id="activities">
+    <section className="py-16 px-32 activities" id="activities">
       <div className="m-auto">
         <div className="py-5 text-center">
           <span className="text-whitesmoke">Activities</span>

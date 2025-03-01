@@ -2,7 +2,7 @@ import React from "react";
 
 const JourneySection = () => {
   return (
-    <section className="our-journey" id="our-journey">
+    <section className="our-journey py-16 px-32" id="our-journey">
       <div className="container-fluid wrapper-element">
         <div className="py-5 text-center">
           <span className="text-whitesmoke">Our journey</span>

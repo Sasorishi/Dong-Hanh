@@ -34,7 +34,7 @@ const IntroductionSection = () => {
   return (
     <div className="bg-hero">
       <div className="bg-trong">
-        <section className="backdrop-blur bg-cream-filter">
+        <section className="backdrop-blur bg-cream-filter py-16 px-32">
           <div className="relative">
             <div className="container m-auto">
               <div className="-mx-4 flex flex-wrap">
