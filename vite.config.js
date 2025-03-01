@@ -17,6 +17,7 @@ export default defineConfig({
       "@images": path.resolve(__dirname, "public/images"),
       "@icons": path.resolve(__dirname, "public/icons"),
       "@components": path.resolve(__dirname, "assets/js/components"),
+      "@lib": path.resolve(__dirname, "assets/js/lib"),
       "@functions": path.resolve(__dirname, "assets/js/functions"),
     },
   },
