@@ -1,5 +1,5 @@
 import React from "react";
-import Logo from "@images/vietnam.png";
+import Logo from "@images/Logo_Icon-Black.png";
 import Socials from "./Socials";
 
 const Footer = ({ dashboard }) => {
@@ -15,7 +15,7 @@ const Footer = ({ dashboard }) => {
           href="/"
           className="flex items-center mb-4 sm:mb-0 space-x-3 rtl:space-x-reverse justify-center sm:justify-left md:justify-left lg:justify-left"
         >
-          <img src={Logo} className="h-8" alt="Đồng Hành Network Logo" />
+          <img src={Logo} className="h-6" alt="Đồng Hành Network Logo" />
           <span className="brand self-center text-sm font-semibold whitespace-nowrap">
             Đồng Hành Network
           </span>
