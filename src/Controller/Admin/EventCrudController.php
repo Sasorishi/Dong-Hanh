@@ -68,6 +68,9 @@ class EventCrudController extends AbstractCrudController
         $fields[] = NumberField::new('year', 'Year')->setFormTypeOptions(['constraints' => [
             new Assert\Positive(),
         ]]);
+        $fields[] = ArrayField::new('price', 'Price')->setFormTypeOptions(['constraints' => [
+            new Assert\Positive(),
+        ]]);;
         $fields[] = AssociationField::new('eventCategory', 'Category');
         $fields[] = ArrayField::new('images', 'Images');
         $fields[] = ArrayField::new('features', 'Features')->setFormTypeOptions(['constraints' => [
