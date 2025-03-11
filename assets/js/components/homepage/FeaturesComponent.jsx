@@ -9,8 +9,10 @@ const FeaturesSection = () => {
           <div className="mx-auto items-center grid max-w-2xl grid-cols-1 gap-x-8 gap-y-16 sm:gap-y-20 lg:mx-0 lg:max-w-none lg:grid-cols-2">
             <div className="px-[2rem]" data-aos="zoom-out-down">
               <div className="lg:max-w-lg">
-                <span className="mb-4 text-darkblue">Our journey</span>
-                <h1 className="mb-8">Be part of a great adventure here.</h1>
+                <span className="sub-head mb-4 text-darkblue">Our journey</span>
+                <h1 className="mt-4 mb-8">
+                  Be part of a great adventure here.
+                </h1>
                 {/* <p className="mt-6 text-lg leading-8 text-gray-600">
                   Lorem ipsum, dolor sit amet consectetur adipisicing elit.
                   Maiores impedit perferendis suscipit eaque, iste dolor

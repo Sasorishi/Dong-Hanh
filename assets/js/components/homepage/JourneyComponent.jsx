@@ -5,8 +5,10 @@ const JourneySection = () => {
     <section className="our-journey py-16 px-32" id="our-journey">
       <div className="container-fluid wrapper-element">
         <div className="py-5 text-center">
-          <span className="text-whitesmoke">Our journey</span>
-          <h1>We organize events in all these places</h1>
+          <span className="sub-head text-whitesmoke">Our journey</span>
+          <h1 className="text-4xl mt-4">
+            We organize events in all these places
+          </h1>
         </div>
         <div className="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-1 lg:grid-cols-12 gap-8 mt-5">
           <div

@@ -189,7 +189,7 @@ function Navbar({ isAuthenticated }) {
   };
 
   return (
-    <nav className="bg-amber relative w-full z-20 top-0 start-0 shadow-md">
+    <nav className="bg-amber md:py-4 md:px-16 relative w-full z-20 top-0 start-0 shadow-md">
       <div className="max-w-screen flex flex-wrap items-center justify-between mx-auto">
         <a href="/" className="flex items-center space-x-3 rtl:space-x-reverse">
           <img src={Logo} className="h-6" alt="Đồng Hành Logo" />

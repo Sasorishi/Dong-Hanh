@@ -604,8 +604,10 @@ const AboutUsSection = () => {
             data-aos-offset="200"
           >
             <div className="mt-10 lg:mt-0">
-              <span className="mb-4 text-darkblue">Đồng Hành Network</span>
-              <h1 className="mb-8">About Us</h1>
+              <span className="sub-head mb-4 text-darkblue">
+                Đồng Hành Network
+              </span>
+              <h1 className="text-4xl mt-4 mb-8">About Us</h1>
               <p className="mb-5 text-base text-body-color">
                 We are a group of Vietnamese youth across the world who want to
                 create a space for others to come together, develop leadership

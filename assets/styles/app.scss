@@ -167,7 +167,7 @@
 }
 
 .team .name {
-  font: 1.2em "Gelion-Regular" !important;
+  font-family: "Gelion-Regular";
 }
 
 .frame {
@@ -197,12 +197,6 @@
   background-image: url("../../public/images/duyen.jpg");
   background-size: cover;
   background-position: center;
-}
-
-.contact span {
-  font: 1em "Gelion-Light";
-  letter-spacing: 0.2em;
-  line-height: 1.8em;
 }
 
 /*		---- Buttons ---- 	*/

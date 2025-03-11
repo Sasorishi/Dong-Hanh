@@ -5,7 +5,7 @@ const TermsAndConditionsOfSale = ({ date }) => {
     <section className="py-16 px-32">
       <div className="hero-content px-8" data-aos="fade-up">
         <span className="text-darkblue">Đồng Hành Network</span>
-        <h1 className="text-4xl">Terms and Conditions of Sale</h1>
+        <h1 className="text-4xl mt-4">Terms and Conditions of Sale</h1>
         <hr />
         <p className="mb-8 max-w">
           These Terms and Conditions of Sale ("Terms") govern the sale of

@@ -14,8 +14,8 @@ const Introduction = () => {
       </div>
       <div className="flex flex-col sm:flex-row">
         <div className="w-full sm:w-1/2 md:w-1/2 lg:w-1/2 m-auto">
-          <span className="text-darkblue">Vietnamese community</span>
-          <h1 className="text-4xl">Đồng Hành Network</h1>
+          <span className="sub-head text-darkblue">Vietnamese community</span>
+          <h1 className="text-4xl mt-4">Đồng Hành Network</h1>
           <hr />
           <p className="mb-8 max-w-[480px]">
             Our Vietnamese community welcomes individuals worldwide, dedicated

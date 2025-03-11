@@ -69,16 +69,16 @@ const Signup = () => {
       ) : (
         <div className="w-full max-w-sm min-w-96 p-6 m-auto mx-auto bg-white rounded-lg shadow-md">
           {error && <Toast message={error} onClose={closeToast} error={true} />}
-          <div className="flex flex-col text-center justify-center mx-auto">
+          <div className="flex flex-col text-center justify-center mx-auto mb-8">
             {/* <img
               className="w-auto h-7 sm:h-8"
               src="https://merakiui.com/images/logo.svg"
               alt=""
             /> */}
-            <span className="mt-3">Signup</span>
-            <p className="my-8 text-base text-darkblue">
-              Create your account to book tickets, securely save your details,
-              manage events, track orders, and download <br /> your e-tickets.
+            <h2 className="mt-3">Create an account</h2>
+            <p className="text-base text-darkblue">
+              Book tickets, securely save your details, manage events, track
+              orders, and download <br /> your e-tickets.
             </p>
           </div>
 
