@@ -22,20 +22,26 @@ const Footer = ({ dashboard }) => {
         </a>
         <ul className="flex flex-wrap justify-center items-center mb-6 text-sm font-medium text-gray-500 sm:mb-0">
           <li>
-            <a href="/about" className="hover:underline me-4 md:me-6">
+            <a
+              href="/about"
+              className="hover:underline me-4 md:me-6 text-darkblue"
+            >
               About
             </a>
           </li>
           <li>
             <a
               href="/terms_and_conditions_of_sale"
-              className="hover:underline me-4 md:me-6"
+              className="hover:underline me-4 md:me-6 text-darkblue"
             >
               Terms and Conditions of Sale
             </a>
           </li>
           <li>
-            <a href="/privacy_policy" className="hover:underline me-4 md:me-6">
+            <a
+              href="/privacy_policy"
+              className="hover:underline me-4 md:me-6 text-darkblue"
+            >
               Privacy Policy
             </a>
           </li>

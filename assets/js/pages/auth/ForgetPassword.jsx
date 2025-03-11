@@ -41,12 +41,11 @@ const ForgetPassword = () => {
         <div className="w-full max-w-sm p-6 m-auto mx-auto bg-whitesmoke rounded-lg shadow-md">
           {error && <Toast message={error} onClose={closeToast} error={true} />}
           <div className="flex flex-col text-center justify-center mx-auto">
-            {/* <img
-              className="w-auto h-7 sm:h-8"
-              src="https://merakiui.com/images/logo.svg"
-              alt=""
-            /> */}
-            <span className="mt-3">Forgot Your Password ?</span>
+            <h2 className="mt-3">Forgot Your Password ?</h2>
+            <p className="text-base text-darkblue">
+              Enter your email to reset your password and regain access to your
+              Đồng Hành account.
+            </p>
           </div>
           <form className="mt-6" onSubmit={handleSubmit}>
             <div>
