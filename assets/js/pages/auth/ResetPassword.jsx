@@ -37,8 +37,9 @@ const ResetPassword = () => {
       });
 
       const data = response.data;
+      console.log(data);
 
-      if (data.success == true) {
+      if (response.status === 200) {
         window.location.href = "/response/success/resetPassword";
       } else {
         setError("Password cannot be set.");
@@ -63,7 +64,14 @@ const ResetPassword = () => {
               src="https://merakiui.com/images/logo.svg"
               alt=""
             /> */}
-          <span className="mt-3">Reset Your Password</span>
+          <div className="flex flex-col text-center justify-center mx-auto mb-8">
+            <h2 className="mt-3">Reset Your Password</h2>
+            <p className="text-base text-darkblue">
+              Set a new password to securely regain access to your Đồng Hành
+              account.
+            </p>
+          </div>
+
           <form className="mt-6" onSubmit={handleSubmit}>
             <div>
               <label htmlFor="password" className="block text-sm text-darkblue">

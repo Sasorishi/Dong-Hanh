@@ -50,7 +50,15 @@ class ResetsPasswordsRepository extends ServiceEntityRepository
         $resetPassword = new ResetsPasswords;
         $resetPassword->setUser($user);
         $resetPassword->setToken($token);
-        $resetPassword->setExpiredAt(new DateTime('+1 hour'));
+        $resetPassword->setExpiredAt(new DateTime('+2 hour'));
+        $resetPassword->setIsExpired(false);
+        $resetPassword->setCreatedAt(new DateTime());
+        $this->save($resetPassword, true);
+    }
+
+    public function changeExpiredTokenPassword(ResetsPasswords $resetPassword): void {
+        $resetPassword->setIsExpired(true);
+        $resetPassword->setUpdatedAt(new DateTime());
         $this->save($resetPassword, true);
     }
 }

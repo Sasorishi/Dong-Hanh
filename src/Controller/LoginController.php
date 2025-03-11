@@ -94,6 +94,12 @@ class LoginController extends AbstractController
         if (!$user) {
             return new JsonResponse(['message' => "Email don't exists", Response::HTTP_BAD_REQUEST]);
         }
+
+        $resetPassword = $resetsPasswordsRepository->findOneBy(['User' => $user->getId()]);
+        
+        if ($resetPassword) {
+            $resetsPasswordsRepository->changeExpiredTokenPassword($resetPassword);
+        }
         
         $token = $tokenGenerator->generateToken();
         $resetsPasswordsRepository->generateNewRequestTokenPassword($user, $token);
@@ -114,17 +120,23 @@ class LoginController extends AbstractController
     }
 
     #[Route('/api/auth/reset_password', name: 'api_reset_password', methods: ['POST'])]
-    public function requestResetPassword(Request $request, UserRepository $userRepository, UserPasswordHasherInterface $passwordHasher): JsonResponse
+    public function requestResetPassword(Request $request, UserRepository $userRepository, UserPasswordHasherInterface $passwordHasher, ResetsPasswordsRepository $resetsPasswordsRepository): JsonResponse
     {
-        $data = json_decode($request->getContent(), true);
-        $user = $userRepository->findOneBy(['tokenPassword' => $data['token']]);
+        try {
+            $data = json_decode($request->getContent(), true);
+            // $user = $userRepository->findOneBy(['tokenPassword' => $data['token']]);
+            $resetPassword = $resetsPasswordsRepository->findOneBy(['token' => $data['token']]);
 
-        if ($user) {
-            $userRepository->resetPassword($user, $data['password'], $passwordHasher);
-            return new JsonResponse(['success' => true]);
+            if ($resetPassword) {
+                $userRepository->resetPassword($resetPassword->getUser(), $data['password'], $passwordHasher);
+                $resetsPasswordsRepository->changeExpiredTokenPassword($resetPassword);
+                return new JsonResponse(['message' => 'New password is set'], Response::HTTP_OK);
+            }
+
+            return new JsonResponse(['message' => 'New password is not set, try again later'], Response::HTTP_BAD_REQUEST);
+        } catch (\Exception $e) {
+            return new JsonResponse(['message' => 'An error occurred: ' . $e->getMessage()], Response::HTTP_INTERNAL_SERVER_ERROR);
         }
-
-        return new JsonResponse(['success' => false]);
     }
 
     #[Route('/api/auth/change_password', name: 'api_change_password', methods: ['POST'])]
