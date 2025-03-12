@@ -73,6 +73,8 @@ class EventsController extends AbstractController
                 'features' => $event->getFeatures(),
                 'eventCategory' => $event->getEventCategory()->getLabel(),
                 'isRegistrable' => $event->isRegister(),
+                'isOnline' => $event->isOnline(),
+                'isPublic' => $event->isPublic(),
             ];
         }
 
