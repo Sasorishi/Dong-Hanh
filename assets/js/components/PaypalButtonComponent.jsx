@@ -34,7 +34,7 @@ const PaypalButtonComponent = ({
         discountCode: discountCode,
         price: price,
       };
-      const response = await axios.post("/api/register", combinedData);
+      const response = await axios.post("/api/register/private", combinedData);
       console.log(combinedData);
       if (response.status === 200 || response.status === 201) {
         console.log("Request success !");

@@ -30,7 +30,9 @@ const EventDetail = () => {
   };
 
   const handleRegister = () => {
-    navigate(`/register/${id}/${tickets}`);
+    navigate(`/register/${id}/${tickets}`, {
+      state: { isOnline: event.isOnline },
+    });
     window.scrollTo(0, 0);
   };
 
@@ -65,6 +67,29 @@ const EventDetail = () => {
     <div className="bg-whitesmoke">
       {!loading && event ? (
         <div className="pt-6">
+          <div className="mx-auto mt-6 max-w-2xl sm:px-6 lg:grid lg:max-w-7xl lg:grid-cols-3 lg:gap-x-8 lg:px-8">
+            <button
+              type="button"
+              onClick={() => navigate("/events")}
+              className="animation-hover uppercase flex align-center leading-6 text-gray-900 text-center font-medium hover:text-bordeau"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                strokeWidth="1.5"
+                stroke="currentColor"
+                className="w-6 h-6 mr-2"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  d="M6.75 15.75 3 12m0 0 3.75-3.75M3 12h18"
+                />
+              </svg>
+              Back
+            </button>
+          </div>
           {event["images"] !== null && event["images"].length > 0 ? (
             <div className="mx-auto mt-6 max-w-2xl sm:px-6 lg:grid lg:max-w-7xl lg:grid-cols-3 lg:gap-x-8 lg:px-8">
               <div className="aspect-h-4 aspect-w-3 hidden overflow-hidden rounded-lg shadow-md lg:block">
@@ -166,7 +191,7 @@ const EventDetail = () => {
               <div className="mt-10">
                 <h3 className="text-sm font-medium text-darkblue items-center">
                   Location
-                </h2>
+                </h3>
                 {event.isOnline ? (
                   <div className="mt-4 flex">
                     <svg

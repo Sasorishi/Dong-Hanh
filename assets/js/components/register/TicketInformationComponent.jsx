@@ -1,6 +1,10 @@
 import React, { useState } from "react";
 
-const TicketInforamtionComponent = ({ ticketKey, onTicketsDataChange }) => {
+const TicketInforamtionComponent = ({
+  ticketKey,
+  onTicketsDataChange,
+  isOnline,
+}) => {
   const [formData, setFormData] = useState({
     firstName: "",
     lastName: "",
@@ -521,25 +525,27 @@ const TicketInforamtionComponent = ({ ticketKey, onTicketsDataChange }) => {
             </div>
           </div>
 
-          <div className="col-span-12 sm:col-span-12">
-            <label
-              htmlFor="message"
-              className="block mb-2 text-sm font-medium text-gray-900"
-            >
-              Healthcare (Optional)
-            </label>
-            <div className="mt-2">
-              <textarea
-                id="message"
-                rows="4"
-                name="healthcare"
-                value={formData.healthcare}
-                onChange={handleInputChange}
-                className="bg-gray-50 block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500"
-                placeholder="Write if you have any heath issues (exemple: diet / allergies)."
-              />
+          {!isOnline && (
+            <div className="col-span-12 sm:col-span-12">
+              <label
+                htmlFor="message"
+                className="block mb-2 text-sm font-medium text-gray-900"
+              >
+                Healthcare (Optional)
+              </label>
+              <div className="mt-2">
+                <textarea
+                  id="message"
+                  rows="4"
+                  name="healthcare"
+                  value={formData.healthcare}
+                  onChange={handleInputChange}
+                  className="bg-gray-50 block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500"
+                  placeholder="Write if you have any heath issues (exemple: diet / allergies)."
+                />
+              </div>
             </div>
-          </div>
+          )}
 
           <div className="col-span-12 sm:col-span-12">
             <label
