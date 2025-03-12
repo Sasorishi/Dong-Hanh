@@ -60,17 +60,15 @@ body {
   display: contents;
 }
 
-nav {
-  background: var(--amber-color);
-}
-
 h1,
 p,
-span {
+span,
+i {
   color: var(--cognac-color);
 }
 
-span {
+.sub-head {
+  color: var(--cognac-color);
   font: 1.2em "Gelion-Light";
   text-transform: uppercase;
   letter-spacing: 0.3em;
@@ -84,20 +82,16 @@ label {
   color: var(--cognac-color);
 }
 
-h1 {
-  font: 2em "IntanEdit";
+h1,
+h2 {
+  font-family: "IntanEdit";
   letter-spacing: 0.05em;
-  margin-top: 0.5em;
 }
 
 p {
   font: 1rem "Gelion-Light";
   letter-spacing: 0.2em;
   line-height: 1.5rem;
-}
-
-i {
-  color: var(--cognac-color);
 }
 
 hr {
@@ -110,10 +104,6 @@ hr {
   margin-bottom: 2em;
 }
 
-a {
-  color: var(--dark-blue-color);
-}
-
 .divider-center {
   margin-left: auto;
   margin-right: auto;
@@ -122,32 +112,18 @@ a {
 button {
   font-family: "Gelion-Light", sans-serif;
   letter-spacing: 0.05em;
-  // padding: 2em 1em;
 }
 
-nav {
-  padding: 1rem 8rem;
-
-  .brand {
-    color: var(--cognac-color);
-    font-size: 1em;
-    text-decoration: none;
-    white-space: nowrap;
-  }
-}
-
-.navbar a {
-  font: 1em "Gelion-Regular";
-  letter-spacing: 0.2em;
+.brand {
+  font: 1.2em "IntanEdit";
   color: var(--cognac-color);
-}
-
-section {
-  padding: 4rem 8rem;
+  font-size: 1em;
+  text-decoration: none;
+  white-space: nowrap;
 }
 
 footer p,
-a {
+footer a {
   font: 0.9em "Gelion-Light";
   letter-spacing: 0.1em;
 }

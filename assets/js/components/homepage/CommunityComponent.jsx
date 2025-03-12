@@ -16,8 +16,8 @@ const CommunitySection = () => {
             data-aos-easing="ease-in-sine"
             data-aos-duration="500"
           >
-            <span>Join our Discord</span>
-            <h1>Be part of our community</h1>
+            <span className="sub-head">Join our Discord</span>
+            <h1 className="text-4xl mt-4">Be part of our community</h1>
             <button
               type="button"
               onClick={handleJoinUsClick}

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import Toast from "@components/ToastComponent";
+import { Toaster, toast } from "sonner";
 
 const Login = () => {
   const [error, setError] = useState(null);
@@ -10,6 +10,10 @@ const Login = () => {
     setSuccess(null);
   };
 
+  const onClose = (e) => {
+    console.log(e, "I was closed.");
+  };
+
   useEffect(() => {
     const fetchData = async () => {
       const errorFromSymfony = window.errorFromSymfony;
@@ -17,6 +21,7 @@ const Login = () => {
       if (errorFromSymfony) {
         if (errorFromSymfony.message) {
           setError(errorFromSymfony.message);
+          toast.error("Authentication failed: Invalid credentials");
         } else {
           setSuccess("Logged");
         }
@@ -31,19 +36,19 @@ const Login = () => {
   }, []);
 
   return (
-    <section className="relative mx-auto">
+    <section className="relative mx-auto py-16 px-32">
       <div className="w-full max-w-sm min-w-96 p-6 m-auto mx-auto bg-white rounded-lg shadow-md">
-        {error && <Toast message={error} onClose={closeToast} error={true} />}
-        {success && (
-          <Toast message={success} onClose={closeToast} error={false} />
-        )}
-        <div className="flex flex-col text-center justify-center mx-auto">
+        <div className="flex flex-col text-center justify-center mx-auto mb-8">
+          <Toaster position="top-right" closeButton={true} />
           {/* <img
             className="w-auto h-7 sm:h-8"
             src="https://merakiui.com/images/logo.svg"
             alt=""
           /> */}
-          <span className="mt-3">Login</span>
+          <h2 className="mt-3">Welcome back</h2>
+          <p className="text-base text-darkblue">
+            Login to your Đồng Hành account
+          </p>
         </div>
 
         <form method="POST" className="mt-6">

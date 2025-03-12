@@ -49,12 +49,12 @@ const ContactSection = ({ onError }) => {
   };
 
   return (
-    <section className="contact" id="contact">
+    <section className="contact py-16 px-32" id="contact">
       <form method="POST" className="needs-validation">
         <div className="container wrapper-element m-auto bg-cream p-12 rounded-xl">
           <div className="w-full">
-            <span>Any questions ?</span>
-            <h1>Contact</h1>
+            <span className="sub-head">Any questions ?</span>
+            <h1 className="text-4xl mt-4">Contact</h1>
             <hr className="solid" />
             <div className="grid grid-cols-1 gap-x-8 gap-y-6 sm:grid-cols-2">
               <div>
@@ -177,11 +177,7 @@ const ContactSection = ({ onError }) => {
                     id="message"
                     rows="4"
                     className="block w-full rounded-md border-0 px-3.5 py-2 text-darkblue shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-                    placeholder="Hello,
-                    I am interested in your services and would like to learn more about Đồng Hành Network. Could you provide detailed information about your events and services ?
-                    Thank you in advance for your response.
-                    Best regards,
-                    Thanh Việt Nguyễn."
+                    placeholder={`Hello, I am interested in your services and would like to learn more about Đồng Hành Network. Could you provide detailed information about your events and services? Thank you in advance for your response. Best regards, Thanh Việt Nguyễn.`}
                     value={formData.message}
                     onChange={handleInputChange}
                     required

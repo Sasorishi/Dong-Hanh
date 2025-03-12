@@ -55,7 +55,7 @@ const LogisticInformation = () => {
   }, []);
 
   return (
-    <section className="bg-whitesmoke">
+    <section className="bg-whitesmoke py-16 px-32">
       <Stepper currentStep={2} />
       <div className="py-24 sm:py-32 px-6 lg:px-8 rounded-lg">
         <form onSubmit={handleSubmit}>

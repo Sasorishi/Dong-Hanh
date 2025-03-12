@@ -28,12 +28,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(type: 'string')]
     private $password;
 
-    #[ORM\Column(length: 255, nullable: true)]
-    private ?string $tokenPassword = null;
-
-    #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true)]
-    private ?\DateTimeInterface $passwordRequestAt = null;
-
     #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true)]
     private ?\DateTimeInterface $create_at = null;
 
@@ -46,9 +40,16 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     // This property is used temporarily to store the new password
     private $newPassword;
 
+    /**
+     * @var Collection<int, ResetsPasswords>
+     */
+    #[ORM\OneToMany(mappedBy: 'User', targetEntity: ResetsPasswords::class)]
+    private Collection $resetsPasswords;
+
     public function __construct()
     {
         $this->tickets = new ArrayCollection();
+        $this->resetsPasswords = new ArrayCollection();
     }
 
     public function getId(): ?Uuid
@@ -218,6 +219,36 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setNewPassword(?string $newPassword): self
     {
         $this->newPassword = $newPassword;
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, ResetsPasswords>
+     */
+    public function getResetsPasswords(): Collection
+    {
+        return $this->resetsPasswords;
+    }
+
+    public function addResetsPassword(ResetsPasswords $resetsPassword): static
+    {
+        if (!$this->resetsPasswords->contains($resetsPassword)) {
+            $this->resetsPasswords->add($resetsPassword);
+            $resetsPassword->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeResetsPassword(ResetsPasswords $resetsPassword): static
+    {
+        if ($this->resetsPasswords->removeElement($resetsPassword)) {
+            // set the owning side to null (unless already changed)
+            if ($resetsPassword->getUser() === $this) {
+                $resetsPassword->setUser(null);
+            }
+        }
+
         return $this;
     }
 }

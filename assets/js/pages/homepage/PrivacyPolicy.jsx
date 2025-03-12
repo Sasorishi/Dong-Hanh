@@ -2,10 +2,10 @@ import React from "react";
 
 const PrivacyPolicy = ({ date }) => {
   return (
-    <section>
+    <section className="py-16 px-32">
       <div className="hero-content px-8" data-aos="fade-up">
         <span className="text-darkblue">Đồng Hành Network</span>
-        <h1 className="text-4xl">Privacy Policy</h1>
+        <h1 className="text-4xl mt-4">Privacy Policy</h1>
         <hr />
         <p className="mb-8 max-w">
           This Privacy Policy outlines how Đồng Hành Network collects, utilizes,

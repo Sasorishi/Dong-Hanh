@@ -2,11 +2,11 @@ import React from "react";
 
 const ActivitiesSection = () => {
   return (
-    <section className="activities" id="activities">
+    <section className="py-16 px-32 activities" id="activities">
       <div className="m-auto">
         <div className="py-5 text-center">
-          <span className="text-whitesmoke">Activities</span>
-          <h1>What we do</h1>
+          <span className="sub-head text-whitesmoke">Activities</span>
+          <h1 className="text-4xl mt-4">What we do</h1>
         </div>
         <div className="flex flex-col lg:flex-row gap-4 mt-5 justify-items-center">
           <div
@@ -21,7 +21,7 @@ const ActivitiesSection = () => {
                 src="images/7490.png"
                 alt="about_us_people_worldwide"
               />
-              <h1 className="mb-4 block text-base text-darkblue_80">
+              <h1 className="mt-4 mb-4 block text-base text-darkblue_80">
                 Vietnamese Identity Summer Camps
               </h1>
               <p>
@@ -42,7 +42,7 @@ const ActivitiesSection = () => {
                 src="images/5236.png"
                 alt="about_us_teambuilding"
               />
-              <h1 className="mb-4 block text-base text-darkblue_80">
+              <h1 className="mt-4 mb-4 block text-base text-darkblue_80">
                 Activism Seminars for Social Impact
               </h1>
               <p>
@@ -63,7 +63,7 @@ const ActivitiesSection = () => {
                 src="images/vecteezy_two-boys-high-fived-each-other-the-concept-of-friendship_12763712.png"
                 alt="about_us_friendship"
               />
-              <h1 className="mb-4 block text-base text-darkblue_80">
+              <h1 className="mt-4 mb-4 block text-base text-darkblue_80">
                 Skill-Building & Community Engagement Training
               </h1>
               <p>

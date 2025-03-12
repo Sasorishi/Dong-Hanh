@@ -65,9 +65,9 @@ class EventCrudController extends AbstractCrudController
     public function configureFields(string $pageName): iterable
     {
         $fields = parent::configureFields($pageName);
-        $fields[] = NumberField::new('year', 'Year')->setFormTypeOptions(['constraints' => [
+        $fields[] = ArrayField::new('price', 'Price')->setFormTypeOptions(['constraints' => [
             new Assert\Positive(),
-        ]]);
+        ]]);;
         $fields[] = AssociationField::new('eventCategory', 'Category');
         $fields[] = ArrayField::new('images', 'Images');
         $fields[] = ArrayField::new('features', 'Features')->setFormTypeOptions(['constraints' => [

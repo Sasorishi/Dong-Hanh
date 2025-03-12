@@ -108,14 +108,14 @@ const EventDetail = () => {
               >
                 {event["eventCategory"]}
               </p>
-              <h1 className="text-2xl font-bold tracking-tight text-darkblue sm:text-3xl">
+              <h1 className="text-2xl mt-4 font-bold tracking-tight text-darkblue sm:text-3xl">
                 {event["name"]}
               </h1>
             </div>
 
             <div className="mt-4 lg:row-span-3 lg:mt-0">
               <h2 className="sr-only">Product information</h2>
-              <p className="text-3xl tracking-tight text-darkblue">
+              <p className="text-3xl font-bold tracking-tight text-darkblue">
                 {event["price"][0]} {currencySymbol}
               </p>
               <p
@@ -125,13 +125,114 @@ const EventDetail = () => {
                 {event["currency"]}
               </p>
 
+              {event.features && event.features.length > 0 ? (
+                <div className="mt-10">
+                  <h3 className="text-sm font-medium text-darkblue">
+                    Features
+                  </h3>
+                  <div className="mt-4">
+                    <div className="grid grid-cols-2 gap-4">
+                      {event.features
+                        .slice(0, Math.ceil(event.features.length / 2) * 2)
+                        .map((feature, index) => (
+                          <div key={index} className="text-gray-400">
+                            <span className="text-sm text-gray-600 lowercase">
+                              • {feature}
+                            </span>
+                          </div>
+                        ))}
+                    </div>
+                  </div>
+                </div>
+              ) : null}
+
+              <div className="mt-10">
+                <h3 className="text-sm font-medium text-darkblue items-center">
+                  Location
+                </h3>
+                <div className="mt-4 flex">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    strokeWidth="1.5"
+                    stroke="currentColor"
+                    className="w-6 h-6 my-auto"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      d="M15 10.5a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z"
+                    />
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1 1 15 0Z"
+                    />
+                  </svg>
+                  <span className="text-sm text-gray-600 my-auto ml-5">
+                    {event["place"]} - {event["location"]}
+                  </span>
+                </div>
+              </div>
+
+              <div className="mt-10">
+                <h3 className="text-sm font-medium text-darkblue">Date</h3>
+                <div className="mt-4 flex">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    strokeWidth="1.5"
+                    stroke="currentColor"
+                    className="w-5 h-5 my-auto"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 0 1 2.25-2.25h13.5A2.25 2.25 0 0 1 21 7.5v11.25m-18 0A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75m-18 0v-7.5A2.25 2.25 0 0 1 5.25 9h13.5A2.25 2.25 0 0 1 21 11.25v7.5m-9-6h.008v.008H12v-.008ZM12 15h.008v.008H12V15Zm0 2.25h.008v.008H12v-.008ZM9.75 15h.008v.008H9.75V15Zm0 2.25h.008v.008H9.75v-.008ZM7.5 15h.008v.008H7.5V15Zm0 2.25h.008v.008H7.5v-.008Zm6.75-4.5h.008v.008h-.008v-.008Zm0 2.25h.008v.008h-.008V15Zm0 2.25h.008v.008h-.008v-.008Zm2.25-4.5h.008v.008H16.5v-.008Zm0 2.25h.008v.008H16.5V15Z"
+                    />
+                  </svg>
+                  <p className="text-sm text-gray-600 my-auto ml-5">
+                    {`Start : ${event.dateStart} / End : ${event.dateEnd}`}
+                  </p>
+                </div>
+              </div>
+
+              {event.registrationDeadline != null ? (
+                <div className="mt-10">
+                  <h2 className="text-sm font-medium text-darkblue">
+                    Registration deadline
+                  </h2>
+                  <div className="mt-4 flex">
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      strokeWidth="1.5"
+                      stroke="currentColor"
+                      className="w-6 h-6"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        d="M16.5 10.5V6.75a4.5 4.5 0 1 0-9 0v3.75m-.75 11.25h10.5a2.25 2.25 0 0 0 2.25-2.25v-6.75a2.25 2.25 0 0 0-2.25-2.25H6.75a2.25 2.25 0 0 0-2.25 2.25v6.75a2.25 2.25 0 0 0 2.25 2.25Z"
+                      />
+                    </svg>
+                    <p className="text-sm text-gray-600 my-auto ml-5">
+                      {`Date : ${event.registrationDeadline}`}
+                    </p>
+                  </div>
+                </div>
+              ) : null}
+
               <div className="max-w-full mx-auto mt-10">
-                <label
+                <h3
                   htmlFor="bedrooms-input"
                   className="block mb-2 text-sm font-medium text-darkblue"
                 >
-                  Choose quantity:
-                </label>
+                  Choose quantity
+                </h3>
                 <div className="relative flex items-center max-w-full">
                   <button
                     type="button"
@@ -208,119 +309,12 @@ const EventDetail = () => {
                     </svg>
                   </button>
                 </div>
-                <p
-                  id="helper-text-explanation"
-                  className="mt-2 text-sm text-gray-500"
-                >
-                  Please select the number of tickets.
-                </p>
               </div>
-
-              {event.features && event.features.length > 0 ? (
-                <div className="mt-10">
-                  <h3 className="text-sm font-medium text-darkblue">
-                    Features
-                  </h3>
-                  <div className="mt-4">
-                    <div className="grid grid-cols-2 gap-4">
-                      {event.features
-                        .slice(0, Math.ceil(event.features.length / 2) * 2)
-                        .map((feature, index) => (
-                          <div key={index} className="text-gray-400">
-                            <span className="text-sm text-gray-600 lowercase">
-                              • {feature}
-                            </span>
-                          </div>
-                        ))}
-                    </div>
-                  </div>
-                </div>
-              ) : null}
-
-              <div className="mt-10">
-                <h2 className="text-sm font-medium text-darkblue items-center">
-                  Location
-                </h2>
-                <div className="mt-4 flex">
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    strokeWidth="1.5"
-                    stroke="currentColor"
-                    className="w-6 h-6 my-auto"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      d="M15 10.5a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z"
-                    />
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1 1 15 0Z"
-                    />
-                  </svg>
-                  <span className="text-sm text-gray-600 my-auto ml-5">
-                    {event["place"]} - {event["location"]}
-                  </span>
-                </div>
-              </div>
-
-              <div className="mt-10">
-                <h2 className="text-sm font-medium text-darkblue">Date</h2>
-                <div className="mt-4 flex">
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    strokeWidth="1.5"
-                    stroke="currentColor"
-                    className="w-5 h-5 my-auto"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 0 1 2.25-2.25h13.5A2.25 2.25 0 0 1 21 7.5v11.25m-18 0A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75m-18 0v-7.5A2.25 2.25 0 0 1 5.25 9h13.5A2.25 2.25 0 0 1 21 11.25v7.5m-9-6h.008v.008H12v-.008ZM12 15h.008v.008H12V15Zm0 2.25h.008v.008H12v-.008ZM9.75 15h.008v.008H9.75V15Zm0 2.25h.008v.008H9.75v-.008ZM7.5 15h.008v.008H7.5V15Zm0 2.25h.008v.008H7.5v-.008Zm6.75-4.5h.008v.008h-.008v-.008Zm0 2.25h.008v.008h-.008V15Zm0 2.25h.008v.008h-.008v-.008Zm2.25-4.5h.008v.008H16.5v-.008Zm0 2.25h.008v.008H16.5V15Z"
-                    />
-                  </svg>
-                  <p className="text-sm text-gray-600 my-auto ml-5">
-                    {`Start : ${event.dateStart} / End : ${event.dateEnd}`}
-                  </p>
-                </div>
-              </div>
-
-              {event.registrationDeadline != null ? (
-                <div className="mt-10">
-                  <h2 className="text-sm font-medium text-darkblue">
-                    Registration deadline
-                  </h2>
-                  <div className="mt-4 flex">
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      fill="none"
-                      viewBox="0 0 24 24"
-                      strokeWidth="1.5"
-                      stroke="currentColor"
-                      className="w-6 h-6"
-                    >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        d="M16.5 10.5V6.75a4.5 4.5 0 1 0-9 0v3.75m-.75 11.25h10.5a2.25 2.25 0 0 0 2.25-2.25v-6.75a2.25 2.25 0 0 0-2.25-2.25H6.75a2.25 2.25 0 0 0-2.25 2.25v6.75a2.25 2.25 0 0 0 2.25 2.25Z"
-                      />
-                    </svg>
-                    <p className="text-sm text-gray-600 my-auto ml-5">
-                      {`Date : ${event.registrationDeadline}`}
-                    </p>
-                  </div>
-                </div>
-              ) : null}
 
               <button
                 type="submit"
                 onClick={handleRegister}
-                className="mt-10 uppercase flex w-full items-center justify-center rounded-md border border-transparent bg-darkblue px-8 py-3 text-base font-medium text-white hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 disabled:hover:bg-darkblue disabled:opacity-25"
+                className="mt-4 uppercase flex w-full items-center justify-center rounded-md border border-transparent bg-darkblue px-8 py-3 text-base font-medium text-white hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 disabled:hover:bg-darkblue disabled:opacity-25"
                 disabled={!event["isRegistrable"]}
               >
                 {!event["isRegistrable"]

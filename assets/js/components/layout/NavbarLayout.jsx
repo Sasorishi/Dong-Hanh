@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import Logo from "@images/vietnam.png";
+import Logo from "@images/Logo_Icon-Black.png";
 import { useNavigate } from "react-router-dom";
 import {
   Menu,
@@ -189,10 +189,10 @@ function Navbar({ isAuthenticated }) {
   };
 
   return (
-    <nav className="relative w-full z-20 top-0 start-0 shadow-md">
+    <nav className="bg-amber md:py-4 md:px-16 relative w-full z-20 top-0 start-0 shadow-md">
       <div className="max-w-screen flex flex-wrap items-center justify-between mx-auto">
         <a href="/" className="flex items-center space-x-3 rtl:space-x-reverse">
-          <img src={Logo} className="h-8" alt="Đồng Hành Logo" />
+          <img src={Logo} className="h-6" alt="Đồng Hành Logo" />
           <span className="brand self-center text-2xl font-semibold whitespace-nowrap">
             Đồng Hành Network
           </span>
