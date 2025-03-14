@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Controller;
+namespace App\Controller\Api;
 
 use App\Repository\TicketRepository;
 use App\Service\QrcodeService;
@@ -12,6 +12,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
+#[Route('/api', name: 'api_')]
 class TicketController extends AbstractController
 {
     private $ticketRepository;
@@ -25,15 +26,7 @@ class TicketController extends AbstractController
         $this->params = $params;
     }
 
-    #[Route('/ticket', name: 'app_ticket')]
-    public function index(): Response
-    {
-        return $this->render('index.html.twig', [
-            'controller_name' => 'TicketController',
-        ]);
-    }
-
-    #[Route('/api/user/tickets', name: 'api_tickets_user', methods: ['GET'])]
+    #[Route('/user/tickets', name: 'tickets_user', methods: ['GET'])]
     public function getTicketsbyUser(): JsonResponse {
         $userId = $this->getUser()->getId();
         $tickets = $this->ticketRepository->findGroupedTicketsByUser($userId);
@@ -95,13 +88,13 @@ class TicketController extends AbstractController
         return new JsonResponse(['tickets' =>  $ticketData, 'orders' => $orderCreatedAtArray], Response::HTTP_OK);
     }
 
-    #[Route('/api/ticket/qrcode/generate', name: 'api_ticket_generate_qrcode')]
+    #[Route('/ticket/qrcode/generate', name: 'ticket_generate_qrcode')]
     public function ticketQrcode($ticketId, $participantId, $eventId) {
         $qrcode = $this->qrcodeService->generate($ticketId, $participantId, $eventId);
         return $qrcode;
     }
 
-    #[Route('/api/ticket_check', name: 'app_ticket_check', methods: ['GET'])]
+    #[Route('/ticket_check', name: 'ticket_check', methods: ['GET'])]
     public function ticketCheck(Request $request): JsonResponse {
         $secretKey = $this->params->get("app.ticket_insight_key");
         $apiKey = $request->headers->get('API-Key');
@@ -139,7 +132,7 @@ class TicketController extends AbstractController
         }
     }
 
-    #[Route('/api/tickets/getTickets', methods: 'GET')]
+    #[Route('/tickets/getTickets', name: 'getTickets', methods: 'GET')]
     public function getTickets(TicketRepository $ticketRepository): JsonResponse
     {
         $tickets = $ticketRepository->findAll();

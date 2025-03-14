@@ -1,7 +1,6 @@
 <?php
 
-namespace App\Controller;
-
+namespace App\Controller\Routes;
 
 // use App\Service\StripePaymentService;
 use Symfony\Component\HttpFoundation\Response;
@@ -52,5 +51,38 @@ class MainController extends AbstractController
     public function accountVerify(): Response
     {
         return $this->render('index.html.twig');
+    }
+
+    #[Route('/events', name: 'app_events')]
+    public function events(): Response
+    {
+        return $this->render('index.html.twig', [
+            'controller_name' => 'EventsController',
+        ]);
+    }
+
+    #[Route('/events/{id}', name: 'app_event_detail')]
+    public function eventDetails(): Response
+    {
+        return $this->render('index.html.twig', [
+            'controller_name' => 'EventDetailController',
+        ]);
+    }
+
+    #[Route('/register/{eventId}/{tickets}', name: 'app_register_form')]
+    public function registration(): Response
+    {
+        $this->denyAccessUnlessGranted('ROLE_USER');
+        return $this->render('index.html.twig', [
+            'controller_name' => 'RegisterController',
+        ]);
+    }
+
+    #[Route('/signup', name: 'app_signup')]
+    public function signup(): Response
+    {
+        return $this->render('index.html.twig', [
+            'controller_name' => 'SignupController',
+        ]);
     }
 }
