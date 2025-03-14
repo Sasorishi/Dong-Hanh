@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Controller;
+namespace App\Controller\Api;
 
 use App\Repository\DiscountVoucherRepository;
 use App\Repository\EventRepository;
@@ -31,15 +31,6 @@ class RegisterController extends AbstractController
         $this->mailerService = $mailerService;
         $this->params = $params;
         $this->qrcodeService = $qrcodeService;
-    }
-
-    #[Route('/register/{eventId}/{tickets}', name: 'app_register_form')]
-    public function index(): Response
-    {
-        $this->denyAccessUnlessGranted('ROLE_USER');
-        return $this->render('index.html.twig', [
-            'controller_name' => 'RegisterController',
-        ]);
     }
 
     #[Route('api/register/private', name: 'api_registration_private', methods: ['POST'])]

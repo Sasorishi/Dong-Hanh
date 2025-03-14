@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Controller;
+namespace App\Controller\Api;
 
 use App\Repository\UserRepository;
 use Carbon\Carbon;
@@ -8,9 +8,10 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\Routing\Annotation\Route;
 
+#[Route('/api', name: 'api_')]
 class UserController extends AbstractController
 {
-    #[Route('/api/users/getUsers', methods: 'GET')]
+    #[Route('/users/getUsers', name: 'getUsers', methods: 'GET')]
     public function getEvents(UserRepository $userRepository): JsonResponse
     {
         $users = $userRepository->findAll();

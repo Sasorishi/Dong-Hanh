@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Controller;
+namespace App\Controller\Api;
 
 use App\Repository\EventCategoriesRepository;
 use App\Repository\EventRepository;
@@ -12,6 +12,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
+#[Route('/api', name: 'api_')]
 class EventDetailController extends AbstractController
 {
     private $qrcodeService;
@@ -21,15 +22,7 @@ class EventDetailController extends AbstractController
         $this->qrcodeService = $qrcodeService;
     }
 
-    #[Route('/events/{id}', name: 'app_event_detail')]
-    public function index(): Response
-    {
-        return $this->render('index.html.twig', [
-            'controller_name' => 'EventDetailController',
-        ]);
-    }
-
-    #[Route('/api/events/{id}/getData', name: 'api_event_data')]
+    #[Route('/events/{id}/getData', name: 'event_data')]
     public function getEventData(EventRepository $eventRepository, int $id): JsonResponse
     {
         $event = $eventRepository->find($id);
@@ -66,7 +59,7 @@ class EventDetailController extends AbstractController
         return new JsonResponse(['event' => $event], Response::HTTP_OK);
     }
 
-    #[Route('/api/eventCategories', name: 'api_event_categories')]
+    #[Route('/eventCategories', name: 'event_categories')]
     public function getEventCategories(EventCategoriesRepository $eventCategoriesRepository): JsonResponse
     {
         $categories = $eventCategoriesRepository->findAll();
@@ -83,7 +76,7 @@ class EventDetailController extends AbstractController
         return new JsonResponse(['categories' => $categoriesArray]);
     }
 
-    #[Route('/api/events/create', name: 'api_event_data_create', methods: ['POST'])]
+    #[Route('/events/create', name: 'event_data_create', methods: ['POST'])]
     public function createEvent(Request $request, EventRepository $eventRepository, EventCategoriesRepository $eventCategoriesRepository): JsonResponse
     {
         $data = json_decode($request->getContent(), true);
@@ -94,7 +87,7 @@ class EventDetailController extends AbstractController
         return new JsonResponse(['message' => 'Enregistrement réussi !']);
     }
 
-    #[Route('/api/events/{id}/edit', name: 'api_event_data_edit', methods: ['POST'])]
+    #[Route('/events/{id}/edit', name: 'event_data_edit', methods: ['POST'])]
     public function editEventData(Request $request, EventRepository $eventRepository, EventCategoriesRepository $eventCategoriesRepository, int $id): JsonResponse
     {
         $data = json_decode($request->getContent(), true);
@@ -110,7 +103,7 @@ class EventDetailController extends AbstractController
         return new JsonResponse(['message' => 'Enregistrement réussi !']);
     }
 
-    #[Route('/api/events/{id}/participants', name: 'api_event_data_participant', methods: ['GET'])]
+    #[Route('/events/{id}/participants', name: 'event_data_participant', methods: ['GET'])]
     public function getEventParticipants(EventRepository $eventRepository, int $id): JsonResponse
     {
         $event = $eventRepository->find($id);
@@ -139,7 +132,7 @@ class EventDetailController extends AbstractController
         return new JsonResponse(['participants' => $participants]);
     }
 
-    #[Route('/api/events/{id}/qrcode', name: 'api_event_qrcode', methods: ['GET'])]
+    #[Route('/events/{id}/qrcode', name: 'event_qrcode', methods: ['GET'])]
     public function getEventQrcode(int $id): JsonResponse
     {
         $qrcode = $this->qrcodeService->generateEvent($id);
