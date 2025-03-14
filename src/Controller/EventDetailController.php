@@ -59,6 +59,8 @@ class EventDetailController extends AbstractController
             'images' => $event->getImages(),
             'registrationDeadline' => $event->getRegistrationDeadline() ? Carbon::parse($event->getRegistrationDeadline())->format('Y-m-d') : null,
             'checklist' => $event->getChecklist(),
+            'isOnline' => $event->isOnline(),
+            'isPublic' => $event->isPublic(),
         ];
 
         return new JsonResponse(['event' => $event], Response::HTTP_OK);

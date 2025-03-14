@@ -30,7 +30,9 @@ const EventDetail = () => {
   };
 
   const handleRegister = () => {
-    navigate(`/register/${id}/${tickets}`);
+    navigate(`/register/${id}/${tickets}`, {
+      state: { isOnline: event.isOnline },
+    });
     window.scrollTo(0, 0);
   };
 
@@ -65,6 +67,29 @@ const EventDetail = () => {
     <div className="bg-whitesmoke">
       {!loading && event ? (
         <div className="pt-6">
+          <div className="mx-auto mt-6 max-w-2xl sm:px-6 lg:grid lg:max-w-7xl lg:grid-cols-3 lg:gap-x-8 lg:px-8">
+            <button
+              type="button"
+              onClick={() => navigate("/events")}
+              className="animation-hover uppercase flex align-center leading-6 text-gray-900 text-center font-medium hover:text-bordeau"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                strokeWidth="1.5"
+                stroke="currentColor"
+                className="w-6 h-6 mr-2"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  d="M6.75 15.75 3 12m0 0 3.75-3.75M3 12h18"
+                />
+              </svg>
+              Back
+            </button>
+          </div>
           {event["images"] !== null && event["images"].length > 0 ? (
             <div className="mx-auto mt-6 max-w-2xl sm:px-6 lg:grid lg:max-w-7xl lg:grid-cols-3 lg:gap-x-8 lg:px-8">
               <div className="aspect-h-4 aspect-w-3 hidden overflow-hidden rounded-lg shadow-md lg:block">
@@ -114,16 +139,33 @@ const EventDetail = () => {
             </div>
 
             <div className="mt-4 lg:row-span-3 lg:mt-0">
-              <h2 className="sr-only">Product information</h2>
-              <p className="text-3xl font-bold tracking-tight text-darkblue">
-                {event["price"][0]} {currencySymbol}
-              </p>
-              <p
-                id="helper-text-explanation"
-                className="mt-2 text-sm text-gray-500"
-              >
-                {event["currency"]}
-              </p>
+              {event.isPublic ? (
+                <>
+                  <h2 className="sr-only">Product information</h2>
+                  <p className="text-3xl font-bold tracking-tight text-darkblue">
+                    Free to participate
+                  </p>
+                  <p
+                    id="helper-text-explanation"
+                    className="mt-2 text-sm text-gray-500"
+                  >
+                    Everyone is welcome
+                  </p>
+                </>
+              ) : (
+                <>
+                  <h2 className="sr-only">Product information</h2>
+                  <p className="text-3xl font-bold tracking-tight text-darkblue">
+                    {event["price"][0]} {currencySymbol}
+                  </p>
+                  <p
+                    id="helper-text-explanation"
+                    className="mt-2 text-sm text-gray-500"
+                  >
+                    {event["currency"]}
+                  </p>
+                </>
+              )}
 
               {event.features && event.features.length > 0 ? (
                 <div className="mt-10">
@@ -150,30 +192,52 @@ const EventDetail = () => {
                 <h3 className="text-sm font-medium text-darkblue items-center">
                   Location
                 </h3>
-                <div className="mt-4 flex">
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    strokeWidth="1.5"
-                    stroke="currentColor"
-                    className="w-6 h-6 my-auto"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      d="M15 10.5a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z"
-                    />
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1 1 15 0Z"
-                    />
-                  </svg>
-                  <span className="text-sm text-gray-600 my-auto ml-5">
-                    {event["place"]} - {event["location"]}
-                  </span>
-                </div>
+                {event.isOnline ? (
+                  <div className="mt-4 flex">
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      strokeWidth="1.5"
+                      stroke="currentColor"
+                      className="w-6 h-6 my-auto"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        d="M9.348 14.652a3.75 3.75 0 0 1 0-5.304m5.304 0a3.75 3.75 0 0 1 0 5.304m-7.425 2.121a6.75 6.75 0 0 1 0-9.546m9.546 0a6.75 6.75 0 0 1 0 9.546M5.106 18.894c-3.808-3.807-3.808-9.98 0-13.788m13.788 0c3.808 3.807 3.808 9.98 0 13.788M12 12h.008v.008H12V12Zm.375 0a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Z"
+                      />
+                    </svg>
+                    <span className="text-sm text-gray-600 my-auto ml-5">
+                      Online
+                    </span>
+                  </div>
+                ) : (
+                  <div className="mt-4 flex">
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      strokeWidth="1.5"
+                      stroke="currentColor"
+                      className="w-6 h-6 my-auto"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        d="M15 10.5a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z"
+                      />
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1 1 15 0Z"
+                      />
+                    </svg>
+                    <span className="text-sm text-gray-600 my-auto ml-5">
+                      {event["place"]} - {event["location"]}
+                    </span>
+                  </div>
+                )}
               </div>
 
               <div className="mt-10">
@@ -314,7 +378,7 @@ const EventDetail = () => {
               <button
                 type="submit"
                 onClick={handleRegister}
-                className="mt-4 uppercase flex w-full items-center justify-center rounded-md border border-transparent bg-darkblue px-8 py-3 text-base font-medium text-white hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 disabled:hover:bg-darkblue disabled:opacity-25"
+                className="animation-hover mt-10 uppercase flex w-full items-center justify-center rounded-md border border-transparent bg-darkblue px-8 py-3 text-base font-medium text-white hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 disabled:hover:bg-darkblue disabled:opacity-25"
                 disabled={!event["isRegistrable"]}
               >
                 {!event["isRegistrable"]

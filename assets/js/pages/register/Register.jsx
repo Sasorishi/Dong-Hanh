@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useLocation } from "react-router-dom";
 import { useNavigate } from "react-router";
 import TicketInformation from "@components/register/TicketInformationComponent";
 import Stepper from "@components/register/StepperComponent";
@@ -19,16 +19,24 @@ const Register = () => {
   const [isDefaultModalVisible, setIsDefaultModalVisible] = useState(false);
   const [isSecondModalVisible, setIsSecondModalVisible] = useState(false);
 
+  const location = useLocation();
+  const isOnline = location.state?.isOnline;
+
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    navigate("/register/logistic", {
-      state: {
-        eventId: eventId,
-        numTickets: numTickets,
-        ticketsData: ticketsData,
-      },
-    });
+    navigate(
+      isOnline ? "/register/checking_public_event" : "/register/logistic",
+      {
+        state: {
+          eventId: eventId,
+          numTickets: numTickets,
+          ticketsData: ticketsData,
+          isOnline: isOnline,
+        },
+      }
+    );
+
     window.scrollTo(0, 0);
   };
 
@@ -56,6 +64,7 @@ const Register = () => {
         onTicketsDataChange={(key, data) =>
           setTicketsData((prevData) => ({ ...prevData, [key]: data }))
         }
+        isOnline={isOnline}
       />
     ));
 
@@ -75,7 +84,7 @@ const Register = () => {
 
   return (
     <section className="bg-whitesmoke py-16 px-32">
-      <Stepper currentStep={1} />
+      <Stepper currentStep={1} isOnline={isOnline} />
       <div className="py-24 sm:py-32 px-6 lg:px-8 rounded-lg">
         <form onSubmit={handleSubmit}>
           {tickets}
