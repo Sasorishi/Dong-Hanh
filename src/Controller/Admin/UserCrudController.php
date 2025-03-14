@@ -96,6 +96,7 @@ class UserCrudController extends AbstractCrudController
         ->allowMultipleChoices(true);
 
         $fields[] = CollectionField::new('tickets', "Ticket ID")->onlyOnDetail()->setTemplatePath('admin/fields/tickets.html.twig');
+        $fields[] = CollectionField::new('getResetsPasswords', "Resets passwords")->onlyOnDetail()->setTemplatePath('admin/fields/resetsPasswords.html.twig');
         return $fields;
     }
 
