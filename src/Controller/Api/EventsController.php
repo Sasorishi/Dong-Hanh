@@ -1,31 +1,15 @@
 <?php
 
-namespace App\Controller;
+namespace App\Controller\Api;
 
 use App\Repository\EventRepository;
-use App\Service\MailerService;
 use Carbon\Carbon;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
-use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 class EventsController extends AbstractController
 {
-    private $mailService;
-    
-    public function __construct(MailerService $mailerService) {
-        $this->mailService = $mailerService;
-    }
-
-    #[Route('/events', name: 'app_events')]
-    public function index(): Response
-    {
-        return $this->render('index.html.twig', [
-            'controller_name' => 'EventsController',
-        ]);
-    }
-
     #[Route('/api/events/getEvents', methods: 'GET')]
     public function getEvents(EventRepository $eventRepository): JsonResponse
     {
@@ -73,6 +57,8 @@ class EventsController extends AbstractController
                 'features' => $event->getFeatures(),
                 'eventCategory' => $event->getEventCategory()->getLabel(),
                 'isRegistrable' => $event->isRegister(),
+                'isOnline' => $event->isOnline(),
+                'isPublic' => $event->isPublic(),
             ];
         }
 

@@ -38,7 +38,7 @@ const ToastComponent = ({ message, onClose, error }) => {
       <button
         type="button"
         onClick={onClose}
-        className="ms-auto -mx-1.5 -my-1.5 bg-whitesmoke text-gray-400 shadow-md hover:text-gray-900 rounded-lg focus:ring-2 focus:ring-gray-300 p-1.5 hover:bg-gray-100 inline-flex items-center justify-center h-8 w-8"
+        className="bg-dark-blue hover:bg-whitesmoke ms-auto -mx-1.5 -my-1.5 text-gray-400 shadow-md hover:text-gray-900 rounded-lg focus:ring-2 focus:ring-gray-300 p-1.5 hover:bg-gray-100 inline-flex items-center justify-center h-8 w-8"
         data-dismiss-target="#toast-default"
         aria-label="Close"
       >

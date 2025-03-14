@@ -2,11 +2,11 @@ import React from "react";
 
 const TeamSection = () => {
   return (
-    <section className="team" id="team">
+    <section className="team py-16 px-32" id="team">
       <div className="container-fluid wrapper-element">
         <div className="py-5 text-center">
-          <span className="text-whitesmoke">Team members</span>
-          <h1>Who we are</h1>
+          <span className="sub-head text-whitesmoke">Team members</span>
+          <h1 className="text-4xl mt-4">Who we are</h1>
         </div>
         <div className="flex flex-col lg:flex-row justify-between mt-5">
           <div
@@ -17,7 +17,7 @@ const TeamSection = () => {
           >
             <div className="wrapper-card text-center flex-cols mx-auto">
               <span className="frame duyen"></span>
-              <p className="name">Duyen</p>
+              <p className="name text-xl font-bold">Duyen</p>
               <p>USA Representative</p>
             </div>
           </div>
@@ -29,7 +29,7 @@ const TeamSection = () => {
           >
             <div className="wrapper-card text-center flex-cols mx-auto">
               <span className="frame tri"></span>
-              <p className="name">Tri</p>
+              <p className="name text-xl">Tri</p>
               <p>EU Representative</p>
             </div>
           </div>
@@ -41,7 +41,7 @@ const TeamSection = () => {
           >
             <div className="wrapper-card text-center flex-cols mx-auto">
               <span className="frame lan"></span>
-              <p className="name">Lan</p>
+              <p className="name text-xl">Lan</p>
               <p>EU Representative</p>
             </div>
           </div>

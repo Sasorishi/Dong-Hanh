@@ -4,7 +4,7 @@ import Image1 from "@images/20230709_104807.jpg";
 
 const Introduction = () => {
   return (
-    <section className="bg-whitesmoke">
+    <section className="bg-whitesmoke py-16 px-32">
       <div className="h-[18rem] max-w-full shadow-lg mb-8">
         <img
           className="h-full w-full object-cover rounded-lg"
@@ -14,8 +14,8 @@ const Introduction = () => {
       </div>
       <div className="flex flex-col sm:flex-row">
         <div className="w-full sm:w-1/2 md:w-1/2 lg:w-1/2 m-auto">
-          <span className="text-darkblue">Vietnamese community</span>
-          <h1 className="text-4xl">Đồng Hành Network</h1>
+          <span className="sub-head text-darkblue">Vietnamese community</span>
+          <h1 className="text-4xl mt-4">Đồng Hành Network</h1>
           <hr />
           <p className="mb-8 max-w-[480px]">
             Our Vietnamese community welcomes individuals worldwide, dedicated

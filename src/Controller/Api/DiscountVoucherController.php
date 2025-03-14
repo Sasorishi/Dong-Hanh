@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Controller;
+namespace App\Controller\Api;
 
 use App\Repository\DiscountVoucherRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -10,14 +10,6 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class DiscountVoucherController extends AbstractController
 {
-    #[Route('/discount/voucher', name: 'app_discount_voucher')]
-    public function index(): Response
-    {
-        return $this->render('discount_voucher/index.html.twig', [
-            'controller_name' => 'DiscountVoucherController',
-        ]);
-    }
-
     #[Route('/api/discount/{code}', methods: 'GET')]
     public function getDiscountVoucher(DiscountVoucherRepository $discountVoucherRepository, string $code): JsonResponse
     {

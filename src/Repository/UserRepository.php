@@ -72,7 +72,6 @@ class UserRepository extends ServiceEntityRepository
     {
         $hashedPassword = $passwordHasher->hashPassword($user, $password);
         $user->setPassword($hashedPassword);
-        $user->setTokenPassword(null);
         $this->save($user, true);
     }
 

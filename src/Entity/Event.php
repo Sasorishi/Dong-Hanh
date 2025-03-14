@@ -20,10 +20,10 @@ class Event
     #[ORM\Column(length: 255)]
     private ?string $label = null;
 
-    #[ORM\Column(length: 255)]
+    #[ORM\Column(length: 255, nullable: true)]
     private ?string $place = null;
 
-    #[ORM\Column(length: 255)]
+    #[ORM\Column(length: 255, nullable: true)]
     private ?string $location = null;
 
     #[ORM\Column]
@@ -35,7 +35,7 @@ class Event
     #[ORM\Column]
     private ?bool $register = null;
 
-    #[ORM\Column(length: 12)]
+    #[ORM\Column(length: 12, nullable: true)]
     private ?string $currency = null;
 
     #[ORM\Column(nullable: true)]
@@ -73,6 +73,12 @@ class Event
 
     #[ORM\Column(type: Types::JSON, nullable: true)]
     private ?array $checklist = null;
+
+    #[ORM\Column]
+    private ?bool $public = null;
+
+    #[ORM\Column]
+    private ?bool $online = null;
 
     public function __construct()
     {
@@ -187,7 +193,7 @@ class Event
         return $this;
     }
 
-    public function getPrice(): array
+    public function getPrice(): ?array
     {
         return $this->price;
     }
@@ -345,6 +351,30 @@ class Event
     public function setChecklist(?array $checklist): static
     {
         $this->checklist = $checklist;
+
+        return $this;
+    }
+
+    public function isPublic(): ?bool
+    {
+        return $this->public;
+    }
+
+    public function setPublic(bool $public): static
+    {
+        $this->public = $public;
+
+        return $this;
+    }
+
+    public function isOnline(): ?bool
+    {
+        return $this->online;
+    }
+
+    public function setOnline(bool $online): static
+    {
+        $this->online = $online;
 
         return $this;
     }

@@ -3,21 +3,18 @@ import Image from "@images/AdobeStock_255760077.jpeg";
 
 const FeaturesSection = () => {
   return (
-    <section className="bg-whitesmoke px-0">
+    <section className="bg-whitesmoke px-0 py-16">
       <div className="overflow-hidden">
         <div className="mx-auto max-w-7xl">
           <div className="mx-auto items-center grid max-w-2xl grid-cols-1 gap-x-8 gap-y-16 sm:gap-y-20 lg:mx-0 lg:max-w-none lg:grid-cols-2">
             <div className="px-[2rem]" data-aos="zoom-out-down">
               <div className="lg:max-w-lg">
-                <span className="mb-4 text-darkblue">Our journey</span>
-                <h1 className="mb-8">Be part of a great adventure here.</h1>
-                {/* <p className="mt-6 text-lg leading-8 text-gray-600">
-                  Lorem ipsum, dolor sit amet consectetur adipisicing elit.
-                  Maiores impedit perferendis suscipit eaque, iste dolor
-                  cupiditate blanditiis ratione.
-                </p> */}
+                <span className="sub-head text-darkblue">Our journey</span>
+                <h1 className="text-4xl mt-4">
+                  Be part of a great adventure here.
+                </h1>
                 <dl className="mt-10 max-w-xl space-y-8 text-base leading-7 text-gray-600 lg:max-w-none">
-                  <div className="relative pl-9">
+                  <div className="relative">
                     <p className="inline font-semibold text-cognac">
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
@@ -38,7 +35,7 @@ const FeaturesSection = () => {
                       through team building activities and workshops.
                     </p>
                   </div>
-                  <div className="relative pl-9">
+                  <div className="relative">
                     <p className="inline font-semibold text-cognac">
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
@@ -58,7 +55,7 @@ const FeaturesSection = () => {
                       practical skills in Photoshop and video editing.
                     </p>
                   </div>
-                  <div className="relative pl-9">
+                  <div className="relative">
                     <p className="inline font-semibold text-cognac">
                       <svg
                         xmlns="http://www.w3.org/2000/svg"

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Controller;
+namespace App\Controller\Api;
 
 use App\Repository\DiscountVoucherRepository;
 use App\Repository\EventRepository;
@@ -33,17 +33,8 @@ class RegisterController extends AbstractController
         $this->qrcodeService = $qrcodeService;
     }
 
-    #[Route('/register/{eventId}/{tickets}', name: 'app_register_form')]
-    public function index(): Response
-    {
-        $this->denyAccessUnlessGranted('ROLE_USER');
-        return $this->render('index.html.twig', [
-            'controller_name' => 'RegisterController',
-        ]);
-    }
-
-    #[Route('api/register', name: 'api_registration', methods: ['POST'])]
-    public function setRegister(Request $request, EventRepository $eventRepository, ParticipantRepository $participantRepository, TicketRepository $ticketRepository, UserRepository $userRepository, DiscountVoucherRepository $discountVoucherRepository, LogisticInformationRepository $logisticInformationRepository): JsonResponse
+    #[Route('api/register/private', name: 'api_registration_private', methods: ['POST'])]
+    public function setRegisterPrivate(Request $request, EventRepository $eventRepository, ParticipantRepository $participantRepository, TicketRepository $ticketRepository, UserRepository $userRepository, DiscountVoucherRepository $discountVoucherRepository, LogisticInformationRepository $logisticInformationRepository): JsonResponse
     {
         $mail = $this->params->get("app.mail_address");
         $participantsTickets = [];
@@ -101,6 +92,57 @@ class RegisterController extends AbstractController
                 'current_year' => new \DateTime('Y')
             ];
             $this->mailerService->sendTemplateEmail($mail, $user->getEmail(), "Thank you for your payment", 'emails/payment.html.twig', $context);
+
+            return new JsonResponse(['message' => 'Enregistrement réussi !'], Response::HTTP_OK);
+        } catch (Exception $e) {
+            if ($this->entityManager->getConnection()->isTransactionActive()) {
+                $this->entityManager->getConnection()->rollback();
+            }
+            error_log("Error on create participants : " . $e->getMessage());
+            return new JsonResponse(['error' => 'Error on create participants. Try again.'], Response::HTTP_INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    #[Route('api/register/public', name: 'api_registration_public', methods: ['POST'])]
+    public function setRegisterPublic(Request $request, EventRepository $eventRepository, ParticipantRepository $participantRepository, TicketRepository $ticketRepository, UserRepository $userRepository): JsonResponse
+    {
+        $mail = $this->params->get("app.mail_address");
+        $participantsTickets = [];
+
+        try {
+            $data = json_decode($request->getContent(), true);
+        
+            if (!isset($data['eventId']) || !isset($data['participants'])) {
+                throw new \InvalidArgumentException("Données invalides");
+            }
+
+            $participants = $data['participants'];
+            $event = $eventRepository->find($data['eventId']);
+            $user = $userRepository->find($this->getUser()->getId());
+            
+            $this->entityManager->getConnection()->beginTransaction();
+
+            foreach ($participants as $participantKey => $participantData) {
+                $newParticipant = $participantRepository->createParticipant($participantData, $event, "notBooked");
+                $newParticipantTicket = [
+                    'participant_id' => $newParticipant->getId(),
+                    'participant_name' => $newParticipant->getFirstname() . ' ' . $newParticipant->getLastname(),
+                ];
+                array_push($participantsTickets, $newParticipantTicket);
+            }
+
+            $this->entityManager->getConnection()->commit();
+
+            $context = [
+                'user_id' => $user->getId(),
+                'user_email' => $user->getEmail(),
+                'event_name' => $event->getLabel(),
+                'tickets' => $participantsTickets,
+                'date' => new \DateTime(),
+                'current_year' => new \DateTime('Y')
+            ];
+            $test = $this->mailerService->sendTemplateEmail($mail, $user->getEmail(), "Thank you for your registration", 'emails/registration_public.html.twig', $context);
+            dump($test);
 
             return new JsonResponse(['message' => 'Enregistrement réussi !'], Response::HTTP_OK);
         } catch (Exception $e) {

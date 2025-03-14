@@ -34,14 +34,16 @@ const IntroductionSection = () => {
   return (
     <div className="bg-hero">
       <div className="bg-trong">
-        <section className="backdrop-blur bg-cream-filter">
+        <section className="backdrop-blur bg-cream-filter py-16 px-32">
           <div className="relative">
             <div className="container m-auto">
               <div className="-mx-4 flex flex-wrap">
                 <div className="w-full px-4 lg:w-5/12 self-center">
                   <div className="hero-content" data-aos="fade-up">
-                    <span className="text-darkblue">Vietnamese community</span>
-                    <h1 className="text-4xl">Đồng Hành Network</h1>
+                    <span className="sub-head mb-4 text-darkblue">
+                      Vietnamese community
+                    </span>
+                    <h1 className="text-4xl mt-4">Đồng Hành Network</h1>
                     <hr />
                     <p className="mb-8 max-w-[480px]">
                       Our Vietnamese community welcomes individuals worldwide,

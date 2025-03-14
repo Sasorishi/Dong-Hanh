@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Controller;
+namespace App\Controller\Api;
 
 use App\Repository\ResetsPasswordsRepository;
 use App\Repository\UserRepository;
@@ -8,60 +8,14 @@ use App\Service\MailerService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Security\Csrf\TokenGenerator\TokenGeneratorInterface;
 
-class LoginController extends AbstractController
+class AuthController extends AbstractController
 {    
-    #[Route('/login', name: 'app_login')]
-    public function index(AuthenticationUtils $authenticationUtils, Security $security): Response
-    {
-        if ($security->isGranted('IS_AUTHENTICATED_FULLY')) {
-            $user = $security->getUser();
-
-            if (!$user->isVerified()) {
-                return $this->redirectToRoute('app_account_verify', ['id' => $user->getId()]);
-            }
-
-            return $this->redirectToRoute('app_main');
-        }
-
-        $error = $authenticationUtils->getLastAuthenticationError();
-        $email = $authenticationUtils->getLastUsername();
-
-        if ($error !== null) {
-            $jsonResponse = new JsonResponse(['success' => false, 'message' => 'Authentication failed.'], 401);
-            return $this->render('index.html.twig', [
-                'controller_name' => 'LoginController',
-                'error' => $jsonResponse->getContent(),
-            ]);
-        }
-
-        return $this->render('index.html.twig', [
-            'controller_name' => 'LoginController',
-        ]);
-    }
-
-    #[Route('/forget_password', name: 'app_forget_password')]
-    public function forgetPassword(): Response
-    {
-        return $this->render('index.html.twig', [
-            'controller_name' => 'LoginController',
-        ]);
-    }
-
-    #[Route('/reset_password/{token}', name: 'app_reset_password')]
-    public function resetPassword(): Response
-    {
-        return $this->render('index.html.twig', [
-            'controller_name' => 'LoginController',
-        ]);
-    }
-
     #[Route('/api/auth/is-authenticated', name: 'api_is_authenticated')]
     public function isAuthenticated(Security $security): JsonResponse
     {
@@ -94,6 +48,12 @@ class LoginController extends AbstractController
         if (!$user) {
             return new JsonResponse(['message' => "Email don't exists", Response::HTTP_BAD_REQUEST]);
         }
+
+        $resetPassword = $resetsPasswordsRepository->findOneBy(['User' => $user->getId()]);
+        
+        if ($resetPassword) {
+            $resetsPasswordsRepository->changeExpiredTokenPassword($resetPassword);
+        }
         
         $token = $tokenGenerator->generateToken();
         $resetsPasswordsRepository->generateNewRequestTokenPassword($user, $token);
@@ -114,17 +74,23 @@ class LoginController extends AbstractController
     }
 
     #[Route('/api/auth/reset_password', name: 'api_reset_password', methods: ['POST'])]
-    public function requestResetPassword(Request $request, UserRepository $userRepository, UserPasswordHasherInterface $passwordHasher): JsonResponse
+    public function requestResetPassword(Request $request, UserRepository $userRepository, UserPasswordHasherInterface $passwordHasher, ResetsPasswordsRepository $resetsPasswordsRepository): JsonResponse
     {
-        $data = json_decode($request->getContent(), true);
-        $user = $userRepository->findOneBy(['tokenPassword' => $data['token']]);
+        try {
+            $data = json_decode($request->getContent(), true);
+            // $user = $userRepository->findOneBy(['tokenPassword' => $data['token']]);
+            $resetPassword = $resetsPasswordsRepository->findOneBy(['token' => $data['token']]);
 
-        if ($user) {
-            $userRepository->resetPassword($user, $data['password'], $passwordHasher);
-            return new JsonResponse(['success' => true]);
+            if ($resetPassword) {
+                $userRepository->resetPassword($resetPassword->getUser(), $data['password'], $passwordHasher);
+                $resetsPasswordsRepository->changeExpiredTokenPassword($resetPassword);
+                return new JsonResponse(['message' => 'New password is set'], Response::HTTP_OK);
+            }
+
+            return new JsonResponse(['message' => 'New password is not set, try again later'], Response::HTTP_BAD_REQUEST);
+        } catch (\Exception $e) {
+            return new JsonResponse(['message' => 'An error occurred: ' . $e->getMessage()], Response::HTTP_INTERNAL_SERVER_ERROR);
         }
-
-        return new JsonResponse(['success' => false]);
     }
 
     #[Route('/api/auth/change_password', name: 'api_change_password', methods: ['POST'])]
@@ -138,12 +104,5 @@ class LoginController extends AbstractController
         }
 
         return new JsonResponse(['success' => false]);
-    }
-
-    #[Route('/logout', name: 'app_logout')]
-    public function logout()
-    {
-        throw new \Exception('This method can be blank - it will be intercepted by the logout key on your firewall');
-        return $this->redirectToRoute('login');
     }
 }

@@ -17,12 +17,20 @@ class ResetsPasswords
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $token = null;
 
-    #[ORM\OneToOne(cascade: ['persist', 'remove'])]
-    #[ORM\JoinColumn(nullable: false)]
-    private ?User $user = null;
-
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
     private ?\DateTimeInterface $expired_at = null;
+
+    #[ORM\ManyToOne(inversedBy: 'resetsPasswords')]
+    private ?User $User = null;
+
+    #[ORM\Column(type: Types::DATE_MUTABLE, nullable: true)]
+    private ?\DateTimeInterface $createdAt = null;
+
+    #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true)]
+    private ?\DateTimeInterface $updatedAt = null;
+
+    #[ORM\Column(nullable: true)]
+    private ?bool $isExpired = null;
 
     public function getId(): ?int
     {
@@ -40,19 +48,7 @@ class ResetsPasswords
 
         return $this;
     }
-
-    public function getUser(): ?User
-    {
-        return $this->user;
-    }
-
-    public function setUser(User $user): static
-    {
-        $this->user = $user;
-
-        return $this;
-    }
-
+    
     public function getExpiredAt(): ?\DateTimeInterface
     {
         return $this->expired_at;
@@ -61,6 +57,54 @@ class ResetsPasswords
     public function setExpiredAt(\DateTimeInterface $expired_at): static
     {
         $this->expired_at = $expired_at;
+
+        return $this;
+    }
+
+    public function getUser(): ?User
+    {
+        return $this->User;
+    }
+
+    public function setUser(?User $User): static
+    {
+        $this->User = $User;
+
+        return $this;
+    }
+
+    public function getCreatedAt(): ?\DateTimeInterface
+    {
+        return $this->createdAt;
+    }
+
+    public function setCreatedAt(?\DateTimeInterface $createdAt): static
+    {
+        $this->createdAt = $createdAt;
+
+        return $this;
+    }
+
+    public function getUpdatedAt(): ?\DateTimeInterface
+    {
+        return $this->updatedAt;
+    }
+
+    public function setUpdatedAt(?\DateTimeInterface $updatedAt): static
+    {
+        $this->updatedAt = $updatedAt;
+
+        return $this;
+    }
+
+    public function isExpired(): ?bool
+    {
+        return $this->isExpired;
+    }
+
+    public function setIsExpired(?bool $isExpired): static
+    {
+        $this->isExpired = $isExpired;
 
         return $this;
     }
