@@ -76,7 +76,7 @@ class EventCrudController extends AbstractCrudController
             ]),
         ]]);
         $fields[] = ArrayField::new('checklist', 'Checklist');
-        $fields[] = CollectionField::new('getCompletedParticipants', "Participants")->onlyOnDetail()->setTemplatePath('admin/fields/participants.html.twig');
+        $fields[] = CollectionField::new($this->isEventOnline() ? 'getParticipants' : 'getCompletedParticipants', "Participants")->onlyOnDetail()->setTemplatePath('admin/fields/participants.html.twig');
         return $fields;
     }
 
@@ -95,5 +95,11 @@ class EventCrudController extends AbstractCrudController
     public function exportEventsXlsx(): Response
     {
         return $this->eventExportService->exportEventsToXlsx();
+    }
+
+    private function isEventOnline(): bool
+    {
+        $event = $this->getContext()->getEntity()->getInstance(); // Récupère l'entité
+        return $event && method_exists($event, 'isOnline') ? $event->isOnline() : false;
     }
 }
