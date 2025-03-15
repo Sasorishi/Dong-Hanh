@@ -2,7 +2,10 @@ import React from "react";
 
 const JourneySection = () => {
   return (
-    <section className="our-journey py-16 px-32" id="our-journey">
+    <section
+      className="our-journey lg:max-w-[1425px] m-auto lg:py-16 lg:px-32 md:py-16 md:px-32"
+      id="our-journey"
+    >
       <div className="container-fluid wrapper-element">
         <div className="py-5 text-center">
           <span className="sub-head text-whitesmoke">Our journey</span>

@@ -1,25 +1,72 @@
 import React from "react";
-import { Swiper, SwiperSlide } from "swiper/react";
+import { Swiper, SwiperSlide, useSwiper } from "swiper/react";
 import { Navigation, Autoplay, Pagination } from "swiper/modules";
 import PersonPicture1 from "@images/uifaces-human-image.jpg";
 import PersonPicture2 from "@images/uifaces-2.jpg";
 import PersonPicture3 from "@images/uifaces-3.jpg";
 
 const TestimonialsSection = () => {
+  const SwiperNavButtons = () => {
+    const swiper = useSwiper();
+
+    return (
+      <div className="flex justify-left space-x-4 mt-4">
+        <button
+          onClick={() => swiper.slidePrev()}
+          className="absolute top-1/2 left-4 transform -translate-y-1/2 px-6 py-3 z-50"
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 24 24"
+            strokeWidth="1.5"
+            stroke="currentColor"
+            className="w-6 h-6 text-charcoal"
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              d="M15.75 19.5 8.25 12l7.5-7.5"
+            />
+          </svg>
+        </button>
+        <button
+          onClick={() => swiper.slideNext()}
+          className="absolute top-1/2 right-4 transform -translate-y-1/2 px-6 py-3 z-50"
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 24 24"
+            strokeWidth="1.5"
+            stroke="currentColor"
+            className="w-6 h-6 text-charcoal"
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              d="m8.25 4.5 7.5 7.5-7.5 7.5"
+            />
+          </svg>
+        </button>
+      </div>
+    );
+  };
+
   return (
     <section className="bg-testimonial p-0">
       <Swiper
         slidesPerView={1}
         spaceBetween={30}
         centeredSlides={true}
-        navigation={true}
+        navigation={false}
         loop={true}
         // autoplay={{
-        //   delay: 2500,
+        //   delay: 4500,
         //   disableOnInteraction: false,
         // }}
         pagination={{
-          clickable: true,
+          clickable: false,
         }}
         modules={[Autoplay, Pagination, Navigation]}
         className="mySwiper"
@@ -29,6 +76,7 @@ const TestimonialsSection = () => {
           "--swiper-pagination-color": "#0d1b2a",
         }}
       >
+        <SwiperNavButtons />
         <SwiperSlide className="px-12 pb-12">
           <div className="text-center">
             <figure className="py-[4rem] sm:px-[8rem] md:px-[8rem] lg:px-[8rem] mx-auto">
@@ -61,7 +109,7 @@ const TestimonialsSection = () => {
               <div className="flex items-center divide-x divide-[#0d1b2a]">
                 <p className="pr-3 font-medium text-cognac">Hélène Hoa Bi</p>
                 <p className="pl-3 text-sm font-light text-cognac">
-                  Trai He - Paris 2017
+                  Trai He - Paris 2012
                 </p>
               </div>
             </figcaption>
@@ -99,7 +147,7 @@ const TestimonialsSection = () => {
               <div className="flex items-center divide-x divide-[#0d1b2a]">
                 <p className="pr-3 font-medium text-cognac">Huynh Bao</p>
                 <p className="pl-3 text-sm font-light text-cognac">
-                  Trai He - Denmark 2022
+                  Trai He - Denmark 2023
                 </p>
               </div>
             </figcaption>

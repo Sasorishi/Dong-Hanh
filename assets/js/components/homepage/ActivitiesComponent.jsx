@@ -2,7 +2,10 @@ import React from "react";
 
 const ActivitiesSection = () => {
   return (
-    <section className="py-16 px-32 activities" id="activities">
+    <section
+      className="max-w-[1425px] m-auto lg:py-16 lg:px-32 md:py-16 md:px-32 activities"
+      id="activities"
+    >
       <div className="m-auto">
         <div className="py-5 text-center">
           <span className="sub-head text-whitesmoke">Activities</span>
