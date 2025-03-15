@@ -13,7 +13,9 @@
 				Đồng Hành Network
 			{% endblock %}
 		</title>
-		<link rel="icon" type="image/png" href="{{ asset('images/vietnam.png') }}">
+		<link rel="icon" type="image/png" href="{{ asset('images/Logo_Icon-White.png') }}">
+		<link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+
 		{% block stylesheets %}
 			{{ vite_entry_link_tags('styles') }}
 			{{ vite_entry_link_tags('external_assets_css') }}
@@ -28,6 +30,7 @@
 
 	<body>
 		{% block body %}{% endblock %}
+		<script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
 	</body>
 
 </html>

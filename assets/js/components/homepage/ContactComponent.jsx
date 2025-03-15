@@ -49,9 +49,12 @@ const ContactSection = ({ onError }) => {
   };
 
   return (
-    <section className="contact py-16 px-32" id="contact">
+    <section
+      className="contact m-auto lg:py-16 lg:px-32 md:py-16 md:px-32"
+      id="contact"
+    >
       <form method="POST" className="needs-validation">
-        <div className="container wrapper-element m-auto bg-cream p-12 rounded-xl">
+        <div className="max-w-[1425px] container wrapper-element m-auto bg-cream p-12 rounded-xl">
           <div className="w-full">
             <span className="sub-head">Any questions ?</span>
             <h1 className="text-4xl mt-4">Contact</h1>
