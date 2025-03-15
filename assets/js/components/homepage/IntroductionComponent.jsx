@@ -34,8 +34,8 @@ const IntroductionSection = () => {
   return (
     <div className="bg-hero">
       <div className="bg-trong">
-        <section className="backdrop-blur bg-cream-filter py-16 px-32">
-          <div className="relative">
+        <section className="backdrop-blur bg-cream-filter lg:py-16 lg:px-32 md:py-16 md:px-32">
+          <div className="relative lg:max-w-[1425px] m-auto">
             <div className="container m-auto">
               <div className="-mx-4 flex flex-wrap">
                 <div className="w-full px-4 lg:w-5/12 self-center">

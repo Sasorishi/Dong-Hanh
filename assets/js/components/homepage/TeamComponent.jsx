@@ -2,8 +2,8 @@ import React from "react";
 
 const TeamSection = () => {
   return (
-    <section className="team py-16 px-32" id="team">
-      <div className="container-fluid wrapper-element">
+    <section className="team lg:py-16 lg:px-32" id="team">
+      <div className="container-fluid wrapper-element lg:max-w-[1425px] m-auto">
         <div className="py-5 text-center">
           <span className="sub-head text-whitesmoke">Team members</span>
           <h1 className="text-4xl mt-4">Who we are</h1>
