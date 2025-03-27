@@ -4,6 +4,7 @@ namespace App\Controller\Admin;
 
 use App\Entity\LogisticInformation;
 use App\Entity\ResetsPasswords;
+use Doctrine\ORM\EntityManagerInterface;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Action;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Actions;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
@@ -38,5 +39,23 @@ class LogisticInformationCrudController extends AbstractCrudController
     {
         return $crud
             ->setDefaultSort(['id' => 'DESC']);
+    }
+
+    public function persistEntity(EntityManagerInterface $entityManager, $entityInstance): void
+    {
+        parent::persistEntity($entityManager, $entityInstance);
+        $this->addFlash('success', 'The entity has been created successfully!');
+    }
+
+    public function updateEntity(EntityManagerInterface $entityManager, $entityInstance): void
+    {
+        parent::updateEntity($entityManager, $entityInstance);
+        $this->addFlash('success', 'The entity has been updated successfully!');
+    }
+
+    public function deleteEntity(EntityManagerInterface $entityManager, $entityInstance): void
+    {
+        parent::deleteEntity($entityManager, $entityInstance);
+        $this->addFlash('success', 'The entity has been deleted successfully!');
     }
 }
