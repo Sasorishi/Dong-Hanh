@@ -118,7 +118,7 @@ const EventCardComponent = ({ event }) => {
             <p className="mt-6 flex items-baseline justify-center gap-x-2">
               {event.isPublic ? (
                 <span className="text-3xl font-bold tracking-tight text-gray-900">
-                  Free to participate
+                  Free event - registration required
                 </span>
               ) : (
                 <>

@@ -32,21 +32,26 @@ class UserCrudController extends AbstractCrudController
 
     public function persistEntity(EntityManagerInterface $entityManager, $entityInstance): void
     {
+        parent::persistEntity($entityManager, $entityInstance);
+        
         if ($entityInstance instanceof User) {
             $entityInstance->setPassword(
                 password_hash($entityInstance->getPassword(), PASSWORD_BCRYPT)
             );
         }
-
+        
         $entityManager->persist($entityInstance);
         $entityManager->flush();
+        $this->addFlash('success', 'The entity has been created successfully!');
     }
 
     public function updateEntity(EntityManagerInterface $entityManager, $entityInstance): void
     {
+        parent::persistEntity($entityManager, $entityInstance);
+        
         if ($entityInstance instanceof User) {
             $newPassword = $entityInstance->getNewPassword();
-
+            
             if ($newPassword) {
                 $hashedPassword = $this->passwordHasher->hashPassword($entityInstance, $newPassword);
                 $entityInstance->setPassword($hashedPassword);
@@ -56,8 +61,14 @@ class UserCrudController extends AbstractCrudController
         // Persister l'entité mise à jour
         $entityManager->persist($entityInstance);
         $entityManager->flush();
+        $this->addFlash('success', 'The entity has been created successfully!');
     }
 
+    public function deleteEntity(EntityManagerInterface $entityManager, $entityInstance): void
+    {
+        parent::deleteEntity($entityManager, $entityInstance);
+        $this->addFlash('success', 'The entity has been deleted successfully!');
+    }
 
     public function configureActions(Actions $actions): Actions
     {

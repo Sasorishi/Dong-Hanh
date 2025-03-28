@@ -3,6 +3,7 @@
 namespace App\Controller\Admin;
 
 use App\Entity\Participant;
+use Doctrine\ORM\EntityManagerInterface;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Action;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Actions;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
@@ -57,5 +58,23 @@ class ParticipantCrudController extends AbstractCrudController
     {
         return $crud
             ->setDefaultSort(['created_at' => 'DESC']); // Optionally set a default sort
+    }
+
+    public function persistEntity(EntityManagerInterface $entityManager, $entityInstance): void
+    {
+        parent::persistEntity($entityManager, $entityInstance);
+        $this->addFlash('success', 'The entity has been created successfully!');
+    }
+
+    public function updateEntity(EntityManagerInterface $entityManager, $entityInstance): void
+    {
+        parent::updateEntity($entityManager, $entityInstance);
+        $this->addFlash('success', 'The entity has been updated successfully!');
+    }
+
+    public function deleteEntity(EntityManagerInterface $entityManager, $entityInstance): void
+    {
+        parent::deleteEntity($entityManager, $entityInstance);
+        $this->addFlash('success', 'The entity has been deleted successfully!');
     }
 }

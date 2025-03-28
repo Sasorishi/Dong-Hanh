@@ -5,6 +5,7 @@ namespace App\Controller\Admin;
 use App\Entity\Event;
 use App\Service\EventExportService;
 use App\Service\ParticipantExportService;
+use Doctrine\ORM\EntityManagerInterface;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Action;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Actions;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
@@ -99,7 +100,28 @@ class EventCrudController extends AbstractCrudController
 
     private function isEventOnline(): bool
     {
-        $event = $this->getContext()->getEntity()->getInstance(); // Récupère l'entité
-        return $event && method_exists($event, 'isOnline') ? $event->isOnline() : false;
+        $event = $this->getContext()->getEntity()->getInstance();
+        if ($event && method_exists($event, 'isOnline')) {
+            return $event->isOnline() ?? false;
+        }
+        return false;
+    }
+
+    public function persistEntity(EntityManagerInterface $entityManager, $entityInstance): void
+    {
+        parent::persistEntity($entityManager, $entityInstance);
+        $this->addFlash('success', 'The entity has been created successfully!');
+    }
+
+    public function updateEntity(EntityManagerInterface $entityManager, $entityInstance): void
+    {
+        parent::updateEntity($entityManager, $entityInstance);
+        $this->addFlash('success', 'The entity has been updated successfully!');
+    }
+
+    public function deleteEntity(EntityManagerInterface $entityManager, $entityInstance): void
+    {
+        parent::deleteEntity($entityManager, $entityInstance);
+        $this->addFlash('success', 'The entity has been deleted successfully!');
     }
 }
