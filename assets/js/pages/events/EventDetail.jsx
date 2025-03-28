@@ -143,7 +143,7 @@ const EventDetail = () => {
                 <>
                   <h2 className="sr-only">Product information</h2>
                   <p className="text-3xl font-bold tracking-tight text-darkblue">
-                    Free to participate
+                    Free event - registration required
                   </p>
                   <p
                     id="helper-text-explanation"
