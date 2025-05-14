@@ -70,6 +70,7 @@ const PaypalButtonComponent = ({
           },
           createOrder: (data, actions) => {
             console.log(price);
+            console.log(event["price"][0]);
             return actions.order.create({
               purchase_units: [
                 {
