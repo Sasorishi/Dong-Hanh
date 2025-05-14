@@ -56,12 +56,12 @@ const Checkout = () => {
     // Calcul du prix total avec réduction si disponible
     if (discount !== null) {
       totalPrice = numTickets * event["price"][0] * (1 - discount / 100);
+      totalPrice = Math.round(totalPrice / 10) * 10;
     } else {
       totalPrice = numTickets * event["price"][0];
     }
 
-    // Arrondir à la dizaine la plus proche
-    return Math.round(totalPrice / 10) * 10;
+    return totalPrice;
   };
 
   useEffect(() => {
