@@ -48,6 +48,9 @@ class Ticket
     #[ORM\ManyToOne(inversedBy: 'tickets')]
     private ?User $user = null;
 
+    #[ORM\ManyToOne(inversedBy: 'Ticket')]
+    private ?StaffMember $staffMember = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -189,5 +192,17 @@ class Ticket
     {
         // Retourne l'identifiant du ticket comme chaîne de caractères
         return (string) $this->getId();
+    }
+
+    public function getStaffMember(): ?StaffMember
+    {
+        return $this->staffMember;
+    }
+
+    public function setStaffMember(?StaffMember $staffMember): static
+    {
+        $this->staffMember = $staffMember;
+
+        return $this;
     }
 }
