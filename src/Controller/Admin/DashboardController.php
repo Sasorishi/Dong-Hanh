@@ -9,6 +9,7 @@ use App\Entity\EventCategories;
 use App\Entity\LogisticInformation;
 use App\Entity\Participant;
 use App\Entity\ResetsPasswords;
+use App\Entity\StaffMember;
 use App\Entity\Ticket;
 use App\Entity\User;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Dashboard;
@@ -57,6 +58,7 @@ class DashboardController extends AbstractDashboardController
             MenuItem::linkToCrud('Categories', 'fa fa-tag', EventCategories::class),
             MenuItem::linkToCrud('Events', 'fa fa-calendar', Event::class),
             MenuItem::linkToCrud('Participants', 'fa fa-list-alt', Participant::class),
+            MenuItem::linkToCrud('Staffs members', 'fa fa-list-alt', StaffMember::class),
             MenuItem::linkToCrud('Logistics informations', 'fas fa-list', LogisticInformation::class),
             MenuItem::section('Tickets'),
             MenuItem::linkToCrud('Tickets', 'fa fa-ticket', Ticket::class),

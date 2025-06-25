@@ -2,7 +2,9 @@
 
 namespace App\Repository;
 
+use App\Entity\Event;
 use App\Entity\StaffMember;
+use DateTimeImmutable;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
@@ -16,28 +18,31 @@ class StaffMemberRepository extends ServiceEntityRepository
         parent::__construct($registry, StaffMember::class);
     }
 
-    //    /**
-    //     * @return StaffMember[] Returns an array of StaffMember objects
-    //     */
-    //    public function findByExampleField($value): array
-    //    {
-    //        return $this->createQueryBuilder('s')
-    //            ->andWhere('s.exampleField = :val')
-    //            ->setParameter('val', $value)
-    //            ->orderBy('s.id', 'ASC')
-    //            ->setMaxResults(10)
-    //            ->getQuery()
-    //            ->getResult()
-    //        ;
-    //    }
+    /**
+     * Create a new staff member
+     *
+     * @param array $data
+     * @param Event $event
+     * @return StaffMember
+     */
+    public function createParticipant(Array $data, Event $event): StaffMember {
+        $staff = new StaffMember();
+        
+        $staff->setFirstname($data['firstName']);
+        $staff->setLastname($data['lastName']);
+        $staff->setGender($data['gender']);
+        $staff->setAge($data['age']);
+        $staff->setEmail($data['email']);
+        $staff->setPhone($data['phone']);
+        $staff->setCountry($data['country']);
+        $staff->setPayment($data['payment']);
+        $staff->setEvent($event);
+        $staff->setCreatedAt(new DateTimeImmutable());
+        
+        $entityManager = $this->getEntityManager();
+        $entityManager->persist($staff);
+        $entityManager->flush();
 
-    //    public function findOneBySomeField($value): ?StaffMember
-    //    {
-    //        return $this->createQueryBuilder('s')
-    //            ->andWhere('s.exampleField = :val')
-    //            ->setParameter('val', $value)
-    //            ->getQuery()
-    //            ->getOneOrNullResult()
-    //        ;
-    //    }
+        return $staff;
+    }
 }

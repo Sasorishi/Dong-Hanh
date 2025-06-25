@@ -6,6 +6,7 @@ use App\Repository\DiscountVoucherRepository;
 use App\Repository\EventRepository;
 use App\Repository\LogisticInformationRepository;
 use App\Repository\ParticipantRepository;
+use App\Repository\StaffMemberRepository;
 use App\Repository\TicketRepository;
 use App\Repository\UserRepository;
 use App\Service\MailerService;
@@ -21,17 +22,12 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class RegisterController extends AbstractController
 {
-    private $entityManager;
-    private $mailerService;
-    private $params;
-    private $qrcodeService;
-
-    public function __construct(EntityManagerInterface $entityManager, MailerService $mailerService, ParameterBagInterface $params,  QrcodeService $qrcodeService) {
-        $this->entityManager = $entityManager;
-        $this->mailerService = $mailerService;
-        $this->params = $params;
-        $this->qrcodeService = $qrcodeService;
-    }
+    public function __construct(
+        private EntityManagerInterface $entityManager, 
+        private MailerService $mailerService, 
+        private ParameterBagInterface $params,  
+        private QrcodeService $qrcodeService
+    ) {}
 
     #[Route('api/register/private', name: 'api_registration_private', methods: ['POST'])]
     public function setRegisterPrivate(Request $request, EventRepository $eventRepository, ParticipantRepository $participantRepository, TicketRepository $ticketRepository, UserRepository $userRepository, DiscountVoucherRepository $discountVoucherRepository, LogisticInformationRepository $logisticInformationRepository): JsonResponse
@@ -151,6 +147,66 @@ class RegisterController extends AbstractController
             }
             error_log("Error on create participants : " . $e->getMessage());
             return new JsonResponse(['error' => 'Error on create participants. Try again.'], Response::HTTP_INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    #[Route('api/register/staff', name: 'api_registration_staff', methods: ['POST'])]
+    public function setRegisterStaff(Request $request, EventRepository $eventRepository, StaffMemberRepository $staffMemberRepository, TicketRepository $ticketRepository, UserRepository $userRepository): JsonResponse
+    {
+        $mail = $this->params->get("app.mail_address");
+        $staffsTickets = [];
+
+        try {
+            $data = json_decode($request->getContent(), true);
+        
+            if (!isset($data['eventId']) || !isset($data['staffs'])) {
+                throw new \InvalidArgumentException("Données invalides");
+            }
+
+            $staffs = $data['staffs'];
+            $details = $data['details'] ?? null;
+            $captureId = $data['captureId'] ?? null;
+            $event = $eventRepository->find($data['eventId']);
+            $user = $userRepository->find($this->getUser()->getId());
+            $price = $data['price'] ?? 0;
+
+            $this->entityManager->getConnection()->beginTransaction();
+
+            foreach ($staffs as $staffKey => $staffData) {
+                $newStaff = $staffMemberRepository->createParticipant($staffData, $event);
+
+                $newTicket = $ticketRepository->createTicket($event, $details, $captureId, null, $user, $price, $newStaff);
+                $newStaffTicket = [
+                    'participant_id' => $newStaff->getId(),
+                    'participant_name' => $newStaff->getFirstname() . ' ' . $newStaff->getLastname(),
+                    'ticket_price' => $price,
+                    'qrcode' => $this->qrcodeService->generate($newTicket->getId(), $newStaff->getId(), $event->getId()),
+                ];
+                array_push($staffsTickets, $newStaffTicket);
+            }
+
+            $this->entityManager->getConnection()->commit();
+
+            // $context = [
+            //     'user_id' => $user->getId(),
+            //     'user_email' => $user->getEmail(),
+            //     'event_name' => $event->getLabel(),
+            //     'currency' => $event->getCurrency(),
+            //     'order_id' => $details['id'],
+            //     'tickets' => $participantsTickets,
+            //     'amount' => $price * count($participants),
+            //     'date' => new \DateTime(),
+            //     'current_year' => new \DateTime('Y')
+            // ];
+            // $this->mailerService->sendTemplateEmail($mail, $user->getEmail(), "Thank you for your payment", 'emails/payment.html.twig', $context);
+
+            return new JsonResponse(['message' => 'Enregistrement réussi !'], Response::HTTP_OK);
+        } catch (Exception $e) {
+            if ($this->entityManager->getConnection()->isTransactionActive()) {
+                $this->entityManager->getConnection()->rollback();
+            }
+            error_log("Error on create staffs : " . $e->getMessage());
+            return new JsonResponse(['error' => 'Error on create staffs. Try again.' . $e->getMessage()], Response::HTTP_INTERNAL_SERVER_ERROR);
         }
     }
 }

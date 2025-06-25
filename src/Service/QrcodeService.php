@@ -10,8 +10,9 @@ class QrcodeService
         $this->domain = $domain;
     }
 
-    public function generate(string $ticketId, string $participantId, string $eventId) {
-        $data = $this->domain.'/api/ticket_check?ticket='.$ticketId.'&participant='.$participantId.'&event='.$eventId;
+    public function generate(string $ticketId, string $participantId, string $eventId, bool $isStaff = false) {
+        $data = $isStaff ? $this->domain.'/api/ticket_check?ticket='.$ticketId.'&staff='.$participantId.'&event='.$eventId 
+            : $this->domain.'/api/ticket_check?ticket='.$ticketId.'&participant='.$participantId.'&event='.$eventId;
         $qrcode = (new QRCode)->render($data);
 
         return $qrcode;

@@ -108,12 +108,12 @@ const PaypalButtonComponent = ({
                 await setParticipants(details, captureId)
                   .then(() => {
                     console.log("OK");
-                    window.location.href = "/response/success/checkout";
-                    window.history.replaceState(
-                      null,
-                      "",
-                      "/response/success/checkout"
-                    );
+                    // window.location.href = "/response/success/checkout";
+                    // window.history.replaceState(
+                    //   null,
+                    //   "",
+                    //   "/response/success/checkout"
+                    // );
                   })
                   .catch((error) => {
                     console.error("Error setting participants:", error);
