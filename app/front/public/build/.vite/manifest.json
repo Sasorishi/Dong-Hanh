@@ -1,0 +1,63 @@
+{
+  "src/app.jsx": {
+    "file": "assets/app-CjWIwJN_.js",
+    "name": "app",
+    "src": "src/app.jsx",
+    "isEntry": true,
+    "css": [
+      "assets/styles-H0b_bXC2.css"
+    ],
+    "assets": [
+      "assets/Logo_Icon-Black-wY6PzodO.png",
+      "assets/connection-PCSMWiBe.svg",
+      "assets/uifaces-human-image-B8igbyQz.jpg",
+      "assets/uifaces-2-CVmx7pXf.jpg",
+      "assets/uifaces-3-B3W0UBGc.jpg",
+      "assets/vector-free-rice-field-background-BwCr7Y-v.png",
+      "assets/ticket-Blt01tjl.png",
+      "assets/DSC_0039-DIhLLA9z.jpg",
+      "assets/20230709_104807-CZxRoxLr.jpg"
+    ]
+  },
+  "src/assets/icons/connection.svg": {
+    "file": "assets/connection-PCSMWiBe.svg",
+    "src": "src/assets/icons/connection.svg"
+  },
+  "src/assets/images/20230709_104807.jpg": {
+    "file": "assets/20230709_104807-CZxRoxLr.jpg",
+    "src": "src/assets/images/20230709_104807.jpg"
+  },
+  "src/assets/images/DSC_0039.jpg": {
+    "file": "assets/DSC_0039-DIhLLA9z.jpg",
+    "src": "src/assets/images/DSC_0039.jpg"
+  },
+  "src/assets/images/Logo_Icon-Black.png": {
+    "file": "assets/Logo_Icon-Black-wY6PzodO.png",
+    "src": "src/assets/images/Logo_Icon-Black.png"
+  },
+  "src/assets/images/ticket.png": {
+    "file": "assets/ticket-Blt01tjl.png",
+    "src": "src/assets/images/ticket.png"
+  },
+  "src/assets/images/uifaces-2.jpg": {
+    "file": "assets/uifaces-2-CVmx7pXf.jpg",
+    "src": "src/assets/images/uifaces-2.jpg"
+  },
+  "src/assets/images/uifaces-3.jpg": {
+    "file": "assets/uifaces-3-B3W0UBGc.jpg",
+    "src": "src/assets/images/uifaces-3.jpg"
+  },
+  "src/assets/images/uifaces-human-image.jpg": {
+    "file": "assets/uifaces-human-image-B8igbyQz.jpg",
+    "src": "src/assets/images/uifaces-human-image.jpg"
+  },
+  "src/assets/images/vector-free-rice-field-background.png": {
+    "file": "assets/vector-free-rice-field-background-BwCr7Y-v.png",
+    "src": "src/assets/images/vector-free-rice-field-background.png"
+  },
+  "src/css/app.scss": {
+    "file": "assets/styles-H0b_bXC2.css",
+    "src": "src/css/app.scss",
+    "isEntry": true
+  }
+}

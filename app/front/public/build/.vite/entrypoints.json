@@ -1,0 +1,34 @@
+{
+  "base": "/build/",
+  "entryPoints": {
+    "app": {
+      "css": [
+        "/build/assets/styles-H0b_bXC2.css"
+      ],
+      "dynamic": [],
+      "js": [
+        "/build/assets/app-CjWIwJN_.js"
+      ],
+      "legacy": false,
+      "preload": []
+    },
+    "styles": {
+      "css": [
+        "/build/assets/styles-H0b_bXC2.css"
+      ],
+      "dynamic": [],
+      "js": [],
+      "legacy": false,
+      "preload": []
+    }
+  },
+  "legacy": false,
+  "metadatas": {},
+  "version": [
+    "6.4.7",
+    6,
+    4,
+    7
+  ],
+  "viteServer": null
+}

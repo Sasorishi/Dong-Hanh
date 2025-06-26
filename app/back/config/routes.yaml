@@ -1,0 +1,23 @@
+controllers:
+    resource:
+        path: ../src/Controller/
+        namespace: App\Controller
+    type: attribute
+
+api_login_check:
+  path: /api/login_check
+
+app_response_signup:
+  path: "/response/success/signup"
+
+app_response_contact:
+  path: "/response/success/contact"
+
+app_response_checkout:
+  path: "/response/success/checkout"
+
+app_response_refund:
+  path: "/response/success/refund"
+
+app_response_forgottenPassword:
+  path: "/response/success/forgottenPassword"

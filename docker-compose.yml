@@ -1,0 +1,94 @@
+services:
+  php:
+    build:
+      context: ./app/back
+      dockerfile: Dockerfile
+    volumes:
+      - ./app/back:/var/www/app/symfony
+    working_dir: /var/www/app/symfony
+    depends_on:
+      - mysql
+    ports:
+      # HTTP
+      - target: 80
+        published: ${HTTP_PORT:-80}
+        protocol: tcp
+      # HTTPS
+      - target: 443
+        published: ${HTTPS_PORT:-443}
+        protocol: tcp
+      # HTTP/3
+      - target: 443
+        published: ${HTTP3_PORT:-443}
+        protocol: udp
+    labels:
+      com.docker.compose.project: '${DOMAIN_NAME:-default}'
+    healthcheck:
+      test: ['CMD', 'curl', '-f', 'http://localhost:80/health']
+      interval: 10s
+      timeout: 5s
+      retries: 3
+      start_period: 30s
+    networks:
+      - symfony-vite-network
+
+  node:
+    build:
+      context: ./app/front
+      dockerfile: Dockerfile.node
+    volumes:
+      - ./app/front:/var/www/react
+    working_dir: /var/www/react
+    ports:
+      - '5173:5173'
+    command: ['npm', 'run', 'dev']
+    environment:
+      - VITE_SERVER_HOST=0.0.0.0
+    depends_on:
+      - php
+    networks:
+      - symfony-vite-network
+
+  mysql:
+    image: mysql:8.0
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: app_db
+      MYSQL_USER: admin
+      MYSQL_PASSWORD: password
+    ports:
+      - '3306:3306'
+    volumes:
+      - db_data:/var/lib/mysql
+      - ./config/mysql/init.sql:/docker-entrypoint-initdb.d/init.sql
+    networks:
+      - symfony-vite-network
+    healthcheck:
+      test:
+        ['CMD', 'mysqladmin', 'ping', '-u', 'root', '-p${MYSQL_ROOT_PASSWORD}']
+      interval: 30s
+      retries: 5
+      start_period: 60s
+      timeout: 30s
+
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin
+    environment:
+      PMA_HOST: mysql
+      PMA_USER: admin
+      PMA_PASSWORD: password
+    ports:
+      - '${PMADB_PORT:-8080}:80'
+    networks:
+      - symfony-vite-network
+    volumes:
+      - ./config/apache/phpmyadmin.conf:/etc/apache2/conf-enabled/phpmyadmin.conf
+    labels:
+      com.docker.compose.project: '${DOMAIN_NAME:-default}'
+
+networks:
+  symfony-vite-network:
+    driver: bridge
+
+volumes:
+  db_data:
