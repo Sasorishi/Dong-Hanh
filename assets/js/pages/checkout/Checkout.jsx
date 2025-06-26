@@ -263,17 +263,20 @@ const Checkout = () => {
                 ) : null}
               </div>
               <div className="mt-4 mb-8 w-full px-6 py-3">
-                <PayPalButton
-                  event={event}
-                  numTickets={numTickets}
-                  ticketsData={location.state.ticketsData}
-                  logisticsInformations={location.state.logisticsData}
-                  logisticCase={location.state.logisticCase}
-                  onError={handlePaymentError}
-                  onLoadingChange={handleLoadingChange}
-                  price={price}
-                  discountCode={code}
-                />
+                {event && price > 0 && numTickets && (
+                  <PayPalButton
+                    key={price + "-" + (code || "")}
+                    event={event}
+                    numTickets={numTickets}
+                    ticketsData={location.state.ticketsData}
+                    logisticsInformations={location.state.logisticsData}
+                    logisticCase={location.state.logisticCase}
+                    onError={handlePaymentError}
+                    onLoadingChange={handleLoadingChange}
+                    price={price}
+                    discountCode={code}
+                  />
+                )}
               </div>
             </div>
           </div>
