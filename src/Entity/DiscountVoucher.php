@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\DiscountVoucherRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: DiscountVoucherRepository::class)]
@@ -20,16 +22,24 @@ class DiscountVoucher
     private ?string $code = null;
 
     #[ORM\Column]
-    private ?bool $isUsed = null;
-
-    #[ORM\Column]
     private ?\DateTimeImmutable $createdAt = null;
-
-    #[ORM\ManyToOne]
-    private ?User $user = null;
 
     #[ORM\Column]
     private ?bool $usable = null;
+
+    /**
+     * @var Collection<int, DiscountVoucherUsage>
+     */
+    #[ORM\OneToMany(mappedBy: 'DiscountVoucher', targetEntity: DiscountVoucherUsage::class)]
+    private Collection $discountVoucherUsages;
+
+    #[ORM\ManyToOne(inversedBy: 'discountVouchers')]
+    private ?Event $Event = null;
+
+    public function __construct()
+    {
+        $this->discountVoucherUsages = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -85,6 +95,48 @@ class DiscountVoucher
     public function setUsable(bool $usable): static
     {
         $this->usable = $usable;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, DiscountVoucherUsage>
+     */
+    public function getDiscountVoucherUsages(): Collection
+    {
+        return $this->discountVoucherUsages;
+    }
+
+    public function addDiscountVoucherUsage(DiscountVoucherUsage $discountVoucherUsage): static
+    {
+        if (!$this->discountVoucherUsages->contains($discountVoucherUsage)) {
+            $this->discountVoucherUsages->add($discountVoucherUsage);
+            $discountVoucherUsage->setDiscountVoucher($this);
+        }
+
+        return $this;
+    }
+
+    public function removeDiscountVoucherUsage(DiscountVoucherUsage $discountVoucherUsage): static
+    {
+        if ($this->discountVoucherUsages->removeElement($discountVoucherUsage)) {
+            // set the owning side to null (unless already changed)
+            if ($discountVoucherUsage->getDiscountVoucher() === $this) {
+                $discountVoucherUsage->setDiscountVoucher(null);
+            }
+        }
+
+        return $this;
+    }
+
+    public function getEvent(): ?Event
+    {
+        return $this->Event;
+    }
+
+    public function setEvent(?Event $Event): static
+    {
+        $this->Event = $Event;
 
         return $this;
     }

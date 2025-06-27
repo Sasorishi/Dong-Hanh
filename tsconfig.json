@@ -9,7 +9,8 @@
     "baseUrl": ".",
     "paths": {
       "@/*": ["./assets/*"],
-      "@lib/*": ["./assets/js/lib/*"]
+      "@lib/*": ["./assets/js/lib/*"],
+      "@components/*": ["./assets/js/components/*"]
     }
   }
 }

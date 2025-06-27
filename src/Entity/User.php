@@ -46,10 +46,17 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\OneToMany(mappedBy: 'User', targetEntity: ResetsPasswords::class)]
     private Collection $resetsPasswords;
 
+    /**
+     * @var Collection<int, DiscountVoucherUsage>
+     */
+    #[ORM\OneToMany(mappedBy: 'User', targetEntity: DiscountVoucherUsage::class)]
+    private Collection $discountVoucherUsages;
+
     public function __construct()
     {
         $this->tickets = new ArrayCollection();
         $this->resetsPasswords = new ArrayCollection();
+        $this->discountVoucherUsages = new ArrayCollection();
     }
 
     public function getId(): ?Uuid
@@ -246,6 +253,36 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
             // set the owning side to null (unless already changed)
             if ($resetsPassword->getUser() === $this) {
                 $resetsPassword->setUser(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, DiscountVoucherUsage>
+     */
+    public function getDiscountVoucherUsages(): Collection
+    {
+        return $this->discountVoucherUsages;
+    }
+
+    public function addDiscountVoucherUsage(DiscountVoucherUsage $discountVoucherUsage): static
+    {
+        if (!$this->discountVoucherUsages->contains($discountVoucherUsage)) {
+            $this->discountVoucherUsages->add($discountVoucherUsage);
+            $discountVoucherUsage->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeDiscountVoucherUsage(DiscountVoucherUsage $discountVoucherUsage): static
+    {
+        if ($this->discountVoucherUsages->removeElement($discountVoucherUsage)) {
+            // set the owning side to null (unless already changed)
+            if ($discountVoucherUsage->getUser() === $this) {
+                $discountVoucherUsage->setUser(null);
             }
         }
 

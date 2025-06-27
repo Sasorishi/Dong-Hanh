@@ -2,19 +2,21 @@
 
 namespace App\Controller\Admin;
 
-use App\Entity\Ticket;
+use App\Entity\StaffMember;
 use Doctrine\ORM\EntityManagerInterface;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Action;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Actions;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
-use EasyCorp\Bundle\EasyAdminBundle\Field\AssociationField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\ChoiceField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\CollectionField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\DateTimeField;
 
-class TicketCrudController extends AbstractCrudController
+class StaffCrudController extends AbstractCrudController
 {
     public static function getEntityFqcn(): string
     {
-        return Ticket::class;
+        return StaffMember::class;
     }
 
     public function configureActions(Actions $actions): Actions
@@ -24,6 +26,7 @@ class TicketCrudController extends AbstractCrudController
         }
 
         return $actions
+        // ->add(Crud::PAGE_INDEX, Action::DETAIL)
         ->add(Crud::PAGE_EDIT, Action::SAVE_AND_ADD_ANOTHER)
         ->setPermission(Action::NEW, 'ROLE_ADMIN')
         ->setPermission(Action::EDIT, 'ROLE_ADMIN')
@@ -34,16 +37,27 @@ class TicketCrudController extends AbstractCrudController
     public function configureFields(string $pageName): iterable
     {
         $fields = parent::configureFields($pageName);
-        $fields[] = AssociationField::new('participant', 'Participant');
-        $fields[] = AssociationField::new('staffMember', 'Staff Member');
-        $fields[] = AssociationField::new('discountVoucherUsage', 'DiscountVoucherUsage');
+        $fields[] = DateTimeField::new('CreatedAt', 'Created At')
+        ->setFormat('short') // Format automatique (date et heure)
+        ->hideOnForm()
+        ->hideOnDetail();
+        
+        $fields[] = ChoiceField::new('gender', 'Gender')
+        ->hideOnIndex()
+        ->setChoices([
+            'Male' => 'male',
+            'Female' => 'female',
+            'Non Binary' => 'nonBinary',
+        ]);
+
+        $fields[] = CollectionField::new('tickets', "Ticket ID")->onlyOnDetail()->setTemplatePath('admin/fields/tickets.html.twig');
         return $fields;
     }
 
     public function configureCrud(Crud $crud): Crud
     {
         return $crud
-            ->setDefaultSort(['id' => 'DESC']);
+            ->setDefaultSort(['CreatedAt' => 'DESC']); // Optionally set a default sort
     }
 
     public function persistEntity(EntityManagerInterface $entityManager, $entityInstance): void

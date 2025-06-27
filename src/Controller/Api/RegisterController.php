@@ -3,9 +3,11 @@
 namespace App\Controller\Api;
 
 use App\Repository\DiscountVoucherRepository;
+use App\Repository\DiscountVoucherUsageRepository;
 use App\Repository\EventRepository;
 use App\Repository\LogisticInformationRepository;
 use App\Repository\ParticipantRepository;
+use App\Repository\StaffMemberRepository;
 use App\Repository\TicketRepository;
 use App\Repository\UserRepository;
 use App\Service\MailerService;
@@ -21,20 +23,15 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class RegisterController extends AbstractController
 {
-    private $entityManager;
-    private $mailerService;
-    private $params;
-    private $qrcodeService;
-
-    public function __construct(EntityManagerInterface $entityManager, MailerService $mailerService, ParameterBagInterface $params,  QrcodeService $qrcodeService) {
-        $this->entityManager = $entityManager;
-        $this->mailerService = $mailerService;
-        $this->params = $params;
-        $this->qrcodeService = $qrcodeService;
-    }
+    public function __construct(
+        private EntityManagerInterface $entityManager, 
+        private MailerService $mailerService, 
+        private ParameterBagInterface $params,  
+        private QrcodeService $qrcodeService
+    ) {}
 
     #[Route('api/register/private', name: 'api_registration_private', methods: ['POST'])]
-    public function setRegisterPrivate(Request $request, EventRepository $eventRepository, ParticipantRepository $participantRepository, TicketRepository $ticketRepository, UserRepository $userRepository, DiscountVoucherRepository $discountVoucherRepository, LogisticInformationRepository $logisticInformationRepository): JsonResponse
+    public function setRegisterPrivate(Request $request, EventRepository $eventRepository, ParticipantRepository $participantRepository, TicketRepository $ticketRepository, UserRepository $userRepository, DiscountVoucherRepository $discountVoucherRepository, DiscountVoucherUsageRepository $discountVoucherUsageRepository, LogisticInformationRepository $logisticInformationRepository): JsonResponse
     {
         $mail = $this->params->get("app.mail_address");
         $participantsTickets = [];
@@ -53,9 +50,17 @@ class RegisterController extends AbstractController
             $captureId = $data['captureId'];
             $event = $eventRepository->find($data['eventId']);
             $user = $userRepository->find($this->getUser()->getId());
+            $discountCode = $data['discountCode'];
             $price = $data['price'];
             
             $this->entityManager->getConnection()->beginTransaction();
+
+            $vouche = $discountVoucherRepository->findOneBy(['code' => $discountCode]);
+
+            $discountVoucherUsage = null;
+            if ($discountCode) {
+                $discountVoucherUsage = $discountVoucherUsageRepository->createDiscountVoucherUsage($vouche, $user);
+            }
 
             foreach ($participants as $participantKey => $participantData) {
                 $newParticipant = $participantRepository->createParticipant($participantData, $event, $logisticCase);
@@ -68,7 +73,7 @@ class RegisterController extends AbstractController
                     }
                 }
 
-                $newTicket = $ticketRepository->createTicket($event, $details, $captureId, $newParticipant, $user, $price);
+                $newTicket = $ticketRepository->createTicket($event, $details, $captureId, $newParticipant, $user, $price, null, $discountVoucherUsage);
                 $newParticipantTicket = [
                     'participant_id' => $newParticipant->getId(),
                     'participant_name' => $newParticipant->getFirstname() . ' ' . $newParticipant->getLastname(),
@@ -142,7 +147,6 @@ class RegisterController extends AbstractController
                 'current_year' => new \DateTime('Y')
             ];
             $test = $this->mailerService->sendTemplateEmail($mail, $user->getEmail(), "Thank you for your registration", 'emails/registration_public.html.twig', $context);
-            dump($test);
 
             return new JsonResponse(['message' => 'Enregistrement réussi !'], Response::HTTP_OK);
         } catch (Exception $e) {
@@ -151,6 +155,75 @@ class RegisterController extends AbstractController
             }
             error_log("Error on create participants : " . $e->getMessage());
             return new JsonResponse(['error' => 'Error on create participants. Try again.'], Response::HTTP_INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    #[Route('api/register/staff', name: 'api_registration_staff', methods: ['POST'])]
+    public function setRegisterStaff(Request $request, EventRepository $eventRepository, StaffMemberRepository $staffMemberRepository, TicketRepository $ticketRepository, UserRepository $userRepository, DiscountVoucherRepository $discountVoucherRepository, DiscountVoucherUsageRepository $discountVoucherUsageRepository): JsonResponse
+    {
+        $mail = $this->params->get("app.mail_address");
+        $staffsTickets = [];
+
+        try {
+            $data = json_decode($request->getContent(), true);
+        
+            if (!isset($data['eventId']) || !isset($data['staffs'])) {
+                throw new \InvalidArgumentException("Données invalides");
+            }
+
+            $staffs = $data['staffs'];
+            $details = $data['details'] ?? null;
+            $dumpDetails['id'] = 'DSTAFFPASS';
+            $captureId = $data['captureId'] ?? null;
+            $event = $eventRepository->find($data['eventId']);
+            $user = $userRepository->find($this->getUser()->getId());
+            $discountCode = $data['discountCode'] ?? null;
+            $price = $data['price'] ?? 0;
+
+            $this->entityManager->getConnection()->beginTransaction();
+
+            $vouche = $discountVoucherRepository->findOneBy(['code' => $discountCode]);
+
+            $discountVoucherUsage = null;
+            if ($discountCode) {
+                $discountVoucherUsage = $discountVoucherUsageRepository->createDiscountVoucherUsage($vouche, $user);
+            }
+
+            foreach ($staffs as $staffKey => $staffData) {
+                $newStaff = $staffMemberRepository->createStaff($staffData, $event);
+
+                $newTicket = $ticketRepository->createTicket($event, $staffData['payment'] ? $details : $dumpDetails, $staffData['payment'] ? $captureId : 'CSTAFFPASS', null, $user, $price, $newStaff, $discountVoucherUsage);
+                $newStaffTicket = [
+                    'participant_id' => $newStaff->getId(),
+                    'participant_name' => $newStaff->getFirstname() . ' ' . $newStaff->getLastname(),
+                    'ticket_price' => $price,
+                    'qrcode' => $this->qrcodeService->generate($newTicket->getId(), $newStaff->getId(), $event->getId()),
+                ];
+                array_push($staffsTickets, $newStaffTicket);
+            }
+
+            $this->entityManager->getConnection()->commit();
+
+            // $context = [
+            //     'user_id' => $user->getId(),
+            //     'user_email' => $user->getEmail(),
+            //     'event_name' => $event->getLabel(),
+            //     'currency' => $event->getCurrency(),
+            //     'order_id' => $details['id'],
+            //     'tickets' => $participantsTickets,
+            //     'amount' => $price * count($participants),
+            //     'date' => new \DateTime(),
+            //     'current_year' => new \DateTime('Y')
+            // ];
+            // $this->mailerService->sendTemplateEmail($mail, $user->getEmail(), "Thank you for your payment", 'emails/payment.html.twig', $context);
+
+            return new JsonResponse(['message' => 'Enregistrement réussi !'], Response::HTTP_OK);
+        } catch (Exception $e) {
+            if ($this->entityManager->getConnection()->isTransactionActive()) {
+                $this->entityManager->getConnection()->rollback();
+            }
+            error_log("Error on create staffs : " . $e->getMessage());
+            return new JsonResponse(['error' => 'Error on create staffs. Try again.' . $e->getMessage()], Response::HTTP_INTERNAL_SERVER_ERROR);
         }
     }
 }

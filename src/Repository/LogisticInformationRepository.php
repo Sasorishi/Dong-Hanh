@@ -23,34 +23,8 @@ class LogisticInformationRepository extends ServiceEntityRepository
         parent::__construct($registry, entityClass: LogisticInformation::class);
     }
 
-//    /**
-//     * @return LogisticInformation[] Returns an array of LogisticInformation objects
-//     */
-//    public function findByExampleField($value): array
-//    {
-//        return $this->createQueryBuilder('f')
-//            ->andWhere('f.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->orderBy('f.id', 'ASC')
-//            ->setMaxResults(10)
-//            ->getQuery()
-//            ->getResult()
-//        ;
-//    }
-
-//    public function findOneBySomeField($value): ?LogisticInformation
-//    {
-//        return $this->createQueryBuilder('f')
-//            ->andWhere('f.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->getQuery()
-//            ->getOneOrNullResult()
-//        ;
-//    }
-
     public function createLogisticInformation(array $data, Participant $participant): LogisticInformation
     {
-        dump($data);
         $logisticInformation = new LogisticInformation();
         $logisticInformation->setParticipant($participant);
         $logisticInformation->setArrivalTransport($data['arrivalTransportType']);

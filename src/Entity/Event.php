@@ -80,10 +80,24 @@ class Event
     #[ORM\Column]
     private ?bool $online = null;
 
+    /**
+     * @var Collection<int, StaffMember>
+     */
+    #[ORM\OneToMany(mappedBy: 'Event', targetEntity: StaffMember::class)]
+    private Collection $staffMembers;
+
+    /**
+     * @var Collection<int, DiscountVoucher>
+     */
+    #[ORM\OneToMany(mappedBy: 'Event', targetEntity: DiscountVoucher::class)]
+    private Collection $discountVouchers;
+
     public function __construct()
     {
         $this->tickets = new ArrayCollection();
         $this->participants = new ArrayCollection();
+        $this->staffMembers = new ArrayCollection();
+        $this->discountVouchers = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -375,6 +389,66 @@ class Event
     public function setOnline(bool $online): static
     {
         $this->online = $online;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, StaffMember>
+     */
+    public function getStaffMembers(): Collection
+    {
+        return $this->staffMembers;
+    }
+
+    public function addStaffMember(StaffMember $staffMember): static
+    {
+        if (!$this->staffMembers->contains($staffMember)) {
+            $this->staffMembers->add($staffMember);
+            $staffMember->setEvent($this);
+        }
+
+        return $this;
+    }
+
+    public function removeStaffMember(StaffMember $staffMember): static
+    {
+        if ($this->staffMembers->removeElement($staffMember)) {
+            // set the owning side to null (unless already changed)
+            if ($staffMember->getEvent() === $this) {
+                $staffMember->setEvent(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, DiscountVoucher>
+     */
+    public function getDiscountVouchers(): Collection
+    {
+        return $this->discountVouchers;
+    }
+
+    public function addDiscountVoucher(DiscountVoucher $discountVoucher): static
+    {
+        if (!$this->discountVouchers->contains($discountVoucher)) {
+            $this->discountVouchers->add($discountVoucher);
+            $discountVoucher->setEvent($this);
+        }
+
+        return $this;
+    }
+
+    public function removeDiscountVoucher(DiscountVoucher $discountVoucher): static
+    {
+        if ($this->discountVouchers->removeElement($discountVoucher)) {
+            // set the owning side to null (unless already changed)
+            if ($discountVoucher->getEvent() === $this) {
+                $discountVoucher->setEvent(null);
+            }
+        }
 
         return $this;
     }

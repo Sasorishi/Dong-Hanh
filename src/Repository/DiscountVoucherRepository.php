@@ -64,14 +64,4 @@ class DiscountVoucherRepository extends ServiceEntityRepository
 //            ->getOneOrNullResult()
 //        ;
 //    }
-
-    public function setUsed (DiscountVoucher $vouche, User $user) {
-        $vouche->setIsUsed(true);
-        $vouche->setUser($user);
-
-        $entityManager = $this->getDoctrine()->getManager();
-        $entityManager->persist($vouche);
-        $entityManager->flush();
-
-    }
 }
