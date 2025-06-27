@@ -4,6 +4,7 @@ namespace App\Controller\Admin;
 
 use App\Entity\AccountCodeVerify;
 use App\Entity\DiscountVoucher;
+use App\Entity\DiscountVoucherUsage;
 use App\Entity\Event;
 use App\Entity\EventCategories;
 use App\Entity\LogisticInformation;
@@ -63,6 +64,7 @@ class DashboardController extends AbstractDashboardController
             MenuItem::section('Tickets'),
             MenuItem::linkToCrud('Tickets', 'fa fa-ticket', Ticket::class),
             MenuItem::linkToCrud('Discounts', 'fas fa-list', DiscountVoucher::class),
+            MenuItem::linkToCrud('Discounts usages', 'fas fa-list', DiscountVoucherUsage::class),
             MenuItem::section('Monitoring'),
             MenuItem::linkToCrud('Users', 'fa fa-users', User::class),
             MenuItem::linkToCrud('Code Verify', 'fa fa-list-ol', AccountCodeVerify::class),
