@@ -38,7 +38,6 @@ class RegisterController extends AbstractController
 
         try {
             $data = json_decode($request->getContent(), true);
-            dump($data);
         
             if (!isset($data['eventId']) || !isset($data['participants']) || !isset($data['details']) || !isset($data['captureId'])) {
                 throw new \InvalidArgumentException("Données invalides");
@@ -101,7 +100,6 @@ class RegisterController extends AbstractController
 
             return new JsonResponse(['message' => 'Enregistrement réussi !'], Response::HTTP_OK);
         } catch (Exception $e) {
-            dump($e);
             if ($this->entityManager->getConnection()->isTransactionActive()) {
                 $this->entityManager->getConnection()->rollback();
             }
@@ -149,7 +147,6 @@ class RegisterController extends AbstractController
                 'current_year' => new \DateTime('Y')
             ];
             $test = $this->mailerService->sendTemplateEmail($mail, $user->getEmail(), "Thank you for your registration", 'emails/registration_public.html.twig', $context);
-            dump($test);
 
             return new JsonResponse(['message' => 'Enregistrement réussi !'], Response::HTTP_OK);
         } catch (Exception $e) {
@@ -169,7 +166,6 @@ class RegisterController extends AbstractController
 
         try {
             $data = json_decode($request->getContent(), true);
-            dump($data);
         
             if (!isset($data['eventId']) || !isset($data['staffs'])) {
                 throw new \InvalidArgumentException("Données invalides");
@@ -177,10 +173,11 @@ class RegisterController extends AbstractController
 
             $staffs = $data['staffs'];
             $details = $data['details'] ?? null;
+            $dumpDetails['id'] = 'DSTAFFPASS';
             $captureId = $data['captureId'] ?? null;
             $event = $eventRepository->find($data['eventId']);
             $user = $userRepository->find($this->getUser()->getId());
-            $discountCode = $data['discountCode'];
+            $discountCode = $data['discountCode'] ?? null;
             $price = $data['price'] ?? 0;
 
             $this->entityManager->getConnection()->beginTransaction();
@@ -195,7 +192,7 @@ class RegisterController extends AbstractController
             foreach ($staffs as $staffKey => $staffData) {
                 $newStaff = $staffMemberRepository->createStaff($staffData, $event);
 
-                $newTicket = $ticketRepository->createTicket($event, $details, $captureId, null, $user, $price, $newStaff, $discountVoucherUsage);
+                $newTicket = $ticketRepository->createTicket($event, $staffData['payment'] ? $details : $dumpDetails, $staffData['payment'] ? $captureId : 'CSTAFFPASS', null, $user, $price, $newStaff, $discountVoucherUsage);
                 $newStaffTicket = [
                     'participant_id' => $newStaff->getId(),
                     'participant_name' => $newStaff->getFirstname() . ' ' . $newStaff->getLastname(),
@@ -222,7 +219,6 @@ class RegisterController extends AbstractController
 
             return new JsonResponse(['message' => 'Enregistrement réussi !'], Response::HTTP_OK);
         } catch (Exception $e) {
-            dump($e);
             if ($this->entityManager->getConnection()->isTransactionActive()) {
                 $this->entityManager->getConnection()->rollback();
             }

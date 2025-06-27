@@ -35,6 +35,7 @@ class TicketCrudController extends AbstractCrudController
     {
         $fields = parent::configureFields($pageName);
         $fields[] = AssociationField::new('participant', 'Participant');
+        $fields[] = AssociationField::new('staffMember', 'Staff Member');
         $fields[] = AssociationField::new('discountVoucherUsage', 'DiscountVoucherUsage');
         return $fields;
     }

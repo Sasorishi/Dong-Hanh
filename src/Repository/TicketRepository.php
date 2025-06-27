@@ -52,8 +52,8 @@ class TicketRepository extends ServiceEntityRepository
         $ticket->setCurrency($eventData->getCurrency());
         $ticket->setCreatedAt(new DateTime());
         $ticket->setUpdatedAt(new DateTime());
-        $ticket->setCaptureId($staff ? 'STAFFPASS' : $captureId);
-        $ticket->setOrderId($staff ? 'STAFFPASS' : $details['id']);
+        $ticket->setCaptureId($captureId);
+        $ticket->setOrderId($details['id']);
         $ticket->setParticipant($participant ?? null);
         $ticket->setStaffMember($staff ?? null);
         $ticket->setEvent($eventData);
