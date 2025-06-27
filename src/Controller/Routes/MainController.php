@@ -78,6 +78,15 @@ class MainController extends AbstractController
         ]);
     }
 
+    #[Route('/register/staff/{eventId}/{tickets}', name: 'app_register_staff_form')]
+    public function registrationStaff(): Response
+    {
+        $this->denyAccessUnlessGranted('ROLE_USER');
+        return $this->render('index.html.twig', [
+            'controller_name' => 'RegisterController',
+        ]);
+    }
+
     #[Route('/signup', name: 'app_signup')]
     public function signup(): Response
     {

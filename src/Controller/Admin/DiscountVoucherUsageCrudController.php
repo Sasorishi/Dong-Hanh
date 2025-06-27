@@ -2,55 +2,38 @@
 
 namespace App\Controller\Admin;
 
-use App\Entity\DiscountVoucher;
+use App\Entity\DiscountVoucherUsage;
 use Doctrine\ORM\EntityManagerInterface;
+use EasyCorp\Bundle\EasyAdminBundle\Config\Action;
+use EasyCorp\Bundle\EasyAdminBundle\Config\Actions;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
 use EasyCorp\Bundle\EasyAdminBundle\Field\AssociationField;
-use EasyCorp\Bundle\EasyAdminBundle\Field\BooleanField;
-use EasyCorp\Bundle\EasyAdminBundle\Field\DateTimeField;
-use EasyCorp\Bundle\EasyAdminBundle\Field\IntegerField;
-use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
-use Symfony\Component\Validator\Constraints as Assert;
 
-class DiscountVoucherCrudController extends AbstractCrudController
+class DiscountVoucherUsageCrudController extends AbstractCrudController
 {
     public static function getEntityFqcn(): string
     {
-        return DiscountVoucher::class;
+        return DiscountVoucherUsage::class;
     }
 
-    /*
-    public function configureFields(string $pageName): iterable
+    public function configureActions(Actions $actions): Actions
     {
-        return [
-            IdField::new('id'),
-            TextField::new('title'),
-            TextEditorField::new('description'),
-        ];
+        return $actions
+        ->add(Crud::PAGE_INDEX, Action::DETAIL)
+        ->add(Crud::PAGE_EDIT, Action::SAVE_AND_ADD_ANOTHER)
+        ->setPermission(Action::NEW, 'ROLE_ADMIN')
+        ->setPermission(Action::DETAIL, 'ROLE_ADMIN')
+        ->setPermission(Action::EDIT, 'ROLE_ADMIN')
+        ->setPermission(Action::SAVE_AND_ADD_ANOTHER, 'ROLE_ADMIN')
+        ->setPermission(Action::DELETE, 'ROLE_ADMIN');
     }
-    */
 
     public function configureFields(string $pageName): iterable
     {
         $fields = parent::configureFields($pageName);
-        $fields[] = IntegerField::new('discountPercentage', 'Discount (Percentage)')->setFormTypeOptions(['constraints' => [
-            new Assert\Range([
-                'min' => 0,
-                'max' => 100,
-            ]),
-        ]]);
-        $fields[] = TextField::new('code', 'Code')->setFormTypeOptions(['constraints' => [
-            new Assert\Length([
-                'min' => 12,
-                'max' => 12,
-            ]),
-        ]]);
-        $fields[] = DateTimeField::new('createdAt', 'Created At')
-            ->setFormTypeOptions([
-                'data' => new \DateTimeImmutable('now'),
-            ]);
-        $fields[] = AssociationField::new('Event', 'Event');
+        $fields[] = AssociationField::new('User', 'User');
+        $fields[] = AssociationField::new('DiscountVoucher', 'Discount Voucher');
         return $fields;
     }
 

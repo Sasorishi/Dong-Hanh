@@ -19,12 +19,12 @@ const TicketInforamtionComponent = ({
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
-    setFormData((prevFormData) => ({
-      ...prevFormData,
+    const newFormData = {
+      ...formData,
       [name]: value,
-    }));
-
-    onTicketsDataChange(ticketKey, formData);
+    };
+    setFormData(newFormData);
+    onTicketsDataChange(ticketKey, newFormData);
   };
 
   return (

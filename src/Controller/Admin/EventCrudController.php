@@ -78,6 +78,7 @@ class EventCrudController extends AbstractCrudController
         ]]);
         $fields[] = ArrayField::new('checklist', 'Checklist');
         $fields[] = CollectionField::new($this->isEventOnline() ? 'getParticipants' : 'getCompletedParticipants', "Participants")->onlyOnDetail()->setTemplatePath('admin/fields/participants.html.twig');
+        $fields[] = CollectionField::new('staffMembers', "Staff Members")->onlyOnDetail()->setTemplatePath('admin/fields/staffMembers.html.twig');
         return $fields;
     }
 

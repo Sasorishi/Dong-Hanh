@@ -27,6 +27,7 @@ import AccountVerify from "./js/pages/auth/AccountVerify";
 import Logistic from "./js/pages/register/Logistic";
 import LogisticInformation from "./js/pages/register/LogisticInformation";
 import ConfirmEventAttendance from "./js/pages/checkout/ConfirmEventAttendance";
+import RegisterStaff from "./js/pages/register/RegisterStaff";
 
 function WebRoutes() {
   Aos.init();
@@ -113,6 +114,10 @@ function WebRoutes() {
           element={<PrivacyPolicy date="7th March 2024" />}
         />
         <Route path="/account-verify/:id" element={<AccountVerify />} />
+        <Route
+          path="/register/staff/:eventId/:numTickets"
+          element={renderProtectedRoute(<RegisterStaff />)}
+        />
       </Routes>
       <Footer />
     </>

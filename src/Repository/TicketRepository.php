@@ -2,15 +2,15 @@
 
 namespace App\Repository;
 
+use App\Entity\DiscountVoucherUsage;
 use App\Entity\Event;
 use App\Entity\Participant;
+use App\Entity\StaffMember;
 use App\Entity\Ticket;
 use App\Entity\User;
 use DateTime;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
-use Doctrine\ORM\Query\ResultSetMapping;
 use Doctrine\Persistence\ManagerRegistry;
-use Symfony\Component\Uid\Uuid;
 
 /**
  * @extends ServiceEntityRepository<Ticket>
@@ -45,44 +45,21 @@ class TicketRepository extends ServiceEntityRepository
         }
     }
 
-//    /**
-//     * @return Ticket[] Returns an array of Ticket objects
-//     */
-//    public function findByExampleField($value): array
-//    {
-//        return $this->createQueryBuilder('t')
-//            ->andWhere('t.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->orderBy('t.id', 'ASC')
-//            ->setMaxResults(10)
-//            ->getQuery()
-//            ->getResult()
-//        ;
-//    }
-
-//    public function findOneBySomeField($value): ?Ticket
-//    {
-//        return $this->createQueryBuilder('t')
-//            ->andWhere('t.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->getQuery()
-//            ->getOneOrNullResult()
-//        ;
-//    }
-
-    public function createTicket(Event $eventData, array $details, string $captureId, Participant $participant, User $user, int $price): Ticket {
+    public function createTicket(Event $eventData, ?array $details, ?string $captureId, ?Participant $participant, User $user, ?int $price, ?StaffMember $staff = null, ?DiscountVoucherUsage $discountVoucherUsage = null): Ticket {
         $ticket = new Ticket;
-        $ticket->setPrice($price);
-        $ticket->setStatus($details['status']);
+        $ticket->setPrice($price ?? null);
+        $ticket->setStatus($staff && $staff->isPayment() == false ? 'COMPLETED' : $details['status']);
         $ticket->setCurrency($eventData->getCurrency());
         $ticket->setCreatedAt(new DateTime());
         $ticket->setUpdatedAt(new DateTime());
         $ticket->setCaptureId($captureId);
         $ticket->setOrderId($details['id']);
-        $ticket->setParticipant($participant);
+        $ticket->setParticipant($participant ?? null);
+        $ticket->setStaffMember($staff ?? null);
         $ticket->setEvent($eventData);
         $ticket->setScan(false);
         $ticket->setUser($user);
+        $ticket->setDiscountVoucherUsage($discountVoucherUsage);
 
         $entityManager = $this->getEntityManager();
         $entityManager->persist($ticket);
