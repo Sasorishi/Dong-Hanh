@@ -51,6 +51,9 @@ class Ticket
     #[ORM\ManyToOne(inversedBy: 'Ticket')]
     private ?StaffMember $staffMember = null;
 
+    #[ORM\ManyToOne(inversedBy: 'Ticket')]
+    private ?DiscountVoucherUsage $discountVoucherUsage = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -202,6 +205,18 @@ class Ticket
     public function setStaffMember(?StaffMember $staffMember): static
     {
         $this->staffMember = $staffMember;
+
+        return $this;
+    }
+
+    public function getDiscountVoucherUsage(): ?DiscountVoucherUsage
+    {
+        return $this->discountVoucherUsage;
+    }
+
+    public function setDiscountVoucherUsage(?DiscountVoucherUsage $discountVoucherUsage): static
+    {
+        $this->discountVoucherUsage = $discountVoucherUsage;
 
         return $this;
     }

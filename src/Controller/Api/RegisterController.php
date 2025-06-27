@@ -3,6 +3,7 @@
 namespace App\Controller\Api;
 
 use App\Repository\DiscountVoucherRepository;
+use App\Repository\DiscountVoucherUsageRepository;
 use App\Repository\EventRepository;
 use App\Repository\LogisticInformationRepository;
 use App\Repository\ParticipantRepository;
@@ -30,13 +31,14 @@ class RegisterController extends AbstractController
     ) {}
 
     #[Route('api/register/private', name: 'api_registration_private', methods: ['POST'])]
-    public function setRegisterPrivate(Request $request, EventRepository $eventRepository, ParticipantRepository $participantRepository, TicketRepository $ticketRepository, UserRepository $userRepository, DiscountVoucherRepository $discountVoucherRepository, LogisticInformationRepository $logisticInformationRepository): JsonResponse
+    public function setRegisterPrivate(Request $request, EventRepository $eventRepository, ParticipantRepository $participantRepository, TicketRepository $ticketRepository, UserRepository $userRepository, DiscountVoucherRepository $discountVoucherRepository, DiscountVoucherUsageRepository $discountVoucherUsageRepository, LogisticInformationRepository $logisticInformationRepository): JsonResponse
     {
         $mail = $this->params->get("app.mail_address");
         $participantsTickets = [];
 
         try {
             $data = json_decode($request->getContent(), true);
+            dump($data);
         
             if (!isset($data['eventId']) || !isset($data['participants']) || !isset($data['details']) || !isset($data['captureId'])) {
                 throw new \InvalidArgumentException("Données invalides");
@@ -49,9 +51,17 @@ class RegisterController extends AbstractController
             $captureId = $data['captureId'];
             $event = $eventRepository->find($data['eventId']);
             $user = $userRepository->find($this->getUser()->getId());
+            $discountCode = $data['discountCode'];
             $price = $data['price'];
             
             $this->entityManager->getConnection()->beginTransaction();
+
+            $vouche = $discountVoucherRepository->findOneBy(['code' => $discountCode]);
+
+            $discountVoucherUsage = null;
+            if ($discountCode) {
+                $discountVoucherUsage = $discountVoucherUsageRepository->createDiscountVoucherUsage($vouche, $user);
+            }
 
             foreach ($participants as $participantKey => $participantData) {
                 $newParticipant = $participantRepository->createParticipant($participantData, $event, $logisticCase);
@@ -64,7 +74,7 @@ class RegisterController extends AbstractController
                     }
                 }
 
-                $newTicket = $ticketRepository->createTicket($event, $details, $captureId, $newParticipant, $user, $price);
+                $newTicket = $ticketRepository->createTicket($event, $details, $captureId, $newParticipant, $user, $price, null, $discountVoucherUsage);
                 $newParticipantTicket = [
                     'participant_id' => $newParticipant->getId(),
                     'participant_name' => $newParticipant->getFirstname() . ' ' . $newParticipant->getLastname(),
@@ -91,6 +101,7 @@ class RegisterController extends AbstractController
 
             return new JsonResponse(['message' => 'Enregistrement réussi !'], Response::HTTP_OK);
         } catch (Exception $e) {
+            dump($e);
             if ($this->entityManager->getConnection()->isTransactionActive()) {
                 $this->entityManager->getConnection()->rollback();
             }
@@ -151,13 +162,14 @@ class RegisterController extends AbstractController
     }
 
     #[Route('api/register/staff', name: 'api_registration_staff', methods: ['POST'])]
-    public function setRegisterStaff(Request $request, EventRepository $eventRepository, StaffMemberRepository $staffMemberRepository, TicketRepository $ticketRepository, UserRepository $userRepository): JsonResponse
+    public function setRegisterStaff(Request $request, EventRepository $eventRepository, StaffMemberRepository $staffMemberRepository, TicketRepository $ticketRepository, UserRepository $userRepository, DiscountVoucherRepository $discountVoucherRepository, DiscountVoucherUsageRepository $discountVoucherUsageRepository): JsonResponse
     {
         $mail = $this->params->get("app.mail_address");
         $staffsTickets = [];
 
         try {
             $data = json_decode($request->getContent(), true);
+            dump($data);
         
             if (!isset($data['eventId']) || !isset($data['staffs'])) {
                 throw new \InvalidArgumentException("Données invalides");
@@ -168,14 +180,22 @@ class RegisterController extends AbstractController
             $captureId = $data['captureId'] ?? null;
             $event = $eventRepository->find($data['eventId']);
             $user = $userRepository->find($this->getUser()->getId());
+            $discountCode = $data['discountCode'];
             $price = $data['price'] ?? 0;
 
             $this->entityManager->getConnection()->beginTransaction();
 
-            foreach ($staffs as $staffKey => $staffData) {
-                $newStaff = $staffMemberRepository->createParticipant($staffData, $event);
+            $vouche = $discountVoucherRepository->findOneBy(['code' => $discountCode]);
 
-                $newTicket = $ticketRepository->createTicket($event, $details, $captureId, null, $user, $price, $newStaff);
+            $discountVoucherUsage = null;
+            if ($discountCode) {
+                $discountVoucherUsage = $discountVoucherUsageRepository->createDiscountVoucherUsage($vouche, $user);
+            }
+
+            foreach ($staffs as $staffKey => $staffData) {
+                $newStaff = $staffMemberRepository->createStaff($staffData, $event);
+
+                $newTicket = $ticketRepository->createTicket($event, $details, $captureId, null, $user, $price, $newStaff, $discountVoucherUsage);
                 $newStaffTicket = [
                     'participant_id' => $newStaff->getId(),
                     'participant_name' => $newStaff->getFirstname() . ' ' . $newStaff->getLastname(),
@@ -202,6 +222,7 @@ class RegisterController extends AbstractController
 
             return new JsonResponse(['message' => 'Enregistrement réussi !'], Response::HTTP_OK);
         } catch (Exception $e) {
+            dump($e);
             if ($this->entityManager->getConnection()->isTransactionActive()) {
                 $this->entityManager->getConnection()->rollback();
             }

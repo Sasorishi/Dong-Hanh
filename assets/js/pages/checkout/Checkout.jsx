@@ -275,6 +275,7 @@ const Checkout = () => {
                     onLoadingChange={handleLoadingChange}
                     price={price}
                     discountCode={code}
+                    staffs={location.state.staffs}
                   />
                 )}
               </div>

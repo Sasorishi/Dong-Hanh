@@ -11,6 +11,7 @@ const PaypalButtonComponent = ({
   onLoadingChange,
   discountCode,
   price,
+  staffs,
 }) => {
   const handleOnError = (err) => {
     // console.log("onError: ", err);
@@ -19,6 +20,31 @@ const PaypalButtonComponent = ({
 
   const handleLoadingChange = (newLoadingValue) => {
     onLoadingChange(newLoadingValue);
+  };
+
+  const setStaffs = async (details, captureId) => {
+    try {
+      const combinedData = {
+        eventId: event["id"],
+        numTickets: numTickets,
+        details: details,
+        captureId: captureId,
+        staffs: staffs,
+        discountCode: discountCode,
+        price: price,
+      };
+      const response = await axios.post("/api/register/staff", combinedData);
+      console.log(combinedData);
+      if (response.status === 200 || response.status === 201) {
+        console.log("Request success !");
+      } else {
+        console.error("Server request fail");
+        handleOnError("Server request fail. Try again or later.");
+      }
+    } catch (error) {
+      console.error("Server request fail", error);
+      handleOnError("Server request fail. Try again or later.");
+    }
   };
 
   const setParticipants = async (details, captureId) => {
@@ -105,7 +131,11 @@ const PaypalButtonComponent = ({
               const transactionStatus = details.status;
 
               if (transactionStatus === "COMPLETED") {
-                await setParticipants(details, captureId)
+                const registrationPromise = staffs
+                  ? setStaffs(details, captureId)
+                  : setParticipants(details, captureId);
+
+                registrationPromise
                   .then(() => {
                     console.log("OK");
                     // window.location.href = "/response/success/checkout";

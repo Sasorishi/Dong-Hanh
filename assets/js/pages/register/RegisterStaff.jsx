@@ -21,12 +21,19 @@ const Register = () => {
     e.preventDefault();
 
     if (payment) {
+      setLoading(true);
+      const staffs = Object.values(ticketsData).map((staff) => ({
+        ...staff,
+        payment: true,
+      }));
+
       navigate("/checkout", {
         state: {
           eventId: eventId,
           numTickets: numTickets,
           ticketsData: ticketsData,
           logisticCase: null,
+          staffs: staffs,
         },
       });
     } else {

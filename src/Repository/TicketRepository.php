@@ -2,6 +2,7 @@
 
 namespace App\Repository;
 
+use App\Entity\DiscountVoucherUsage;
 use App\Entity\Event;
 use App\Entity\Participant;
 use App\Entity\StaffMember;
@@ -44,7 +45,7 @@ class TicketRepository extends ServiceEntityRepository
         }
     }
 
-    public function createTicket(Event $eventData, ?array $details, ?string $captureId, ?Participant $participant, User $user, ?int $price, ?StaffMember $staff = null): Ticket {
+    public function createTicket(Event $eventData, ?array $details, ?string $captureId, ?Participant $participant, User $user, ?int $price, ?StaffMember $staff = null, ?DiscountVoucherUsage $discountVoucherUsage = null): Ticket {
         $ticket = new Ticket;
         $ticket->setPrice($price ?? null);
         $ticket->setStatus($staff && $staff->isPayment() == false ? 'COMPLETED' : $details['status']);
@@ -58,6 +59,7 @@ class TicketRepository extends ServiceEntityRepository
         $ticket->setEvent($eventData);
         $ticket->setScan(false);
         $ticket->setUser($user);
+        $ticket->setDiscountVoucherUsage($discountVoucherUsage);
 
         $entityManager = $this->getEntityManager();
         $entityManager->persist($ticket);

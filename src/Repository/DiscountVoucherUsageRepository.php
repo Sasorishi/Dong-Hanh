@@ -2,7 +2,10 @@
 
 namespace App\Repository;
 
+use App\Entity\DiscountVoucher;
 use App\Entity\DiscountVoucherUsage;
+use App\Entity\User;
+use DateTimeImmutable;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
@@ -16,28 +19,32 @@ class DiscountVoucherUsageRepository extends ServiceEntityRepository
         parent::__construct($registry, DiscountVoucherUsage::class);
     }
 
-    //    /**
-    //     * @return DiscountVoucherUsage[] Returns an array of DiscountVoucherUsage objects
-    //     */
-    //    public function findByExampleField($value): array
-    //    {
-    //        return $this->createQueryBuilder('d')
-    //            ->andWhere('d.exampleField = :val')
-    //            ->setParameter('val', $value)
-    //            ->orderBy('d.id', 'ASC')
-    //            ->setMaxResults(10)
-    //            ->getQuery()
-    //            ->getResult()
-    //        ;
-    //    }
+    public function save(DiscountVoucherUsage $entity, bool $flush = false): void
+    {
+        $this->getEntityManager()->persist($entity);
 
-    //    public function findOneBySomeField($value): ?DiscountVoucherUsage
-    //    {
-    //        return $this->createQueryBuilder('d')
-    //            ->andWhere('d.exampleField = :val')
-    //            ->setParameter('val', $value)
-    //            ->getQuery()
-    //            ->getOneOrNullResult()
-    //        ;
-    //    }
+        if ($flush) {
+            $this->getEntityManager()->flush();
+        }
+    }
+
+    public function remove(DiscountVoucherUsage $entity, bool $flush = false): void
+    {
+        $this->getEntityManager()->remove($entity);
+
+        if ($flush) {
+            $this->getEntityManager()->flush();
+        }
+    }
+
+    public function createDiscountVoucherUsage(DiscountVoucher $voucher, User $user): DiscountVoucherUsage {
+        $discountVoucherUsage = new DiscountVoucherUsage;
+        $discountVoucherUsage->setDiscountVoucher($voucher);
+        $discountVoucherUsage->setUser($user);
+        $discountVoucherUsage->setUsedAt(new DateTimeImmutable);
+
+        $this->save($discountVoucherUsage, true);
+
+        return $discountVoucherUsage;
+    }
 }

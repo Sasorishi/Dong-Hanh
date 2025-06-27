@@ -25,7 +25,7 @@ class StaffMemberRepository extends ServiceEntityRepository
      * @param Event $event
      * @return StaffMember
      */
-    public function createParticipant(Array $data, Event $event): StaffMember {
+    public function createStaff(Array $data, Event $event): StaffMember {
         $staff = new StaffMember();
         
         $staff->setFirstname($data['firstName']);
