@@ -45,7 +45,30 @@ class TicketRepository extends ServiceEntityRepository
         }
     }
 
-    public function createTicket(Event $eventData, ?array $details, ?string $captureId, ?Participant $participant, User $user, ?int $price, ?StaffMember $staff = null, ?DiscountVoucherUsage $discountVoucherUsage = null): Ticket {
+    public function createTicketForAttendees(Event $eventData, ?array $details, ?string $captureId, ?Participant $participant, User $user, ?int $price, ?StaffMember $staff = null, ?DiscountVoucherUsage $discountVoucherUsage = null): Ticket {
+        $ticket = new Ticket;
+        $ticket->setPrice($price ?? null);
+        $ticket->setStatus($details['status']);
+        $ticket->setCurrency($eventData->getCurrency());
+        $ticket->setCreatedAt(new DateTime());
+        $ticket->setUpdatedAt(new DateTime());
+        $ticket->setCaptureId($captureId);
+        $ticket->setOrderId($details['id']);
+        $ticket->setParticipant($participant ?? null);
+        $ticket->setStaffMember($staff ?? null);
+        $ticket->setEvent($eventData);
+        $ticket->setScan(false);
+        $ticket->setUser($user);
+        $ticket->setDiscountVoucherUsage($discountVoucherUsage);
+
+        $entityManager = $this->getEntityManager();
+        $entityManager->persist($ticket);
+        $entityManager->flush();
+
+        return $ticket;
+    }
+
+    public function createTicketForStaff(Event $eventData, ?array $details, ?string $captureId, ?Participant $participant, User $user, ?int $price, ?StaffMember $staff = null, ?DiscountVoucherUsage $discountVoucherUsage = null): Ticket {
         $ticket = new Ticket;
         $ticket->setPrice($price ?? null);
         $ticket->setStatus($staff && $staff->isPayment() == false ? 'COMPLETED' : $details['status']);

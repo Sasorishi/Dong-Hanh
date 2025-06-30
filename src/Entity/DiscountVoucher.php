@@ -36,6 +36,9 @@ class DiscountVoucher
     #[ORM\ManyToOne(inversedBy: 'discountVouchers')]
     private ?Event $Event = null;
 
+    #[ORM\Column(nullable: true)]
+    private ?int $usageLimits = null;
+
     public function __construct()
     {
         $this->discountVoucherUsages = new ArrayCollection();
@@ -137,6 +140,18 @@ class DiscountVoucher
     public function setEvent(?Event $Event): static
     {
         $this->Event = $Event;
+
+        return $this;
+    }
+
+    public function getUsageLimits(): ?int
+    {
+        return $this->usageLimits;
+    }
+
+    public function setUsageLimits(?int $usageLimits): static
+    {
+        $this->usageLimits = $usageLimits;
 
         return $this;
     }
