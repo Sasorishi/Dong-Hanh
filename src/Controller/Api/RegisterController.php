@@ -39,15 +39,18 @@ class RegisterController extends AbstractController
         try {
             $data = json_decode($request->getContent(), true);
         
-            if (!isset($data['eventId']) || !isset($data['participants']) || !isset($data['details']) || !isset($data['captureId'])) {
-                throw new \InvalidArgumentException("Données invalides");
+            if ($data['price'] !== 0) {
+                if (!isset($data['eventId']) || !isset($data['participants']) || !isset($data['details']) || !isset($data['captureId'])) {
+                    throw new \InvalidArgumentException("Données invalides");
+                }
             }
-
             $participants = $data['participants'];
             $logisticsInformations = $data['logisticsInformations'] ?? [];
             $logisticCase = $data['logisticCase'];
-            $details = $data['details'];
-            $captureId = $data['captureId'];
+            $dumpDetails['id'] = 'DATTENDEEPASS';
+            $dumpDetails['status'] = 'COMPLETED';
+            $details = $data['details'] ?? null;
+            $captureId = $data['captureId'] ?? null;
             $event = $eventRepository->find($data['eventId']);
             $user = $userRepository->find($this->getUser()->getId());
             $discountCode = $data['discountCode'];
@@ -73,7 +76,7 @@ class RegisterController extends AbstractController
                     }
                 }
 
-                $newTicket = $ticketRepository->createTicket($event, $details, $captureId, $newParticipant, $user, $price, null, $discountVoucherUsage);
+                $newTicket = $ticketRepository->createTicketForAttendees($event, $data['price'] !== 0 ? $details : $dumpDetails, $data['price'] !== 0 ? $captureId : 'CATTENDEEPASS', $newParticipant, $user, $price, null, $discountVoucherUsage);
                 $newParticipantTicket = [
                     'participant_id' => $newParticipant->getId(),
                     'participant_name' => $newParticipant->getFirstname() . ' ' . $newParticipant->getLastname(),
@@ -90,14 +93,14 @@ class RegisterController extends AbstractController
                 'user_email' => $user->getEmail(),
                 'event_name' => $event->getLabel(),
                 'currency' => $event->getCurrency(),
-                'order_id' => $details['id'],
+                'order_id' => $data['price'] !== 0 ? ($details['id'] ?? '') : ($dumpDetails['id'] ?? ''),
                 'tickets' => $participantsTickets,
                 'amount' => $price * count($participants),
                 'date' => new \DateTime(),
                 'current_year' => new \DateTime('Y')
             ];
             $this->mailerService->sendTemplateEmail($mail, $user->getEmail(), "Thank you for your payment", 'emails/payment.html.twig', $context);
-
+            
             return new JsonResponse(['message' => 'Enregistrement réussi !'], Response::HTTP_OK);
         } catch (Exception $e) {
             if ($this->entityManager->getConnection()->isTransactionActive()) {
@@ -192,7 +195,7 @@ class RegisterController extends AbstractController
             foreach ($staffs as $staffKey => $staffData) {
                 $newStaff = $staffMemberRepository->createStaff($staffData, $event);
 
-                $newTicket = $ticketRepository->createTicket($event, $staffData['payment'] ? $details : $dumpDetails, $staffData['payment'] ? $captureId : 'CSTAFFPASS', null, $user, $price, $newStaff, $discountVoucherUsage);
+                $newTicket = $ticketRepository->createTicketForStaff($event, $staffData['payment'] ? $details : $dumpDetails, $staffData['payment'] ? $captureId : 'CSTAFFPASS', null, $user, $price, $newStaff, $discountVoucherUsage);
                 $newStaffTicket = [
                     'participant_id' => $newStaff->getId(),
                     'participant_name' => $newStaff->getFirstname() . ' ' . $newStaff->getLastname(),
@@ -204,19 +207,20 @@ class RegisterController extends AbstractController
 
             $this->entityManager->getConnection()->commit();
 
-            // $context = [
-            //     'user_id' => $user->getId(),
-            //     'user_email' => $user->getEmail(),
-            //     'event_name' => $event->getLabel(),
-            //     'currency' => $event->getCurrency(),
-            //     'order_id' => $details['id'],
-            //     'tickets' => $participantsTickets,
-            //     'amount' => $price * count($participants),
-            //     'date' => new \DateTime(),
-            //     'current_year' => new \DateTime('Y')
-            // ];
-            // $this->mailerService->sendTemplateEmail($mail, $user->getEmail(), "Thank you for your payment", 'emails/payment.html.twig', $context);
+            $context = [
+                'user_id' => $user->getId(),
+                'user_email' => $user->getEmail(),
+                'event_name' => $event->getLabel(),
+                'currency' => $event->getCurrency(),
+                'order_id' => $price !== 0 ? ($details['id'] ?? '') : ($dumpDetails['id'] ?? ''),
+                'tickets' => $staffsTickets,
+                'amount' => $price * count($staffs),
+                'date' => new \DateTime(),
+                'current_year' => new \DateTime('Y')
+            ];
 
+            $this->mailerService->sendTemplateEmail($mail, $user->getEmail(), "Thank you for your payment", 'emails/staff_payment.html.twig', $context);
+            
             return new JsonResponse(['message' => 'Enregistrement réussi !'], Response::HTTP_OK);
         } catch (Exception $e) {
             if ($this->entityManager->getConnection()->isTransactionActive()) {
