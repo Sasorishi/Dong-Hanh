@@ -6,12 +6,12 @@ const LogisticCaseComponent = ({ onLogisticCaseChange }) => {
   };
 
   return (
-    <div className="mt-6 space-y-12">
-      <div className="border-b border-gray-900/10 pb-12">
+    <div className="mt-6 space-y-8 sm:space-y-12">
+      <div className="border-b border-gray-900/10 pb-8 sm:pb-12">
         <h2 className="text-base font-semibold leading-7 text-gray-900">
           Logistics
         </h2>
-        <p className="mt-1 text-sm leading-6 text-gray-600">
+        <p className="mt-1 text-xs sm:text-sm leading-6 text-gray-600">
           To provide you with the best possible experience during your
           participation in the event, we kindly ask you to provide your flight
           information. This helps us plan and organize logistics efficiently,
@@ -23,8 +23,8 @@ const LogisticCaseComponent = ({ onLogisticCaseChange }) => {
           your journey as smooth and enjoyable as possible!
         </p>
 
-        <div className="mt-10 flex flex-row gap-4">
-          <div className="flex w-full items-center ps-4 border border-gray-200 rounded">
+        <div className="mt-8 sm:mt-10 flex flex-col sm:flex-row gap-3 sm:gap-4">
+          <div className="flex w-full items-center ps-3 sm:ps-4 border border-gray-200 rounded">
             <input
               id="bordered-radio-1"
               type="radio"
@@ -34,12 +34,12 @@ const LogisticCaseComponent = ({ onLogisticCaseChange }) => {
             />
             <label
               htmlFor="bordered-radio-1"
-              className="w-full py-4 ms-2 text-xs font-medium text-gray-900"
+              className="w-full py-3 sm:py-4 ms-2 text-xs font-medium text-gray-900"
             >
               I can travel by myself.
             </label>
           </div>
-          <div className="flex w-full items-center ps-4 border border-gray-200 rounded">
+          <div className="flex w-full items-center ps-3 sm:ps-4 border border-gray-200 rounded">
             <input
               id="bordered-radio-2"
               type="radio"
@@ -49,12 +49,12 @@ const LogisticCaseComponent = ({ onLogisticCaseChange }) => {
             />
             <label
               htmlFor="bordered-radio-2"
-              className="w-full py-4 ms-2 text-xs font-medium text-gray-900"
+              className="w-full py-3 sm:py-4 ms-2 text-xs font-medium text-gray-900"
             >
               I can provide the transportation details.
             </label>
           </div>
-          <div className="flex w-full items-center ps-4 border border-gray-200 rounded">
+          <div className="flex w-full items-center ps-3 sm:ps-4 border border-gray-200 rounded">
             <input
               id="bordered-radio-3"
               type="radio"
@@ -64,7 +64,7 @@ const LogisticCaseComponent = ({ onLogisticCaseChange }) => {
             />
             <label
               htmlFor="bordered-radio-3"
-              className="w-full py-4 ms-2 text-xs font-medium text-gray-900"
+              className="w-full py-3 sm:py-4 ms-2 text-xs font-medium text-gray-900"
             >
               I haven't booked yet.
             </label>

@@ -69,10 +69,10 @@ const Logistic = () => {
   ]);
 
   return (
-    <section className="bg-whitesmoke py-16 px-32">
+    <section className="bg-whitesmoke py-8 px-4 sm:py-16 sm:px-8 md:px-16 lg:px-32">
       <Stepper currentStep={2} />
       {!state.loading ? (
-        <div className="py-24 sm:py-32 px-6 lg:px-8 rounded-lg">
+        <div className="py-12 sm:py-24 lg:py-32 px-4 sm:px-6 lg:px-8 rounded-lg">
           <LogisticCaseComponent
             onLogisticCaseChange={(value) =>
               setState((prevState) => ({
@@ -81,11 +81,11 @@ const Logistic = () => {
               }))
             }
           />
-          <div className="mt-6 flex items-center justify-end gap-x-6">
+          <div className="mt-6 flex flex-col sm:flex-row items-center justify-end gap-4 sm:gap-x-6 px-4">
             <button
               type="button"
               onClick={() => navigate(-1)}
-              className="animation-hover uppercase flex align-center leading-6 text-gray-900 text-center font-medium hover:text-bordeau"
+              className="animation-hover uppercase flex align-center leading-6 text-gray-900 text-center font-medium hover:text-bordeau w-full sm:w-auto justify-center"
             >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -93,7 +93,7 @@ const Logistic = () => {
                 viewBox="0 0 24 24"
                 strokeWidth="1.5"
                 stroke="currentColor"
-                className="w-6 h-6 mr-2"
+                className="w-5 h-5 sm:w-6 sm:h-6 mr-2"
               >
                 <path
                   strokeLinecap="round"
@@ -107,7 +107,7 @@ const Logistic = () => {
               type="submit"
               onClick={handleSubmit}
               disabled={state.isConfirmButtonDisabled}
-              className="animation-hover flex align-center text-white uppercase rounded-full bg-darkblue px-4 py-2 text-center font-medium shadow-sm hover:bg-green-700 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 disabled:hover:bg-darkblue disabled:opacity-25"
+              className="animation-hover flex align-center text-white uppercase rounded-full bg-darkblue px-4 py-2 text-center font-medium shadow-sm hover:bg-green-700 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 disabled:hover:bg-darkblue disabled:opacity-25 w-full sm:w-auto justify-center"
             >
               Confirm
             </button>

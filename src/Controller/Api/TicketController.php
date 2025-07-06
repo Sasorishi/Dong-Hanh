@@ -61,6 +61,12 @@ class TicketController extends AbstractController
                 $ticketData[$orderId] = [];
             }
 
+            if ($ticket->getStaffMember()) {
+                $qrcode = ($ticket->getStaffMember() && $ticket->getEvent()) ? $this->ticketQrcode($ticket->getId(), $ticket->getStaffMember()->getId(), $ticket->getEvent()->getId()) : '';
+            } else {
+                $qrcode = ($ticket->getParticipant() && $ticket->getEvent()) ? $this->ticketQrcode($ticket->getId(), $ticket->getParticipant()->getId(), $ticket->getEvent()->getId()) : '';
+            }
+
             $ticketData[$orderId][] = [
                 'id' => $ticket->getId(),
                 'price' => $ticket->getPrice(),
@@ -75,14 +81,16 @@ class TicketController extends AbstractController
                 'event_label' => $ticket->getEvent() ? $ticket->getEvent()->getLabel() : '',
                 'event_category' => $ticket->getEvent() && $ticket->getEvent()->getEventCategory() ? $ticket->getEvent()->getEventCategory()->getLabel() : '',
                 'user_id' => $ticket->getUser() ? $ticket->getUser()->getId() : '',
-                'firstname' => $ticket->getParticipant() ? $ticket->getParticipant()->getFirstname() : '',
-                'lastname' => $ticket->getParticipant() ? $ticket->getParticipant()->getLastname() : '',
+                'firstnameAttendee' => $ticket->getParticipant() ? $ticket->getParticipant()->getFirstname() : '',
+                'lastnameAttendee' => $ticket->getParticipant() ? $ticket->getParticipant()->getLastname() : '',
+                'firstnameStaff' => $ticket->getStaffMember() ? $ticket->getStaffMember()->getFirstname() : '',
+                'lastnameStaff' => $ticket->getStaffMember() ? $ticket->getStaffMember()->getLastname() : '',
                 'place' => $ticket->getEvent() ? $ticket->getEvent()->getPlace() : '',
                 'location' => $ticket->getEvent() ? $ticket->getEvent()->getLocation() : '',
                 'refund_expire_at' => $ticket->getEvent() ? $ticket->getEvent()->getRefundExpireAt() : '',
                 'email' => $ticket->getParticipant() ? $ticket->getParticipant()->getEmail() : '',
                 'phone' => $ticket->getParticipant() ? $ticket->getParticipant()->getPhone() : '',
-                'qrcode' => ($ticket->getParticipant() && $ticket->getEvent()) ? $this->ticketQrcode($ticket->getId(), $ticket->getParticipant()->getId(), $ticket->getEvent()->getId()) : '',
+                'qrcode' => $qrcode
             ];
         }
         return new JsonResponse(['tickets' =>  $ticketData, 'orders' => $orderCreatedAtArray], Response::HTTP_OK);
