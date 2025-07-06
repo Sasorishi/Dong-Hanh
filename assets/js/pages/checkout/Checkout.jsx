@@ -121,7 +121,11 @@ const Checkout = () => {
 
   const handleSubmitDiscount = async () => {
     try {
-      const response = await axios.get(`/api/discount/${code}`);
+      const response = await axios.get(`/api/discount/${code}`, {
+        params: {
+          eventId: location.state.eventId,
+        },
+      });
 
       if (response.status === 200) {
         const data = response.data.voucher;
