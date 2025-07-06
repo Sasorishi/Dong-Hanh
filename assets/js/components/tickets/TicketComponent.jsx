@@ -1,6 +1,7 @@
 import React from "react";
 
 const TicketComponent = ({ TicketData }) => {
+  console.log(TicketData);
   return (
     <div className="space-y-8 m-1">
       <div className="bg-whitesmoke shadow-sm">
@@ -23,11 +24,19 @@ const TicketComponent = ({ TicketData }) => {
             </div>
 
             <div className="mt-6 sm:mt-0 sm:ml-6">
-              <dt className="text-sm font-medium text-gray-900">Attendee</dt>
+              <dt className="text-sm font-medium text-gray-900">
+                {TicketData["lastnameAttendee"] === "" ? "Staff" : "Attendee"}
+              </dt>
               <p className="mt-3 text-sm text-gray-500">
-                {TicketData["lastname"]}
+                {TicketData["firstnameAttendee"] === ""
+                  ? TicketData["firstnameStaff"]
+                  : TicketData["firstnameAttendee"]}
               </p>
-              <p className="text-sm text-gray-500">{TicketData["firstname"]}</p>
+              <p className="text-sm text-gray-500">
+                {TicketData["lastnameAttendee"] === ""
+                  ? TicketData["lastnameStaff"]
+                  : TicketData["firstnameAttendee"]}
+              </p>
               <p className="text-sm text-gray-500">
                 {TicketData["currency"] == "EUR"
                   ? `${TicketData["price"]} €`

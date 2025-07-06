@@ -36,22 +36,22 @@ const Login = () => {
   }, []);
 
   return (
-    <section className="relative mx-auto py-16 px-32">
-      <div className="w-full max-w-sm min-w-96 p-6 m-auto mx-auto bg-white rounded-lg shadow-md">
-        <div className="flex flex-col text-center justify-center mx-auto mb-8">
+    <section className="relative mx-auto py-8 px-4 sm:py-16 sm:px-8 md:px-16 lg:px-32">
+      <div className="w-full max-w-sm mx-auto p-4 sm:p-6 bg-white rounded-lg shadow-md">
+        <div className="flex flex-col text-center justify-center mx-auto mb-6 sm:mb-8">
           <Toaster position="top-right" closeButton={true} />
           {/* <img
             className="w-auto h-7 sm:h-8"
             src="https://merakiui.com/images/logo.svg"
             alt=""
           /> */}
-          <h2 className="mt-3">Welcome back</h2>
-          <p className="text-base text-darkblue">
+          <h2 className="mt-3 text-xl sm:text-2xl">Welcome back</h2>
+          <p className="text-sm sm:text-base text-darkblue">
             Login to your Đồng Hành account
           </p>
         </div>
 
-        <form method="POST" className="mt-6">
+        <form method="POST" className="mt-4 sm:mt-6">
           <div>
             <label htmlFor="_username" className="block text-sm text-darkblue">
               Email
@@ -60,7 +60,7 @@ const Login = () => {
               type="text"
               name="_username"
               placeholder="Enter your email"
-              className="block w-full px-4 py-2 mt-2 text-gray-700 bg-white border rounded-lg focus:border-blue-400 focus:ring-blue-300 focus:outline-none focus:ring focus:ring-opacity-40"
+              className="block w-full px-3 sm:px-4 py-2 mt-2 text-gray-700 bg-white border rounded-lg focus:border-blue-400 focus:ring-blue-300 focus:outline-none focus:ring focus:ring-opacity-40"
             />
           </div>
 
@@ -84,7 +84,7 @@ const Login = () => {
               type="password"
               name="_password"
               placeholder="Enter your password"
-              className="block w-full px-4 py-2 mt-2 text-gray-700 bg-white border rounded-lg focus:border-blue-400 focus:ring-blue-300 focus:outline-none focus:ring focus:ring-opacity-40"
+              className="block w-full px-3 sm:px-4 py-2 mt-2 text-gray-700 bg-white border rounded-lg focus:border-blue-400 focus:ring-blue-300 focus:outline-none focus:ring focus:ring-opacity-40"
             />
           </div>
 
@@ -96,14 +96,14 @@ const Login = () => {
             />
             <button
               type="submit"
-              className="animation-hover w-full uppercase px-6 py-2.5 text-sm font-medium tracking-wide text-white transition-colors duration-300 transform bg-darkblue rounded-lg hover:bg-bordeau focus:outline-none focus:ring focus:ring-gray-300 focus:ring-opacity-50"
+              className="animation-hover w-full uppercase px-4 sm:px-6 py-2.5 text-sm font-medium tracking-wide text-white transition-colors duration-300 transform bg-darkblue rounded-lg hover:bg-bordeau focus:outline-none focus:ring focus:ring-gray-300 focus:ring-opacity-50"
             >
               Sign In
             </button>
           </div>
         </form>
 
-        <p className="mt-8 text-xs font-light text-center text-gray-400">
+        <p className="mt-6 sm:mt-8 text-xs font-light text-center text-gray-400">
           {" "}
           Don't have an account?{" "}
           <a
