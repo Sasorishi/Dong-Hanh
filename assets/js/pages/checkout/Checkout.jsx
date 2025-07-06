@@ -148,29 +148,33 @@ const Checkout = () => {
   };
 
   return (
-    <section className="bg-whitesmoke py-16 px-32">
+    <section className="bg-whitesmoke py-8 px-4 sm:py-16 sm:px-8 md:px-16 lg:px-32">
       <Stepper currentStep={3} />
       {error && <Toast message={error} onClose={closeToast} error={true} />}
       {!loading ? (
-        <div className="py-24">
-          <div className="grid lg:grid-cols-2">
-            <div className="px-4 pt-8">
-              <p className="text-xl font-medium">Order Summary</p>
-              <p className="text-gray-400">Check your items.</p>
+        <div className="py-12 sm:py-24">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12">
+            <div className="px-2 sm:px-4 pt-4 sm:pt-8">
+              <p className="text-lg sm:text-xl font-medium">Order Summary</p>
+              <p className="text-gray-400 text-sm sm:text-base">
+                Check your items.
+              </p>
               {event ? (
-                <div className="mt-8 space-y-3 rounded-lg border bg-whitesmoke px-2 py-4 sm:px-6">
+                <div className="mt-6 sm:mt-8 space-y-3 rounded-lg border bg-whitesmoke px-2 py-4 sm:px-6">
                   <div className="flex flex-col rounded-lg bg-white sm:flex-row">
                     <img
-                      className="m-2 h-24 w-28 rounded-md border object-cover object-center"
+                      className="m-2 h-20 w-24 sm:h-24 sm:w-28 rounded-md border object-cover object-center"
                       src={TicketImage}
                       alt="TicketImage"
                     />
-                    <div className="flex w-full flex-col px-4 py-4">
-                      <span className="text-sm font-semibold text-darkblue items-center">
+                    <div className="flex w-full flex-col px-3 sm:px-4 py-3 sm:py-4">
+                      <span className="text-xs sm:text-sm font-semibold text-darkblue items-center">
                         {event["eventCategory"]}
                       </span>
-                      <span className="font-semibold">{event["name"]}</span>
-                      <span className="float-right text-sm font-semibold text-darkblue">
+                      <span className="font-semibold text-sm sm:text-base">
+                        {event["name"]}
+                      </span>
+                      <span className="float-right text-xs sm:text-sm font-semibold text-darkblue">
                         {event["year"]} | {event["location"]}
                       </span>
                     </div>
@@ -178,24 +182,26 @@ const Checkout = () => {
                 </div>
               ) : null}
             </div>
-            <div className="mt-10 bg-gray-50 px-4 pt-8 lg:mt-0 rounded-lg shadow-lg">
-              <p className="text-xl font-medium">Payment Details</p>
-              <p className="text-gray-400">
+            <div className="mt-6 sm:mt-10 bg-gray-50 px-3 sm:px-4 pt-4 sm:pt-8 lg:mt-0 rounded-lg shadow-lg">
+              <p className="text-lg sm:text-xl font-medium">Payment Details</p>
+              <p className="text-gray-400 text-sm sm:text-base">
                 Complete your order by providing your payment details.
               </p>
               <div>
-                <div className="mt-6 border-t border-b py-2">
+                <div className="mt-4 sm:mt-6 border-t border-b py-2">
                   <div className="flex items-center justify-between">
-                    <p className="text-sm font-medium text-gray-900">
+                    <p className="text-xs sm:text-sm font-medium text-gray-900">
                       Numeric tickets
                     </p>
-                    <p className="font-semibold text-gray-900">{numTickets}</p>
+                    <p className="font-semibold text-gray-900 text-sm sm:text-base">
+                      {numTickets}
+                    </p>
                   </div>
                   <div className="flex items-center justify-between">
-                    <p className="text-sm font-medium text-gray-900">
+                    <p className="text-xs sm:text-sm font-medium text-gray-900">
                       Unit price
                     </p>
-                    <p className="font-semibold text-gray-900">
+                    <p className="font-semibold text-gray-900 text-sm sm:text-base">
                       {event["price"][0]} {currencySymbol}
                     </p>
                   </div>
@@ -203,7 +209,7 @@ const Checkout = () => {
                 <div className="border-b py-2">
                   <label
                     htmlFor="discountCode"
-                    className="block text-sm font-medium leading-6 text-gray-900"
+                    className="block text-xs sm:text-sm font-medium leading-6 text-gray-900"
                   >
                     Discount code
                   </label>
@@ -215,15 +221,15 @@ const Checkout = () => {
                       placeholder="Code"
                       maxLength={12}
                       onChange={handleCode}
-                      className="bg-gray-50 block w-full rounded-md border-0 p-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                      className="bg-gray-50 block w-full rounded-md border-0 p-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 text-xs sm:text-sm sm:leading-6"
                       required
                     />
                   </div>
-                  <div className="mt-6 flex items-center justify-end gap-x-6">
+                  <div className="mt-4 sm:mt-6 flex flex-col sm:flex-row items-center justify-end gap-3 sm:gap-x-6">
                     <button
                       type="button"
                       onClick={removeDiscount}
-                      className="animation-hover uppercase flex align-center leading-6 text-gray-900 text-center font-medium hover:text-bordeau"
+                      className="animation-hover uppercase flex align-center leading-6 text-gray-900 text-center font-medium hover:text-bordeau w-full sm:w-auto justify-center text-xs sm:text-sm"
                     >
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
@@ -231,7 +237,7 @@ const Checkout = () => {
                         viewBox="0 0 24 24"
                         strokeWidth="1.5"
                         stroke="currentColor"
-                        className="w-6 h-6 mr-2"
+                        className="w-5 h-5 sm:w-6 sm:h-6 mr-2"
                       >
                         <path
                           strokeLinecap="round"
@@ -244,25 +250,27 @@ const Checkout = () => {
                     <button
                       type="submit"
                       onClick={handleSubmitDiscount}
-                      className="animation-hover flex align-center text-white uppercase rounded-full bg-darkblue px-4 py-2 text-center font-medium shadow-sm hover:bg-green-700 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 disabled:hover:bg-darkblue disabled:opacity-25"
+                      className="animation-hover flex align-center text-white uppercase rounded-full bg-darkblue px-3 sm:px-4 py-2 text-center font-medium shadow-sm hover:bg-green-700 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 disabled:hover:bg-darkblue disabled:opacity-25 w-full sm:w-auto justify-center text-xs sm:text-sm"
                     >
                       Confirm
                     </button>
                   </div>
                 </div>
-                <div className="mt-6 flex items-center justify-between">
-                  <p className="text-sm font-medium text-gray-900">Total</p>
-                  <p className="text-2xl font-semibold text-gray-900">
+                <div className="mt-4 sm:mt-6 flex items-center justify-between">
+                  <p className="text-sm sm:text-base font-medium text-gray-900">
+                    Total
+                  </p>
+                  <p className="text-xl sm:text-2xl font-semibold text-gray-900">
                     {price} {currencySymbol}
                   </p>
                 </div>
                 {event.expiredRefundDate != null ? (
-                  <span className="text-sm text-center text-gray-600 flex justify-center align-center">
+                  <span className="text-xs sm:text-sm text-center text-gray-600 flex justify-center align-center mt-2">
                     *refund available before {event.expiredRefundDate}.
                   </span>
                 ) : null}
               </div>
-              <div className="mt-4 mb-8 w-full px-6 py-3">
+              <div className="mt-4 mb-6 sm:mb-8 w-full px-3 sm:px-6 py-3">
                 {event && price > 0 && numTickets && (
                   <PayPalButton
                     key={price + "-" + (code || "")}

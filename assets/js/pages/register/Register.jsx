@@ -83,26 +83,26 @@ const Register = () => {
   }, [isCheckbox1Checked, isCheckbox2Checked]);
 
   return (
-    <section className="bg-whitesmoke py-16 px-32">
+    <section className="bg-whitesmoke py-8 px-4 sm:py-16 sm:px-8 md:px-16 lg:px-32">
       <Stepper currentStep={1} isOnline={isOnline} />
-      <div className="py-24 sm:py-32 px-6 lg:px-8 rounded-lg">
+      <div className="py-12 sm:py-24 lg:py-32 px-4 sm:px-6 lg:px-8 rounded-lg">
         <form onSubmit={handleSubmit}>
           {tickets}
-          <div className="flex items-center justify-center mt-6">
+          <div className="flex items-start justify-center mt-6 px-2">
             <input
               id="link-checkbox-1"
               type="checkbox"
               checked={isCheckbox1Checked}
               onChange={handleCheckbox1Change}
-              className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 focus:ring-2"
+              className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 focus:ring-2 mt-1 flex-shrink-0"
             />
             <label
               htmlFor="link-checkbox"
-              className="ms-2 text-sm font-medium text-gray-900"
+              className="ms-2 text-xs sm:text-sm font-medium text-gray-900 leading-relaxed"
             >
               I agree with the{" "}
               <span
-                className="text-blue-600 hover:underline text-sm font-medium "
+                className="text-blue-600 hover:underline text-xs sm:text-sm font-medium cursor-pointer"
                 onClick={handleOpenDefaultModal}
               >
                 the accident waiver and release of liability
@@ -110,21 +110,21 @@ const Register = () => {
               .
             </label>
           </div>
-          <div className="flex items-center justify-center mt-6">
+          <div className="flex items-start justify-center mt-6 px-2">
             <input
               id="link-checkbox-2"
               type="checkbox"
               checked={isCheckbox2Checked}
               onChange={handleCheckbox2Change}
-              className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 focus:ring-2"
+              className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 focus:ring-2 mt-1 flex-shrink-0"
             />
             <label
               htmlFor="link-checkbox"
-              className="ms-2 text-sm font-medium text-gray-900"
+              className="ms-2 text-xs sm:text-sm font-medium text-gray-900 leading-relaxed"
             >
               I agree with the{" "}
               <span
-                className="text-blue-600 hover:underline text-sm font-medium "
+                className="text-blue-600 hover:underline text-xs sm:text-sm font-medium cursor-pointer"
                 onClick={handleOpenSecondModal}
               >
                 parent / guardian waiver for minors
@@ -143,7 +143,7 @@ const Register = () => {
                 "(A) I WAIVE, RELEASE, AND DISCHARGE from any and all liability, including but not limited to, liability arising from the negligence or fault of the entities or persons released, for my death, disability, personal injury, property damage, property theft, or actions of any kind which may hereafter occur to me including my traveling to and from this event, THE FOLLOWING ENTITIES OR PERSONS: DONG HANH and/or their directors, officers, employees, volunteers, representatives, and agents, the activity or event holders, activity or event sponsors, activity or event volunteers;",
                 "(B) I INDEMNIFY, HOLD HARMLESS, AND PROMISE NOT TO SUE the entities or persons mentioned in this paragraph from any and all liabilities or claims made as a result of participation in this activity or event, whether caused by the negligence of release or otherwise.",
                 "I acknowledge that DONG HANH and their directors, officers, volunteers, representatives, and agents are NOT responsible for the errors, omissions, acts, or failures to act of any party or entity conducting a specific event or activity on behalf of Đồng Hành Network.",
-                "I acknowledge that this activity or event may involve a test of a person’s physical and mental limits and may carry with it the potential for death, serious injury, and property loss. The risks may include, but are not limited to, those caused by terrain, facilities, temperature, weather, condition of participants, equipment, vehicular traffic, actions of other people, including, but not limited to, participants, volunteers, spectators, coaches, event officials, and event monitors, and/or producers of the event, and lack of hydration. These risks are not only inherent to participants but are also present for volunteers.",
+                "I acknowledge that this activity or event may involve a test of a person's physical and mental limits and may carry with it the potential for death, serious injury, and property loss. The risks may include, but are not limited to, those caused by terrain, facilities, temperature, weather, condition of participants, equipment, vehicular traffic, actions of other people, including, but not limited to, participants, volunteers, spectators, coaches, event officials, and event monitors, and/or producers of the event, and lack of hydration. These risks are not only inherent to participants but are also present for volunteers.",
                 "I hereby consent to receive medical treatment that may be deemed advisable in the event of injury, accident, and/or illness during this activity or event.",
                 "I understand that at this event or related activities, I may be photographed. I agree to allow my photo, video, or film likeness to be used for any legitimate purpose by the event holders, producers, sponsors, organizers, and assigns. The accident waiver and release of liability shall be construed broadly to provide a release and waiver to the maximum extent permissible under applicable law.",
               ]}
@@ -156,17 +156,17 @@ const Register = () => {
               id="second-modal"
               title="The parent / guardian waiver for minors (Under 18 years old)"
               content={[
-                "The undersigned parent and natural guardian does hereby represent that he/she is, in fact, acting in such capacity, has consented to his/her child or ward’s participation in the activity or event, and has agreed individually and on behalf of the child or ward, to the terms of the accident waiver and release of liability set forth above",
+                "The undersigned parent and natural guardian does hereby represent that he/she is, in fact, acting in such capacity, has consented to his/her child or ward's participation in the activity or event, and has agreed individually and on behalf of the child or ward, to the terms of the accident waiver and release of liability set forth above",
                 "The undersigned parent or guardian further agrees to save and hold harmless and indemnify each and all of the parties referred to above from all liability, loss, cost, claim, or damage whatsoever which may be imposed upon said parties because of any defect in or lack of such capacity to so act and release said parties on behalf of the minor and the parents or legal guardian.",
               ]}
               onClose={() => setIsSecondModalVisible(false)}
             />
           )}
-          <div className="mt-6 flex items-center justify-end gap-x-6">
+          <div className="mt-6 flex flex-col sm:flex-row items-center justify-end gap-4 sm:gap-x-6 px-4">
             <button
               type="button"
               onClick={() => navigate(-1)}
-              className="animation-hover uppercase flex align-center leading-6 text-gray-900 text-center font-medium hover:text-bordeau"
+              className="animation-hover uppercase flex align-center leading-6 text-gray-900 text-center font-medium hover:text-bordeau w-full sm:w-auto justify-center"
             >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -187,7 +187,7 @@ const Register = () => {
             <button
               type="submit"
               disabled={isConfirmButtonDisabled}
-              className="animation-hover flex align-center text-white uppercase rounded-full bg-darkblue px-4 py-2 text-center font-medium shadow-sm hover:bg-green-700 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 disabled:hover:bg-darkblue disabled:opacity-25"
+              className="animation-hover flex align-center text-white uppercase rounded-full bg-darkblue px-4 py-2 text-center font-medium shadow-sm hover:bg-green-700 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 disabled:hover:bg-darkblue disabled:opacity-25 w-full sm:w-auto justify-center"
             >
               Confirm
             </button>

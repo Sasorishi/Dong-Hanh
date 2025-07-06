@@ -63,26 +63,27 @@ const Signup = () => {
   }, [isRegistered]);
 
   return (
-    <section className="relative mx-auto py-16 px-32">
+    <section className="relative mx-auto py-8 px-4 sm:py-16 sm:px-8 md:px-16 lg:px-32">
       {loading ? (
         <Loader />
       ) : (
-        <div className="w-full max-w-sm min-w-96 p-6 m-auto mx-auto bg-white rounded-lg shadow-md">
+        <div className="w-full max-w-sm mx-auto p-4 sm:p-6 bg-white rounded-lg shadow-md">
           {error && <Toast message={error} onClose={closeToast} error={true} />}
-          <div className="flex flex-col text-center justify-center mx-auto mb-8">
+          <div className="flex flex-col text-center justify-center mx-auto mb-6 sm:mb-8">
             {/* <img
               className="w-auto h-7 sm:h-8"
               src="https://merakiui.com/images/logo.svg"
               alt=""
             /> */}
-            <h2 className="mt-3">Create an account</h2>
-            <p className="text-base text-darkblue">
+            <h2 className="mt-3 text-xl sm:text-2xl">Create an account</h2>
+            <p className="text-sm sm:text-base text-darkblue">
               Book tickets, securely save your details, manage events, track
-              orders, and download <br /> your e-tickets.
+              orders, and download <br className="hidden sm:block" /> your
+              e-tickets.
             </p>
           </div>
 
-          <form className="mt-6" onSubmit={handleSignup}>
+          <form className="mt-4 sm:mt-6" onSubmit={handleSignup}>
             <div>
               <label htmlFor="email" className="block text-sm text-darkblue">
                 Email
@@ -93,7 +94,7 @@ const Signup = () => {
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 placeholder="your.email@gmail.com"
-                className="block w-full px-4 py-2 mt-2 text-gray-700 bg-white border rounded-lg focus:border-blue-400 focus:ring-blue-300 focus:outline-none focus:ring focus:ring-opacity-40"
+                className="block w-full px-3 sm:px-4 py-2 mt-2 text-gray-700 bg-white border rounded-lg focus:border-blue-400 focus:ring-blue-300 focus:outline-none focus:ring focus:ring-opacity-40"
                 required
               />
             </div>
@@ -113,7 +114,7 @@ const Signup = () => {
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 placeholder="********"
-                className="block w-full px-4 py-2 mt-2 text-gray-700 bg-white border rounded-lg focus:border-blue-400 focus:ring-blue-300 focus:outline-none focus:ring focus:ring-opacity-40"
+                className="block w-full px-3 sm:px-4 py-2 mt-2 text-gray-700 bg-white border rounded-lg focus:border-blue-400 focus:ring-blue-300 focus:outline-none focus:ring focus:ring-opacity-40"
                 required
               />
             </div>
@@ -132,7 +133,7 @@ const Signup = () => {
                 name="_confirmPassword"
                 value={confirmPassword}
                 onChange={(e) => setConfirmPassword(e.target.value)}
-                className="block w-full px-4 py-2 mt-2 text-gray-700 bg-white border rounded-lg focus:border-blue-400 focus:ring-blue-300 focus:outline-none focus:ring focus:ring-opacity-40"
+                className="block w-full px-3 sm:px-4 py-2 mt-2 text-gray-700 bg-white border rounded-lg focus:border-blue-400 focus:ring-blue-300 focus:outline-none focus:ring focus:ring-opacity-40"
                 required
               />
             </div>
@@ -140,14 +141,14 @@ const Signup = () => {
             <div className="mt-6">
               <button
                 type="submit"
-                className="w-full px-6 py-2.5 text-sm font-medium tracking-wide text-white uppercase transition-colors duration-300 transform bg-darkblue rounded-lg hover:bg-bordeau focus:outline-none focus:ring focus:ring-gray-300 focus:ring-opacity-50"
+                className="w-full px-4 sm:px-6 py-2.5 text-sm font-medium tracking-wide text-white uppercase transition-colors duration-300 transform bg-darkblue rounded-lg hover:bg-bordeau focus:outline-none focus:ring focus:ring-gray-300 focus:ring-opacity-50"
               >
                 Submit
               </button>
             </div>
           </form>
 
-          <p className="mt-8 text-xs font-light text-center text-gray-400">
+          <p className="mt-6 sm:mt-8 text-xs font-light text-center text-gray-400">
             {" "}
             Already have an account ?{" "}
             <a
