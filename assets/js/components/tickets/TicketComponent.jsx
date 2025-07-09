@@ -16,11 +16,20 @@ const TicketComponent = ({ TicketData }) => {
         <div className="py-4 px-4 sm:grid md:grid lg:grid grid-cols-12 gap-x-8">
           <div className="col-span-12 sm:flex md:col-span-6 lg:col-span-6">
             <div className="m-auto sm:m-0 md:m-0 lg:m-0 flex-shrink-0 w-full aspect-w-1 aspect-h-1 rounded-lg sm:aspect-none sm:w-40 sm:h-40 w-full h-full">
-              <img
-                src={TicketData["qrcode"]}
-                className="w-full h-full object-center object-cover sm:w-full sm:h-full"
-                alt={TicketData["qrcode"]}
-              />
+              <a
+                href={TicketData["qrcode"]}
+                download={`qrcode_ticket_${
+                  TicketData["id"] || "unknown"
+                }_event_${TicketData["eventId"] || "unknown"}_user_${
+                  TicketData["user_id"] || "unknown"
+                }.png`}
+              >
+                <img
+                  src={TicketData["qrcode"]}
+                  className="w-full h-full object-center object-cover sm:w-full sm:h-full"
+                  alt={`QR code ticket ${TicketData["id"] || ""}`}
+                />
+              </a>
             </div>
 
             <div className="mt-6 sm:mt-0 sm:ml-6">
