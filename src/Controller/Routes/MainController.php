@@ -94,4 +94,12 @@ class MainController extends AbstractController
             'controller_name' => 'SignupController',
         ]);
     }
+
+    #[Route('/ticket_check', name: 'app_ticket_check')]
+    public function ticketCheck(): Response
+    {
+        return $this->render('index.html.twig', [
+            'controller_name' => 'TicketController',
+        ]);
+    }
 }
