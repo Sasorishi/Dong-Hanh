@@ -28,6 +28,7 @@ import Logistic from "./js/pages/register/Logistic";
 import LogisticInformation from "./js/pages/register/LogisticInformation";
 import ConfirmEventAttendance from "./js/pages/checkout/ConfirmEventAttendance";
 import RegisterStaff from "./js/pages/register/RegisterStaff";
+import TicketCheck from "./js/components/tickets/TicketCheck";
 
 function WebRoutes() {
   Aos.init();
@@ -117,6 +118,10 @@ function WebRoutes() {
         <Route
           path="/register/staff/:eventId/:numTickets"
           element={renderProtectedRoute(<RegisterStaff />)}
+        />
+        <Route
+          path="/ticket_check"
+          element={renderProtectedRoute(<TicketCheck />)}
         />
       </Routes>
       <Footer />

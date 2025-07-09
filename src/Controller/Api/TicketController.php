@@ -102,14 +102,19 @@ class TicketController extends AbstractController
         return $qrcode;
     }
 
-    #[Route('/ticket_check', name: 'ticket_check', methods: ['GET'])]
+    #[Route('/ticket_check', name: 'api_ticket_check', methods: ['GET'])]
     public function ticketCheck(Request $request): JsonResponse {
         $secretKey = $this->params->get("app.ticket_insight_key");
-        $apiKey = $request->headers->get('API-Key');
+        // $apiKey = $request->headers->get('API-Key');
 
-        if ($apiKey !== $secretKey) {
-            throw new \Exception('Unauthorized access.', Response::HTTP_UNAUTHORIZED);
-        }
+        // if ($apiKey !== $secretKey) {
+        //     throw new \Exception('Unauthorized access.', Response::HTTP_UNAUTHORIZED);
+        // }
+
+        $user = $this->getUser();
+        if (!$user || !in_array('ROLE_ADMIN', $user->getRoles())) {
+            return new JsonResponse(['error' => 'Unauthorized'], Response::HTTP_UNAUTHORIZED);
+        }   
 
         $ticketId = $request->query->get('ticket');
         $eventId = $request->query->get('event');
@@ -119,16 +124,29 @@ class TicketController extends AbstractController
         if (!$ticketData) {
             return new JsonResponse(['success' => false, 'message' => 'Ticket invalid.']);
         } else {
-            $ticket[] = [
-                'ticket ID' => $ticketData->getId(),
-                'participant ID' => $ticketData->getParticipant()->getId(),
-                'firstname' => $ticketData->getParticipant()->getFirstname(),
-                'lastname' => $ticketData->getParticipant()->getLastname(),
-                'age' => $ticketData->getParticipant()->getAge(),
-                'gender' => $ticketData->getParticipant()->getGender(),
-                'event' => $ticketData->getEvent()->getLabel(),
-                'event_category' => $ticketData->getEvent()->getEventCategory()->getLabel(),
-            ];
+            if ($ticketData->getStaffMember()) {
+                $ticket[] = [
+                    'ticket ID' => $ticketData->getId(),
+                    'staff ID' => $ticketData->getStaffMember()->getId(),
+                    'firstname' => $ticketData->getStaffMember()->getFirstname(),
+                    'lastname' => $ticketData->getStaffMember()->getLastname(),
+                    'age' => $ticketData->getStaffMember()->getAge(),
+                    'gender' => $ticketData->getStaffMember()->getGender(),
+                    'event' => $ticketData->getEvent()->getLabel(),
+                    'event_category' => $ticketData->getEvent()->getEventCategory()->getLabel(),
+                ];
+            } else {
+                $ticket[] = [
+                    'ticket ID' => $ticketData->getId(),
+                    'participant ID' => $ticketData->getParticipant()->getId(),
+                    'firstname' => $ticketData->getParticipant()->getFirstname(),
+                    'lastname' => $ticketData->getParticipant()->getLastname(),
+                    'age' => $ticketData->getParticipant()->getAge(),
+                    'gender' => $ticketData->getParticipant()->getGender(),
+                    'event' => $ticketData->getEvent()->getLabel(),
+                    'event_category' => $ticketData->getEvent()->getEventCategory()->getLabel(),
+                ];
+            }
 
             if ($ticketData->isScan()) {
                 return new JsonResponse(['success' => false, 'message' => 'Ticket already scanned.', 'ticket' => $ticket, Response::HTTP_ACCEPTED]);
