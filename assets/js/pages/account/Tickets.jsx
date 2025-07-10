@@ -42,7 +42,7 @@ const Tickets = () => {
   }, []);
 
   return (
-    <section className="py-16 px-32">
+    <section className="py-8 px-2 sm:py-12 sm:px-4 md:px-8 lg:px-16 xl:px-32">
       {error && <Toast message={error} onClose={closeToast} error={true} />}
       {!loading ? (
         !ticketsData ? (
