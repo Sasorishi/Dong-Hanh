@@ -1,4 +1,42 @@
-# This workflow uses actions that are not certified by GitHub.
+name: Symfony
+
+on:
+  push:
+    branches: ["dev"]
+  pull_request:
+    branches: ["dev"]
+
+permissions:
+  contents: read
+
+jobs:
+  symfony-tests:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: shivammathur/setup-php@v2
+        with:
+          php-version: "8.1"
+      - uses: actions/checkout@v3
+      - name: Copy .env.test.local
+        run: php -r "file_exists('.env.test.local') || copy('.env.test', '.env.test.local');"
+      - name: Cache Composer packages
+        id: composer-cache
+        uses: actions/cache@v3
+        with:
+          path: vendor
+          key: ${{ runner.os }}-php-${{ hashFiles('**/composer.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-php-
+      - name: Install Dependencies
+        run: composer install -q --no-ansi --no-interaction --no-scripts --no-progress --prefer-dist --ignore-platform-reqs
+      - name: Create Database
+        run: |
+          mkdir -p data
+          touch data/database.sqlite
+      - name: Execute tests (Unit and Feature tests) via PHPUnit
+        env:
+          DATABASE_URL: sqlite:///%kernel.project_dir%/data/database.sqlite
+        run: vendor/bin/phpunit# This workflow uses actions that are not certified by GitHub.
 # They are provided by a third-party and are governed by
 # separate terms of service, privacy policy, and support
 # documentation.
@@ -45,3 +83,17 @@ jobs:
         env:
           DATABASE_URL: sqlite:///%kernel.project_dir%/data/database.sqlite
         run: vendor/bin/phpunit
+      - name: Lint PHP files
+        run: vendor/bin/phpcs --standard=PSR12 src/
+
+      - name: Run security checker
+        run: composer require --dev symfony/security-checker && composer security:check
+
+      - name: Validate YAML files
+        run: vendor/bin/yaml-lint config/
+
+      - name: Check for outdated dependencies
+        run: composer outdated
+
+      - name: Run static analysis
+        run: vendor/bin/phpstan analyse src/ --level=max
