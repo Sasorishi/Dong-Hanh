@@ -69,7 +69,7 @@ const Checkout = () => {
       try {
         setLoading(true);
         const response = await axios.get(
-          `/api/events/${location.state.eventId}/getData`
+          `/api/events/${location.state.eventId}/getData`,
         );
 
         if (response.status === 200) {
@@ -148,6 +148,67 @@ const Checkout = () => {
       setTimeout(() => {
         closeToast();
       }, 5000);
+    }
+  };
+
+  console.log("Event:", location.state);
+
+  const handleFreeCheckout = async () => {
+    try {
+      setLoading(true);
+
+      // Fake PayPal-like data (important pour garder la même structure backend)
+      const fakeDetails = {
+        status: "COMPLETED",
+        payer: {
+          email_address: "contact@dong-hanh.org",
+        },
+      };
+
+      const combinedDataStaff = {
+        eventId: event["id"],
+        numTickets: numTickets,
+        details: fakeDetails,
+        captureId: null,
+        staffs: location.state.staffs,
+        discountCode: code,
+        price: price,
+      };
+
+      const combinedDataParticipants = {
+        eventId: event["id"],
+        numTickets: numTickets,
+        logisticsInformations: location.state.logisticsData,
+        logisticCase: location.state.logisticCase,
+        details: fakeDetails,
+        captureId: null,
+        participants: location.state.ticketsData,
+        discountCode: code,
+        price: price,
+      };
+
+      const endpoint = location.state.staffs
+        ? "/api/register/staff"
+        : "/api/register/private";
+
+      const payload = location.state.staffs
+        ? combinedDataStaff
+        : combinedDataParticipants;
+
+      const response = await axios.post(endpoint, payload);
+
+      if (response.status === 200 || response.status === 201) {
+        window.location.href = "/response/success/checkout";
+        window.history.replaceState(null, "", "/response/success/checkout");
+      } else {
+        throw new Error("Server error");
+      }
+    } catch (error) {
+      console.error(error);
+      setError("Erreur lors de la validation gratuite");
+      window.location.replace("/response/error/checkout");
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -275,21 +336,30 @@ const Checkout = () => {
                 ) : null}
               </div>
               <div className="mt-4 mb-6 sm:mb-8 w-full px-3 sm:px-6 py-3">
-                {event && price > 0 && numTickets && (
-                  <PayPalButton
-                    key={price + "-" + (code || "")}
-                    event={event}
-                    numTickets={numTickets}
-                    ticketsData={location.state.ticketsData}
-                    logisticsInformations={location.state.logisticsData}
-                    logisticCase={location.state.logisticCase}
-                    onError={handlePaymentError}
-                    onLoadingChange={handleLoadingChange}
-                    price={price}
-                    discountCode={code}
-                    staffs={location.state.staffs}
-                  />
-                )}
+                {event &&
+                  numTickets &&
+                  (price > 0 ? (
+                    <PayPalButton
+                      key={price + "-" + (code || "")}
+                      event={event}
+                      numTickets={numTickets}
+                      ticketsData={location.state.ticketsData}
+                      logisticsInformations={location.state.logisticsData}
+                      logisticCase={location.state.logisticCase}
+                      onError={handlePaymentError}
+                      onLoadingChange={handleLoadingChange}
+                      price={price}
+                      discountCode={code}
+                      staffs={location.state.staffs}
+                    />
+                  ) : (
+                    <button
+                      onClick={handleFreeCheckout}
+                      className="w-full bg-green-600 text-white py-2 rounded-full font-medium hover:bg-green-700"
+                    >
+                      Continue
+                    </button>
+                  ))}
               </div>
             </div>
           </div>
