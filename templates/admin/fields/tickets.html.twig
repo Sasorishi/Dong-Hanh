@@ -1,7 +1,9 @@
 {# {% if ea.crud.currentAction == 'detail' %} #}
 
-{% set sortedTickets = field.value|sort((a, b) => b.createdAt <=> a.createdAt) %}
-{% if field.value is not empty %}
+{% set sortedTickets = field.value is not empty 
+    ? field.value|sort((a, b) => b.createdAt <=> a.createdAt) 
+    : [] 
+%}
     <table class="table table-striped">
         <thead>
             <tr>
@@ -33,6 +35,3 @@
         {% endfor %}
         </tbody>
     </table>
-{% else %}
-    No tickets
-{% endif %}
