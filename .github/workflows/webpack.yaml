@@ -25,12 +25,57 @@ jobs:
         with:
           node-version: ${{ matrix.node-version }}
 
+      - name: Install dependencies
+        run: npm install --legacy-peer-deps
+
+      - name: Build
+        run: npm run buildname: NodeJS with Webpack
+
+on:
+  push:
+    branches: ["dev"]
+  pull_request:
+    branches: ["dev"]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        node-version: [14.x, 16.x, 18.x]
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Clean npm cache
+        run: npm cache clean --force
+
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v3
+        with:
+          node-version: ${{ matrix.node-version }}
+
       - name: Check disk space
         run: df -h
 
       - name: Install dependencies
         run: npm install --legacy-peer-deps
 
-      - name: Build
-        run: |
-          npm run build
+      - name: Lint JavaScript files
+        run: npm run lint
+
+      - name: Run tests
+        run: npm test
+
+      - name: Check outdated dependencies
+        run: npm outdated
+
+      - name: Validate package.json
+        run: npm run validate
+
+      - name: Audit dependencies
+        run: npm audit --production
+
+      - name: Check formatting
+        run: npm run format:check
